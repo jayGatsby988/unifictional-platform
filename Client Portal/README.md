@@ -98,8 +98,9 @@ asks Claude Opus 5.5 for one structured post plus up to five on-page fixes
 (`lib/autopilot/generate.ts`, needs `ANTHROPIC_API_KEY`), stores it in
 `seo_posts`, and publishes it (`lib/autopilot/publish.ts`): a Markdown commit
 to the site's GitHub repo for sites we host (`client_integrations.site_repo`,
-needs `GITHUB_TOKEN`; Vercel deploys it), a WordPress REST post, or "ready to
-paste" in the portal when neither applies. Every run writes
+needs `GITHUB_TOKEN`; Vercel deploys it), a WordPress REST post, a ping to the site's revalidate URL for sites that render
+their blog from the public `/api/autopilot/feed` (DIGS and ENF do this), or
+"ready to paste" in the portal when none applies. Every run writes
 `seo_autopilot_runs` (summary + fixes), `work_log` and `activity`, so the
 Search page and Overview show the work. Studio watches and nudges it from
 **Studio · SEO Autopilot** (`/studio/autopilot`, "Run now"). Migration 0013.

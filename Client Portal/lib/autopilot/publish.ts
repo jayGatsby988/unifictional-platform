@@ -2,10 +2,15 @@ import { markdownFile, mdToHtml } from "./markdown";
 
 export type PostForPublish = { title: string; slug: string; metaDescription: string; excerpt: string; targetQuery: string; bodyMd: string };
 
-/** Where a post goes. "manual" means it waits in the portal with the reason shown. */
+/**
+ * Where a post goes. "feed" is a site we host that renders its blog from the
+ * portal's public feed; publishing just pings its revalidate URL. "manual"
+ * means the post waits in the portal with the reason shown.
+ */
 export type Target =
   | { kind: "wordpress"; url: string; user: string; appPassword: string }
   | { kind: "github"; repo: string; dir: string; siteUrl: string; token: string }
+  | { kind: "feed"; revalidateUrl: string; siteUrl: string }
   | { kind: "manual"; reason: string };
 
 /** "mysite.com/wp-admin" → "https://mysite.com". null when it isn't a URL at all. */
@@ -78,8 +83,15 @@ export async function publishToGithub(t: Extract<Target, { kind: "github" }>, p:
   return { url: publicPostUrl(t.siteUrl, p.slug) };
 }
 
+/** The site reads the post from the feed; a failed ping only delays it until the site's next revalidation window. */
+export async function publishToFeed(t: Extract<Target, { kind: "feed" }>, p: PostForPublish): Promise<{ url: string }> {
+  await fetch(t.revalidateUrl, { signal: AbortSignal.timeout(15_000) }).catch(() => null);
+  return { url: publicPostUrl(t.siteUrl, p.slug) };
+}
+
 export async function publish(t: Target, p: PostForPublish, date: string): Promise<{ url: string }> {
   if (t.kind === "wordpress") return publishToWordpress(t, p);
   if (t.kind === "github") return publishToGithub(t, p, date);
+  if (t.kind === "feed") return publishToFeed(t, p);
   throw new Error(t.reason);
 }

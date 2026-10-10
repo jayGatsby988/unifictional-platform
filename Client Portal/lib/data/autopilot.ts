@@ -40,11 +40,12 @@ export async function getAutopilot(session: Session): Promise<Autopilot> {
 }
 
 /** Can posts go out on their own for this company, given its target and what the studio has set up? */
-export function publishingStatus(s: Pick<AutopilotSettings, "target" | "wpConnected">, cfg: { site_repo?: string | null } | null, githubToken: boolean): StudioAutopilotRow["publishing"] {
+export function publishingStatus(s: Pick<AutopilotSettings, "target" | "wpConnected">, cfg: { site_repo?: string | null; site_revalidate_url?: string | null } | null, githubToken: boolean): StudioAutopilotRow["publishing"] {
   if (s.target === "wordpress") return s.wpConnected ? { ready: true, note: "WordPress" } : { ready: false, note: "WordPress login missing" };
   if (s.target === "hosted") {
-    if (!githubToken) return { ready: false, note: "GITHUB_TOKEN not set" };
-    return cfg?.site_repo ? { ready: true, note: `GitHub · ${cfg.site_repo}` } : { ready: false, note: "Add the GitHub repo on Data connections" };
+    if (cfg?.site_repo) return githubToken ? { ready: true, note: `GitHub · ${cfg.site_repo}` } : { ready: false, note: "GITHUB_TOKEN not set" };
+    if (cfg?.site_revalidate_url) return { ready: true, note: "Site pulls posts from the portal" };
+    return { ready: false, note: "Add the repo or revalidate URL on Data connections" };
   }
   return { ready: false, note: "Client pastes posts themselves" };
 }
@@ -56,7 +57,7 @@ export async function getStudioAutopilot(session: Session): Promise<StudioAutopi
   const [clients, settings, integ, posts, runs] = await Promise.all([
     db.from("clients").select("id, slug, name, website_url").order("name"),
     db.from("seo_autopilot").select("*"),
-    db.from("client_integrations").select("client_id, site_url, site_repo"),
+    db.from("client_integrations").select("client_id, site_url, site_repo, site_revalidate_url"),
     db.from("seo_posts").select("client_id, status"),
     db.from("seo_autopilot_runs").select("client_id, ran_at, ok, summary").order("ran_at", { ascending: false }).limit(300),
   ]);

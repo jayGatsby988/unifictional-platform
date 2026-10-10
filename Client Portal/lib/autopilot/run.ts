@@ -23,7 +23,9 @@ export function resolveTarget(settings: { target: string }, cfg: any, siteUrl: s
   }
   if (settings.target === "hosted") {
     if (cfg?.site_repo && env.githubToken) return { kind: "github", repo: cfg.site_repo, dir: cfg.site_blog_dir || "content/blog", siteUrl, token: env.githubToken };
-    return { kind: "manual", reason: env.githubToken ? "No GitHub repo on this company's Data connections yet." : "GITHUB_TOKEN is not set (Setup & keys)." };
+    if (cfg?.site_revalidate_url) return { kind: "feed", revalidateUrl: cfg.site_revalidate_url, siteUrl };
+    if (cfg?.site_repo) return { kind: "manual", reason: "GITHUB_TOKEN is not set (Setup & keys)." };
+    return { kind: "manual", reason: "No GitHub repo or revalidate URL on this company's Data connections yet." };
   }
   return { kind: "manual", reason: "The client pastes posts onto their site themselves." };
 }

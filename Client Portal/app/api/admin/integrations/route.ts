@@ -4,7 +4,7 @@ import { createWriterClient } from "@/lib/supabase/admin";
 import { demoMode } from "@/lib/env";
 import { metaPageToken, metaUserToken } from "@/lib/integrations/studio";
 
-const FIELDS = ["site_url", "ga4_property_id", "gsc_site_url", "gbp_location_id", "gbp_account_id", "ig_user_id", "fb_page_id", "ghl_contact_id", "site_repo", "site_blog_dir"] as const;
+const FIELDS = ["site_url", "ga4_property_id", "gsc_site_url", "gbp_location_id", "gbp_account_id", "ig_user_id", "fb_page_id", "ghl_contact_id", "site_repo", "site_blog_dir", "site_revalidate_url"] as const;
 
 /** Admin saves the ids that tell the sync where each client's data lives. */
 export async function PUT(request: Request) {

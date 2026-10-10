@@ -101,3 +101,15 @@ test("publishing target follows the client's choice and what the studio has set 
   assert.ok(noRepo.kind === "manual" && noRepo.reason.includes("GitHub repo"));
   assert.equal(run.resolveTarget({ target: "manual" }, null, "", {}).kind, "manual");
 });
+
+test("the feed splits the FAQ back out of the body, and a revalidate URL makes a hosted site publishable", () => {
+  const body = md.assembleBody("Intro.\n\n## Costs\n\nSome **bold** text.", [{ q: "Do I need a permit?", a: "Usually, yes." }, { q: "How long?", a: "Two to four weeks.\n\nSometimes longer." }]);
+  const { body: back, faq } = md.splitFaq(body);
+  assert.equal(back, "Intro.\n\n## Costs\n\nSome **bold** text.");
+  assert.deepEqual(faq, [{ q: "Do I need a permit?", a: "Usually, yes." }, { q: "How long?", a: "Two to four weeks.\n\nSometimes longer." }]);
+  assert.deepEqual(md.splitFaq("No faq here."), { body: "No faq here.", faq: [] });
+  const feed = run.resolveTarget({ target: "hosted" }, { site_revalidate_url: "https://m.com/api/revalidate?secret=x" }, "https://m.com", {});
+  assert.deepEqual(feed, { kind: "feed", revalidateUrl: "https://m.com/api/revalidate?secret=x", siteUrl: "https://m.com" });
+  const repoWins = run.resolveTarget({ target: "hosted" }, { site_repo: "o/r", site_revalidate_url: "https://m.com/api/revalidate" }, "https://m.com", { githubToken: "t" });
+  assert.equal(repoWins.kind, "github");
+});

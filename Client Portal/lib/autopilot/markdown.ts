@@ -78,3 +78,14 @@ const yaml = (s: string) => `"${s.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`
 export function markdownFile(p: { title: string; slug: string; metaDescription: string; excerpt: string; targetQuery: string }, body: string, date: string): string {
   return `---\ntitle: ${yaml(p.title)}\ndescription: ${yaml(p.metaDescription)}\nexcerpt: ${yaml(p.excerpt)}\nslug: ${p.slug}\ndate: ${date}\nkeyword: ${yaml(p.targetQuery)}\n---\n\n${body.trim()}\n`;
 }
+
+const FAQ_HEADING = "## Questions homeowners ask";
+
+/** The inverse of assembleBody: the post body and the FAQ pairs as data, so a site can style the FAQ itself. */
+export function splitFaq(md: string): { body: string; faq: { q: string; a: string }[] } {
+  const at = md.startsWith(FAQ_HEADING) ? 0 : md.indexOf(`\n${FAQ_HEADING}`) === -1 ? -1 : md.indexOf(`\n${FAQ_HEADING}`) + 1;
+  if (at === -1) return { body: md.trim(), faq: [] };
+  const faq: { q: string; a: string }[] = [];
+  for (const m of md.slice(at + FAQ_HEADING.length).matchAll(/\*\*([^*\n]+)\*\*\s*\n+([\s\S]*?)(?=\n+\*\*[^*\n]+\*\*\s*\n|\s*$)/g)) faq.push({ q: m[1].trim(), a: m[2].trim() });
+  return { body: md.slice(0, at).trim(), faq };
+}

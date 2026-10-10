@@ -132,6 +132,11 @@ export function IntegrationsForm({ client, demo }: { client: AdminClient; demo: 
           <input className="input !py-2 font-mono text-xs" placeholder="content/blog" value={f.site_blog_dir} onChange={(e) => set("site_blog_dir")(e.target.value)} />
           <span className="block mt-1 text-[11px] text-ink-muted">Where the post .md files go. Leave blank for content/blog.</span>
         </label>
+        <label className="block sm:col-span-2">
+          <span className="label !text-[9px] block mb-1">Revalidate URL (SEO Autopilot, sites that pull posts from the portal)</span>
+          <input className="input !py-2 font-mono text-xs" placeholder="https://theirsite.com/api/revalidate?secret=…" value={f.site_revalidate_url} onChange={(e) => set("site_revalidate_url")(e.target.value)} />
+          <span className="block mt-1 text-[11px] text-ink-muted">For sites whose blog reads /api/autopilot/feed. Pinged after each publish so the post appears at once. Used when no GitHub repo is set.</span>
+        </label>
       </div>
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <button className="btn btn-ink !py-2 !px-4 text-xs" disabled={busy !== ""} onClick={save}>{busy === "save" ? "Saving…" : "Save"}</button>

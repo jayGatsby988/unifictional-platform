@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- rows are untyped until `supabase gen types` runs against the live schema */
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { AutopilotCadence } from "../data/types";
-import { buildBrief } from "./brief";
-import { generatePost } from "./generate";
+import type { AutopilotCadence, PlanItem } from "../data/types";
+import { inferTradeAndCity } from "../seo-check";
+import { buildBrief, type BriefInput } from "./brief";
+import { generatePlan, generatePost, revisePost, type GeneratedPost } from "./generate";
 import { assembleBody, slugFor, uniqueSlug, wordCount } from "./markdown";
+import { nextPlanned, setStatus, toPlanItems } from "./plan";
 import { publish, type Target } from "./publish";
+import { failedChecks, scorePost } from "./quality";
+import { fetchSuggestions, seedQueries } from "./research";
 import { cadenceLabel, isDue, nextRunAt, retryAt } from "./schedule";
 import { fetchSiteContext } from "./site";
 
@@ -13,7 +17,11 @@ export type RunOutcome = { ok: boolean; message: string; postId?: string; publis
 /** One enabled company: its client row, its seo_autopilot settings and its client_integrations row (may be null). */
 export type Ctx = { client: any; settings: any; cfg: any };
 
+/** Below this score the writer gets one revision pass at the failed checks. */
+const QUALITY_BAR = 85;
+
 const siteOf = (c: Ctx): string => c.cfg?.site_url || c.client.website_url || "";
+const stamp = () => new Date().toISOString();
 
 /** Where this company's posts go. Falls back to "manual" (the post waits in the portal) with the reason. */
 export function resolveTarget(settings: { target: string }, cfg: any, siteUrl: string, env: { githubToken?: string } = { githubToken: process.env.GITHUB_TOKEN }): Target {
@@ -66,7 +74,19 @@ export async function runAutopilot(db: SupabaseClient, opts: { clientSlug?: stri
   return out;
 }
 
-async function runForClient(db: SupabaseClient, c: Ctx): Promise<RunOutcome> {
+/** "Write a post now": one company, right away, regardless of schedule. */
+export async function writeNow(db: SupabaseClient, slug: string): Promise<RunOutcome> {
+  const [c] = await loadContexts(db, slug);
+  if (!c) return { ok: false, message: "Autopilot is off for this company." };
+  return runForClient(db, c);
+}
+
+/**
+ * Research → plan → write → quality gate → save → publish, for one company.
+ * Every step that can fail without losing the post (autocomplete, the plan,
+ * the revision pass) is best-effort; only the writer itself is required.
+ */
+export async function runForClient(db: SupabaseClient, c: Ctx): Promise<RunOutcome> {
   const cid = c.client.id as string;
   const siteUrl = siteOf(c);
   const [site, kw, prior, snap] = await Promise.all([
@@ -76,18 +96,36 @@ async function runForClient(db: SupabaseClient, c: Ctx): Promise<RunOutcome> {
     db.from("website_snapshots").select("health").eq("client_id", cid).order("captured_at", { ascending: false }).limit(1).maybeSingle(),
   ]);
   const checks = ((snap.data?.health as any)?.checks ?? []) as { status: string; label: string; detail: string }[];
-  const brief = buildBrief({
+  const existingPosts = ((prior.data ?? []) as any[]).map((p) => ({ title: p.title as string, targetQuery: p.target_query as string | null }));
+  const inferred = site ? inferTradeAndCity(site.title, site.text) : null;
+  const area: string = c.client.city || inferred?.city || "";
+  const trade: string = inferred?.trade.label || c.client.industry || "contractor";
+  const suggestions = await fetchSuggestions(seedQueries(trade, area, c.client.services ?? []));
+
+  const base: BriefInput = {
     client: { name: c.client.name, industry: c.client.industry ?? "", city: c.client.city ?? "", websiteUrl: siteUrl, services: c.client.services ?? [] },
     notes: c.settings.notes ?? "",
     site,
     keywords: ((kw.data ?? []) as any[]).map((k) => ({ keyword: k.keyword, position: Number(k.position), url: k.url ?? "" })),
-    existingPosts: ((prior.data ?? []) as any[]).map((p) => ({ title: p.title, targetQuery: p.target_query })),
+    existingPosts,
     healthIssues: checks.filter((x) => x.status === "fail" || x.status === "warn").map((x) => `${x.label}: ${x.detail}`),
     cadence: cadenceLabel(c.settings.cadence as AutopilotCadence),
-  });
+    suggestions,
+  };
 
-  const stamp = () => new Date().toISOString();
-  let gen: Awaited<ReturnType<typeof generatePost>>;
+  // The content plan: draft twelve topics when the queue runs dry, then write the next one.
+  let plan: PlanItem[] = Array.isArray(c.settings.plan) ? c.settings.plan : [];
+  let planned = nextPlanned(plan, existingPosts);
+  if (!planned) {
+    try {
+      plan = toPlanItems(await generatePlan(buildBrief(base)), plan);
+      planned = nextPlanned(plan, existingPosts);
+      await db.from("seo_autopilot").update({ plan, updated_at: stamp() }).eq("client_id", cid);
+    } catch { /* a post without a plan is still a post */ }
+  }
+  const brief = buildBrief({ ...base, planned: planned ? { title: planned.title, targetQuery: planned.targetQuery, angle: planned.angle } : null });
+
+  let gen: GeneratedPost;
   try {
     gen = await generatePost(brief);
   } catch (e) {
@@ -97,19 +135,32 @@ async function runForClient(db: SupabaseClient, c: Ctx): Promise<RunOutcome> {
     return { ok: false, message };
   }
 
+  // Quality gate: score the draft, give the writer one pass at what it missed, keep the better one.
+  const paths = site?.paths ?? [];
+  const grade = (g: GeneratedPost) => scorePost({ title: g.title, metaDescription: g.metaDescription, bodyMd: assembleBody(g.bodyMarkdown, g.faq), targetQuery: g.targetQuery, area, faqCount: g.faq.length }, paths);
+  let quality = grade(gen);
+  if (quality.score < QUALITY_BAR) {
+    try {
+      const fixed = await revisePost(brief, gen, failedChecks(quality));
+      const again = grade(fixed);
+      if (again.score >= quality.score) { gen = fixed; quality = again; }
+    } catch { /* keep the first draft */ }
+  }
+
   const bodyMd = assembleBody(gen.bodyMarkdown, gen.faq);
   const slug = uniqueSlug(slugFor(gen.slug || gen.title), ((prior.data ?? []) as any[]).map((p) => p.slug));
   const approve = c.settings.mode === "approve";
   const { data: post, error } = await db.from("seo_posts").insert({
-    client_id: cid, title: gen.title, slug, target_query: gen.targetQuery, meta_description: gen.metaDescription, excerpt: gen.excerpt,
-    body_md: bodyMd, word_count: wordCount(bodyMd), status: approve ? "awaiting_approval" : "approved",
+    client_id: cid, title: gen.title, slug, target_query: gen.targetQuery, rationale: gen.rationale, meta_description: gen.metaDescription, excerpt: gen.excerpt,
+    body_md: bodyMd, word_count: wordCount(bodyMd), quality, status: approve ? "awaiting_approval" : "approved",
   }).select("*").single();
   if (error || !post) throw new Error(error?.message ?? "Could not save the post.");
 
-  const fixes = gen.optimizations.slice(0, 5);
-  await db.from("seo_autopilot_runs").insert({ client_id: cid, ok: true, post_id: post.id, fixes, summary: `Wrote "${gen.title}" for "${gen.targetQuery}"${fixes.length ? ` · ${fixes.length} fixes suggested` : ""}` });
-  await db.from("seo_autopilot").update({ next_run_at: nextRunAt(c.settings.cadence), last_run_at: stamp(), updated_at: stamp() }).eq("client_id", cid);
-  await db.from("work_log").insert({ client_id: cid, area: "seo", title: `Blog post written: ${gen.title}`, detail: `Targets "${gen.targetQuery}".${fixes.length ? ` ${fixes.length} on-page fixes suggested.` : ""}` });
+  const fixes = gen.optimizations.slice(0, 5).map((f) => ({ ...f, done: false }));
+  await db.from("seo_autopilot_runs").insert({ client_id: cid, ok: true, post_id: post.id, fixes, summary: `Wrote "${gen.title}" for "${gen.targetQuery}" · SEO check ${quality.score}/100${fixes.length ? ` · ${fixes.length} fixes suggested` : ""}` });
+  if (planned) plan = setStatus(plan, planned.id, "written");
+  await db.from("seo_autopilot").update({ next_run_at: nextRunAt(c.settings.cadence), last_run_at: stamp(), plan, updated_at: stamp() }).eq("client_id", cid);
+  await db.from("work_log").insert({ client_id: cid, area: "seo", title: `Blog post written: ${gen.title}`, detail: `Targets "${gen.targetQuery}" · SEO check ${quality.score}/100.${fixes.length ? ` ${fixes.length} on-page fixes suggested.` : ""}` });
 
   if (approve) {
     await db.from("activity").insert({ client_id: cid, area: "seo", title: `New blog post ready for your OK: ${gen.title}` });
@@ -122,7 +173,7 @@ async function runForClient(db: SupabaseClient, c: Ctx): Promise<RunOutcome> {
 /** Push one saved post to the client's site and record what happened. */
 export async function publishPost(db: SupabaseClient, c: Ctx, post: any): Promise<RunOutcome> {
   const target = resolveTarget(c.settings, c.cfg, siteOf(c));
-  const now = new Date().toISOString();
+  const now = stamp();
   if (target.kind === "manual") {
     await db.from("seo_posts").update({ status: "ready", error: target.reason, updated_at: now }).eq("id", post.id);
     await db.from("activity").insert({ client_id: c.client.id, area: "seo", title: `Blog post ready to put on your site: ${post.title}` });

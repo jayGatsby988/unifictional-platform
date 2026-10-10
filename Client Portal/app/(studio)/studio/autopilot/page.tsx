@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 
 const KEYS = [
   ["ANTHROPIC_API_KEY", "writes the posts"],
-  ["GITHUB_TOKEN", "publishes to sites we host"],
+  ["GITHUB_TOKEN", "publishes to sites we host from GitHub"],
   ["SUPABASE_SERVICE_ROLE_KEY", "lets the daily run write"],
   ["CRON_SECRET", "protects the daily run"],
 ] as const;
@@ -20,14 +20,30 @@ export default async function StudioAutopilotPage() {
   const session = await getSession();
   const rows = await getStudioAutopilot(session);
   const on = rows.filter((r) => r.settings.enabled).length;
-  const awaiting = rows.reduce((a, r) => a + r.awaiting, 0);
+  const sum = (f: (r: (typeof rows)[number]) => number) => rows.reduce((a, r) => a + f(r), 0);
+  const awaiting = sum((r) => r.awaiting);
   const keys = KEYS.map(([key, what]) => ({ key, what, set: Boolean(process.env[key]) }));
   return (
     <>
-      <div className="mb-6">
-        <p className="label mb-2">Studio · SEO Autopilot</p>
-        <h1 className="font-display text-3xl sm:text-4xl leading-none">{on} of {rows.length} companies on autopilot{awaiting ? `, ${awaiting} post${awaiting === 1 ? "" : "s"} waiting on clients` : ""}.</h1>
-        <p className="mt-2 text-sm text-ink-muted max-w-2xl">Clients switch it on themselves from their SEO Autopilot page. The daily run (7am Pacific) writes each due post, publishes it or asks the client, and suggests fixes. Run now writes one straight away.</p>
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="label mb-2">Studio · SEO Autopilot</p>
+          <h1 className="font-display text-3xl sm:text-4xl leading-none">{on} of {rows.length} companies on autopilot{awaiting ? `, ${awaiting} post${awaiting === 1 ? "" : "s"} waiting on clients` : ""}.</h1>
+          <p className="mt-2 text-sm text-ink-muted max-w-2xl">Clients switch it on themselves from their SEO Autopilot page. The daily run (7am Pacific) publishes what was approved, writes each due post from the company&apos;s content plan, scores it, and suggests fixes.</p>
+        </div>
+        <RunAutopilot demo={session.isDemo} label="Run everything due now" />
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-6">
+        {[
+          ["Companies on", `${on}/${rows.length}`],
+          ["Posts live", fmt.int(sum((r) => r.published))],
+          ["Awaiting OK", fmt.int(awaiting)],
+          ["Fixes done", `${sum((r) => r.fixesDone)}/${sum((r) => r.fixesTotal)}`],
+          ["Topics planned", fmt.int(sum((r) => r.upcoming))],
+        ].map(([l, v]) => (
+          <div key={l} className="panel p-4"><p className="label mb-2">{l}</p><p className="font-display text-2xl leading-none">{v}</p></div>
+        ))}
       </div>
 
       <div className="flex flex-wrap items-center gap-2 mb-6">
@@ -49,10 +65,12 @@ export default async function StudioAutopilotPage() {
                 </div>
                 {r.settings.notes && <p className="mt-2 text-xs text-ink-muted italic">“{r.settings.notes}”</p>}
               </div>
-              <dl className="grid grid-cols-3 gap-4 text-center">
-                <div><dt className="label !text-[8px] mb-1">Live posts</dt><dd className="font-display text-xl leading-none">{r.published}</dd></div>
-                <div><dt className="label !text-[8px] mb-1">Awaiting OK</dt><dd className={cn("font-display text-xl leading-none", r.awaiting && "text-warn")}>{r.awaiting}</dd></div>
-                <div><dt className="label !text-[8px] mb-1">Next post</dt><dd className="font-display text-xl leading-none">{r.settings.enabled && r.settings.nextRunAt ? fmt.date(r.settings.nextRunAt) : "—"}</dd></div>
+              <dl className="grid grid-cols-5 gap-4 text-center">
+                <div><dt className="label !text-[8px] mb-1">Live</dt><dd className="font-display text-xl leading-none">{r.published}</dd></div>
+                <div><dt className="label !text-[8px] mb-1">Awaiting</dt><dd className={cn("font-display text-xl leading-none", r.awaiting && "text-warn")}>{r.awaiting}</dd></div>
+                <div><dt className="label !text-[8px] mb-1">Fixes</dt><dd className="font-display text-xl leading-none">{r.fixesTotal ? `${r.fixesDone}/${r.fixesTotal}` : "—"}</dd></div>
+                <div><dt className="label !text-[8px] mb-1">Planned</dt><dd className="font-display text-xl leading-none">{r.upcoming}</dd></div>
+                <div><dt className="label !text-[8px] mb-1">Next</dt><dd className="font-display text-xl leading-none">{r.settings.enabled && r.settings.nextRunAt ? fmt.date(r.settings.nextRunAt) : "—"}</dd></div>
               </dl>
               <div className="flex flex-col gap-2 items-stretch">
                 <RunAutopilot slug={r.slug} enabled={r.settings.enabled} demo={session.isDemo} />

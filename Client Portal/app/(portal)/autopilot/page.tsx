@@ -2,18 +2,19 @@ import Link from "next/link";
 import { Section, SubHead } from "@/components/Section";
 import { Stat } from "@/components/Stat";
 import { AutopilotForm } from "@/components/autopilot/AutopilotForm";
+import { Fixes } from "@/components/autopilot/Fixes";
 import { PostCard } from "@/components/autopilot/PostCard";
+import { Upcoming } from "@/components/autopilot/Upcoming";
+import { WriteNow } from "@/components/autopilot/WriteNow";
 import { getSession } from "@/lib/data/repo";
 import { getAutopilot } from "@/lib/data/autopilot";
 import { cadenceLabel } from "@/lib/autopilot/schedule";
-import { cn, fmt } from "@/lib/utils";
-
-const IMPACT = { high: "pill-bad", medium: "pill-warn", low: "pill-neutral" } as const;
+import { fmt } from "@/lib/utils";
 
 const HOW = [
-  ["Pick the search", "We look at what your site ranks for, what it doesn't, and what homeowners in your area type."],
-  ["Write the post", "900-1,400 words in your voice, linked to your own service pages, with the questions people ask."],
-  ["Publish and fix", "It goes on your site (or waits for your OK), and we list the on-page fixes that matter most that week."],
+  ["Pick the search", "We look at what your site ranks for, what it doesn't, and what homeowners near you actually type into Google."],
+  ["Write and check", "900–1,400 words in your voice, linked to your own pages, with the questions people ask — then scored against a 10-point SEO checklist and fixed before you see it."],
+  ["Publish and improve", "It goes on your site (or waits for your OK), and we list the on-page fixes that matter most, with a checklist to work through."],
 ];
 
 export default async function AutopilotPage() {
@@ -24,15 +25,18 @@ export default async function AutopilotPage() {
   const s = a.settings;
   const awaiting = a.posts.filter((p) => p.status === "awaiting_approval");
   const others = a.posts.filter((p) => p.status !== "awaiting_approval");
-  const published = a.posts.filter((p) => p.status === "published").length;
+  const published = a.posts.filter((p) => p.status === "published");
   const latest = a.runs.find((r) => r.fixes.length);
-  const fixes = latest?.fixes ?? [];
+  const allFixes = a.runs.flatMap((r) => r.fixes);
+  const fixesDone = allFixes.filter((f) => f.done).length;
+  const clicks = published.reduce((n, p) => n + (p.performance?.clicks ?? 0), 0);
+  const upcoming = s.plan.filter((p) => p.status === "planned").length;
 
   if (!s.enabled) {
     return (
       <>
         <Section num="03" label="SEO Autopilot" title="Your SEO, on autopilot."
-          intro="Every week we write and publish a blog post aimed at a search homeowners near you actually type, and list the fixes that move your site up. Answer two questions once; we handle the rest." />
+          intro="Every week we write and publish a blog post aimed at a search homeowners near you actually type, check it against an SEO checklist, and list the fixes that move your site up. Answer two questions once; we handle the rest." />
         <div className="grid lg:grid-cols-5 gap-4 mb-10">
           <div className="lg:col-span-3"><AutopilotForm settings={s} demo={session.isDemo} /></div>
           <div className="lg:col-span-2 space-y-4">
@@ -69,13 +73,16 @@ export default async function AutopilotPage() {
   return (
     <>
       <Section num="03" label="SEO Autopilot" title="Your SEO, on autopilot."
-        intro={`On. ${cadenceLabel(s.cadence)}. ${s.mode === "approve" ? "Each post waits for your OK before it goes live." : "Posts go live on schedule; you can skip any of them."}`} />
+        intro={`On. ${cadenceLabel(s.cadence)}. ${s.mode === "approve" ? "Each post waits for your OK before it goes live." : "Posts go live on schedule; you can skip any of them."}`}
+        action={a.posts.length > 0 ? <WriteNow demo={session.isDemo} /> : undefined} />
+
+      {a.posts.length === 0 && <div className="mb-10"><WriteNow big demo={session.isDemo} /></div>}
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-        <Stat label="Posts live on your site" value={published} sub="each written for a search near you" />
-        <Stat label="Waiting for your OK" value={awaiting.length} sub={awaiting.length ? "tap Publish below" : "nothing to do"} />
-        <Stat label="Next post" value={s.nextRunAt ? fmt.date(s.nextRunAt) : "soon"} sub={s.lastRunAt ? `last one ${fmt.date(s.lastRunAt)}` : "the first one is on its way"} />
-        <Stat label="Fixes suggested" value={fixes.length} sub={latest ? `from ${fmt.date(latest.ranAt)}` : "arrive with the first post"} />
+        <Stat label="Posts live on your site" value={published.length} sub={clicks ? `${fmt.int(clicks)} Google clicks so far` : "each written for a search near you"} />
+        <Stat label="Waiting for your OK" value={awaiting.length} sub={awaiting.length ? "read, edit if you like, publish" : "nothing to do"} />
+        <Stat label="Fixes done" value={allFixes.length ? `${fixesDone}/${allFixes.length}` : "—"} sub={allFixes.length ? "from the on-page checklist" : "arrive with the first post"} />
+        <Stat label="Next post" value={s.nextRunAt ? fmt.date(s.nextRunAt) : "soon"} sub={upcoming ? `${upcoming} topics planned` : s.lastRunAt ? `last one ${fmt.date(s.lastRunAt)}` : "the first one is on its way"} />
       </div>
 
       {awaiting.length > 0 && (
@@ -86,27 +93,25 @@ export default async function AutopilotPage() {
       )}
 
       <div className="grid lg:grid-cols-3 gap-4 mb-10">
-        <div className="lg:col-span-2">
-          <SubHead>Posts</SubHead>
-          <div className="space-y-4">
-            {others.map((p) => <PostCard key={p.id} post={p} />)}
-            {others.length === 0 && <div className="panel p-5 text-sm text-ink-muted">Your first post is being written. It shows up here{s.mode === "approve" ? " for your OK" : ""} after the next daily run.</div>}
+        <div className="lg:col-span-2 space-y-8">
+          <div>
+            <SubHead>Posts</SubHead>
+            <div className="space-y-4">
+              {others.map((p) => <PostCard key={p.id} post={p} />)}
+              {others.length === 0 && <div className="panel p-5 text-sm text-ink-muted">Nothing here yet. Your first post shows up {s.mode === "approve" ? "for your OK " : ""}after the next daily run — or hit Write a post now.</div>}
+            </div>
           </div>
         </div>
-        <div>
-          <SubHead right={latest ? <span className="label !text-[9px]">{fmt.date(latest.ranAt)}</span> : undefined}>Fixes we&apos;re working on</SubHead>
-          <div className="panel divide-y divide-line">
-            {fixes.map((f, i) => (
-              <div key={i} className="p-4">
-                <div className="flex items-center justify-between gap-2 mb-1"><p className="text-sm font-medium">{f.title}</p><span className={cn("pill", IMPACT[f.impact])}>{f.impact}</span></div>
-                <p className="text-xs text-ink-muted font-mono mb-1">{f.where}</p>
-                <p className="text-xs text-ink-muted">{f.why}</p>
-                <p className="text-xs mt-1">{f.how}</p>
-              </div>
-            ))}
-            {fixes.length === 0 && <p className="p-4 text-sm text-ink-muted">The first list of fixes arrives with your first post.</p>}
+        <div className="space-y-8">
+          <div>
+            <SubHead right={latest ? <span className="label !text-[9px]">{fmt.date(latest.ranAt)}</span> : undefined}>Fixes for your site</SubHead>
+            {latest ? <Fixes runId={latest.id} fixes={latest.fixes} when={fmt.date(latest.ranAt)} /> : <div className="panel p-4 text-sm text-ink-muted">The first list of fixes arrives with your first post.</div>}
+            <p className="mt-2 text-xs text-ink-muted">Your studio works through these as part of your plan. Want one done sooner? <Link className="underline" href="/requests?type=seo">Ask here</Link>.</p>
           </div>
-          <p className="mt-2 text-xs text-ink-muted">Your studio works through these as part of your plan. Want one done sooner? <Link className="underline" href="/requests?type=seo">Ask here</Link>.</p>
+          <div>
+            <SubHead right={upcoming ? <span className="label !text-[9px]">{upcoming} planned</span> : undefined}>Coming up</SubHead>
+            <Upcoming plan={s.plan} />
+          </div>
         </div>
       </div>
 

@@ -12,6 +12,10 @@ export type BriefInput = {
   /** "Label: detail" lines from the nightly health check's warn/fail checks. */
   healthIssues: string[];
   cadence: string;
+  /** Real searches from Google autocomplete for the trade and area. */
+  suggestions?: string[];
+  /** The next topic from the content plan, when there is one. */
+  planned?: { title: string; targetQuery: string; angle: string } | null;
 };
 
 /**
@@ -43,6 +47,8 @@ export function buildBrief(i: BriefInput): string {
 
   const seeds = i.site ? queriesFor(i.site.title, i.site.text) : [];
   if (seeds.length) lines.push("", "# Local searches homeowners type for this trade", ...seeds.map((q) => `- ${q}`));
+  if (i.suggestions?.length) lines.push("", "# Real searches people type (Google autocomplete, exact phrasing)", ...i.suggestions.map((s) => `- ${s}`));
+  if (i.planned) lines.push("", "# Planned topic for this post (write this one unless the site already covers it)", `Title: ${i.planned.title}`, `Target search: ${i.planned.targetQuery}`, i.planned.angle ? `Angle: ${i.planned.angle}` : "");
 
   if (i.keywords.length) {
     lines.push("", "# Google Search Console: searches the site already shows up for (position = average rank)");

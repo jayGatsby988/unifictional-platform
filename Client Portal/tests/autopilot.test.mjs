@@ -113,3 +113,36 @@ test("the feed splits the FAQ back out of the body, and a revalidate URL makes a
   const repoWins = run.resolveTarget({ target: "hosted" }, { site_repo: "o/r", site_revalidate_url: "https://m.com/api/revalidate" }, "https://m.com", { githubToken: "t" });
   assert.equal(repoWins.kind, "github");
 });
+
+const quality = await import("../lib/autopilot/quality.ts");
+const research = await import("../lib/autopilot/research.ts");
+const plan = await import("../lib/autopilot/plan.ts");
+
+test("the SEO checklist scores a strong post high and names what a weak one misses", () => {
+  const body = ["Intro: a detached ADU in Everett costs real money, and here is what it depends on.", ...Array.from({ length: 6 }, (_, i) => `## Section ${i + 1}\n\n${"Honest detail about building in Everett. ".repeat(28)}See [our ADU page](/services/adu) and [contact](/contact).`)].join("\n\n");
+  const good = quality.scorePost({ title: "What a Detached ADU Costs in Everett, WA (2026 Guide)", metaDescription: "Realistic 2026 ranges for a detached ADU in Everett, WA, what pushes the price up or down, and three ways to keep your build in budget this year.", bodyMd: body, targetQuery: "detached adu cost everett", area: "Everett, WA", faqCount: 4 }, ["/services/adu", "/contact", "/projects"]);
+  assert.ok(good.score >= 90, `expected a high score, got ${good.score}: ${JSON.stringify(good.checks.filter((c) => !c.ok))}`);
+  const weak = quality.scorePost({ title: "ADUs", metaDescription: "Short.", bodyMd: "Just a few words with [a dead link](/nope).", targetQuery: "detached adu cost everett", area: "Everett, WA", faqCount: 0 }, ["/services/adu"]);
+  assert.ok(weak.score < 30);
+  const failed = quality.failedChecks(weak);
+  assert.ok(failed.some((f) => f.startsWith("Title is 45–65")) && failed.some((f) => f.includes("not found: /nope")));
+});
+
+test("autocomplete research parses Google's answer and builds sensible seeds", () => {
+  assert.deepEqual(research.parseSuggest('["adu builder seattle",["adu builder seattle","how much does it cost to build an adu in seattle"],[],{}]'), ["adu builder seattle", "how much does it cost to build an adu in seattle"]);
+  assert.deepEqual(research.parseSuggest("not json"), []);
+  const seeds = research.seedQueries("ADU builder", "Everett, WA", ["Website", "Local SEO"]);
+  assert.ok(seeds.includes("adu builder everett") && seeds.includes("adu cost everett") && seeds.includes("website everett"));
+  assert.equal(new Set(seeds).size, seeds.length);
+});
+
+test("the content plan queues topics, skips written ones, and can be reordered", () => {
+  const p = plan.toPlanItems([{ title: "A", targetQuery: "adu cost everett", angle: "x" }, { title: "B", targetQuery: "adu permit everett", angle: "y" }, { title: "Dup", targetQuery: "ADU cost Everett", angle: "z" }]);
+  assert.equal(p.length, 2);
+  assert.equal(plan.nextPlanned(p, [{ title: "Old post", targetQuery: "adu cost everett" }])?.title, "B");
+  const skipped = plan.setStatus(p, p[1].id, "skipped");
+  assert.equal(plan.nextPlanned(skipped, [{ title: "Old post", targetQuery: "adu cost everett" }]), null);
+  const moved = plan.moveToFront(p, p[1].id);
+  assert.equal(moved[0].title, "B");
+  assert.equal(plan.upcoming(moved).length, 2);
+});

@@ -13,7 +13,8 @@ import { onboardBilling } from "@/lib/billing/onboard";
  */
 export async function POST(request: Request) {
   const session = await getSession();
-  if (!session.isAdmin || session.isDemo) return NextResponse.json({ error: "Admins only." }, { status: 403 });
+  if (session.isDemo) return NextResponse.json({ error: "Demo mode: connect Supabase to save changes (Setup & keys)." }, { status: 403 });
+  if (!session.isAdmin) return NextResponse.json({ error: "Admins only." }, { status: 403 });
   if (!adminConfigured) {
     return NextResponse.json({ needsKey: true, error: "Add SUPABASE_SERVICE_ROLE_KEY in Vercel to turn this on." }, { status: 503 });
   }

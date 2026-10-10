@@ -18,7 +18,7 @@ export default async function GenerationPage({ params }: { params: Promise<{ id:
   return (
     <>
       <Link href="/estimator" className="inline-flex items-center gap-1 text-xs text-ink-muted hover:text-ink mb-4"><ArrowLeft className="h-3.5 w-3.5" /> All quotes</Link>
-      <Section num="04" label={`Quote · ${fmt.dateLong(g.at)}`} title={`${g.projectType}, ${fmt.int(g.size)} ${g.unit === "sqft" ? "sq ft" : g.unit}.`}
+      <Section num="05" label={`Quote · ${fmt.dateLong(g.at)}`} title={`${g.projectType}, ${fmt.int(g.size)} ${g.unit === "sqft" ? "sq ft" : g.unit}.`}
         action={g.contact ? <div className="w-44"><GenerationStatusSelect id={g.id} status={g.status} /></div> : <span className="pill pill-neutral">No contact left</span>}
       />
 

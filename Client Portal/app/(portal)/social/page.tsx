@@ -17,7 +17,7 @@ export default async function SocialPage() {
 
   return (
     <>
-      <Section num="03" label="Social" title="Social & content."
+      <Section num="04" label="Social" title="Social & content."
         intro="A consistent, professional feed that makes your business look active. Here is what it reached." />
 
       <SourceGate source="meta" has={d.status.has.social} status={d.status}>

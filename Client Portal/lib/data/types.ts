@@ -179,3 +179,57 @@ export type PortalData = {
   generatedAt: string;
   isDemo: boolean;
 };
+
+// SEO Autopilot -------------------------------------------------------------
+export type AutopilotCadence = "twice_weekly" | "weekly" | "biweekly" | "monthly";
+export type AutopilotMode = "auto" | "approve";
+export type AutopilotTarget = "hosted" | "wordpress" | "manual";
+
+export type AutopilotSettings = {
+  enabled: boolean;
+  cadence: AutopilotCadence;
+  mode: AutopilotMode;
+  target: AutopilotTarget;
+  /** The client's WordPress login was verified and stored (never shown back). */
+  wpConnected: boolean;
+  notes: string;
+  nextRunAt: string | null;
+  lastRunAt: string | null;
+};
+
+export type SeoPostStatus = "awaiting_approval" | "approved" | "ready" | "published" | "skipped" | "failed";
+
+export type SeoPost = {
+  id: string;
+  createdAt: string;
+  title: string;
+  slug: string;
+  targetQuery: string;
+  metaDescription: string;
+  excerpt: string;
+  bodyMd: string;
+  wordCount: number;
+  status: SeoPostStatus;
+  publishedUrl: string | null;
+  publishedAt: string | null;
+  error: string | null;
+};
+
+export type AutopilotFix = { title: string; where: string; why: string; how: string; impact: "high" | "medium" | "low" };
+
+export type AutopilotRun = { id: string; ranAt: string; ok: boolean; summary: string; postId: string | null; fixes: AutopilotFix[] };
+
+export type Autopilot = { settings: AutopilotSettings; posts: SeoPost[]; runs: AutopilotRun[] };
+
+/** One row on Studio · SEO Autopilot. */
+export type StudioAutopilotRow = {
+  slug: string;
+  name: string;
+  website: string;
+  settings: AutopilotSettings;
+  /** Whether posts can actually go out on their own, and why not when they can't. */
+  publishing: { ready: boolean; note: string };
+  awaiting: number;
+  published: number;
+  lastRun: { at: string; ok: boolean; summary: string } | null;
+};

@@ -6,7 +6,8 @@ import { addInvite } from "@/lib/data/invites";
 /** Give an existing login access to a company. */
 export async function POST(request: Request) {
   const session = await getSession();
-  if (!session.isAdmin || session.isDemo) return NextResponse.json({ error: "Admins only." }, { status: 403 });
+  if (session.isDemo) return NextResponse.json({ error: "Demo mode: connect Supabase to save changes (Setup & keys)." }, { status: 403 });
+  if (!session.isAdmin) return NextResponse.json({ error: "Admins only." }, { status: 403 });
   const b = await request.json().catch(() => ({}));
   const client = session.clients.find((c) => c.slug === b.slug);
   const email = String(b.email ?? "").trim();

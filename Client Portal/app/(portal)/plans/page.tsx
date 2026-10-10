@@ -17,7 +17,7 @@ export default async function PlansPage() {
 
   return (
     <>
-      <Section num="08" label="Plans" title="Plans." intro="What each plan includes. Tap I'm interested and we'll reach out to walk you through it and price it to your business." />
+      <Section num="09" label="Plans" title="Plans." intro="What each plan includes. Tap I'm interested and we'll reach out to walk you through it and price it to your business." />
 
       {plans.length === 0 ? (
         <div className="panel p-6 max-w-2xl text-sm text-ink-muted">Plans are being set up. Ask us anytime about what&apos;s included.</div>

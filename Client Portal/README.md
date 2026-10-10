@@ -78,6 +78,34 @@ too. `GET /api/health` (Bearer `CRON_SECRET`) reports whether the Supabase
 service key and Square token are accepted; `POST /api/ops/test-invoice` sends a
 small test invoice.
 
+## SEO Autopilot
+
+The client turns it on once from **SEO Autopilot** (`/autopilot`) by answering
+two questions: where the site lives (we host it / WordPress / somewhere else)
+and whether posts go live on their own or wait for an OK. Trade, city, website,
+Search Console keywords and the nightly health check are already on file, so
+there is no questionnaire; an optional "what to push or avoid" line is the only
+free text. WordPress clients paste an application password (verified against
+`/wp-json` before it is stored through the `autopilot_set_wordpress` definer
+function; the client can never read it back).
+
+A daily cron (`/api/autopilot/run`, 07:00 Pacific, Bearer `CRON_SECRET`) then,
+for every company with autopilot on: publishes anything the client approved,
+and if the next post is due on its cadence (weekly by default, i.e. four a
+month; twice a week, every two weeks or monthly), builds a brief from the live
+site + keyword data + health issues + earlier posts (`lib/autopilot/brief.ts`),
+asks Claude Opus 5.5 for one structured post plus up to five on-page fixes
+(`lib/autopilot/generate.ts`, needs `ANTHROPIC_API_KEY`), stores it in
+`seo_posts`, and publishes it (`lib/autopilot/publish.ts`): a Markdown commit
+to the site's GitHub repo for sites we host (`client_integrations.site_repo`,
+needs `GITHUB_TOKEN`; Vercel deploys it), a WordPress REST post, or "ready to
+paste" in the portal when neither applies. Every run writes
+`seo_autopilot_runs` (summary + fixes), `work_log` and `activity`, so the
+Search page and Overview show the work. Studio watches and nudges it from
+**Studio · SEO Autopilot** (`/studio/autopilot`, "Run now"). Migration 0013.
+Unit tests cover the Markdown renderer, slugs, schedule, brief, publish
+payloads and target resolution (`npm test`).
+
 ## Going live with real data
 
 Nothing in the UI calls a third-party API at request time. A daily sync job
@@ -152,6 +180,9 @@ app/(portal)/social     IG/FB accounts, reach, top posts, scheduled posts
 app/(portal)/estimator  quote-tool admin: usage stats, generated quotes/leads, pricing editor
 app/(portal)/estimator/[id]  one generated quote: what the homeowner saw, contact, status
 lib/quote.ts            the quote math (shared contract with the website embed)
+app/(portal)/autopilot  SEO Autopilot: two-question switch-on, posts to approve/skip, suggested fixes
+lib/autopilot           brief → Claude → publish (GitHub / WordPress / ready-to-paste) + schedule
+app/api/autopilot       settings (client), posts approve/skip (client), run (daily cron + studio)
 app/(portal)/requests   client → studio request form
 app/(studio)/studio     STUDIO CRM (admins land here after login): inbox of inspection leads,
                         account requests, client support requests and clients' quote leads,

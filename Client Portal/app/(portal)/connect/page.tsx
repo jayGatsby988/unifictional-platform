@@ -18,7 +18,7 @@ export default async function ConnectPage() {
   const missing = SOURCES.filter((s) => !status[s.key]);
   return (
     <>
-      <Section num="06" label="Connections" title="Where your numbers come from."
+      <Section num="07" label="Connections" title="Where your numbers come from."
         intro={missing.length ? `${missing.length} of ${SOURCES.length} sources still need access. Each one takes a few clicks on your side; we handle everything else.` : "Every source is connected. Your pages update daily."} />
       <div className="grid md:grid-cols-2 gap-4">
         {SOURCES.map((s) => {

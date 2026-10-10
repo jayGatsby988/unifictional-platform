@@ -122,6 +122,16 @@ export function IntegrationsForm({ client, demo }: { client: AdminClient; demo: 
           <input className="input !py-2 font-mono text-xs" value={f.ghl_contact_id} onChange={(e) => set("ghl_contact_id")(e.target.value)} />
           <span className="block mt-1 text-[11px] text-ink-muted">Optional, for the future calls/leads sync</span>
         </label>
+        <label className="block">
+          <span className="label !text-[9px] block mb-1">GitHub repo (SEO Autopilot, sites we host)</span>
+          <input className="input !py-2 font-mono text-xs" placeholder="unifictional/their-site" value={f.site_repo} onChange={(e) => set("site_repo")(e.target.value)} />
+          <span className="block mt-1 text-[11px] text-ink-muted">Autopilot commits each blog post here; Vercel deploys it. Needs GITHUB_TOKEN.</span>
+        </label>
+        <label className="block">
+          <span className="label !text-[9px] block mb-1">Blog folder in that repo</span>
+          <input className="input !py-2 font-mono text-xs" placeholder="content/blog" value={f.site_blog_dir} onChange={(e) => set("site_blog_dir")(e.target.value)} />
+          <span className="block mt-1 text-[11px] text-ink-muted">Where the post .md files go. Leave blank for content/blog.</span>
+        </label>
       </div>
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <button className="btn btn-ink !py-2 !px-4 text-xs" disabled={busy !== ""} onClick={save}>{busy === "save" ? "Saving…" : "Save"}</button>

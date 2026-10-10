@@ -1,9 +1,9 @@
-node_modules
-.next
-.vercel
-.env*.local
-tsconfig.tsbuildinfo
+# Unifictional monorepo
+.DS_Store
+node_modules/
+.next/
+.vercel/
+*.tsbuildinfo
 .env*
-
-# keep the template
+!.env.example
 !.env.local.example

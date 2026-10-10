@@ -1,0 +1,212 @@
+@import "tailwindcss";
+
+/* Tokens lifted from the live unifictional.com stylesheet (Oct 2026). */
+:root {
+  --bone: 255 255 255;
+  --paper: 245 245 245;
+  --sand: 238 238 238;
+  --ink: 14 14 14;
+  --ink-soft: 64 64 64;
+  --ink-muted: 109 109 109;
+  --line: 224 224 224;
+  --good: 22 101 52;
+  --good-bg: 220 252 231;
+  --warn: 133 77 14;
+  --warn-bg: 254 249 195;
+  --bad: 153 27 27;
+  --bad-bg: 254 226 226;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bone: 9 9 9;
+  --paper: 23 23 23;
+  --sand: 32 32 32;
+  --ink: 245 245 245;
+  --ink-soft: 190 190 190;
+  --ink-muted: 140 140 140;
+  --line: 42 42 42;
+  --good: 134 239 172;
+  --good-bg: 20 50 32;
+  --warn: 253 224 71;
+  --warn-bg: 60 48 10;
+  --bad: 252 165 165;
+  --bad-bg: 69 20 20;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bone: rgb(var(--bone));
+  --color-paper: rgb(var(--paper));
+  --color-sand: rgb(var(--sand));
+  --color-ink: rgb(var(--ink));
+  --color-ink-soft: rgb(var(--ink-soft));
+  --color-ink-muted: rgb(var(--ink-muted));
+  --color-line: rgb(var(--line));
+  --color-good: rgb(var(--good));
+  --color-good-bg: rgb(var(--good-bg));
+  --color-warn: rgb(var(--warn));
+  --color-warn-bg: rgb(var(--warn-bg));
+  --color-bad: rgb(var(--bad));
+  --color-bad-bg: rgb(var(--bad-bg));
+  --font-display: var(--font-oswald), Oswald, Impact, sans-serif;
+  --font-sans: var(--font-hanken), "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-space-mono), "Space Mono", ui-monospace, monospace;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: rgb(var(--bone));
+  color: rgb(var(--ink));
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Display type is always uppercase Oswald, as on the marketing site. */
+.font-display {
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+}
+
+/* Mono labels: small caps tracking, the "01 / The studio" idiom. */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-muted));
+}
+
+.panel {
+  background: rgb(var(--bone));
+  border: 1px solid rgb(var(--line));
+  border-radius: 1rem;
+}
+
+[data-theme="dark"] .panel {
+  background: rgb(var(--paper));
+}
+
+.pill {
+  border-radius: 9999px;
+  padding: 0.25rem 0.625rem;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.pill-good { background: rgb(var(--good-bg)); color: rgb(var(--good)); }
+.pill-warn { background: rgb(var(--warn-bg)); color: rgb(var(--warn)); }
+.pill-bad { background: rgb(var(--bad-bg)); color: rgb(var(--bad)); }
+.pill-neutral { background: rgb(var(--sand)); color: rgb(var(--ink-soft)); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.625rem 1.125rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: transform 150ms ease, opacity 150ms ease, background 150ms ease;
+}
+.btn:active { transform: scale(0.98); }
+.btn-ink { background: rgb(var(--ink)); color: rgb(var(--bone)); }
+.btn-ink:hover { opacity: 0.9; }
+.btn-ghost { border: 1px solid rgb(var(--line)); color: rgb(var(--ink)); }
+.btn-ghost:hover { background: rgb(var(--paper)); }
+
+.input {
+  width: 100%;
+  border: 1px solid rgb(var(--line));
+  background: rgb(var(--bone));
+  color: rgb(var(--ink));
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.875rem;
+  font-size: 0.9375rem;
+  outline: none;
+}
+.input:focus { border-color: rgb(var(--ink)); }
+[data-theme="dark"] .input { background: rgb(var(--sand)); }
+
+.table th {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-muted));
+  font-weight: 400;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgb(var(--line));
+}
+.table td {
+  padding: 0.75rem 0.75rem;
+  border-bottom: 1px solid rgb(var(--line));
+  font-size: 0.875rem;
+}
+.table tr:last-child td { border-bottom: 0; }
+
+model-viewer {
+  width: 100%;
+  height: 100%;
+  background: rgb(var(--paper));
+  --poster-color: rgb(var(--paper));
+}
+
+/* ---- Landing page ---------------------------------------------------- */
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee { display: flex; width: max-content; animation: marquee 40s linear infinite; will-change: transform; }
+.marquee:hover { animation-play-state: paused; }
+
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 700ms cubic-bezier(.2,.7,.2,1), transform 700ms cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+@media (max-width: 767px) { .hero-grain::after { display: none; } }
+.hero-grain::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .35; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+.hero-input {
+  width: 100%; background: transparent; border: 0; outline: none; color: rgb(var(--bone));
+  font-family: var(--font-display); font-size: clamp(1.5rem, 3.2vw, 2.5rem); text-transform: uppercase; letter-spacing: .01em;
+}
+.hero-input::placeholder { color: rgb(var(--bone) / .35); }
+@keyframes pulse-line { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+.pulse { animation: pulse-line 1.4s ease-in-out infinite; }
+
+/* Below-the-fold sections are skipped until they approach the viewport. */
+.cv-auto { content-visibility: auto; contain-intrinsic-size: auto 600px; }
+.font-display { font-weight: 500; }
+
+/* ---- Animated walkthroughs ------------------------------------------ */
+.wt-cursor { position: absolute; left: 0; top: 0; z-index: 30; pointer-events: none; transition-property: transform; transition-timing-function: cubic-bezier(.25,.8,.25,1); filter: drop-shadow(0 3px 4px rgba(0,0,0,.35)); }
+.wt-ring { position: absolute; z-index: 20; pointer-events: none; border-radius: 14px; border: 3px solid #f59e0b; box-shadow: 0 0 0 6px rgba(245,158,11,.25); animation: wt-ring 1.6s ease-in-out infinite; }
+@keyframes wt-ring { 0%,100% { box-shadow: 0 0 0 4px rgba(245,158,11,.25); } 50% { box-shadow: 0 0 0 12px rgba(245,158,11,.08); } }
+.wt-ripple { position: absolute; z-index: 25; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 9999px; background: rgba(245,158,11,.55); pointer-events: none; animation: wt-ripple 650ms ease-out forwards; }
+@keyframes wt-ripple { from { transform: scale(.4); opacity: 1; } to { transform: scale(4); opacity: 0; } }
+.wt-fade { animation: wt-fade 380ms ease-out; }
+@keyframes wt-fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.wt-caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 1px; background: currentColor; animation: wt-caret 1s steps(1) infinite; vertical-align: -2px; }
+@keyframes wt-caret { 50% { opacity: 0; } }
+.wt-btn { display: inline-flex; align-items: center; gap: .4rem; min-height: 46px; padding: 0 1.1rem; border-radius: 9999px; border: 1px solid rgb(var(--line)); background: rgb(var(--bone)); font-size: 1rem; font-weight: 500; transition: background 150ms, border-color 150ms; }
+.wt-btn:hover:not(:disabled) { border-color: rgb(var(--ink)); }
+.wt-btn:disabled { opacity: .35; }
+.wt-btn-primary { background: rgb(var(--ink)); color: rgb(var(--bone)); border-color: rgb(var(--ink)); }
+.wt-btn-on { background: rgb(var(--ink)); color: rgb(var(--bone)); border-color: rgb(var(--ink)); }
+@media (prefers-reduced-motion: reduce) { .wt-cursor { transition: none; } .wt-ring, .wt-ripple, .wt-fade { animation: none; } }
+
+/* ---- Guide pages: bigger text + print ------------------------------- */
+.guide-lg .gstep-text { font-size: 1.5rem; line-height: 1.35; }
+.guide-lg .gstep-note { font-size: 1.125rem; }
+.guide-lg .gbody { font-size: 1.125rem; }
+@media print {
+  .no-print { display: none !important; }
+  .gstep { break-inside: avoid; }
+  body { background: #fff; color: #000; }
+}

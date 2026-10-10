@@ -4,7 +4,9 @@ import { adminConfigured, createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { mdToHtml, splitFaq } from "@/lib/autopilot/markdown";
 
-const CACHE = { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600" };
+// No CDN caching: the site itself caches via ISR and is pinged the moment a post goes live, so a
+// stale CDN copy here would hide a fresh post for minutes.
+const CACHE = { "Cache-Control": "no-store" };
 
 /**
  * Public, read-only. The published posts for one company, for websites that

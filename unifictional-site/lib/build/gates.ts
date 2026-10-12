@@ -213,6 +213,7 @@ export function gateInspection(report): GateResult {
     else if (p.overflowPx > 2) r.warnings.push(`${tag}: page overflows horizontally by ${p.overflowPx}px${p.overflowBy?.length ? " (" + p.overflowBy.slice(0, 2).join(", ") + ")" : ""}`);
     if (p.brokenImages?.length) r.warnings.push(`${tag}: ${p.brokenImages.length} broken image${p.brokenImages.length > 1 ? "s" : ""}: ${p.brokenImages.slice(0, 2).join(", ").slice(0, 160)}`);
     for (const c of p.clippedText || []) r.warnings.push(`${tag}: text clipped off screen: "${c.slice(0, 60)}"`);
+    for (const d of p.deadSpace || []) r.warnings.push(`${tag}: section ${d.index + 1} (${d.type}) leaves its ${d.side} half empty for ${d.pct}% of ${d.screens} screens: a half-empty layout (make the heading sticky, span the column, or go single-column)`);
     if (!p.hasH1) r.warnings.push(`${tag}: no h1`);
     if (p.logoExpected && !p.logoInNav) r.warnings.push(`${tag}: their logo is missing from the navigation`);
     if (typeof p.longFramePct === "number" && p.longFramePct > 10) r.warnings.push(`${tag}: ${p.longFramePct}% long frames while scrolling in the headless browser (CPU rendering; a real device is far smoother)`);

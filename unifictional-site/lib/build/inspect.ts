@@ -18,6 +18,7 @@ export interface PageInspection {
   consoleErrors: string[]; brokenImages: string[]; overflowPx: number; overflowBy: string[];
   clippedText: string[]; blankSections: { index: number; type: string }[]; hasH1: boolean;
   logoExpected: boolean; logoInNav: boolean; tinyText: number; sections: number;
+  deadSpace?: { index: number; type: string; pct: number; side: string; screens: number }[];
   shots: { name: string; url: string; data?: string }[];
 }
 export interface InspectionReport { round: number; pages: PageInspection[]; seconds: number; shots: number }
@@ -48,6 +49,18 @@ const IN_PAGE = {
   /** scroll through the page with wheel-like steps so every ScrollTrigger runs */
   prime: `(async () => { const L = window.__fx && window.__fx.lenis; const H = () => document.documentElement.scrollHeight; const step = Math.round(window.innerHeight * 0.6); for (let y = 0; y < H() + step; y += step) { if (L) L.scrollTo(y, { immediate: true }); else window.scrollTo(0, y); await new Promise(r => setTimeout(r, 90)); } if (window.ScrollTrigger) ScrollTrigger.update(); if (L) L.scrollTo(0, { immediate: true }); else window.scrollTo(0, 0); await new Promise(r => setTimeout(r, 400)); })()`,
   goto: (y) => `(async () => { const L = window.__fx && window.__fx.lenis; if (L) L.scrollTo(${y}, { immediate: true }); else window.scrollTo(0, ${y}); await new Promise(r => setTimeout(r, 650)); if (window.ScrollTrigger) ScrollTrigger.update(); await new Promise(r => setTimeout(r, 150)); })()`,
+  // half-empty layouts: for every tall section, sample horizontal bands and see whether only one half of the width carries content
+  deadSpace: `(() => { const vh = window.innerHeight; const vw = window.innerWidth; if (vw < 900) return []; const out = [];
+    const all = [...document.querySelectorAll('section')].filter(s => !s.parentElement.closest('section'));
+    const leaf = (el) => { const cs = getComputedStyle(el); if (cs.display === 'none' || cs.visibility === 'hidden' || Number(cs.opacity) === 0) return false; return true; };
+    all.forEach((sec, i) => { const r = sec.getBoundingClientRect(); const top = r.top + window.scrollY, h = r.height; if (h < vh * 1.2) return;
+      const left = r.left + Math.min(120, r.width * 0.08), right = r.right - Math.min(120, r.width * 0.08), mid = (left + right) / 2;
+      const nodes = [...sec.querySelectorAll('img,video,canvas,svg,picture,p,h1,h2,h3,h4,li,a,span,dd,dt,blockquote,figcaption,button')].filter(leaf);
+      const boxes = nodes.map(n => { const b = n.getBoundingClientRect(); return { l: b.left, r: b.right, t: b.top + window.scrollY, b: b.bottom + window.scrollY, text: (n.textContent || '').trim().length }; }).filter(b => b.r - b.l > 24 && b.b - b.t > 8 && (b.text > 0 || true));
+      let rows = 0, half = 0, leftEmpty = 0, rightEmpty = 0;
+      for (let y = top + 80; y < top + h - 80; y += 160) { rows++; let L = false, R = false; for (const b of boxes) { if (b.b < y || b.t > y + 160) continue; if (b.l < mid - 40) L = true; if (b.r > mid + 40) R = true; if (L && R) break; } if (L !== R) { half++; if (!L) leftEmpty++; else rightEmpty++; } }
+      if (rows >= 4 && half / rows >= 0.55) out.push({ index: i, type: sec.getAttribute('data-fx') || sec.className.split(' ')[0] || 'section', pct: Math.round(100 * half / rows), side: leftEmpty >= rightEmpty ? 'left' : 'right', screens: Math.round(10 * h / vh) / 10 }); });
+    return out; })()`,
   sections: `(() => { const all = [...document.querySelectorAll('section')].filter(s => !s.parentElement.closest('section')); return all.map((s, i) => { const r = s.getBoundingClientRect(); const top = r.top + window.scrollY; const pin = s.closest('.pin-spacer'); const pr = pin ? pin.getBoundingClientRect() : null; return { index: i, type: s.dataset.fx || s.className.split(' ')[0] || s.tagName.toLowerCase(), top: pin ? pr.top + window.scrollY : top, height: pin ? pr.height : r.height, text: (s.innerText || '').trim().length, imgs: s.querySelectorAll('img, video, canvas').length }; }); })()`,
   /** scroll like a visitor for ~3 s while counting frames; long frames (>50 ms) are stutter */
   smooth: `(async () => { const L = window.__fx && window.__fx.lenis; const H = document.documentElement.scrollHeight - window.innerHeight; if (L) L.scrollTo(0, { immediate: true }); else window.scrollTo(0, 0); await new Promise(r => setTimeout(r, 300)); let frames = 0, long = 0, last = performance.now(); const t0 = last; let running = true; const tick = (t) => { frames++; if (t - last > 50) long++; last = t; if (running) requestAnimationFrame(tick); }; requestAnimationFrame(tick); const dur = 3200; while (performance.now() - t0 < dur) { const y = Math.min(H, (performance.now() - t0) / dur * Math.min(H, 6000)); if (L) L.scrollTo(y, { immediate: true }); else window.scrollTo(0, y); await new Promise(r => setTimeout(r, 16)); } running = false; await new Promise(r => setTimeout(r, 50)); const res = performance.getEntriesByType('resource'); const bytes = res.reduce((a, r) => a + (r.transferSize || r.encodedBodySize || 0), 0); return { frames, long, longPct: frames ? Math.round(long / frames * 1000) / 10 : 0, weightMB: Math.round(bytes / 1048576 * 10) / 10 }; })()`,
@@ -152,6 +165,7 @@ export async function inspectSite(opts: { id: string; origin: string; slugs: str
         // smoothness and weight, measured the way a visitor would feel them (desktop only; phones get the static layouts)
         if (item.viewport === "desktop") {
           try { const sm = await page.evaluate(IN_PAGE.smooth); pi.longFramePct = sm.longPct; pi.frames = sm.frames; pi.weightMB = sm.weightMB; } catch {}
+          try { await page.evaluate(IN_PAGE.goto(0)); pi.deadSpace = await page.evaluate(IN_PAGE.deadSpace); } catch {}
         }
         // every internal link resolves (checked once per url across the whole inspection)
         if (opts.checkLinks !== false && item.viewport === "desktop") {
@@ -171,6 +185,7 @@ export async function inspectSite(opts: { id: string; origin: string; slugs: str
         pi.overflowPx = Math.max(pi.overflowPx, last.overflowPx);
         if (last.overflowBy.length) pi.overflowBy = [...new Set([...pi.overflowBy, ...last.overflowBy])];
         pi.logoInNav = pi.logoInNav || last.logoInNav;
+        if (pi.deadSpace?.length) stamp(`inspected ${item.slug} (${item.viewport}): ${pi.deadSpace.map(d => `section ${d.index + 1} (${d.type}) is ${d.pct}% half-empty on the ${d.side}, ${d.screens} screens tall`).join("; ")}`);
         stamp(`inspected ${item.slug} (${item.viewport}): ${pi.sections} sections, ${pi.blankSections.length} blank, ${pi.consoleErrors.length} errors, ${pi.brokenImages.length} broken images, overflow ${pi.overflowPx}px, ${pi.clippedText.length} clipped${typeof pi.longFramePct === "number" ? `, ${pi.longFramePct}% long frames, ${pi.weightMB} MB` : ""}${pi.brokenLinks?.length ? `, ${pi.brokenLinks.length} broken links` : ""}`);
       } catch (e) {
         pi.loadError = String(e?.message || e).slice(0, 200);

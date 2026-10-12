@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Eye, EyeOff, Plus, Star, Trash2 } from "lucide-react";
-import { PLAN_ROLES, type Plan } from "@/lib/data/plans";
+import type { Plan } from "@/lib/data/plans";
+import { PLAN_ROLES } from "@/lib/data/plan-roles";
 import { cn } from "@/lib/utils";
 
 type Draft = { id?: string; name: string; tagline: string; price: string; features: string; highlight: boolean; published: boolean; sort: string; role: string; posts: string };

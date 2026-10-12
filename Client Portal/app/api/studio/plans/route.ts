@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/lib/data/repo";
 import { createClient } from "@/lib/supabase/server";
 import { toCents } from "@/lib/billing/types";
-import { PLAN_ROLES } from "@/lib/data/plans";
+import { PLAN_ROLES } from "@/lib/data/plan-roles";
 
 const ROLES = new Set<string>(PLAN_ROLES.map((r) => r.key));
 

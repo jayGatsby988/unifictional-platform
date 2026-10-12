@@ -1,14 +1,9 @@
 import { demoMode } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 
-/** What a plan row does in the plan builder. null = shown as before (quoted by the studio). */
-export type PlanRole = "posts" | "website" | "social" | "gbp";
-export const PLAN_ROLES: { key: PlanRole; label: string }[] = [
-  { key: "posts", label: "The posts (base rate)" },
-  { key: "website", label: "Website add-on" },
-  { key: "social", label: "Social add-on" },
-  { key: "gbp", label: "Google Business Profile add-on" },
-];
+import { PLAN_ROLES, type PlanRole } from "./plan-roles";
+
+export { PLAN_ROLES, type PlanRole };
 
 export type Plan = {
   id: string;

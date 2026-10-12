@@ -1,4 +1,5 @@
-import type { Plan, PlanRole } from "@/lib/data/plans";
+import type { Plan } from "@/lib/data/plans";
+import type { PlanRole } from "@/lib/data/plan-roles";
 import type { AutopilotCadence } from "@/lib/data/types";
 
 /**

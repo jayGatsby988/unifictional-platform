@@ -9,6 +9,8 @@ EXISTING=$(npx -y vercel@latest env ls production 2>/dev/null | grep -oE '^\s+[A
 KEYS=(
   "SUPABASE_SERVICE_ROLE_KEY|Supabase (Unifictional org) > Project Settings > API keys > service_role. Starts with eyJ or sb_secret_"
   "SQUARE_ACCESS_TOKEN|developer.squareup.com > your app > Production > Access token. Starts with EAAA (not the sq0idp Application ID)"
+  "SMTP_USER|Mailbox that sends as Rebecca/Jessica, e.g. trishank@unifictionalagency.com"
+  "SMTP_PASS|That mailbox's 16-letter Google App Password (myaccount.google.com/apppasswords)"
   "PSI_API_KEY|Optional: Google Cloud > APIs > Credentials > API key with PageSpeed Insights API (speed scores)"
   "GOOGLE_OAUTH_CLIENT_ID|Optional for now: Google Cloud OAuth client ID (Analytics / Search Console / Business Profile)"
   "GOOGLE_OAUTH_CLIENT_SECRET|Optional for now: Google Cloud OAuth client secret"

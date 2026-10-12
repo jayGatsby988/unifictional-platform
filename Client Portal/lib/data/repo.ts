@@ -14,6 +14,8 @@ export type Session = {
   clients: Pick<Client, "id" | "slug" | "name">[];
   /** Signed in with a studio-issued temporary password and hasn't picked their own yet. */
   mustChangePassword?: boolean;
+  /** Full name from sign-up, for friendly greetings. */
+  name?: string;
 };
 
 const CLIENT_COOKIE = "portal_client";
@@ -70,6 +72,7 @@ export async function getSession(): Promise<Session> {
     client,
     clients: clients.map(({ id, slug, name }) => ({ id, slug, name })),
     mustChangePassword: Boolean(user.user_metadata?.must_change_password) && !isAdmin,
+    name: String(user.user_metadata?.full_name ?? ""),
   };
 }
 

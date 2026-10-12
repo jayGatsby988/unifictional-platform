@@ -27,7 +27,7 @@ export function CreateCompany({ initial, from, title = "Turn this lead into a cl
     const j = await res.json().catch(() => ({}));
     setBusy(false);
     if (!res.ok) { setMsg(j.error ?? "Could not create the company."); return; }
-    const base = j.linked ? `Created. ${f.email} can now sign in and see the dashboard.` : `Created.${f.email ? ` ${f.email} is connected automatically when they sign in. To send them a password now, use Create login on the Companies page.` : ""}`;
+    const base = j.linked ? `Created. ${f.email} can now sign in and see the dashboard${j.notified ? ", and we emailed them that it's ready" : ""}.` : `Created.${f.email ? ` ${f.email} is connected automatically when they sign in. To send them a password now, use Create login on the Companies page.` : ""}`;
     const b = j.billing as { steps: string[]; error: string | null } | undefined;
     setMsg([base, b?.steps.length ? `${b.steps.join(". ")}.` : "", b?.error ? `Square: ${b.error}` : ""].filter(Boolean).join(" "));
     router.refresh();

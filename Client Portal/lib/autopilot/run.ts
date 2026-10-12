@@ -181,7 +181,8 @@ export async function runForClient(db: SupabaseClient, c: Ctx): Promise<RunOutco
     return { ok: true, message: `wrote "${gen.title}" (${review.held ? `held for review, SEO check ${quality.score}/100` : "awaiting approval"})`, postId: post.id };
   }
   const r = await publishPost(db, c, post);
-  return { ok: r.ok, message: r.ok ? `published "${gen.title}"` : `wrote "${gen.title}" but publishing failed: ${r.message}`, postId: post.id };
+  const message = !r.ok ? `wrote "${gen.title}" but publishing failed: ${r.message}` : r.message.startsWith("http") ? `published "${gen.title}"` : `wrote "${gen.title}" (${r.message})`;
+  return { ok: r.ok, message, postId: post.id };
 }
 
 /** Push one saved post to the client's site and record what happened. */

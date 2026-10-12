@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- rows are untyped until `supabase gen types` runs against the live schema */
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { AutopilotCadence, PlanItem } from "../data/types";
-import { inferTradeAndCity } from "../seo-check";
+import { loadSiteProfile } from "./profile";
 import { buildBrief, type BriefInput } from "./brief";
 import { generatePlan, generatePost, revisePost, type GeneratedPost } from "./generate";
 import { assembleBody, slugFor, uniqueSlug, wordCount } from "./markdown";
@@ -107,13 +107,15 @@ export async function runForClient(db: SupabaseClient, c: Ctx): Promise<RunOutco
   ]);
   const checks = ((snap.data?.health as any)?.checks ?? []) as { status: string; label: string; detail: string }[];
   const existingPosts = ((prior.data ?? []) as any[]).map((p) => ({ title: p.title as string, targetQuery: p.target_query as string | null }));
-  const inferred = site ? inferTradeAndCity(site.title, site.text) : null;
-  const area: string = c.client.city || inferred?.city || "";
-  const trade: string = inferred?.trade.label || c.client.industry || "contractor";
-  const suggestions = await fetchSuggestions(seedQueries(trade, area, c.client.services ?? []));
+  // What the business is, read from the site: a contractor trade, or (via Claude) anything else.
+  const profile = await loadSiteProfile(db, c, site, siteUrl);
+  const area: string = c.client.city || profile.city || "";
+  const trade: string = c.client.industry || profile.industry;
+  const suggestions = await fetchSuggestions([...seedQueries(trade, area, c.client.services ?? []), ...profile.searchSeeds]);
 
   const base: BriefInput = {
-    client: { name: c.client.name, industry: c.client.industry ?? "", city: c.client.city ?? "", websiteUrl: siteUrl, services: c.client.services ?? [] },
+    client: { name: c.client.name, industry: trade, city: area, websiteUrl: siteUrl, services: c.client.services ?? [] },
+    profile,
     notes: c.settings.notes ?? "",
     site,
     keywords: ((kw.data ?? []) as any[]).map((k) => ({ keyword: k.keyword, position: Number(k.position), url: k.url ?? "" })),

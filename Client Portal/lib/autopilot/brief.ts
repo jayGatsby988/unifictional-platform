@@ -1,8 +1,11 @@
 import { inferTradeAndCity, queriesFor } from "../seo-check";
 import type { SiteContext } from "./site";
+import type { SiteProfile } from "./profile";
 
 export type BriefInput = {
   client: { name: string; industry: string; city: string; websiteUrl: string; services: string[] };
+  /** What the site scan learned: industry, who they sell to, what they offer. */
+  profile?: SiteProfile | null;
   /** The owner's own words from the setup form: what to push, what to avoid. */
   notes: string;
   site: SiteContext | null;
@@ -25,15 +28,19 @@ export type BriefInput = {
  */
 export function buildBrief(i: BriefInput): string {
   const inferred = i.site ? inferTradeAndCity(i.site.title, i.site.text) : null;
-  const trade = i.client.industry || inferred?.trade.label || "contractor";
-  const area = i.client.city || inferred?.city || "their service area";
+  const isTrade = i.profile ? i.profile.source === "trades" : Boolean(inferred?.matched);
+  const trade = i.client.industry || i.profile?.industry || (inferred?.matched ? inferred.trade.label : "") || "local business";
+  const area = i.client.city || i.profile?.city || inferred?.city || "their area";
   const lines: string[] = [
     "# Client",
     `Company: ${i.client.name}`,
-    `Trade: ${trade}`,
+    `Business: ${trade}`,
     `Based in: ${area}`,
     `Website: ${i.client.websiteUrl || "unknown"}`,
   ];
+  if (i.profile?.summary) lines.push(`In one line: ${i.profile.summary}`);
+  if (i.profile?.audience) lines.push(`Who they sell to: ${i.profile.audience}`);
+  if (i.profile?.services.length) lines.push(`What they offer (from the site): ${i.profile.services.join(", ")}`);
   if (i.client.services.length) lines.push(`Services Unifictional provides them: ${i.client.services.join(", ")}`);
   if (i.notes.trim()) lines.push("", "# Owner's notes (follow these)", i.notes.trim());
 
@@ -45,8 +52,9 @@ export function buildBrief(i: BriefInput): string {
     if (i.site.paths.length) lines.push(`Existing pages (link to these with relative URLs, never invent others): ${i.site.paths.slice(0, 40).join(", ")}`);
   }
 
-  const seeds = i.site ? queriesFor(i.site.title, i.site.text) : [];
-  if (seeds.length) lines.push("", "# Local searches homeowners type for this trade", ...seeds.map((q) => `- ${q}`));
+  // Contractor seeds only for contractors; for everyone else the profile carries their customers' searches.
+  const seeds = isTrade && i.site ? queriesFor(i.site.title, i.site.text) : (i.profile?.searchSeeds ?? []);
+  if (seeds.length) lines.push("", isTrade ? "# Local searches homeowners type for this trade" : "# Searches this business's customers type", ...seeds.map((q) => `- ${q}`));
   if (i.suggestions?.length) lines.push("", "# Real searches people type (Google autocomplete, exact phrasing)", ...i.suggestions.map((s) => `- ${s}`));
   if (i.planned) lines.push("", "# Planned topic for this post (write this one unless the site already covers it)", `Title: ${i.planned.title}`, `Target search: ${i.planned.targetQuery}`, i.planned.angle ? `Angle: ${i.planned.angle}` : "");
 

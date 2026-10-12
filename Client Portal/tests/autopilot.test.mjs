@@ -62,7 +62,15 @@ test("the brief carries the client, the owner's notes, the site, keywords and wh
   }
   // Without a site or a city the brief still reads sensibly.
   const bare = brief.buildBrief({ client: { name: "X", industry: "", city: "", websiteUrl: "", services: [] }, notes: "", site: null, keywords: [], existingPosts: [], healthIssues: [], cadence: "weekly" });
-  assert.ok(bare.includes("Trade: contractor") && bare.includes("Based in: their service area"));
+  assert.ok(bare.includes("Business: local business") && bare.includes("Based in: their area"));
+  // A non-contractor profile replaces the contractor seeds with the customers' own searches.
+  const shop = brief.buildBrief({
+    client: { name: "Gilded Thread", industry: "", city: "", websiteUrl: "https://hotcrossbunspoop.com", services: [] },
+    profile: { industry: "handcrafted jewelry maker", audience: "People buying handmade bracelets as gifts", city: "Everett, WA", services: ["gold-filled bangles"], searchSeeds: ["how to clean gold filled jewelry"], summary: "A jewelry studio.", source: "ai", url: "https://hotcrossbunspoop.com", at: "2026-10-12T00:00:00Z" },
+    notes: "", site: { title: "Gilded Thread", description: "", text: "Handcrafted bracelets.", paths: ["/blog"] }, keywords: [], existingPosts: [], healthIssues: [], cadence: "weekly",
+  });
+  assert.ok(shop.includes("Business: handcrafted jewelry maker") && shop.includes("Who they sell to:") && shop.includes("how to clean gold filled jewelry"));
+  assert.ok(!shop.includes("general contractor"));
 });
 
 test("WordPress URL normalising and the post payload", () => {
@@ -179,4 +187,20 @@ test("somewhere-else sites: the note under a post and the studio status follow h
   assert.ok(sa.inviteSteps("GoDaddy", "x@y.com").some((s) => s.includes("x@y.com")));
   assert.equal(sa.isSiteAccess("invite"), true);
   assert.equal(sa.isSiteAccess("ftp"), false);
+});
+
+test("site profile: contractor sites come from the trade table, anything else is left for Claude", async () => {
+  const seo = await import("../lib/seo-check.ts");
+  const prof = await import("../lib/autopilot/profile.ts");
+  const roof = seo.inferTradeAndCity("Summit Roofing — Roof Replacement in Everett, WA", "We replace and repair roofs across Everett and Snohomish County.");
+  assert.equal(roof.matched, true);
+  assert.equal(roof.trade.label, "roofing contractor");
+  const jewel = seo.inferTradeAndCity("Gilded Thread — Handcrafted bracelets and bangles, Everett WA", "Handcrafted bracelets and bangles, shaped with care in our Everett, Washington studio. Brass, gold fill and silk cord, made to be worn every day.");
+  assert.equal(jewel.matched, false);
+  assert.equal(jewel.city, "Everett");
+  const site = { title: jewel.title ?? "Gilded Thread — Handcrafted bracelets", description: "", text: "Handcrafted bracelets and bangles in our Everett, WA studio.", paths: ["/", "/blog"] };
+  assert.equal(prof.profileFromTrades(site, "https://hotcrossbunspoop.com"), null);
+  const p = prof.profileFromTrades({ title: "Summit Roofing Everett", description: "", text: "Roof replacement in Everett, WA.", paths: [] }, "https://x.com");
+  assert.equal(p.source, "trades");
+  assert.ok(p.searchSeeds.some((s) => s.includes("roof")));
 });

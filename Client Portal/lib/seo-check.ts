@@ -41,9 +41,12 @@ const TRADES: { key: string; label: string; patterns: RegExp; queries: (city: st
 
 const CITIES = ["Everett", "Seattle", "Bellevue", "Tacoma", "Lynnwood", "Marysville", "Mill Creek", "Bothell", "Kirkland", "Redmond", "Lake Stevens", "Snohomish", "Mukilteo", "Edmonds", "Shoreline", "Arlington", "Monroe", "Issaquah", "Sammamish", "Renton", "Kent", "Federal Way", "Auburn", "Puyallup", "Olympia", "Bellingham", "Spokane", "Vancouver", "Woodinville", "Mountlake Terrace", "Stanwood", "Camano Island", "Whidbey Island", "Mercer Island", "Burien", "Lacey", "Portland", "Boise", "Denver", "Phoenix", "Austin", "Dallas", "Houston", "San Diego", "Los Angeles", "Sacramento", "Las Vegas", "Salt Lake City"];
 
-export function inferTradeAndCity(title: string | null, text: string): { trade: (typeof TRADES)[number]; city: string | null; inferred: boolean } {
+/** `matched` is false when no trade pattern hit at all and "general contractor" is only the fallback: the site is probably not a contractor. */
+export function inferTradeAndCity(title: string | null, text: string): { trade: (typeof TRADES)[number]; city: string | null; inferred: boolean; matched: boolean } {
   const head = `${title ?? ""} ${text.slice(0, 1500)}`;
-  let trade = TRADES.find((t) => t.patterns.test(title ?? "")) ?? TRADES.find((t) => t.patterns.test(head)) ?? TRADES[TRADES.length - 1];
+  const hit = TRADES.find((t) => t.patterns.test(title ?? "")) ?? TRADES.find((t) => t.patterns.test(head)) ?? null;
+  const matched = Boolean(hit);
+  let trade = hit ?? TRADES[TRADES.length - 1];
   // "contractor" matches almost everything; prefer a more specific trade from the body when the title is generic.
   if (trade.key === "gc" || trade.key === "builder") {
     const specific = TRADES.slice(0, 13).find((t) => (text.match(t.patterns) ?? []).length > 0 && (text.match(new RegExp(t.patterns.source, "gi")) ?? []).length >= 3);
@@ -53,7 +56,7 @@ export function inferTradeAndCity(title: string | null, text: string): { trade: 
   const inBody = inHead ?? CITIES.map((c) => ({ c, n: (text.match(new RegExp(`\\b${c}\\b`, "gi")) ?? []).length })).filter((x) => x.n > 0).sort((a, b) => b.n - a.n)[0]?.c ?? null;
   const stateMatch = text.match(/\b([A-Z][a-z]+(?: [A-Z][a-z]+)?),\s*(WA|OR|CA|ID|TX|AZ|CO|NV|UT|FL|NY|NJ|PA|IL|GA|NC|SC|VA|MA|MI|OH|MN|WI|TN|MO|IN|KY|AL|LA|OK|KS|NE|IA|AR|MS|MD|CT|RI|NH|VT|ME|DE|WV|NM|MT|WY|ND|SD|AK|HI)\b/);
   const city = inBody ?? (stateMatch ? stateMatch[1] : null);
-  return { trade, city, inferred: !inHead };
+  return { trade, city, inferred: !inHead, matched };
 }
 
 export function cityWithState(city: string | null, text: string): string | null {

@@ -28,7 +28,8 @@ test("slugs drop stop words, stay short and stay unique", () => {
 
 test("body assembly, word count and the committed file", () => {
   const body = md.assembleBody("Intro.\n\n## Section\n\nText [link](/x).", [{ q: "Do I need a permit?", a: "Usually, yes." }]);
-  assert.ok(body.endsWith("## Questions homeowners ask\n\n**Do I need a permit?**\n\nUsually, yes."));
+  assert.ok(body.endsWith("## Common questions\n\n**Do I need a permit?**\n\nUsually, yes."));
+  assert.deepEqual(md.splitFaq("Body.\n\n## Questions homeowners ask\n\n**Old?**\n\nYes.").faq, [{ q: "Old?", a: "Yes." }]);
   assert.equal(md.wordCount("Hello **big** world [link](/x)"), 4);
   const file = md.markdownFile({ title: 'Say "hi"', slug: "say-hi", metaDescription: "Desc", excerpt: "Ex", targetQuery: "hi everett" }, "Body", "2026-10-10");
   assert.ok(file.startsWith('---\ntitle: "Say \\"hi\\""\ndescription: "Desc"\nexcerpt: "Ex"\nslug: say-hi\ndate: 2026-10-10\nkeyword: "hi everett"\n---\n\nBody\n'));

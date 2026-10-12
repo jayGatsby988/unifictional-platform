@@ -13,8 +13,8 @@ export const dynamic = "force-dynamic";
 const KEYS = [
   ["ANTHROPIC_API_KEY", "writes the posts"],
   ["GITHUB_TOKEN", "publishes to sites we host from GitHub"],
-  ["SUPABASE_SERVICE_ROLE_KEY", "lets the daily run write"],
-  ["CRON_SECRET", "protects the daily run"],
+  ["SUPABASE_SERVICE_ROLE_KEY", "lets the hourly run write"],
+  ["CRON_SECRET", "protects the hourly run"],
 ] as const;
 
 export default async function StudioAutopilotPage() {
@@ -30,7 +30,7 @@ export default async function StudioAutopilotPage() {
         <div>
           <p className="label mb-2">Studio · SEO Autopilot</p>
           <h1 className="font-display text-3xl sm:text-4xl leading-none">{on} of {rows.length} companies on autopilot{awaiting ? `, ${awaiting} post${awaiting === 1 ? "" : "s"} waiting on clients` : ""}.</h1>
-          <p className="mt-2 text-sm text-ink-muted max-w-2xl">Clients buy it themselves on their SEO Autopilot page (Square, monthly), or you include it in their plan here. The daily run (7am Pacific) publishes what was approved, writes each due post from the company&apos;s content plan, scores it, and suggests fixes.</p>
+          <p className="mt-2 text-sm text-ink-muted max-w-2xl">Clients buy it themselves on their SEO Autopilot page (Square, monthly), or you include it in their plan here. The run (every hour) publishes what was approved, writes each post as it comes due from the company&apos;s content plan, scores it, and suggests fixes.</p>
         </div>
         <RunAutopilot demo={session.isDemo} label="Run everything due now" />
       </div>

@@ -69,7 +69,7 @@ export function wordCount(md: string): number {
 export function assembleBody(body: string, faq: { q: string; a: string }[]): string {
   const b = body.trim();
   if (!faq.length) return b;
-  return `${b}\n\n## Questions homeowners ask\n\n${faq.map((f) => `**${f.q.trim()}**\n\n${f.a.trim()}`).join("\n\n")}`;
+  return `${b}\n\n${FAQ_HEADING}\n\n${faq.map((f) => `**${f.q.trim()}**\n\n${f.a.trim()}`).join("\n\n")}`;
 }
 
 const yaml = (s: string) => `"${s.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
@@ -79,13 +79,19 @@ export function markdownFile(p: { title: string; slug: string; metaDescription: 
   return `---\ntitle: ${yaml(p.title)}\ndescription: ${yaml(p.metaDescription)}\nexcerpt: ${yaml(p.excerpt)}\nslug: ${p.slug}\ndate: ${date}\nkeyword: ${yaml(p.targetQuery)}\n---\n\n${body.trim()}\n`;
 }
 
-const FAQ_HEADING = "## Questions homeowners ask";
+/** Works for any business; posts written before 2026-10-12 carry the older contractor wording, which splitFaq still recognises. */
+const FAQ_HEADING = "## Common questions";
+const FAQ_HEADINGS = [FAQ_HEADING, "## Questions homeowners ask"];
 
 /** The inverse of assembleBody: the post body and the FAQ pairs as data, so a site can style the FAQ itself. */
 export function splitFaq(md: string): { body: string; faq: { q: string; a: string }[] } {
-  const at = md.startsWith(FAQ_HEADING) ? 0 : md.indexOf(`\n${FAQ_HEADING}`) === -1 ? -1 : md.indexOf(`\n${FAQ_HEADING}`) + 1;
+  let at = -1, heading = FAQ_HEADING;
+  for (const h of FAQ_HEADINGS) {
+    const i = md.startsWith(h) ? 0 : md.indexOf(`\n${h}`) === -1 ? -1 : md.indexOf(`\n${h}`) + 1;
+    if (i !== -1) { at = i; heading = h; break; }
+  }
   if (at === -1) return { body: md.trim(), faq: [] };
   const faq: { q: string; a: string }[] = [];
-  for (const m of md.slice(at + FAQ_HEADING.length).matchAll(/\*\*([^*\n]+)\*\*\s*\n+([\s\S]*?)(?=\n+\*\*[^*\n]+\*\*\s*\n|\s*$)/g)) faq.push({ q: m[1].trim(), a: m[2].trim() });
+  for (const m of md.slice(at + heading.length).matchAll(/\*\*([^*\n]+)\*\*\s*\n+([\s\S]*?)(?=\n+\*\*[^*\n]+\*\*\s*\n|\s*$)/g)) faq.push({ q: m[1].trim(), a: m[2].trim() });
   return { body: md.slice(0, at).trim(), faq };
 }

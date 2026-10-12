@@ -1,6 +1,6 @@
 {
   "crons": [
     { "path": "/api/sync", "schedule": "0 13 * * *" },
-    { "path": "/api/autopilot/run", "schedule": "0 14 * * *" }
+    { "path": "/api/autopilot/run", "schedule": "0 * * * *" }
   ]
 }

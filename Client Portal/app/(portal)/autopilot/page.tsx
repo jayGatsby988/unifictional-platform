@@ -125,6 +125,13 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
         intro={`On. ${cadenceLabel(s.cadence)}. ${s.mode === "approve" ? "Each post waits for your OK before it goes live." : `Reviewed automatically: a post that passes the SEO checklist (${AUTO_PUBLISH_BAR}+) goes live on its own; anything under that waits for you.`}`}
         action={a.posts.length > 0 ? <WriteNow demo={session.isDemo} /> : undefined} />
 
+      {s.target === "manual" && !s.site.access && (
+        <section className="mb-10">
+          <div className="panel p-4 mb-4 border-warn text-sm"><span className="font-medium">One more thing.</span> Your site isn&apos;t one we can publish to automatically, so tell us how to get posts onto it. Until then each post waits here, ready to paste.</div>
+          <AutopilotForm settings={s} demo={session.isDemo} maxPosts={maxPosts} studioEmail={STUDIO_EMAIL} siteUrl={c.websiteUrl} />
+        </section>
+      )}
+
       {a.posts.length === 0 && <div className="mb-10"><WriteNow big demo={session.isDemo} /></div>}
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">

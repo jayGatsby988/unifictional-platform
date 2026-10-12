@@ -1,0 +1,860 @@
+@@@FILE 8a47f1480f020a773359fd42e507e38b795ff323 app/globals.css
+@@@EDIT 115 115
+/* Scroll reveal (see components/ui/reveal.tsx). Hidden only once the inline
+   observer is confirmed running, so without JS everything is visible. */
+[data-reveal] {
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+html[data-reveal-js] [data-reveal]:not([data-in]) {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition-delay: 0ms;
+}
+
+@@@EDIT 135 135
+
+/* Floating paths backdrop (components/ui/floating-paths.tsx). pathLength=1 on
+   each path, so dash values are fractions of the curve. */
+.fp-path {
+  stroke-dasharray: 0.3 1;
+  animation: fp-drift 22s linear infinite;
+}
+[data-paused] .fp-path {
+  animation-play-state: paused;
+}
+@keyframes fp-drift {
+  0% {
+    stroke-dasharray: 0.3 1;
+    stroke-dashoffset: 0;
+    opacity: 0.4;
+  }
+  50% {
+    stroke-dasharray: 0.65 1;
+    stroke-dashoffset: -1;
+    opacity: 0.7;
+  }
+  100% {
+    stroke-dasharray: 1 1;
+    stroke-dashoffset: 0;
+    opacity: 0.4;
+  }
+}
+
+/* 3D marquee column drift (components/ui/3d-marquee.tsx). */
+@keyframes marquee-drift-down {
+  from { transform: translateY(0); }
+  to { transform: translateY(60px); }
+}
+@keyframes marquee-drift-up {
+  from { transform: translateY(0); }
+  to { transform: translateY(-60px); }
+}
+[data-paused] .marquee-col {
+  animation-play-state: paused;
+}
+@@@FILE db86a0081ab73e68fddcbfed4ca1318d2ed204ca app/layout.tsx
+@@@EDIT 9 10
+import { REVEAL_ARM, REVEAL_SCRIPT } from "@/components/ui/reveal";
+@@@EDIT 35 36
+  // 400 only — the one bold mono label (a dev-mode notice) synthesises fine,
+  // and it saves a preloaded font file on every page.
+  weight: ["400"],
+@@@EDIT 187 188
+        <script dangerouslySetInnerHTML={{ __html: themeInit + REVEAL_ARM }} />
+@@@EDIT 192 194
+@@@EDIT 198 198
+        {/* Scroll-reveal observer — runs before (and independent of) React. */}
+        <script dangerouslySetInnerHTML={{ __html: REVEAL_SCRIPT }} />
+@@@FILE cf2d4fc5732cda2f24393b39a1978348de7d02b4 components/sections/booking-flow.tsx
+@@@EDIT 310 311
+      // Phones: a slightly more opaque card instead of a live backdrop blur —
+      // blurring the animated waves behind it every frame was a big GPU cost
+      // there, and the waves are faint enough that it reads the same.
+      className="rounded-2xl border border-line bg-paper/[0.93] p-6 shadow-[0_30px_60px_-30px_rgba(26,23,20,0.4)] sm:bg-paper/75 sm:p-8 sm:backdrop-blur-xl"
+@@@EDIT 390 392
+            // Placeholder the same shape as the loaded picker, so the page
+            // doesn't jump (and push the column below) when times arrive.
+            <div className="mt-6" role="status">
+              <span className="sr-only">Loading open times…</span>
+              <div aria-hidden className="flex gap-2 overflow-hidden pb-2">
+                {Array.from({ length: 7 }, (_, i) => (
+                  <div
+                    key={i}
+                    className="h-[62px] min-w-[62px] shrink-0 animate-pulse rounded-xl border border-line bg-paper"
+                  />
+                ))}
+              </div>
+              <div aria-hidden className="mt-6 grid grid-cols-3 gap-2 sm:grid-cols-4">
+                {Array.from({ length: 24 }, (_, i) => (
+                  <div
+                    key={i}
+                    className="h-[42px] animate-pulse rounded-lg border border-line bg-paper"
+                  />
+                ))}
+              </div>
+@@@FILE 62b633bca85d2d09a632fe6b213b241056c7da32 components/sections/nav.tsx
+@@@EDIT 12 12
+/** Routes that open on a dark header. The nav starts in its light-on-dark
+ *  style there, so on a slow phone the logo and menu button are visible from
+ *  the first paint instead of black-on-black until the JavaScript arrives
+ *  (the scroll check below takes over once it does). "/" is the always-black
+ *  cinematic hero. */
+const DARK_HEADER_ROUTES = new Set(["/services", "/industries", "/work", "/guides", "/process", "/about"]);
+const startsOverDark = (p: string) => p === "/" || DARK_HEADER_ROUTES.has(p);
+
+@@@EDIT 20 22
+  const [overDark, setOverDark] = useState(() => startsOverDark(pathname));
+  const [fixedDark, setFixedDark] = useState(() => pathname === "/"); // over an always-black surface
+@@@FILE 2c89c54fd1f5c8d60a1428964c82794256b30142 components/sections/process-ink-background.tsx
+@@@EDIT 43 55
+        {/* WebP copies (generated at build, ~70% smaller) with the JPEGs as
+            fallback. */}
+        {["bg-1", "bg-2"].map((n) => (
+          <picture key={n} className="contents">
+            <source srcSet={`/process/${n}.webp`} type="image/webp" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/process/${n}.jpg`}
+              alt=""
+              decoding="async"
+              className="h-1/2 w-full object-cover contrast-[1.03] sm:h-full sm:w-1/2"
+            />
+          </picture>
+        ))}
+@@@FILE 415aaf4113041b433f7ea39cad687c81c54d924e components/sections/scrub-hero.tsx
+@@@EDIT 7 7
+import { isConstrained } from "@/lib/perf";
+@@@EDIT 9 9
+const pad = (i: number) => String(i).padStart(3, "0");
+@@@EDIT 11 13
+const frameSrc = (i: number) => `/frames/unifictional-v3/frame-${pad(i)}.webp`;
+/** Centre-cropped copies for portrait phones (generated at build time by
+ *  scripts/build-assets.mjs, every 4th frame). A phone only ever shows the
+ *  middle ~35% of the 16:9 footage, so the crop looks identical at a third of
+ *  the bytes and a third of the decoded memory — the main thing that used to
+ *  make phones stutter or reload the tab. */
+const portraitSrc = (i: number) => `/frames/unifictional-v3-portrait/frame-${pad(i)}.webp`;
+/** Viewports narrower than the 5:8 crop get the portrait set. */
+const PORTRAIT_MQ = "(max-width: 767px) and (max-aspect-ratio: 5/8)";
+@@@EDIT 15 22
+/** Fired when a new frame finishes loading. */
+const FRAME_EVENT = "scrubhero:frame";
+
+/** How much of the footage to scrub. Every 2nd frame on desktop, every 4th on
+ *  phones (the portrait set only exists at that stride); weaker devices and
+ *  slow or data-saver connections get a coarser set so the scrub stays smooth
+ *  and never hogs the connection. */
+function pickStride(isMobile: boolean): number {
+  const slow = isConstrained();
+  if (isMobile) return slow ? 8 : 4;
+  return slow ? 4 : 2;
+}
+
+const buildFrames = (stride: number): number[] => {
+@@@EDIT 27 27
+
+/** Load order for the frame list: first/last, then every 8th, 4th, 2nd, then
+ *  the rest — so after a handful of requests the whole scroll already scrubs
+ *  (coarsely), and it sharpens as the remaining frames arrive. */
+function loadOrder(n: number): number[] {
+  const seen = new Set<number>();
+  const order: number[] = [];
+  const add = (k: number) => {
+    if (k >= 0 && k < n && !seen.has(k)) {
+      seen.add(k);
+      order.push(k);
+    }
+  };
+  add(0);
+  add(n - 1);
+  for (const step of [8, 4, 2, 1]) for (let k = 0; k < n; k += step) add(k);
+  return order;
+}
+@@@EDIT 44 44
+  const [portrait, setPortrait] = useState(false);
+  const [stride, setStride] = useState(2);
+@@@EDIT 46 48
+    // Phones scrub a downsampled frame set (see pickStride); reduced-motion
+    // users get a still.
+@@@EDIT 50 50
+    const mqPortrait = window.matchMedia(PORTRAIT_MQ);
+@@@EDIT 51 51
+      const isMobile = mqMobile.matches && !mqReduce.matches;
+@@@EDIT 52 53
+      setMobile(isMobile);
+      setPortrait(isMobile && mqPortrait.matches);
+      setStride(pickStride(isMobile));
+@@@EDIT 57 57
+    mqPortrait.addEventListener?.("change", update);
+@@@EDIT 60 60
+      mqPortrait.removeEventListener?.("change", update);
+@@@EDIT 63 64
+  // Preload frames progressively, coarse-to-fine, a few at a time — and only
+  // once the page itself has loaded, so the footage never competes with the
+  // text, fonts and scripts a visitor is waiting on.
+@@@EDIT 66 67
+    const frames = buildFrames(stride);
+    const src = portrait ? portraitSrc : frameSrc;
+@@@EDIT 75 76
+    const order = loadOrder(N);
+    let cursor = 0;
+    let inFlight = 0;
+    // Enough parallelism to saturate a good connection without flooding a
+    // slow one (the browser would otherwise queue dozens of requests).
+    const MAX_IN_FLIGHT = 6;
+
+    const loadOne = (k: number) => {
+      inFlight++;
+@@@EDIT 78 79
+@@@EDIT 80 81
+      const done = (ok: boolean) => {
+        inFlight--;
+@@@EDIT 82 84
+        if (ok) {
+          loaded[k] = true;
+          // Repaint in case this frame is nearer to the current scroll spot
+          // (a private event, so the nav's scroll handlers aren't woken).
+          window.dispatchEvent(new Event(FRAME_EVENT));
+        }
+        pump();
+@@@EDIT 85 86
+      img.onload = () => done(true);
+      img.onerror = () => done(false);
+      img.src = src(frames[k]);
+@@@EDIT 88 88
+    let started = false;
+    const pump = () => {
+      if (!started) return;
+      while (!cancelled && inFlight < MAX_IN_FLIGHT && cursor < order.length) {
+        const k = order[cursor++];
+        if (!imgs[k]) loadOne(k);
+      }
+    };
+@@@EDIT 89 92
+    // Frame 0 right away (the same file is already in the HTML, so it's a
+    // cache hit); the rest after the window load event + an idle moment.
+    loadOne(0);
+    let idleId: number | undefined;
+@@@EDIT 93 94
+    const go = () => {
+      started = true;
+      pump();
+    };
+    const start = () => {
+@@@EDIT 95 99
+      const w = window as Window & {
+        requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
+      };
+      if (w.requestIdleCallback) idleId = w.requestIdleCallback(go, { timeout: 1200 });
+      else timer = setTimeout(go, 200);
+@@@EDIT 100 101
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+@@@EDIT 104 104
+      window.removeEventListener("load", start);
+@@@EDIT 105 105
+      const w = window as Window & { cancelIdleCallback?: (id: number) => void };
+      if (idleId != null) w.cancelIdleCallback?.(idleId);
+@@@EDIT 106 107
+  }, [reduced, mobile, portrait, stride]);
+@@@EDIT 117 119
+    const N = buildFrames(stride).length;
+@@@EDIT 178 178
+    // Backing store sized to what the footage can actually show: never more
+    // device pixels than the source frame has (1600x892, or 560x892 on
+    // phones) — a retina-sized canvas would only upscale the same pixels at
+    // 4x the memory and fill cost. Sized from the sticky stage (100svh), not
+    // innerHeight, so mobile URL-bar show/hide doesn't re-allocate it.
+    const stage = canvas.parentElement as HTMLElement;
+    const srcW = portrait ? 560 : 1600;
+    const srcH = 892;
+    let lastKey = "";
+@@@EDIT 179 179
+      vh = window.innerHeight;
+      const cssW = stage.clientWidth || window.innerWidth;
+      const cssH = stage.clientHeight || vh;
+@@@EDIT 180 187
+      const cover = Math.max(cssW / srcW, cssH / srcH); // css px per source px
+      const f = Math.max(0.75, Math.min(dpr, 1 / cover));
+      const key = `${cssW}x${cssH}@${f.toFixed(3)}`;
+      if (key !== lastKey) {
+        lastKey = key;
+        canvas.width = Math.round(cssW * f);
+        canvas.height = Math.round(cssH * f);
+        canvas.style.width = `${cssW}px`;
+        canvas.style.height = `${cssH}px`;
+        lastDrawnRef.current = -1;
+      }
+@@@EDIT 192 192
+    window.addEventListener(FRAME_EVENT, onScroll);
+@@@EDIT 195 195
+      window.removeEventListener(FRAME_EVENT, onScroll);
+@@@EDIT 198 199
+  }, [reduced, stride, portrait]);
+@@@EDIT 222 230
+            {/* Portrait phones get the centre-cropped first frame (same
+                framing, ~1/3 the bytes) — this is the page's first paint. */}
+            <picture>
+              <source media={PORTRAIT_MQ} srcSet={portraitSrc(0)} type="image/webp" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={frameSrc(0)}
+                alt=""
+                aria-hidden
+                fetchPriority="high"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </picture>
+@@@FILE 8e717afad62d7ffc2a7f4b91f852c33e4a093b95 components/ui/3d-marquee.tsx
+@@@EDIT 10 11
+@@@EDIT 13 13
+
+import { afterLoadIdle, canRunLiveEmbeds } from '@/lib/perf'
+@@@EDIT 47 49
+  // Live iframes only on capable desktops, and only once the page has fully
+  // loaded and gone idle — they never compete with the page's own loading.
+@@@EDIT 51 51
+    const cancel = afterLoadIdle(() => setLiveOk(canRunLiveEmbeds()), 3000)
+@@@EDIT 52 56
+    const onChange = () => setLiveOk(canRunLiveEmbeds())
+    mq.addEventListener?.('change', onChange)
+    return () => {
+      cancel()
+      mq.removeEventListener?.('change', onChange)
+    }
+@@@EDIT 100 100
+      data-paused={inView ? undefined : ''}
+@@@EDIT 125 131
+              // Slow up/down drift per column — native CSS keyframes
+              // (globals.css), paused while the marquee is off screen.
+              <figure
+                key={colIndex + 'marquee'}
+                className='marquee-col flex flex-col items-start gap-6 max-sm:gap-3'
+                style={{
+                  animation: `${colIndex % 2 === 0 ? 'marquee-drift-down' : 'marquee-drift-up'} ${
+                    colIndex % 2 === 0 ? 10 : 15
+                  }s ease-in-out infinite alternate`,
+@@@EDIT 132 134
+@@@EDIT 150 150
+                        decoding='async'
+@@@EDIT 179 180
+              </figure>
+@@@FILE e4fcbaf3d6af581f7f99297944d204dff13bccf1 components/ui/animated-theme-toggle-button.tsx
+@@@EDIT 5 6
+@@@EDIT 134 159
+      {/* Icon swap: pure CSS (both glyphs stacked, cross-faded + rotated) —
+          same motion as before without shipping an animation library on
+          every page just for this button. */}
+      <span className="relative block h-[18px] w-[18px]">
+        <span
+          aria-hidden
+          className={cn(
+            "absolute inset-0 transition-[opacity,transform] duration-300 ease-out",
+            darkMode ? "rotate-0 scale-100 opacity-100" : "rotate-[25deg] scale-[0.55] opacity-0",
+            glyph ?? "text-terracotta"
+          )}
+        >
+          <Sun className="h-[18px] w-[18px]" />
+        </span>
+        <span
+          aria-hidden
+          className={cn(
+            "absolute inset-0 transition-[opacity,transform] duration-300 ease-out",
+            darkMode ? "-rotate-[25deg] scale-[0.55] opacity-0" : "rotate-0 scale-100 opacity-100",
+            glyph ?? "text-ink"
+          )}
+        >
+          <Moon className="h-[18px] w-[18px]" />
+        </span>
+      </span>
+@@@FILE bd38bff96291a9fbed3c158b729fad07597c2a32 components/ui/floating-paths.tsx
+@@@EDIT 2 4
+import React, { useEffect, useRef, useState } from "react";
+@@@EDIT 38 38
+      {/* Same drift as before (dash grows 0.3→1 while it slides along the
+          curve and back, opacity breathing 0.4→0.7→0.4), now as native CSS
+          keyframes (globals.css `fp-drift`) instead of 26 JS-driven
+          animations recalculated every frame. */}
+@@@EDIT 39 40
+        <path
+@@@EDIT 42 42
+          pathLength={1}
+          className="fp-path"
+@@@EDIT 45 56
+          style={{ animationDuration: `${22 + (p.key % 12)}s` }}
+@@@EDIT 78 78
+  // Only animate while the section is actually on screen.
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") return setInView(true);
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), {
+      rootMargin: "100px",
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+@@@EDIT 79 81
+    <div ref={ref} className={cn("relative w-full", className)}>
+      <div
+        data-paused={inView ? undefined : ""}
+        className="pointer-events-none absolute inset-0 hidden overflow-hidden lg:block"
+      >
+@@@FILE b19abf9d09933aa7e268c5b47a0a5643f195126a components/ui/ink-reveal.tsx
+@@@EDIT 68 68
+  /** Area repainted last frame — only this region (plus the live stamps) is
+   *  redrawn each frame, instead of refilling the whole page-sized canvas. */
+  const prevBoxRef = useRef<[number, number, number, number] | null>(null);
+@@@EDIT 83 83
+    // Mobile browsers fire resize as the URL bar slides in/out while
+    // scrolling; re-allocating a page-sized canvas each time caused jank.
+    if (w === dimsRef.current.w && h === dimsRef.current.h && canvas.width > 0) return;
+@@@EDIT 84 84
+    prevBoxRef.current = null;
+@@@EDIT 173 178
+    // Work out this frame's stamps and the box they cover.
+    const live: [number, number, number, number, number][] = [];
+    let box: [number, number, number, number] | null = null;
+@@@EDIT 187 188
+      live.push([stamps[i].x, stamps[i].y, r, stamps[i].seed, alpha]);
+      const e = r * 1.1 + 2; // wobble peaks at ~1.05r
+      const b: [number, number, number, number] = [
+        stamps[i].x - e,
+        stamps[i].y - e,
+        stamps[i].x + e,
+        stamps[i].y + e,
+      ];
+      box = box
+        ? [Math.min(box[0], b[0]), Math.min(box[1], b[1]), Math.max(box[2], b[2]), Math.max(box[3], b[3])]
+        : b;
+    }
+
+    // Restore the veil only where last frame or this frame drew — same pixels
+    // as refilling the whole canvas, a fraction of the fill cost.
+    const prev = prevBoxRef.current;
+    const dirty = prev && box
+      ? [Math.min(prev[0], box[0]), Math.min(prev[1], box[1]), Math.max(prev[2], box[2]), Math.max(prev[3], box[3])]
+      : prev ?? box;
+    if (dirty) {
+      const x0 = Math.max(0, Math.floor(dirty[0]));
+      const y0 = Math.max(0, Math.floor(dirty[1]));
+      const x1 = Math.min(w, Math.ceil(dirty[2]));
+      const y1 = Math.min(h, Math.ceil(dirty[3]));
+      ctx.globalCompositeOperation = "source-over";
+      ctx.fillStyle = `rgb(${mc[0]},${mc[1]},${mc[2]})`;
+      if (x1 > x0 && y1 > y0) ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
+    }
+    prevBoxRef.current = box;
+
+    ctx.globalCompositeOperation = "destination-out";
+    // (destination-out is order-independent, so any order gives the same veil)
+    for (let i = 0; i < live.length; i++) {
+      const [x, y, r, seed, alpha] = live[i];
+      carveInk(ctx, x, y, r, seed, alpha);
+@@@FILE 0a9ad030ddcf13b0f019eceba185b96856cd30d4 components/ui/reveal.tsx
+@@@EDIT 0 2
+@@@EDIT 3 4
+@@@EDIT 8 13
+ * Scroll-into-view entrance for below-the-fold content.
+ *
+ * Pure markup + CSS: a tiny inline observer (REVEAL_SCRIPT, injected in the
+ * root layout) flags elements with `data-in` as they enter the viewport, and
+ * globals.css animates them in. Nothing waits for React to download and
+ * hydrate, so on a slow phone or connection the content shows up as soon as
+ * the HTML does — previously every section stayed invisible until the whole
+ * JS bundle had loaded. No permanent `will-change` either (that kept ~30 big
+ * GPU layers alive per page, a real memory cost on phones).
+ *
+ * Without JS, with reduced motion, or without IntersectionObserver, content is
+ * simply visible. NOTE: don't use this for above-the-fold heroes — use the CSS
+ * `animate-rise` class there.
+@@@EDIT 23 51
+@@@EDIT 53 60
+      data-reveal=""
+      style={delay ? ({ "--reveal-delay": `${delay}ms` } as React.CSSProperties) : undefined}
+      className={cn(className)}
+@@@EDIT 65 65
+
+/**
+ * Runs first thing in <body> (with the theme script): arms the hidden state
+ * before any section paints. If the observer below never starts (script error,
+ * blocked), the attribute is dropped after 4s so nothing can stay invisible.
+ */
+export const REVEAL_ARM = `try{if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.setAttribute('data-reveal-js','');setTimeout(function(){if(!window.__rv)document.documentElement.removeAttribute('data-reveal-js')},4000)}}catch(e){}`;
+
+/**
+ * Inline, dependency-free observer for [data-reveal] elements. Runs as soon as
+ * it's parsed (end of <body>), watches for elements added later by client-side
+ * navigation, and removes itself from the equation entirely when motion is
+ * reduced or IntersectionObserver is missing (content just shows).
+ */
+export const REVEAL_SCRIPT = `(function(){try{var d=document.documentElement;if(!d.hasAttribute('data-reveal-js'))return;window.__rv=1;var io=new IntersectionObserver(function(es){for(var i=0;i<es.length;i++){var e=es[i];if(e.isIntersecting){e.target.setAttribute('data-in','');io.unobserve(e.target)}}},{rootMargin:'0px 0px -8% 0px',threshold:0.05});var seen=new WeakSet();function scan(){var n=document.querySelectorAll('[data-reveal]:not([data-in])');for(var i=0;i<n.length;i++){if(!seen.has(n[i])){seen.add(n[i]);io.observe(n[i])}}}scan();var q=0;new MutationObserver(function(){if(q)return;q=requestAnimationFrame(function(){q=0;scan()})}).observe(document.body,{childList:true,subtree:true});setTimeout(function(){var n=document.querySelectorAll('[data-reveal]:not([data-in])');for(var i=0;i<n.length;i++){var r=n[i].getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0)n[i].setAttribute('data-in','')}},3000)}catch(_){document.documentElement.removeAttribute('data-reveal-js')}})();`;
+@@@FILE e608e7d2498702b45acb677d67867bdcb5352d41 components/ui/thumbnail-carousel.tsx
+@@@EDIT 7 7
+import { afterLoadIdle, canRunLiveEmbeds } from "@/lib/perf";
+
+/** 360px copies generated at build time (scripts/build-assets.mjs) — the rail
+ *  shows 60–176px tiles, so the full 1280px screenshots were ~10x the bytes. */
+const thumbSrc = (image: string) =>
+  image.startsWith("/showcase/") && image.endsWith(".webp")
+    ? image.replace("/showcase/", "/showcase/thumbs/")
+    : image;
+@@@EDIT 69 70
+              src={thumbSrc(item.image)}
+@@@EDIT 71 71
+              loading="lazy"
+              decoding="async"
+@@@EDIT 81 82
+function Slide({ item, near, first }: { item: CarouselItem; near: boolean; first: boolean }) {
+@@@EDIT 90 90
+          // First slide is the page's main image; the rest wait until needed.
+          loading={first ? "eager" : "lazy"}
+          fetchPriority={first ? "high" : "low"}
+          decoding="async"
+@@@EDIT 152 154
+  // Live iframes (full sites scaled into each slide) only on capable
+  // desktops, and only after the page has loaded and gone idle; everyone else
+  // gets the screenshot, which looks the same at this size.
+@@@EDIT 155 155
+    const cancel = afterLoadIdle(() => setDesktop(canRunLiveEmbeds()), 3000);
+@@@EDIT 156 158
+    const u = () => setDesktop(canRunLiveEmbeds());
+@@@EDIT 159 160
+    return () => {
+      cancel();
+      mq.removeEventListener?.("change", u);
+    };
+@@@EDIT 161 161
+
+  // Only the slide you've settled on goes live (not its neighbours), after a
+  // short pause — flicking through slides never spins up a stack of sites.
+  const [settled, setSettled] = useState(-1);
+  useEffect(() => {
+    if (!desktop) return;
+    const t = setTimeout(() => setSettled(index), 700);
+    return () => clearTimeout(t);
+  }, [desktop, index]);
+  const liveIndex = desktop && settled === index ? index : -1;
+@@@EDIT 200 201
+                <Slide item={item} near={desktop && i === liveIndex} first={i === 0} />
+@@@FILE d7a04c6d47fd78ddee093a25ed7bd6181425cd70 components/ui/waves.tsx
+@@@EDIT 5 5
+import { isConstrained } from "@/lib/perf";
+
+@@@EDIT 8 10
+  wx: number;
+  wy: number;
+  cx: number;
+  cy: number;
+  vx: number;
+  vy: number;
+@@@EDIT 19 19
+/**
+ * Animated wave-line field (booking page background).
+ *
+ * Same lines, spacing, motion and cursor push as the original, but drawn on a
+ * single <canvas> in one stroke per frame instead of rebuilding ~60–160 SVG
+ * <path> strings (and re-laying-out the SVG) every frame — that loop was
+ * pinning phones at 100% CPU while people tried to fill in the booking form.
+ * Also: ~30fps on phones / slow devices (the drift is slow, it reads the
+ * same), a still frame for reduced-motion, pauses when the tab is hidden, and
+ * the cursor now tracks correctly after scrolling (the old version used page
+ * coordinates on a fixed-position layer).
+ */
+@@@EDIT 26 44
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
+@@@EDIT 45 46
+@@@EDIT 48 49
+    const canvas = canvasRef.current;
+    if (!container || !canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+@@@EDIT 50 53
+    const noise = createNoise2D();
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const lowPower = isConstrained() || window.matchMedia("(max-width: 767px)").matches;
+    const frameInterval = lowPower ? 1000 / 30 : 0;
+@@@EDIT 54 54
+    const mouse = { x: -10, y: 0, lx: 0, ly: 0, sx: 0, sy: 0, vs: 0, a: 0, set: false };
+    let lines: Point[][] = [];
+    let width = 0;
+    let height = 0;
+    let raf = 0;
+    let last = 0;
+
+    const setup = () => {
+      const rect = container.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const xGap = 10;
+      const yGap = 28;
+      const oWidth = width + 200;
+      const oHeight = height + 30;
+      const totalLines = Math.ceil(oWidth / xGap);
+      const totalPoints = Math.ceil(oHeight / yGap);
+      const xStart = (width - xGap * totalLines) / 2;
+      const yStart = (height - yGap * totalPoints) / 2;
+      lines = [];
+      for (let i = 0; i < totalLines; i++) {
+        const pts: Point[] = [];
+        for (let j = 0; j < totalPoints; j++) {
+          pts.push({ x: xStart + xGap * i, y: yStart + yGap * j, wx: 0, wy: 0, cx: 0, cy: 0, vx: 0, vy: 0 });
+        }
+        lines.push(pts);
+      }
+    };
+
+    const step = (time: number) => {
+      mouse.sx += (mouse.x - mouse.sx) * 0.1;
+      mouse.sy += (mouse.y - mouse.sy) * 0.1;
+      const dx = mouse.x - mouse.lx;
+      const dy = mouse.y - mouse.ly;
+      const d = Math.hypot(dx, dy);
+      mouse.vs += (d - mouse.vs) * 0.1;
+      mouse.vs = Math.min(100, mouse.vs);
+      mouse.lx = mouse.x;
+      mouse.ly = mouse.y;
+      mouse.a = Math.atan2(dy, dx);
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(calc(${mouse.sx}px - 50%), calc(${mouse.sy}px - 50%), 0)`;
+      }
+
+      const l = Math.max(175, mouse.vs);
+      const push = l * mouse.vs * 0.00035;
+      const ca = Math.cos(mouse.a);
+      const sa = Math.sin(mouse.a);
+
+      ctx.clearRect(0, 0, width, height);
+      ctx.beginPath();
+      for (let li = 0; li < lines.length; li++) {
+        const pts = lines[li];
+        for (let pi = 0; pi < pts.length; pi++) {
+          const p = pts[pi];
+          const move = noise((p.x + time * 0.008) * 0.003, (p.y + time * 0.003) * 0.002) * 8;
+          p.wx = Math.cos(move) * 12;
+          p.wy = Math.sin(move) * 6;
+
+          if (push > 0) {
+            const ddx = p.x - mouse.sx;
+            const ddy = p.y - mouse.sy;
+            const dist = Math.hypot(ddx, ddy);
+            if (dist < l) {
+              const f = Math.cos(dist * 0.001) * (1 - dist / l);
+              p.vx += ca * f * push;
+              p.vy += sa * f * push;
+            }
+          }
+          p.vx += (0 - p.cx) * 0.01;
+          p.vy += (0 - p.cy) * 0.01;
+          p.vx *= 0.95;
+          p.vy *= 0.95;
+          p.cx = Math.min(50, Math.max(-50, p.cx + p.vx));
+          p.cy = Math.min(50, Math.max(-50, p.cy + p.vy));
+
+          // First point of each line ignores the cursor (as before).
+          const x = p.x + p.wx + (pi === 0 ? 0 : p.cx);
+          const y = p.y + p.wy + (pi === 0 ? 0 : p.cy);
+          if (pi === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+      }
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = strokeColor;
+      ctx.stroke();
+    };
+
+    const tick = (time: number) => {
+      raf = requestAnimationFrame(tick);
+      if (frameInterval && time - last < frameInterval) return;
+      last = time;
+      step(time);
+    };
+
+    const onMove = (e: MouseEvent) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      if (!mouse.set) {
+        mouse.sx = mouse.lx = mouse.x;
+        mouse.sy = mouse.ly = mouse.y;
+        mouse.set = true;
+      }
+    };
+    let resizeT: ReturnType<typeof setTimeout> | undefined;
+    const onResize = () => {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(() => {
+        setup();
+        if (reduced) step(0);
+      }, 120);
+    };
+
+    setup();
+    if (reduced) {
+      step(0);
+    } else {
+      window.addEventListener("mousemove", onMove, { passive: true });
+      raf = requestAnimationFrame(tick);
+    }
+@@@EDIT 55 59
+@@@EDIT 61 62
+      cancelAnimationFrame(raf);
+      clearTimeout(resizeT);
+@@@EDIT 63 65
+      window.removeEventListener("mousemove", onMove);
+@@@EDIT 66 231
+  }, [strokeColor]);
+@@@EDIT 236 245
+      style={{ backgroundColor, width: "100%", height: "100%" }}
+@@@EDIT 246 251
+      <canvas ref={canvasRef} className="block h-full w-full" />
+@@@EDIT 252 252
+        ref={dotRef}
+@@@EDIT 261 262
+          transform: "translate3d(calc(-0.5rem - 50%), calc(50vh - 50%), 0)",
+@@@FILE 4714ae96a7fa87eba2179f353354c7bfb5441ad3 lib/perf.ts
+@@@EDIT 0 0
+/**
+ * Device/connection checks for the site's heaviest optional extras.
+ *
+ * Live embeds load entire third-party websites, so they're reserved for
+ * machines and connections that can take it: a real desktop viewport, a decent
+ * CPU/RAM, a fast connection and no data-saver. Everyone else sees the
+ * (identical-looking) screenshots. Browsers that don't expose a signal (Safari,
+ * Firefox) are judged on the signals they do expose.
+ */
+type Conn = { saveData?: boolean; effectiveType?: string; downlink?: number };
+type Nav = Navigator & { connection?: Conn; deviceMemory?: number };
+
+export function canRunLiveEmbeds(): boolean {
+  if (typeof window === "undefined") return false;
+  if (!window.matchMedia("(min-width: 1024px)").matches) return false;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+  const nav = navigator as Nav;
+  const c = nav.connection;
+  if (c?.saveData) return false;
+  if (c?.effectiveType && c.effectiveType !== "4g") return false;
+  if (typeof c?.downlink === "number" && c.downlink > 0 && c.downlink < 5) return false;
+  if (typeof nav.deviceMemory === "number" && nav.deviceMemory < 8) return false;
+  if (typeof navigator.hardwareConcurrency === "number" && navigator.hardwareConcurrency < 8)
+    return false;
+  return true;
+}
+
+/** True on data-saver / slow connections or low-memory devices. (Core count
+ *  isn't used here: iOS Safari under-reports it, which would wrongly
+ *  downgrade every iPhone.) */
+export function isConstrained(): boolean {
+  if (typeof window === "undefined") return false;
+  const nav = navigator as Nav;
+  const c = nav.connection;
+  return (
+    !!c?.saveData ||
+    (c?.effectiveType != null && c.effectiveType !== "4g") ||
+    (typeof c?.downlink === "number" && c.downlink > 0 && c.downlink < 1.5) ||
+    (typeof nav.deviceMemory === "number" && nav.deviceMemory <= 2)
+  );
+}
+
+/** Run `fn` once the page has fully loaded and the main thread is idle. */
+export function afterLoadIdle(fn: () => void, timeout = 2500): () => void {
+  let cancelled = false;
+  let idle: number | undefined;
+  let t: ReturnType<typeof setTimeout> | undefined;
+  const w = window as Window & {
+    requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
+    cancelIdleCallback?: (id: number) => void;
+  };
+  const run = () => !cancelled && fn();
+  const arm = () => {
+    if (cancelled) return;
+    if (w.requestIdleCallback) idle = w.requestIdleCallback(run, { timeout });
+    else t = setTimeout(run, 800);
+  };
+  if (document.readyState === "complete") arm();
+  else window.addEventListener("load", arm, { once: true });
+  return () => {
+    cancelled = true;
+    window.removeEventListener("load", arm);
+    if (idle != null) w.cancelIdleCallback?.(idle);
+    if (t) clearTimeout(t);
+  };
+}
+@@@FILE fed2d2fa776417b0ab8a51d465dc7652a913085b package.json
+@@@EDIT 6 7
+    "build": "node scripts/build-assets.mjs && next build",
+@@@FILE 49b32a84fd65b7e5d35e2799e08f3c3be22c3fae scripts/build-assets.mjs
+@@@EDIT 0 0
+// Generates lightweight image variants at build time (runs before `next build`).
+// Originals stay the single source of truth; nothing generated needs committing.
+//
+//  • Portrait hero frames — phones only ever see the middle ~35% of the 16:9
+//    footage, so they get a centre crop (same framing, same sharpness) at about
+//    a third of the bytes and a third of the decoded memory per frame.
+//  • Work-carousel thumbnails — 360px copies instead of full 1280px screenshots.
+//  • Process backgrounds — WebP versions of the two JPEGs.
+//
+// Idempotent: existing outputs are skipped. Fails the build loudly if an output
+// can't be produced, so a deploy can never ship pages pointing at missing files.
+import { existsSync, mkdirSync, readdirSync } from "node:fs";
+import { join } from "node:path";
+import sharp from "sharp";
+
+const PUB = "public";
+const jobs = [];
+
+// 1) Portrait hero frames: every 4th frame (the phone scrub set) + the last one.
+const FRAMES = join(PUB, "frames/unifictional-v3");
+const PORTRAIT = join(PUB, "frames/unifictional-v3-portrait");
+const CROP_W = 560; // covers any viewport narrower than 5:8 (all phones, portrait)
+mkdirSync(PORTRAIT, { recursive: true });
+for (let i = 0; i <= 240; i += 4) {
+  const name = `frame-${String(i).padStart(3, "0")}.webp`;
+  const out = join(PORTRAIT, name);
+  if (existsSync(out)) continue;
+  jobs.push(async () => {
+    const img = sharp(join(FRAMES, name));
+    const { width, height } = await img.metadata();
+    const w = Math.min(CROP_W, width);
+    await img
+      .extract({ left: Math.round((width - w) / 2), top: 0, width: w, height })
+      .webp({ quality: 74, effort: 5 })
+      .toFile(out);
+  });
+}
+
+// 2) Carousel thumbnails.
+const SHOW = join(PUB, "showcase");
+const THUMBS = join(SHOW, "thumbs");
+mkdirSync(THUMBS, { recursive: true });
+for (const f of readdirSync(SHOW).filter((f) => f.endsWith(".webp"))) {
+  const out = join(THUMBS, f);
+  if (existsSync(out)) continue;
+  jobs.push(() =>
+    sharp(join(SHOW, f)).resize({ width: 360 }).webp({ quality: 72 }).toFile(out)
+  );
+}
+
+// 3) Process page backgrounds.
+for (const n of ["bg-1", "bg-2"]) {
+  const out = join(PUB, "process", `${n}.webp`);
+  if (existsSync(out)) continue;
+  jobs.push(() => sharp(join(PUB, "process", `${n}.jpg`)).webp({ quality: 74 }).toFile(out));
+}
+
+const t0 = Date.now();
+for (let i = 0; i < jobs.length; i += 8) await Promise.all(jobs.slice(i, i + 8).map((j) => j()));
+console.log(`build-assets: ${jobs.length} image variants generated in ${Date.now() - t0}ms`);

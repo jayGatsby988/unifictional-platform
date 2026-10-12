@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 750" font-family="Georgia, 'Times New Roman', serif">
+  <defs>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#38280F"/><stop offset="1" stop-color="#5C4524"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="750" fill="#FFFFFF"/>
+
+  <!-- browser chrome -->
+  <rect width="1000" height="46" fill="#ECEAE4"/>
+  <circle cx="28" cy="23" r="6" fill="#E0796B"/><circle cx="50" cy="23" r="6" fill="#E8C26B"/><circle cx="72" cy="23" r="6" fill="#86C28B"/>
+  <rect x="120" y="12" width="620" height="22" rx="11" fill="#FFFFFF"/>
+  <text x="140" y="28" font-size="13" fill="#9A9387" font-family="ui-monospace, monospace">tremorexcavation.com</text>
+
+  <!-- hero -->
+  <rect y="46" width="1000" height="430" fill="url(#hero)"/>
+  <!-- nav -->
+  <text x="60" y="106" font-size="25" font-weight="700" fill="#FFFFFF">Tremor Excavation</text>
+  <text x="582" y="101" font-size="15" fill="#FFFFFF" opacity="0.82">Services</text>
+  <text x="678" y="101" font-size="15" fill="#FFFFFF" opacity="0.82">Fleet</text>
+  <text x="772" y="101" font-size="15" fill="#FFFFFF" opacity="0.82">Safety</text>
+  <rect x="858" y="80" width="86" height="34" rx="17" fill="#F2A11E"/>
+  <text x="901" y="102" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">Call</text>
+
+  <!-- headline -->
+  <text x="60" y="244" font-size="62" font-weight="700" fill="#FFFFFF">Move the</text>
+  <text x="60" y="312" font-size="62" font-weight="700" fill="#FFFFFF">earth.</text>
+  <text x="62" y="356" font-size="18" fill="#FFFFFF" opacity="0.85" font-family="ui-sans-serif, system-ui, sans-serif">Site prep, grading &amp; excavation done right.</text>
+  <rect x="60" y="384" width="196" height="48" rx="24" fill="#F2A11E"/>
+  <text x="158" y="414" font-size="16" font-weight="700" fill="#FFFFFF" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif">Request a bid</text>
+
+  <!-- hero image card + trade glyph -->
+  <rect x="612" y="150" width="328" height="276" rx="16" fill="#FFFFFF" opacity="0.10"/>
+  <rect x="632" y="170" width="288" height="236" rx="12" fill="#FFFFFF" opacity="0.08"/>
+  <g transform="translate(690,210)" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" opacity="0.9">
+    <rect x="30" y="60" width="60" height="40" rx="6"/><path d="M90 70 L140 40"/><path d="M140 40 q20 12 14 40"/>
+    <path d="M24 110 h72"/><circle cx="40" cy="110" r="8"/><circle cx="80" cy="110" r="8"/></g>
+
+  <!-- section -->
+  <text x="60" y="540" font-size="12" letter-spacing="3" fill="#F2A11E" font-family="ui-monospace, monospace">SITE WORK</text>
+  <text x="60" y="582" font-size="33" font-weight="700" fill="#1A1714">Groundwork, dialed in.</text>
+  <rect x="60" y="624" width="280" height="98" rx="10" fill="#F7F5EF" stroke="#E6E0D2"/>
+    <rect x="82" y="646" width="34" height="34" rx="8" fill="#F2A11E" opacity="0.18"/>
+    <rect x="130" y="650" width="150" height="11" rx="5" fill="#38280F"/>
+    <rect x="130" y="672" width="180" height="7" rx="3" fill="#CFC7B6"/>
+    <rect x="130" y="686" width="120" height="7" rx="3" fill="#CFC7B6"/>
+  <rect x="360" y="624" width="280" height="98" rx="10" fill="#F7F5EF" stroke="#E6E0D2"/>
+    <rect x="382" y="646" width="34" height="34" rx="8" fill="#F2A11E" opacity="0.18"/>
+    <rect x="430" y="650" width="150" height="11" rx="5" fill="#38280F"/>
+    <rect x="430" y="672" width="180" height="7" rx="3" fill="#CFC7B6"/>
+    <rect x="430" y="686" width="120" height="7" rx="3" fill="#CFC7B6"/>
+  <rect x="660" y="624" width="280" height="98" rx="10" fill="#F7F5EF" stroke="#E6E0D2"/>
+    <rect x="682" y="646" width="34" height="34" rx="8" fill="#F2A11E" opacity="0.18"/>
+    <rect x="730" y="650" width="150" height="11" rx="5" fill="#38280F"/>
+    <rect x="730" y="672" width="180" height="7" rx="3" fill="#CFC7B6"/>
+    <rect x="730" y="686" width="120" height="7" rx="3" fill="#CFC7B6"/>
+</svg>

@@ -1,0 +1,9 @@
+node_modules
+node_modules.nosync
+.next
+.env*.local
+.env
+.vercel
+.env*
+.trigger
+public/dev-hero

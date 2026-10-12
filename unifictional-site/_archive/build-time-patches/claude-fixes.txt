@@ -1,0 +1,426 @@
+@@@FILE 0f56188690997df5b713cd89e4d65800d116afd1 app/about/page.tsx
+@@@EDIT 46 48
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
+            <div className="min-w-0 lg:col-span-4">
+@@@EDIT 55 56
+            <div className="min-w-0 lg:col-span-8">
+@@@FILE 6f7c7caab1a0d79d939d33057f7a03f7308f3e2f app/globals.css
+@@@EDIT 109 110
+  .link-underline:hover::after,
+  a:hover > .link-underline::after {
+@@@FILE bb5d63213f2a7bcea1709d38f501bda9f87ae020 app/guides/[slug]/page.tsx
+@@@EDIT 115 116
+              <Link href="/guides" className="-my-2 py-2 transition-colors hover:text-ink">
+@@@EDIT 147 148
+            <p className="mt-5 font-display text-[1.3rem] font-normal normal-case leading-[1.5] tracking-normal text-ink sm:text-2xl sm:leading-[1.5]">
+@@@EDIT 170 171
+                <nav aria-label="Contents" className="mt-4 space-y-0.5 border-t border-line pt-3 lg:space-y-1">
+@@@EDIT 175 176
+                      className="block py-2 text-sm leading-snug text-ink-soft transition-colors hover:text-terracotta lg:py-1"
+@@@FILE f073de7048737983051a1d579557624a4abfa6f6 app/industries/[slug]/page.tsx
+@@@EDIT 106 107
+              <Link href="/industries" className="-my-2 py-2 transition-colors hover:text-ink">
+@@@EDIT 135 136
+            <p className="mt-5 font-display text-[1.3rem] font-normal normal-case leading-[1.5] tracking-normal text-ink sm:text-2xl sm:leading-[1.5]">
+@@@FILE 412aa8784c337a3afa662cc2537b799f9f4734d7 app/not-found.tsx
+@@@EDIT 0 0
+import type { Metadata } from "next";
+
+@@@EDIT 4 4
+// Without this the 404 inherited the homepage title (and was indexable).
+export const metadata: Metadata = {
+  title: "Page not found",
+  robots: { index: false, follow: true },
+};
+
+@@@EDIT 5 5
+  // A <section>, not <main> — the root layout already wraps pages in <main>.
+@@@EDIT 6 7
+    <section className="flex min-h-[82vh] items-center bg-bone pb-16 pt-28">
+@@@EDIT 25 26
+    </section>
+@@@FILE c5f2ac5b58089df3f50cf7f46a851daf0f05207e app/page.tsx
+@@@EDIT 75 76
+                <CtaButton href="/work" variant="link" icon="up-right" className="shrink-0 self-start md:self-auto">
+@@@FILE 3fed8c5595eb77b56411aea1aecff12085b9dfc8 app/services/[slug]/page.tsx
+@@@EDIT 111 112
+              <Link href="/services" className="-my-2 py-2 transition-colors hover:text-ink">
+@@@FILE 33ada9e39edfb27acffba60714086ad4edf777a4 components/sections/booking-flow.tsx
+@@@EDIT 2 3
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
+@@@EDIT 59 60
+  "w-full rounded-sm border border-line bg-paper px-4 py-3 text-base text-ink placeholder:text-ink-muted outline-none transition focus:border-terracotta focus:ring-1 focus:ring-terracotta/30 sm:text-sm";
+// text-base on phones: iOS Safari zooms the whole page into any field under 16px.
+@@@EDIT 147 147
+  const errorRef = useRef<HTMLParagraphElement>(null);
+@@@EDIT 148 148
+
+  /* Make sure a new error is actually seen on a phone. */
+  useEffect(() => {
+    if (!error) return;
+    const el = errorRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    if (r.top < 72 || r.bottom > window.innerHeight - 16) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [error]);
+@@@EDIT 338 341
+          <p className="flex flex-wrap items-baseline gap-x-1.5 text-sm text-ink">
+            <span className="whitespace-nowrap font-medium">{formatChosen(slot)}</span>
+            <span className="whitespace-nowrap text-ink-muted">· {avail?.durationMin ?? 30} min</span>
+@@@EDIT 354 363
+      {/* error banner — top of card on the time step (e.g. "slot taken"
+          bounces back here); the form steps render it beside their button */}
+      {error && step === "time" && <ErrorNote ref={errorRef}>{error}</ErrorNote>}
+@@@EDIT 419 420
+                      <span className={cn("mt-0.5 whitespace-nowrap text-sm font-medium", on ? "text-terracotta" : "text-ink")}>
+@@@EDIT 549 549
+          {error && (
+            <ErrorNote ref={errorRef} className="mb-0 mt-6">
+              {error}
+            </ErrorNote>
+          )}
+
+@@@EDIT 600 600
+          {error && (
+            <ErrorNote ref={errorRef} className="mb-0 mt-5">
+              {error}
+            </ErrorNote>
+          )}
+
+@@@EDIT 611 612
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-medium text-bone shadow-btn ring-1 ring-inset ring-bone/15 transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 sm:ml-auto"
+@@@EDIT 661 662
+              className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-medium text-bone shadow-btn ring-1 ring-inset ring-bone/15 transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] sm:w-auto"
+@@@EDIT 689 689
+const ErrorNote = forwardRef<HTMLParagraphElement, { children: React.ReactNode; className?: string }>(
+  function ErrorNote({ children, className }, ref) {
+    return (
+      <p
+        ref={ref}
+        role="alert"
+        className={cn(
+          "mb-5 scroll-mt-24 rounded-sm border border-terracotta/30 bg-terracotta/5 px-4 py-3 text-sm text-terracotta",
+          className
+        )}
+      >
+        {children}
+      </p>
+    );
+  }
+);
+@@@EDIT 724 725
+        className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-medium text-bone shadow-btn ring-1 ring-inset ring-bone/15 transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 sm:ml-auto"
+@@@FILE b3159e1cb7555d7bf4f02de16a1895b47a644ad3 components/sections/booking-form.tsx
+@@@EDIT 11 12
+  "w-full rounded-sm border border-line bg-paper px-4 py-3 text-base text-ink placeholder:text-ink-muted outline-none transition focus:border-terracotta focus:ring-1 focus:ring-terracotta/30 sm:text-sm";
+@@@EDIT 164 165
+        className="group mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-7 py-4 font-sans text-sm font-medium text-bone shadow-btn ring-1 ring-inset ring-bone/15 transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 sm:w-auto"
+@@@FILE c72ffe6fa1d916340644e8a08ac0e9abbc05c395 components/sections/final-cta.tsx
+@@@EDIT 21 22
+    <section data-hide-floating-cta="" className="border-t border-line bg-sand/60">
+@@@FILE f922aa7ba876f1495cfad95e85ce9e1567194ccf components/sections/footer.tsx
+@@@EDIT 9 10
+    <footer data-hide-floating-cta="" className="bg-inkfixed text-bonefixed">
+@@@EDIT 28 29
+                {/* py-2 (tightened on desktop) gives each link a ~36px tap
+                    target on phones instead of a 20px sliver. */}
+                <ul className="mt-3 space-y-0.5 sm:mt-4 sm:space-y-1.5">
+@@@EDIT 33 34
+                        className="inline-block py-2 text-sm text-bonefixed/75 transition-colors hover:text-bonefixed sm:py-1"
+@@@EDIT 35 36
+                        <span className="link-underline">{l.label}</span>
+@@@FILE 9eb3180b66697b69a16e09cb29b395964a02ab4d components/sections/manifesto.tsx
+@@@EDIT 22 23
+              <p className="mt-6 font-display text-3xl font-medium leading-[1.18] tracking-[-0.01em] text-ink sm:text-4xl sm:leading-[1.14] md:text-[2.9rem]">
+@@@EDIT 71 72
+                      <span className="mt-0.5 block font-mono text-[11px] uppercase tracking-label text-ink-muted">
+@@@FILE 845cf2550c4fb878be164a20eb8fc5e35855c67a components/sections/nav.tsx
+@@@EDIT 89 90
+        // Opaque while the menu is open so the bar and the panel read as one
+        // sheet (a 90% tint let the dark header beneath show through as grey).
+        open
+          ? "border-b border-line bg-bone"
+          : solid
+            ? "border-b border-line bg-bone/90 backdrop-blur-md"
+            : "border-b border-transparent"
+@@@EDIT 97 98
+            "-my-2 py-2 font-display text-xl font-medium tracking-tight transition-colors",
+@@@EDIT 114 115
+                  "py-3 font-sans text-sm transition-colors",
+@@@EDIT 124 125
+                <span className="link-underline">{l.label}</span>
+@@@EDIT 131 132
+          <AnimatedThemeToggleButton
+            type="horizontal"
+            onDark={dark ? (fixedDark ? "fixed" : "themed") : undefined}
+          />
+@@@EDIT 133 134
+            {/* Over the always-black hero the pill is fixed white; over the
+                theme-flipping interior headers it inverts with the surface. */}
+            <BookCall
+              variant={dark ? (fixedDark ? "light" : "bone") : "solid"}
+              size="default"
+              icon={null}
+            />
+@@@EDIT 153 154
+          content never shows through it while opening or navigating away).
+          Closed, it must travel its own height PLUS the 4rem header offset —
+          `-translate-y-full` alone left its bottom 64px parked behind the
+          header as a solid bar that hid the logo/menu over dark heroes and
+          covered content while scrolling. `invisible` (flipped after the
+          slide, via the visibility transition) guarantees nothing paints. */}
+@@@EDIT 156 156
+        aria-hidden={!open || undefined}
+@@@EDIT 157 159
+          "fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto overscroll-contain bg-bone transition-[transform,visibility] duration-300 ease-out md:hidden",
+          open
+            ? "visible translate-y-0"
+            : "pointer-events-none invisible -translate-y-[calc(100%+4rem)]"
+@@@FILE d305be3caee23357ba964847abf7441260cf5004 components/sections/process-list.tsx
+@@@EDIT 10 12
+            <div className="grid grid-cols-1 gap-6 border-b border-line py-12 sm:py-16 md:grid-cols-12">
+              <div className="md:col-span-3">
+@@@EDIT 16 17
+              <div className="md:col-span-9">
+@@@FILE fb13aea2c73a2006cd1c0a528ab2a21a9a8d7a2c components/sections/prose.tsx
+@@@EDIT 86 87
+              <React.Fragment key={i}>
+                {/* Phones: one card per row. A 4-column table in a 342px
+                    column either clips its last column or needs a sideways
+                    scroll nobody discovers. (display:none hides this from
+                    screen readers at sm+, and the table from them below.) */}
+                <div className="border-t border-line sm:hidden">
+                  {block.rows.map((row, r) => (
+                    <div key={r} className="border-b border-line py-5">
+                      <p className="font-display text-lg font-medium leading-snug text-ink">
+                        {row[0]}
+                      </p>
+                      <dl className="mt-3 space-y-3">
+                        {row.slice(1).map((cell, c) => (
+                          <div key={c}>
+                            <dt className="font-mono text-[11px] uppercase leading-4 tracking-label text-ink-muted">
+                              {block.head[c + 1]}
+                            </dt>
+                            <dd className="mt-1 text-base leading-relaxed text-ink-soft">{cell}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
+                  ))}
+                </div>
+              <div className="hidden overflow-x-auto sm:block">
+@@@EDIT 121 121
+              </React.Fragment>
+@@@FILE 76667d1ef17f9ab4ed4b97cf2d6bc70139992f29 components/sections/scrub-hero.tsx
+@@@EDIT 260 261
+              <span className="block font-mono text-[11px] uppercase leading-5 tracking-label text-bonefixed/70">
+@@@EDIT 272 273
+                <BookCall variant="light" size="lg" />
+@@@FILE 41ee5161bb38b0ab51a964f0aa89b13eadaf9075 components/sections/work-list.tsx
+@@@EDIT 77 78
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase leading-5 tracking-label text-ink-muted">
+@@@EDIT 80 82
+                  {/* separator + year wrap as one unit, never a stranded "·" */}
+                  <span className="inline-flex items-center gap-3">
+                    <span aria-hidden className="hidden sm:inline">·</span>
+                    <span>{p.year}</span>
+                  </span>
+@@@EDIT 98 99
+                  className="group/link -my-2 inline-flex shrink-0 items-center gap-2 self-start py-2 font-sans text-sm font-medium text-ink transition-colors hover:text-terracotta md:self-auto"
+@@@FILE c0a7c0f8456ccd57f3304013d04751f1df1c426d components/ui/3d-marquee.tsx
+@@@EDIT 104 104
+      // Feather all four edges so the tilted grid dissolves into the page
+      // instead of being sliced off by a hard top/right edge.
+      style={{
+        maskImage:
+          'linear-gradient(to bottom, transparent 0, #000 14%, #000 84%, transparent 100%), linear-gradient(to right, transparent 0, #000 8%, #000 90%, transparent 100%)',
+        WebkitMaskImage:
+          'linear-gradient(to bottom, transparent 0, #000 14%, #000 84%, transparent 100%), linear-gradient(to right, transparent 0, #000 8%, #000 90%, transparent 100%)',
+        maskComposite: 'intersect',
+        WebkitMaskComposite: 'source-in',
+      }}
+@@@FILE 723d76279abec133abcbcccd1cbe8fac8f4d602f components/ui/animated-theme-toggle-button.tsx
+@@@EDIT 13 13
+  /**
+   * Sitting on a dark surface (the nav over a hero): "fixed" = the always-black
+   * cinematic hero (white glyph in both themes); "themed" = a bg-ink header that
+   * inverts with the theme. Matches the adjacent menu button's treatment.
+   */
+  onDark?: "fixed" | "themed";
+@@@EDIT 72 72
+  onDark,
+@@@EDIT 73 73
+  const glyph =
+    onDark === "fixed" ? "text-bonefixed" : onDark === "themed" ? "text-bone" : undefined;
+@@@EDIT 115 116
+        "flex items-center justify-center rounded-full border p-2 outline-none backdrop-blur-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ink/30 active:scale-95 active:outline-none",
+        onDark === "fixed"
+          ? "border-bonefixed/30 bg-bonefixed/10"
+          : onDark === "themed"
+            ? "border-bone/30 bg-bone/10"
+            : "border-line bg-paper/60 shadow-glass-soft",
+@@@EDIT 128 129
+            className={glyph ?? "text-terracotta"}
+@@@EDIT 139 140
+            className={glyph ?? "text-ink"}
+@@@FILE 2119d7e0ac7b7c5f91b512560c4504560f3067a5 components/ui/button.tsx
+@@@EDIT 7 8
+type Variant = "solid" | "outline" | "link" | "bone" | "light";
+@@@EDIT 16 23
+ * GLASS BUTTONS — a crisp, near-opaque surface with a glassy top rim and a
+ * soft lift. (The earlier SVG-displacement "liquid" layer is gone: iOS Safari
+ * ignores `backdrop-filter: url()`, so on phones the primary CTA rendered as a
+ * flat 55%-grey pill that read as disabled, and the inset "refractive edge"
+ * showed as a black crescent on light buttons.)
+ *   • solid   → primary: ink on the page (black in light mode, white in dark)
+ *   • bone    → for bg-ink sections/headers: inverts with them, so it always
+ *               contrasts with the surface it sits on
+ *   • light   → fixed white, for over always-dark photography (the hero)
+ *   • outline → secondary: hairline ring, adapts to theme
+@@@EDIT 25 27
+  solid: "text-bone",
+  bone: "text-ink",
+  light: "text-inkfixed",
+@@@EDIT 31 32
+/** Surface layer (tint + rim + lift) per variant. */
+@@@EDIT 33 36
+  solid:
+    "bg-ink shadow-btn ring-1 ring-inset ring-bone/15 transition-colors group-hover:bg-ink/90",
+  bone: "bg-bone shadow-btn ring-1 ring-inset ring-ink/10 transition-colors group-hover:bg-bone/90",
+  light:
+    "bg-white/95 shadow-btn-light ring-1 ring-inset ring-black/5 transition-colors group-hover:bg-white",
+  outline:
+    "bg-bone/40 ring-1 ring-inset ring-ink/20 backdrop-blur-sm transition-colors group-hover:bg-ink/[0.05] group-hover:ring-ink/35",
+@@@EDIT 67 67
+    "outline-none focus-visible:ring-2 focus-visible:ring-ink/40 focus-visible:ring-offset-2 focus-visible:ring-offset-bone",
+@@@EDIT 68 69
+      ? cn(textClass.link, "-my-2 py-2")
+@@@EDIT 70 71
+          "relative isolate rounded-full hover:scale-[1.03] active:scale-[0.98]",
+@@@EDIT 96 97
+          "pointer-events-none absolute inset-0 -z-10 rounded-full",
+@@@EDIT 100 109
+      <span className="relative inline-flex items-center gap-2">
+@@@FILE 9ba6f903d451088eb57f18c18e2d15df3be51766 components/ui/floating-cta.tsx
+@@@EDIT 8 8
+/** Any element carrying this attribute hides the pill while it's on screen.
+ *  (Server components write the literal attribute — importing a constant from
+ *  a "use client" module into them would yield a client reference, not a
+ *  string.) */
+const HIDE_FLOATING_CTA = "data-hide-floating-cta";
+
+@@@EDIT 12 13
+ * it), on /contact (you're already there), under the mobile menu (z-30), and
+ * whenever a section with its own Book-a-call (the closing CTA) or the footer
+ * is on screen — so it never stacks on a duplicate button or covers the
+ * footer links.
+@@@EDIT 16 17
+  const [scrolled, setScrolled] = useState(false);
+  const [blocked, setBlocked] = useState(false);
+@@@EDIT 22 23
+      setScrolled((s) => (y > 90 ? true : y < 40 ? false : s));
+@@@EDIT 29 29
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return;
+    const visible = new Set<Element>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) visible.add(e.target);
+          else visible.delete(e.target);
+        }
+        setBlocked(visible.size > 0);
+      },
+      // Start hiding a little before the section reaches the pill's spot.
+      { rootMargin: "0px 0px -40px 0px" }
+    );
+    // Wait a frame so the new route's sections are in the DOM.
+    const raf = requestAnimationFrame(() => {
+      document.querySelectorAll(`[${HIDE_FLOATING_CTA}]`).forEach((el) => io.observe(el));
+    });
+    return () => {
+      cancelAnimationFrame(raf);
+      io.disconnect();
+      setBlocked(false);
+    };
+  }, [pathname]);
+
+@@@EDIT 30 30
+
+  const shown = scrolled && !blocked;
+@@@EDIT 34 34
+      aria-hidden={!shown || undefined}
+@@@EDIT 35 36
+        "fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-30 transition-all duration-300 ease-out sm:bottom-7 sm:right-7",
+@@@EDIT 39 40
+      <BookCall variant="solid" size="default" className="shadow-[0_12px_32px_-10px_rgba(0,0,0,0.55)]" />
+@@@FILE ba4cd635d74ee9e2c5925dce9e50f90234a5eed0 components/ui/thumbnail-carousel.tsx
+@@@EDIT 83 107
+    <div className="relative w-full bg-inkfixed">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand sm:aspect-[16/9]">
+        {/* base mockup (also the loading state for the live preview) */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={item.image}
+          alt={item.title}
+          className="pointer-events-none absolute inset-0 h-full w-full select-none object-cover object-top"
+          draggable={false}
+@@@EDIT 108 112
+        {/* live, scaled-down desktop preview — only for the active slide & neighbours */}
+        {near && item.url && (
+          <iframe
+            src={item.url}
+            title={`${item.title} — live preview`}
+            loading="lazy"
+            tabIndex={-1}
+            aria-hidden
+            scrolling="no"
+            allow="autoplay; fullscreen; encrypted-media"
+            onLoad={(e) => {
+              e.currentTarget.style.opacity = "1";
+            }}
+            className="pointer-events-none absolute left-0 top-0 origin-top-left opacity-0 transition-opacity duration-700"
+            style={{ width: "115%", height: "115%", transform: "scale(0.87)", border: 0 }}
+          />
+        )}
+      </div>
+      {/* caption — a solid bar under the image on phones (overlaid there it
+          collided with the arrows and the site's own headline); overlaid on a
+          deep gradient from sm up. */}
+      <div
+        className="pointer-events-none flex h-[72px] items-center justify-between gap-3 px-4 sm:absolute sm:inset-x-0 sm:bottom-0 sm:h-auto sm:items-end sm:gap-4 sm:bg-gradient-to-t sm:from-inkfixed/90 sm:via-inkfixed/45 sm:to-transparent sm:p-7 sm:pt-24"
+      >
+        <div className="min-w-0">
+@@@EDIT 113 114
+            <span className="block truncate font-mono text-[11px] uppercase tracking-[0.16em] text-bonefixed/70 sm:tracking-label">
+@@@EDIT 117 118
+          <h3 className="mt-0.5 truncate font-display text-lg font-medium text-bonefixed sm:mt-1 sm:text-3xl">
+@@@EDIT 126 127
+            aria-label={`Visit the ${item.title} website`}
+            className="pointer-events-auto inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-4 py-2 font-sans text-sm font-medium text-inkfixed shadow-btn-light transition-transform hover:scale-[1.03] active:scale-[0.98]"
+@@@EDIT 128 129
+            <span className="sm:hidden">Visit</span>
+            <span className="hidden sm:inline">Visit site</span>
+@@@EDIT 203 204
+              // Phones: centred on the image, above the 72px caption bar.
+              "absolute left-3 top-[calc(50%-36px)] z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-inkfixed shadow-btn-light backdrop-blur-md transition hover:scale-110 sm:left-4 sm:top-1/2 sm:h-11 sm:w-11",
+@@@EDIT 215 216
+              "absolute right-3 top-[calc(50%-36px)] z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-inkfixed shadow-btn-light backdrop-blur-md transition hover:scale-110 sm:right-4 sm:top-1/2 sm:h-11 sm:w-11",
+@@@EDIT 223 224
+          <div className="absolute right-3 top-3 z-10 rounded-full bg-inkfixed/75 px-3 py-1 font-mono text-xs text-bonefixed backdrop-blur-sm sm:right-4 sm:top-4">
+@@@FILE 46090e49a2d92b099805b025faf7fe9cc45b31a4 lib/projects.ts
+@@@EDIT 49 50
+    title: "DIGS Construction",
+@@@EDIT 55 56
+    liveUrl: "https://www.digswa.com/",
+@@@FILE a60e3ac3167441d3abbd811fbab8a8b377b15e5f lib/showcase.ts
+@@@EDIT 21 22
+  { name: "DIGS Construction", meta: "ADU & Custom Homes · Seattle", url: "https://www.digswa.com/", image: "/showcase/diggs-builders.webp" },
+@@@FILE a472b253eb0163ad84a877cc219c4d44555850df tailwind.config.ts
+@@@EDIT 58 58
+        // CTA buttons: glassy top rim + soft two-step lift.
+        btn: "inset 0 1px 0 0 rgb(255 255 255 / 0.16), 0 1px 2px rgb(0 0 0 / 0.16), 0 10px 24px -12px rgb(0 0 0 / 0.5)",
+        "btn-light":
+          "inset 0 1px 0 0 rgb(255 255 255 / 0.9), inset 0 -1px 0 0 rgb(0 0 0 / 0.06), 0 1px 2px rgb(0 0 0 / 0.14), 0 10px 24px -12px rgb(0 0 0 / 0.45)",

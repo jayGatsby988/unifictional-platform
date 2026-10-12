@@ -1,0 +1,9 @@
+node_modules
+node_modules.nosync
+.next
+.env
+.env.*
+_archive
+.claude
+.trigger
+public/dev-hero

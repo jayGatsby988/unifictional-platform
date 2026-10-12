@@ -1,0 +1,190 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Unifictional Studio — monochrome / architectural base.
+  Black & white. Condensed grotesque display (Oswald, uppercase), clean grotesk
+  body (Hanken), mono captions (Space Mono). No colour accent — emphasis comes
+  from weight, scale, and the single near-black "accent" token.
+*/
+@layer base {
+  /* Light theme (default) — crisp gallery white + near-black. */
+  :root {
+    --bone: 255 255 255;
+    --paper: 245 245 245;
+    --sand: 238 238 238;
+    --ink: 14 14 14;
+    --ink-soft: 64 64 64;
+    --ink-muted: 109 109 109; /* AA contrast (≈4.9:1) on white */
+    --line: 224 224 224;
+    /* "accent" is now monochrome (near-black) so coloured states read as ink. */
+    --terracotta: 14 14 14;
+    --terracotta-soft: 64 64 64;
+    color-scheme: light;
+  }
+  /* Dark theme — true near-black + near-white. Driven by a data-theme
+     attribute (not a class) so React's hydration of <html className> never
+     strips it. */
+  [data-theme="dark"] {
+    --bone: 9 9 9;
+    --paper: 23 23 23;
+    --sand: 32 32 32;
+    --ink: 245 245 245;
+    --ink-soft: 190 190 190;
+    --ink-muted: 140 140 140;
+    --line: 42 42 42;
+    --terracotta: 245 245 245;
+    --terracotta-soft: 190 190 190;
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-bone text-ink antialiased;
+    font-feature-settings: "ss01";
+    overflow-x: hidden;
+  }
+  /* Condensed grotesque display — uppercase, gallery-like. */
+  .font-display {
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+  }
+  /* Headlines no longer use italic emphasis — keep emphasis upright + uniform. */
+  .font-display em,
+  .font-display i {
+    font-style: normal;
+  }
+  ::selection {
+    background: rgb(var(--ink));
+    color: rgb(var(--bone));
+  }
+  /* Thin, warm scrollbar (themed) */
+  ::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgb(var(--sand));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--line));
+    border-radius: 9999px;
+    border: 3px solid rgb(var(--sand));
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--terracotta));
+  }
+}
+
+/* Theme-toggle view transition: let the custom clip-path reveal the new theme
+   (disable the default cross-fade so the wipe reads cleanly). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+@layer components {
+  /* Hairline rule used across the layout */
+  .rule {
+    @apply h-px w-full bg-line;
+  }
+  /* Editorial link underline that grows on hover */
+  .link-underline {
+    @apply relative inline-block;
+  }
+  .link-underline::after {
+    content: "";
+    @apply absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300;
+  }
+  .link-underline:hover::after,
+  a:hover > .link-underline::after {
+    @apply scale-x-100;
+  }
+}
+
+/* Scroll reveal (see components/ui/reveal.tsx). Hidden only once the inline
+   observer is confirmed running, so without JS everything is visible. */
+[data-reveal] {
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+html[data-reveal-js] [data-reveal]:not([data-in]) {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition-delay: 0ms;
+}
+
+@layer utilities {
+  /* Stagger helper: set --d on a child to delay its rise animation */
+  .anim-delay-1 { animation-delay: 0.08s; }
+  .anim-delay-2 { animation-delay: 0.16s; }
+  .anim-delay-3 { animation-delay: 0.24s; }
+  .anim-delay-4 { animation-delay: 0.32s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Floating paths backdrop (components/ui/floating-paths.tsx). pathLength=1 on
+   each path, so dash values are fractions of the curve. */
+.fp-path {
+  stroke-dasharray: 0.3 1;
+  animation: fp-drift 22s linear infinite;
+}
+[data-paused] .fp-path {
+  animation-play-state: paused;
+}
+@keyframes fp-drift {
+  0% {
+    stroke-dasharray: 0.3 1;
+    stroke-dashoffset: 0;
+    opacity: 0.4;
+  }
+  50% {
+    stroke-dasharray: 0.65 1;
+    stroke-dashoffset: -1;
+    opacity: 0.7;
+  }
+  100% {
+    stroke-dasharray: 1 1;
+    stroke-dashoffset: 0;
+    opacity: 0.4;
+  }
+}
+
+/* 3D marquee column drift (components/ui/3d-marquee.tsx). */
+@keyframes marquee-drift-down {
+  from { transform: translateY(0); }
+  to { transform: translateY(60px); }
+}
+@keyframes marquee-drift-up {
+  from { transform: translateY(0); }
+  to { transform: translateY(-60px); }
+}
+[data-paused] .marquee-col,
+[data-paused] .animate-marquee {
+  animation-play-state: paused;
+}

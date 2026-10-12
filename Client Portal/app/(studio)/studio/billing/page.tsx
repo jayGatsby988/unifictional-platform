@@ -57,16 +57,17 @@ export default async function StudioBillingPage() {
                 <p className="text-xs text-ink-muted mt-0.5">{c.customerId ? "Linked to Square" : "Not linked to Square"}</p>
               </div>
               {c.billing && (
-                <dl className="grid grid-cols-3 gap-5 text-center">
+                <dl className="grid grid-cols-4 gap-5 text-center">
                   <div><dt className="label !text-[8px] mb-1">Monthly</dt><dd className="font-display text-lg">{money(c.billing.monthly)}</dd></div>
                   <div><dt className="label !text-[8px] mb-1">Open</dt><dd className="font-display text-lg">{money(c.billing.open)}</dd></div>
                   <div><dt className="label !text-[8px] mb-1">Overdue</dt><dd className={cn("font-display text-lg", c.billing.overdue > 0 && "text-bad")}>{money(c.billing.overdue)}</dd></div>
+                  <div><dt className="label !text-[8px] mb-1">Autopay</dt><dd className={cn("font-display text-lg", c.billing.plans > 0 && c.billing.autopay < c.billing.plans && "text-warn")}>{c.billing.plans ? (c.billing.autopay === c.billing.plans ? "On" : "Off") : "—"}</dd></div>
                 </dl>
               )}
             </div>
             {d.configured && (
               <div className="mt-4 pt-4 border-t border-line">
-                <BillingActions slug={c.slug} name={c.name} customerId={c.customerId} defaultEmail={c.logins[0] ?? ""} dashboard={d.dashboard} presets={presets} />
+                <BillingActions slug={c.slug} name={c.name} customerId={c.customerId} defaultEmail={c.logins[0] ?? ""} dashboard={d.dashboard} presets={presets} needsAutopay={Boolean(c.billing && c.billing.plans > c.billing.autopay)} />
               </div>
             )}
           </div>

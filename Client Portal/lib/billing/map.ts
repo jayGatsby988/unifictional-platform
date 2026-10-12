@@ -10,7 +10,7 @@ export type SqInvoice = {
 export type SqCard = { card_brand?: string; last_4?: string; exp_month?: number; exp_year?: number; enabled?: boolean };
 export type SqSubscription = {
   id?: string; status?: string; plan_variation_id?: string; start_date?: string; charged_through_date?: string;
-  canceled_date?: string; price_override_money?: SqMoney; customer_id?: string;
+  canceled_date?: string; price_override_money?: SqMoney; customer_id?: string; card_id?: string; version?: number;
 };
 export type SqVariation = { id?: string; subscription_plan_variation_data?: { name?: string; phases?: { cadence?: string; pricing?: { price?: SqMoney; price_money?: SqMoney }; recurring_price_money?: SqMoney }[] } };
 
@@ -65,6 +65,7 @@ export function mapPlan(sub: SqSubscription, variations: Record<string, SqVariat
     status: (sub.status ?? "").toLowerCase(),
     nextChargeAt: active && !sub.canceled_date ? dateIso(sub.charged_through_date ?? sub.start_date) : null,
     cancelAt: dateIso(sub.canceled_date),
+    autopay: Boolean(sub.card_id),
   };
 }
 

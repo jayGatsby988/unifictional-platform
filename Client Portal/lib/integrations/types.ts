@@ -16,8 +16,8 @@ export type ClientIntegration = {
   ghl_contact_id: string | null;
 };
 
-export type Source = "ga4" | "search_console" | "pagespeed" | "uptime" | "health" | "gbp" | "meta";
-export const SOURCES: Source[] = ["ga4", "search_console", "pagespeed", "uptime", "health", "gbp", "meta"];
+export type Source = "ga4" | "search_console" | "pagespeed" | "uptime" | "health" | "gbp" | "meta" | "autopay";
+export const SOURCES: Source[] = ["ga4", "search_console", "pagespeed", "uptime", "health", "gbp", "meta", "autopay"];
 
 export type SyncResult = { source: Source; ok: boolean; message: string; rows: number };
 

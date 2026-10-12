@@ -9,6 +9,8 @@ export type BillingPlan = {
   status: string;        // Square subscription status
   nextChargeAt: string | null;
   cancelAt: string | null;
+  /** True when Square charges a saved card automatically each period (no invoice emails). */
+  autopay: boolean;
 };
 
 export type InvoiceStatus = "draft" | "open" | "paid" | "void" | "uncollectible";
@@ -40,7 +42,7 @@ export type BillingSummary = {
 };
 
 /** Per-company numbers for the studio billing table. */
-export type StudioBillingRow = { monthly: number; open: number; overdue: number; openCount: number };
+export type StudioBillingRow = { monthly: number; open: number; overdue: number; openCount: number; plans: number; autopay: number };
 
 export function money(cents: number, currency = "usd"): string {
   const whole = cents % 100 === 0;

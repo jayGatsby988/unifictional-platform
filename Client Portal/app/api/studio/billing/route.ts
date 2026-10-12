@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/data/repo";
 import { createClient } from "@/lib/supabase/server";
-import { findOrCreateCustomer, sendInvoice, squareConfigured, startMonthlyPlan } from "@/lib/billing/square";
+import { autopayForCustomer, findOrCreateCustomer, sendInvoice, squareConfigured, startMonthlyPlan } from "@/lib/billing/square";
 import { toCents } from "@/lib/billing/types";
 
 /**
@@ -48,6 +48,12 @@ export async function POST(request: Request) {
       const inv = await sendInvoice({ customerId: client.square_customer_id, description, amount, daysUntilDue: days, nowMs });
       await db.from("activity").insert({ client_id: client.id, area: "account", title: `Invoice sent: ${description}` });
       return NextResponse.json({ ok: true, invoice: inv });
+    }
+
+    if (b.action === "autopay") {
+      const r = await autopayForCustomer(client.square_customer_id);
+      if (r.switched) await db.from("activity").insert({ client_id: client.id, area: "account", title: "Monthly plan switched to automatic payments" });
+      return NextResponse.json({ ok: true, ...r, message: r.switched ? `Autopay is on: ${r.switched} plan${r.switched > 1 ? "s" : ""} will charge their saved card automatically.` : !r.hasCard ? "No card on file yet. When they pay an invoice and tick \"save my card\", this turns on automatically overnight." : "Autopay is already on." });
     }
 
     if (b.action === "plan") {

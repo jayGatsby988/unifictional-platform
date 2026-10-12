@@ -66,3 +66,9 @@ test("summary totals open and overdue, ignores canceled plans", () => {
   assert.equal(s.plans.length, 0);
   assert.equal(s.invoices.length, 3);
 });
+
+test("plan shows autopay only when a card is attached", () => {
+  const v = { var_1: { id: "var_1", subscription_plan_variation_data: { name: "Local SEO", phases: [{ cadence: "MONTHLY", pricing: { type: "STATIC", price: { amount: 150000, currency: "USD" } } }] } } };
+  assert.equal(mapPlan({ id: "s1", status: "ACTIVE", plan_variation_id: "var_1" }, v).autopay, false);
+  assert.equal(mapPlan({ id: "s2", status: "ACTIVE", plan_variation_id: "var_1", card_id: "ccof:abc" }, v).autopay, true);
+});

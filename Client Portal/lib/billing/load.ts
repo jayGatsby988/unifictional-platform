@@ -16,7 +16,7 @@ export function sampleBilling(now: number): BillingSummary {
   return {
     email: "owner@example.com",
     card: { brand: "visa", last4: "4242", expMonth: 8, expYear: 2028 },
-    plans: [{ id: "sub_demo", name: "SEO & website care", amount: 150000, currency: "usd", interval: "month", status: "active", nextChargeAt: at(12), cancelAt: null }],
+    plans: [{ id: "sub_demo", name: "SEO & website care", amount: 150000, currency: "usd", interval: "month", status: "active", nextChargeAt: at(12), cancelAt: null, autopay: true }],
     invoices: [
       { id: "in_3", number: "UNI-0007", description: "SEO & website care (October)", amountDue: 150000, amountPaid: 0, amountRemaining: 150000, currency: "usd", status: "open", createdAt: at(-9), dueAt: at(-2), overdue: true, payUrl: "#", viewUrl: "#" },
       { id: "in_2", number: "UNI-0004", description: "SEO & website care (September)", amountDue: 150000, amountPaid: 150000, amountRemaining: 0, currency: "usd", status: "paid", createdAt: at(-39), dueAt: at(-32), overdue: false, payUrl: null, viewUrl: "#" },

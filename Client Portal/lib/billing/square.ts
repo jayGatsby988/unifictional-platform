@@ -148,10 +148,29 @@ export async function startMonthlyPlan(input: { customerId: string; name: string
   return { id: sub.subscription.id, status: sub.subscription.status ?? "" };
 }
 
+/**
+ * Switch a customer's running plans to automatic card payments. Square subscriptions with no
+ * card email an invoice each period; once the client has a card on file (e.g. they ticked
+ * "save my card" when paying an invoice), attaching it makes Square charge it automatically.
+ */
+export async function autopayForCustomer(customerId: string): Promise<{ switched: number; pending: number; hasCard: boolean }> {
+  const subs = (await subscriptionsFor([customerId])).filter((s) => ["ACTIVE", "PENDING"].includes(s.status ?? "") && !s.card_id);
+  if (!subs.length) return { switched: 0, pending: 0, hasCard: true };
+  const { cards = [] } = await sq<{ cards?: (SqCard & { id?: string })[] }>(`/v2/cards?customer_id=${encodeURIComponent(customerId)}`);
+  const card = cards.find((c) => c.enabled !== false && c.id);
+  if (!card?.id) return { switched: 0, pending: subs.length, hasCard: false };
+  let switched = 0;
+  for (const s of subs) {
+    await sq(`/v2/subscriptions/${encodeURIComponent(s.id!)}`, { subscription: { card_id: card.id, ...(s.version ? { version: s.version } : {}) } }, "PUT");
+    switched++;
+  }
+  return { switched, pending: 0, hasCard: true };
+}
+
 /** Studio overview: monthly recurring and open balances per linked company. */
 export async function studioBilling(customerIds: string[], nowMs: number): Promise<Record<string, StudioBillingRow>> {
   const out: Record<string, StudioBillingRow> = {};
-  for (const id of customerIds) out[id] = { monthly: 0, open: 0, overdue: 0, openCount: 0 };
+  for (const id of customerIds) out[id] = { monthly: 0, open: 0, overdue: 0, openCount: 0, plans: 0, autopay: 0 };
   if (!customerIds.length) return out;
   const loc = await locationId();
   const subs = await subscriptionsFor(customerIds);
@@ -159,6 +178,8 @@ export async function studioBilling(customerIds: string[], nowMs: number): Promi
   for (const s of subs) {
     if (!s.customer_id || !out[s.customer_id] || s.status !== "ACTIVE") continue;
     const p = mapPlan(s, variations);
+    out[s.customer_id].plans += 1;
+    if (p.autopay) out[s.customer_id].autopay += 1;
     out[s.customer_id].monthly += p.interval === "year" ? Math.round(p.amount / 12) : p.interval === "quarter" ? Math.round(p.amount / 3) : p.amount;
   }
   const lists = await Promise.all(customerIds.map((id) => invoicesFor(id, loc).then((inv) => [id, inv] as const)));

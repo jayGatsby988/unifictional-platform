@@ -31,7 +31,7 @@ export default async function SignupLead({ params }: { params: Promise<{ id: str
             <CreateCompany title="Create their company and give them access" initial={{ name: s.company ?? "", website: s.website ?? "", email: s.email }} from={{ kind: "signup", id: s.id }} />
           )}
           <div className="panel p-5 text-sm text-ink-muted">
-            They asked for a portal account from the sign-up page. Create their company, then create their login and text it to them. After that, assign their data sources under Data connections.
+            They asked for a portal account from the sign-up page. Their company and login were created automatically when they signed up (the welcome email has the details). After that, assign their data sources under Data connections.
           </div>
         </div>
         <div className="space-y-4">

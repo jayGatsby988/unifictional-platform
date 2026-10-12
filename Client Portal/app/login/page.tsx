@@ -18,7 +18,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
             Always know what&apos;s actually working.
           </h1>
           <p className="mt-6 max-w-md text-bone/70 text-lg">
-            Your website, search visibility, social, and 3D projects — one place, updated as we work.
+            Your website, search visibility, social and SEO Autopilot — one place, updated as we work.
           </p>
         </div>
         <p className="label !text-bone/40">unifictional.com</p>

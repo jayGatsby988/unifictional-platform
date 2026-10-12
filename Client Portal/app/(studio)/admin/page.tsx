@@ -14,6 +14,7 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
   const sp = await searchParams;
   const data = await getAdminData(session);
   const selected = data.clients.find((c) => c.slug === sp.client) ?? data.clients[0];
+  if (!selected) return <div className="panel p-6 text-sm text-ink-muted">No companies yet. They appear here as soon as someone signs up, or add one from <Link className="underline" href="/studio/companies">Companies</Link>.</div>;
 
   return (
     <>

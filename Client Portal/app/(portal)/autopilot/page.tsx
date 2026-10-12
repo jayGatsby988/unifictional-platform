@@ -15,13 +15,14 @@ import { getAutopilot } from "@/lib/data/autopilot";
 import { adminConfigured, createAdminClient } from "@/lib/supabase/admin";
 import { refreshSubscription, subscriptionStale } from "@/lib/autopilot/access";
 import { loadBuilder } from "@/lib/billing/builder";
+import { hostedBlogUrl } from "@/lib/data/hosted-blog";
 import { AUTO_PUBLISH_BAR } from "@/lib/autopilot/quality";
 import { cadenceLabel, projectSchedule } from "@/lib/autopilot/schedule";
 import { fmt } from "@/lib/utils";
 import { STUDIO_EMAIL } from "@/lib/email/send";
 
 const HOW = [
-  ["Pick the search", "We look at what your site ranks for, what it doesn't, and what homeowners near you actually type into Google."],
+  ["Pick the search", "We look at what your site ranks for, what it doesn't, and what your customers actually type into Google."],
   ["Write and check", "900–1,400 words in your voice, linked to your own pages, with the questions people ask — then scored against a 10-point SEO checklist and fixed before you see it."],
   ["Publish and improve", "It goes on your site (or waits for your OK), and we list the on-page fixes that matter most, with a checklist to work through."],
 ];
@@ -51,7 +52,7 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
     return (
       <>
         <Section num="03" label="SEO Autopilot" title="Build your plan."
-          intro="Pick how many posts a month, add what you need, and start on Square. We write and publish each post for a search homeowners near you actually type, check it against an SEO checklist, and list the fixes that move your site up." />
+          intro="Pick how many posts a month, add what you need, and start on Square. We write and publish each post for a search your customers actually type, check it against an SEO checklist, and list the fixes that move your site up." />
         {sp.checkout === "return" && !session.isDemo && <ConfirmPayment />}
         <div className="mb-10">
           {catalog
@@ -84,7 +85,7 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
     return (
       <>
         <Section num="03" label="SEO Autopilot" title="Your SEO, on autopilot."
-          intro="Every week we write and publish a blog post aimed at a search homeowners near you actually type, check it against an SEO checklist, and list the fixes that move your site up. Answer two questions once; we handle the rest." />
+          intro="On your schedule we write and publish a blog post aimed at a search your customers actually type, check it against an SEO checklist, and list the fixes that move your site up. Answer two questions once; we handle the rest." />
         {sp.checkout === "return" && <div className="panel p-4 mb-6 text-sm"><span className="font-medium">You&apos;re in.</span> Your plan is active. Two questions and your first post is on its way.</div>}
         <div className="grid lg:grid-cols-5 gap-4 mb-10">
           <div className="lg:col-span-3"><AutopilotForm settings={s} demo={session.isDemo} maxPosts={maxPosts} studioEmail={STUDIO_EMAIL} siteUrl={c.websiteUrl} /></div>
@@ -141,6 +142,17 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
         <Stat label="Next post" value={s.nextRunAt ? fmt.date(s.nextRunAt) : "soon"} sub={upcoming ? `${upcoming} topics planned` : s.lastRunAt ? `last one ${fmt.date(s.lastRunAt)}` : "the first one is on its way"} />
       </div>
 
+      {s.target === "blog" && (
+        <div className="panel p-4 mb-10 flex flex-wrap items-center justify-between gap-3 text-sm">
+          <div className="min-w-0">
+            <span className="font-medium">Your blog lives at</span>{" "}
+            <a className="underline font-mono text-xs break-all" href={hostedBlogUrl(c.slug)} target="_blank" rel="noreferrer">{hostedBlogUrl(c.slug).replace(/^https?:\/\//, "")}</a>
+            <p className="text-xs text-ink-muted mt-1">Every post goes live there on its own. Add one &quot;Blog&quot; link to it from your website&apos;s menu so visitors and Google find it.</p>
+          </div>
+          <a className="btn btn-ghost !py-2 !px-4 text-xs" href={`${hostedBlogUrl(c.slug)}/sitemap.xml`} target="_blank" rel="noreferrer">Sitemap for Search Console</a>
+        </div>
+      )}
+
       {awaiting.length > 0 && (
         <section className="mb-10">
           <SubHead>Needs your OK</SubHead>
@@ -159,7 +171,7 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
             <SubHead>Posts</SubHead>
             <div className="space-y-4">
               {others.map((p) => <PostCard key={p.id} post={p} />)}
-              {others.length === 0 && <div className="panel p-5 text-sm text-ink-muted">Nothing here yet. Your first post shows up {s.mode === "approve" ? "for your OK " : ""}after the next daily run — or hit Write a post now.</div>}
+              {others.length === 0 && <div className="panel p-5 text-sm text-ink-muted">Nothing here yet. Your first post shows up {s.mode === "approve" ? "for your OK " : ""}within the hour — or hit Write a post now.</div>}
             </div>
           </div>
         </div>

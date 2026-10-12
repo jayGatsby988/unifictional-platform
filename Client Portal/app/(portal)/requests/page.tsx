@@ -4,7 +4,7 @@ import { RequestForm } from "@/components/RequestForm";
 import { getPortal } from "@/lib/data/repo";
 import { fmt } from "@/lib/utils";
 
-const TYPE_LABEL: Record<string, string> = { website: "Website", seo: "Search", social: "Social", estimator: "Quote tool", other: "Other" };
+const TYPE_LABEL: Record<string, string> = { website: "Website", seo: "Search", social: "Social", estimator: "Quote tool", billing: "Billing", other: "Other" };
 
 export default async function RequestsPage({ searchParams }: { searchParams: Promise<{ type?: string; about?: string }> }) {
   const sp = await searchParams;

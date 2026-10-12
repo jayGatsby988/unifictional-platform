@@ -4,6 +4,7 @@ import { NextResponse, after } from "next/server";
 import { bookingConfig, googleConfigured } from "@/lib/booking/config";
 import { buildConfigured, siteOrigin } from "@/lib/build/pipeline";
 import { startBuildAnywhere } from "@/lib/build/start";
+import { leadsSince } from "@/lib/build/storage";
 import { isSlotAvailable } from "@/lib/booking/check";
 import { sendClientConfirmation, sendOwnerNotification } from "@/lib/booking/email";
 import { createCalendarEvent, findEventByBookingId } from "@/lib/booking/google";
@@ -162,11 +163,15 @@ export async function POST(req: Request) {
           message: booking.message,
           slotStartISO: booking.slotStartISO,
         };
-        after(() =>
-          startBuildAnywhere({ id: booking.bookingId, origin, lead })
+        // Every build costs real money, so a day's worth is capped (BUILD_DAILY_LIMIT, default 5); the booking itself still goes through.
+        after(async () => {
+          const cap = Math.max(0, Number(process.env.BUILD_DAILY_LIMIT || 5));
+          const today = await leadsSince(24 * 3600e3).catch(() => 0);
+          if (today >= cap) { console.warn(`[build] daily cap reached (${today}/${cap}); not building for ${booking.bookingId}`); return; }
+          await startBuildAnywhere({ id: booking.bookingId, origin, lead })
             .then((r) => console.log(`[build] started via ${r.via}${r.runId ? " run " + r.runId : ""} for ${booking.bookingId}`))
-            .catch((err) => console.error("[build] could not start:", err))
-        );
+            .catch((err) => console.error("[build] could not start:", err));
+        });
       }
 
       await Promise.allSettled([

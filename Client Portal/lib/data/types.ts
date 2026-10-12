@@ -183,7 +183,8 @@ export type PortalData = {
 // SEO Autopilot -------------------------------------------------------------
 export type AutopilotCadence = "twice_weekly" | "weekly" | "biweekly" | "monthly";
 export type AutopilotMode = "auto" | "approve";
-export type AutopilotTarget = "hosted" | "wordpress" | "manual";
+/** "blog" = the blog we host at /b/<company> (automatic, no access needed); "hosted" = a site we built; "manual" = a site builder we paste into or the client does. */
+export type AutopilotTarget = "blog" | "hosted" | "wordpress" | "manual";
 
 export type AutopilotSettings = {
   enabled: boolean;

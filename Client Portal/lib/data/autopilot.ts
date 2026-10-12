@@ -6,11 +6,11 @@ import { EMPTY_SITE, isSiteAccess, siteStatus } from "@/lib/autopilot/site-acces
 import { demoAutopilot, demoStudioAutopilot } from "./demo";
 import type { Autopilot, AutopilotRun, AutopilotSettings, PostPerformance, SeoPost, StudioAutopilotRow } from "./types";
 
-export const EMPTY_SETTINGS: AutopilotSettings = { enabled: false, cadence: "weekly", mode: "auto", target: "hosted", wpConnected: false, notes: "", nextRunAt: null, lastRunAt: null, plan: [], comped: false, subscription: null, package: null, site: EMPTY_SITE, access: false };
+export const EMPTY_SETTINGS: AutopilotSettings = { enabled: false, cadence: "weekly", mode: "auto", target: "blog", wpConnected: false, notes: "", nextRunAt: null, lastRunAt: null, plan: [], comped: false, subscription: null, package: null, site: EMPTY_SITE, access: false };
 
 export function mapSettings(r: any): AutopilotSettings {
   return {
-    enabled: Boolean(r.enabled), cadence: r.cadence ?? "weekly", mode: r.mode ?? "auto", target: r.target ?? "hosted",
+    enabled: Boolean(r.enabled), cadence: r.cadence ?? "weekly", mode: r.mode ?? "auto", target: r.target ?? "blog",
     wpConnected: Boolean(r.wp_connected), notes: r.notes ?? "", nextRunAt: r.next_run_at ?? null, lastRunAt: r.last_run_at ?? null,
     plan: Array.isArray(r.plan) ? r.plan : [],
     comped: Boolean(r.comped),
@@ -67,6 +67,7 @@ export async function getAutopilot(session: Session): Promise<Autopilot> {
 
 /** Can posts go out on their own for this company, given its target and what the studio has set up? */
 export function publishingStatus(s: Pick<AutopilotSettings, "target" | "wpConnected" | "site">, cfg: { site_repo?: string | null; site_revalidate_url?: string | null } | null, githubToken: boolean): StudioAutopilotRow["publishing"] {
+  if (s.target === "blog") return { ready: true, note: "Blog we host · automatic" };
   if (s.target === "wordpress") return s.wpConnected ? { ready: true, note: "WordPress" } : { ready: false, note: "WordPress login missing" };
   if (s.target === "hosted") {
     if (cfg?.site_repo) return githubToken ? { ready: true, note: `GitHub · ${cfg.site_repo}` } : { ready: false, note: "GITHUB_TOKEN not set" };

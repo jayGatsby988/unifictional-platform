@@ -60,7 +60,7 @@ export function PostCard({ post, open = false }: { post: SeoPost; open?: boolean
         : action === "skip" ? "Skipped."
         : j.status === "published" ? "Published. It's live on your site."
         : j.status === "ready" ? "Approved. It's ready to paste onto your site."
-        : j.queued ? "Approved. It goes live at the next daily run."
+        : j.queued ? "Approved. It goes live within the hour."
         : j.error ? `Approved, but publishing failed: ${j.error}`
         : "Approved.",
     );

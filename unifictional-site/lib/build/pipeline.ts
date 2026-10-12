@@ -80,7 +80,7 @@ export interface BuildJob {
 }
 
 export const buildConfigured = () => hasKey();
-export const buildSecret = () => process.env.BUILD_SECRET || process.env.BOOKING_SECRET || "dev-build-secret";
+export const buildSecret = () => process.env.BUILD_SECRET || process.env.BOOKING_SECRET || (process.env.NODE_ENV === "production" ? "" : "dev-build-secret");
 
 export function siteOrigin(req: Request) {
   if (process.env.VERCEL_ENV === "production" && process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");

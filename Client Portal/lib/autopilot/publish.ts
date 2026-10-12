@@ -11,6 +11,8 @@ export type Target =
   | { kind: "wordpress"; url: string; user: string; appPassword: string }
   | { kind: "github"; repo: string; dir: string; siteUrl: string; token: string }
   | { kind: "feed"; revalidateUrl: string; siteUrl: string }
+  /** The blog we host at /b/<company>: the post is live the moment it's saved. */
+  | { kind: "blog"; base: string }
   | { kind: "manual"; reason: string };
 
 /** "mysite.com/wp-admin" → "https://mysite.com". null when it isn't a URL at all. */
@@ -93,5 +95,6 @@ export async function publish(t: Target, p: PostForPublish, date: string): Promi
   if (t.kind === "wordpress") return publishToWordpress(t, p);
   if (t.kind === "github") return publishToGithub(t, p, date);
   if (t.kind === "feed") return publishToFeed(t, p);
+  if (t.kind === "blog") return { url: `${t.base.replace(/\/+$/, "")}/${p.slug}` };
   throw new Error(t.reason);
 }

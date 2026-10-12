@@ -223,7 +223,7 @@ export const services: ServiceItem[] = [
       },
       {
         q: "How much does SEO cost for contractors?",
-        a: "Across the industry, local SEO runs roughly $500–$1,500 a month for a single-location contractor and $1,500–$5,000 in competitive markets. We scope to your service area and goals rather than selling a package — our full breakdown of market pricing is in the SEO cost guide.",
+        a: "Across the industry, local SEO runs roughly $500–$1,500 a month for a single-location contractor and $1,500–$5,000 in competitive markets. Our SEO Autopilot is self-serve and priced per post in the plan builder, so you see the number before you start; bigger scopes we price to your service area and goals. Our full breakdown of market pricing is in the SEO cost guide.",
       },
       {
         q: "Can you help me rank in more than one city?",
@@ -590,8 +590,8 @@ export const faqs: Faq[] = [
     a: "Yes. When you book, we research your business (your current site if you have one, your projects, your reviews, your market) and build a complete new website: every page written, your photos and logo, structured for search. On the call we walk through it together. If it's not for you, you still leave with a clear plan.",
   },
   {
-    q: "Why don't you show pricing on the website?",
-    a: "Because no two businesses need the same thing. A solo remodeler and a 30-person GC have completely different goals. We'd rather learn what you actually need on a quick call and recommend the right system — instead of boxing you into a package you'll outgrow or overpay for.",
+    q: "What does it cost?",
+    a: "SEO Autopilot is priced in the open: you pick how many posts a month and any add-ons in the plan builder, see the total, and start on your card the same minute. No call needed. Websites and full systems are scoped on a quick call, because a solo remodeler and a 30-person GC need very different things.",
   },
   {
     q: "Do you only build websites?",

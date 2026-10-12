@@ -205,3 +205,14 @@ test("site profile: contractor sites come from the trade table, anything else is
   assert.equal(p.source, "trades");
   assert.ok(p.searchSeeds.some((s) => s.includes("roof")));
 });
+
+test("hosted blog target: live the moment it's saved, at /b/<company>/<post>", async () => {
+  const run = await import("../lib/autopilot/run.ts");
+  const pub = await import("../lib/autopilot/publish.ts");
+  const t = run.resolveTarget({ target: "blog" }, null, "", {}, "gilded-thread");
+  assert.equal(t.kind, "blog");
+  assert.match(t.base, /\/b\/gilded-thread$/);
+  const r = await pub.publish(t, { title: "T", slug: "gold-filled-bangles", metaDescription: "", excerpt: "", targetQuery: "", bodyMd: "x" }, "2026-10-12");
+  assert.match(r.url, /\/b\/gilded-thread\/gold-filled-bangles$/);
+  assert.equal(run.resolveTarget({ target: "blog" }, null, "", {}).kind, "manual");
+});

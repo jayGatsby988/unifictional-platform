@@ -15,6 +15,7 @@ import { accessFrom, refreshSubscription } from "./access";
 import { isSiteAccess, pasteNote, studioPastes, type SiteSetup } from "./site-access";
 import { emailConfigured, sendEmail, STUDIO_EMAIL } from "@/lib/email/send";
 import { studioPastePostEmail } from "@/lib/email/templates";
+import { hostedBlogUrl, portalOrigin } from "@/lib/data/hosted-blog";
 
 export type RunOutcome = { ok: boolean; message: string; postId?: string; published?: number };
 
@@ -28,7 +29,9 @@ const siteOf = (c: Ctx): string => c.cfg?.site_url || c.client.website_url || ""
 const stamp = () => new Date().toISOString();
 
 /** Where this company's posts go. Falls back to "manual" (the post waits in the portal) with the reason. */
-export function resolveTarget(settings: { target: string }, cfg: any, siteUrl: string, env: { githubToken?: string } = { githubToken: process.env.GITHUB_TOKEN }): Target {
+export function resolveTarget(settings: { target: string }, cfg: any, siteUrl: string, env: { githubToken?: string } = { githubToken: process.env.GITHUB_TOKEN }, clientSlug = ""): Target {
+  // The blog we host: nothing to connect, live the moment the post is saved.
+  if (settings.target === "blog") return clientSlug ? { kind: "blog", base: hostedBlogUrl(clientSlug) } : { kind: "manual", reason: "Hosted blog needs the company slug." };
   if (settings.target === "wordpress") {
     if (cfg?.wp_url && cfg?.wp_user && cfg?.wp_app_password) return { kind: "wordpress", url: cfg.wp_url, user: cfg.wp_user, appPassword: cfg.wp_app_password };
     return { kind: "manual", reason: "WordPress login missing. The client re-enters it on their SEO Autopilot page." };
@@ -187,7 +190,7 @@ export async function runForClient(db: SupabaseClient, c: Ctx): Promise<RunOutco
 
 /** Push one saved post to the client's site and record what happened. */
 export async function publishPost(db: SupabaseClient, c: Ctx, post: any): Promise<RunOutcome> {
-  const target = resolveTarget(c.settings, c.cfg, siteOf(c));
+  const target = resolveTarget(c.settings, c.cfg, siteOf(c), undefined, c.client.slug as string);
   const now = stamp();
   if (target.kind === "manual") {
     // A "somewhere else" site: the studio pastes it (invited, or login on file) or the client does.
@@ -211,9 +214,6 @@ export async function publishPost(db: SupabaseClient, c: Ctx, post: any): Promis
     return { ok: false, message, postId: post.id };
   }
 }
-
-/** Where the portal lives, for links in studio notices sent from the cron (no request to read it from). */
-const portalOrigin = () => process.env.NEXT_PUBLIC_PORTAL_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:8120");
 
 /** A post is waiting for the studio to paste onto a GoDaddy/Wix/… site: an Inbox request plus an email. */
 async function notifyStudioToPaste(db: SupabaseClient, c: Ctx, post: any, site: SiteSetup): Promise<void> {

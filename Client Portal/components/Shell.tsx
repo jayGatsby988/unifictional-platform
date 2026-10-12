@@ -19,7 +19,7 @@ export function Shell({ session, children }: { session: Session; children: React
             <div className="label !text-[9px]">Client portal</div>
           </div>
         </Link>
-        <Sidebar admin={session.isAdmin} />
+        <Sidebar admin={session.isAdmin} services={client?.services} />
         <div className="mt-auto space-y-4">
           {client && (
             <div className="panel p-4">
@@ -57,7 +57,7 @@ export function Shell({ session, children }: { session: Session; children: React
                 <>
                   <div className="min-w-0">
                     <p className="font-display text-base sm:text-lg truncate">{client.name}</p>
-                    <p className="text-xs text-ink-muted truncate hidden sm:block">{client.industry} · {client.city}</p>
+                    {(client.industry || client.city) && <p className="text-xs text-ink-muted truncate hidden sm:block">{[client.industry, client.city].filter(Boolean).join(" · ")}</p>}
                   </div>
                   {session.isAdmin && <ClientSwitcher clients={session.clients} current={client.slug} />}
                 </>
@@ -71,7 +71,7 @@ export function Shell({ session, children }: { session: Session; children: React
         </header>
         <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-7xl w-full mx-auto">{children}</main>
         <footer className="px-4 sm:px-6 lg:px-8 py-6 text-xs text-ink-muted border-t border-line">
-          Unifictional · Marketing studio for builders &amp; remodelers · <a className="underline" href="https://unifictional.com">unifictional.com</a>
+          Unifictional · Marketing for local businesses · <a className="underline" href="https://unifictional.com">unifictional.com</a>
         </footer>
       </div>
     </div>

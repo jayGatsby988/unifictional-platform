@@ -163,3 +163,27 @@ export function BookCall({
     </CtaButton>
   );
 }
+
+/** Where the self-serve product lives: the Client Portal's sign-up, which lands on the SEO Autopilot plan builder. */
+const PORTAL_URL = (process.env.NEXT_PUBLIC_PORTAL_URL || "https://unifictional-client-portal.vercel.app").replace(/\/+$/, "");
+
+/** The self-serve CTA: no call, no form, straight into the plan builder. */
+export function StartAutopilot({
+  label = "Start SEO Autopilot",
+  variant = "solid",
+  size = "default",
+  className,
+  icon = "up-right",
+}: {
+  label?: string;
+  variant?: Variant;
+  size?: Size;
+  className?: string;
+  icon?: CtaButtonProps["icon"];
+}) {
+  return (
+    <CtaButton href={`${PORTAL_URL}/signup`} external variant={variant} size={size} icon={icon} className={className} ariaLabel={label}>
+      {label}
+    </CtaButton>
+  );
+}

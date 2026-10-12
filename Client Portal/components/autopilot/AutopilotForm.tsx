@@ -11,14 +11,15 @@ import { PLATFORMS, inviteSteps, type SiteAccess } from "@/lib/autopilot/site-ac
 import { cn } from "@/lib/utils";
 
 const TARGETS: { key: AutopilotTarget; title: string; detail: string }[] = [
-  { key: "hosted", title: "Unifictional built or hosts it", detail: "Nothing to add. We already have what we need to publish." },
-  { key: "wordpress", title: "It's on WordPress", detail: "One application password from your WordPress admin. Not your real password, and you can revoke it any time." },
-  { key: "manual", title: "Somewhere else", detail: "GoDaddy, Wix, Squarespace… We write each post; invite us to paste it, share a login, or paste it yourself." },
+  { key: "blog", title: "A blog we host for you (automatic)", detail: "Nothing to connect. Posts go live on their own at your own blog address; add one link to it from your site. Works with any site builder." },
+  { key: "wordpress", title: "Straight into my WordPress site", detail: "One application password from your WordPress admin. Not your real password, and you can revoke it any time." },
+  { key: "hosted", title: "Unifictional built or hosts my site", detail: "Nothing to add. We already have what we need to publish." },
+  { key: "manual", title: "Pasted into my site builder", detail: "GoDaddy, Wix, Squarespace… We write each post; invite us to paste it, share a login, or paste it yourself. Slower than the hosted blog." },
 ];
 
 const ACCESS: { key: SiteAccess; title: string; detail: (p: string) => string }[] = [
   { key: "invite", title: "Invite us as a collaborator (recommended)", detail: (p) => `No password sharing. A minute in your ${p || "site builder"} account, then we paste every post for you within a business day.` },
-  { key: "login", title: "Share a login", detail: (p) => `The username and password for your ${p || "site builder"} account. Stored encrypted, never shown again. We paste every post for you.` },
+  { key: "login", title: "Share a login", detail: (p) => `The username and password for your ${p || "site builder"} account. Kept private, never shown again. We paste every post for you.` },
   { key: "self", title: "I'll paste them myself", detail: () => "Each post arrives here ready to copy as HTML or text. You tap \"It's live\" when it's up." },
 ];
 
@@ -73,7 +74,7 @@ export function AutopilotForm({ settings, demo, maxPosts = null, studioEmail = "
       text: j.demo ? "Demo mode: nothing was saved, but this is where autopilot would switch on."
         : !enabled ? "Paused. Nothing new is written until you switch it back on."
         : settings.enabled ? "Saved."
-        : "Autopilot is on. Your first post arrives after the next daily run.",
+        : "Autopilot is on. Your first post arrives within the hour.",
     });
     router.refresh();
   }
@@ -82,7 +83,7 @@ export function AutopilotForm({ settings, demo, maxPosts = null, studioEmail = "
   return (
     <form onSubmit={(e) => { e.preventDefault(); submit(true); }} className="panel p-5 sm:p-6 space-y-6">
       <fieldset>
-        <legend className="label mb-3">1 · Where does your website live?</legend>
+        <legend className="label mb-3">1 · Where should the posts go?</legend>
         <div className="grid gap-2">
           {TARGETS.map((t) => <Choice key={t.key} name="target" on={target === t.key} title={t.title} detail={t.detail} onPick={() => setTarget(t.key)} />)}
         </div>
@@ -135,7 +136,7 @@ export function AutopilotForm({ settings, demo, maxPosts = null, studioEmail = "
                   <label className="block"><span className="label !text-[9px] block mb-1">{platform || "Account"} username or email</span><input className="input !py-2 text-sm" value={siteUser} onChange={(e) => setSiteUser(e.target.value)} required={!settings.site.loginOnFile} autoComplete="off" /></label>
                   <label className="block"><span className="label !text-[9px] block mb-1">Password</span><input className="input !py-2 text-sm font-mono" type="password" value={sitePass} onChange={(e) => setSitePass(e.target.value)} required={!settings.site.loginOnFile} autoComplete="new-password" /></label>
                 </div>
-                <p className="text-[11px] text-ink-muted">Stored encrypted, visible only to the studio, never shown here again. Two-step verification on? We&apos;ll text you for the code the first time.</p>
+                <p className="text-[11px] text-ink-muted">Kept on our side, visible only to the studio, never shown here again. Two-step verification on? We&apos;ll text you for the code the first time.</p>
               </div>
             )}
           </div>

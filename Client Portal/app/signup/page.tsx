@@ -12,7 +12,7 @@ export default function SignupPage() {
         <div>
           <p className="label !text-bone/60 mb-5">Client portal</p>
           <h1 className="font-display text-5xl xl:text-6xl leading-[0.95] max-w-xl">Your numbers, in one place.</h1>
-          <p className="mt-6 max-w-md text-bone/70 text-lg">Tell us who you are. We set up your company, connect the data on our side, and email you a sign-in link. You don&apos;t have to configure anything.</p>
+          <p className="mt-6 max-w-md text-bone/70 text-lg">Tell us who you are and we email you a sign-in. Your dashboard is ready the moment you&apos;re in, and SEO Autopilot is one click away.</p>
         </div>
         <p className="label !text-bone/40">unifictional.com</p>
       </section>

@@ -46,7 +46,7 @@ export default function Landing() {
           <div className="flex items-center justify-between label !text-bone/50 mb-10 sm:mb-16">
             <span>Unifictional · Studio</span><span className="hidden sm:inline">Free inspection report</span>
           </div>
-          <p className="label !text-bone/60 mb-5">Marketing studio for builders &amp; remodelers</p>
+          <p className="label !text-bone/60 mb-5">Marketing for local businesses</p>
           <h1 className="font-display text-[3.2rem] leading-[0.92] sm:text-7xl lg:text-[6.5rem] max-w-5xl">
             Is your website<br />losing you jobs?
           </h1>
@@ -76,7 +76,7 @@ export default function Landing() {
       <section className="cv-auto max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-28 grid lg:grid-cols-12 gap-10">
         <div className="lg:col-span-4 reveal">
           <p className="label mb-4">00 / Why this exists</p>
-          <p className="text-sm text-ink-muted max-w-xs">Most builders lose their best jobs before the first call. Not to better work, but to competitors who simply look more trustworthy online.</p>
+          <p className="text-sm text-ink-muted max-w-xs">Most local businesses lose their best jobs before the first call. Not to better work, but to competitors who simply look more trustworthy online.</p>
         </div>
         <div className="lg:col-span-8 reveal">
           <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl leading-[0.95]">Your craftsmanship is premium. Your website should say so, before you ever pick up the phone.</h2>
@@ -120,7 +120,7 @@ export default function Landing() {
             </ul>
             <div className="mt-8 flex flex-wrap gap-2">
               <Link href="/signup" className="btn btn-ink">Create an account <ArrowRight className="h-4 w-4" /></Link>
-              <Link href="/overview" className="btn btn-ghost">See the demo <ArrowUpRight className="h-4 w-4" /></Link>
+              <Link href="/signup" className="btn btn-ghost">Start SEO Autopilot <ArrowUpRight className="h-4 w-4" /></Link>
             </div>
           </div>
           <div className="reveal"><PortalMock /></div>
@@ -149,7 +149,7 @@ export default function Landing() {
         </div>
         <footer className="border-t border-bone/10">
           <div className="max-w-7xl mx-auto px-5 sm:px-8 py-6 flex flex-wrap items-center justify-between gap-3 text-xs text-bone/50">
-            <span className="flex items-center gap-2"><Logo className="h-5 w-5" inverted /> Unifictional · Marketing studio for builders &amp; remodelers</span>
+            <span className="flex items-center gap-2"><Logo className="h-5 w-5" inverted /> Unifictional · Marketing for local businesses</span>
             <span className="flex gap-5"><a className="hover:text-bone" href="https://unifictional.com">unifictional.com</a><Link className="hover:text-bone" href="/guide">Setup guides</Link><Link className="hover:text-bone" href="/login">Client sign in</Link></span>
           </div>
         </footer>

@@ -8,7 +8,7 @@ const spaceMono = Space_Mono({ variable: "--font-space-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: "Client Portal — Unifictional",
-  description: "See how your website, search visibility, social and 3D projects are doing.",
+  description: "See how your website, search visibility, social and SEO Autopilot are doing.",
 };
 
 const themeScript = `try{var t=localStorage.getItem('portal-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light');}catch(e){}`;

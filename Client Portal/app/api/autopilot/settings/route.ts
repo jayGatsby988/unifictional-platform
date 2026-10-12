@@ -11,7 +11,7 @@ import { isSiteAccess } from "@/lib/autopilot/site-access";
 import { normalizeUrl } from "@/lib/audit";
 
 const MODES = new Set(["auto", "approve"]);
-const TARGETS = new Set(["hosted", "wordpress", "manual"]);
+const TARGETS = new Set(["blog", "hosted", "wordpress", "manual"]);
 
 /**
  * The client turns SEO Autopilot on, pauses it, or changes how it runs.
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   const enabled = Boolean(b.enabled);
   const cadence = isCadence(b.cadence) ? b.cadence : "weekly";
   const mode = MODES.has(b.mode) ? b.mode : "auto";
-  const target = TARGETS.has(b.target) ? b.target : "hosted";
+  const target = TARGETS.has(b.target) ? b.target : "blog";
   const notes = String(b.notes ?? "").trim().slice(0, 2000);
   const wpUser = String(b.wpUser ?? "").trim().slice(0, 200);
   const wpPass = String(b.wpAppPassword ?? "").trim().slice(0, 200);

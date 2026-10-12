@@ -13,7 +13,7 @@ export const runtime = "nodejs";
 
 export async function GET(req: Request) {
   const auth = req.headers.get("authorization") || "";
-  if (auth !== `Bearer ${buildSecret()}`) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  if (!buildSecret() || auth !== `Bearer ${buildSecret()}`) return NextResponse.json({ error: "forbidden" }, { status: 403 });
   const url = new URL(req.url);
   const id = url.searchParams.get("id") || "";
   const file = (url.searchParams.get("file") || "").replace(/[^a-z0-9-]/gi, "");

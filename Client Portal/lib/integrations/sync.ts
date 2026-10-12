@@ -5,10 +5,11 @@ import { checkUptime, fetchPageSpeed } from "./pagespeed";
 import { fetchGbp } from "./gbp";
 import { fetchFacebookPage, fetchInstagram } from "./meta";
 import { SOURCES, dateStr, type ClientIntegration, type Source, type SyncResult } from "./types";
+import { autopayForCustomer, squareConfigured } from "@/lib/billing/square";
 import { googleToken, metaPageToken, metaUserToken } from "./studio";
 import { runAudit } from "@/lib/audit";
 
-type ClientRow = { id: string; name: string; slug: string; website_url: string | null };
+type ClientRow = { id: string; name: string; slug: string; website_url: string | null; square_customer_id?: string | null };
 
 /**
  * Pulls every configured source for one client and writes the tables the
@@ -144,6 +145,13 @@ export async function syncClient(db: SupabaseClient, client: ClientRow, cfg: Cli
     return rows;
   });
 
+  // Billing: once a client has a card on file, move their monthly plan to automatic payments.
+  await run("autopay", Boolean(squareConfigured && client.square_customer_id), async () => {
+    const r = await autopayForCustomer(client.square_customer_id!);
+    if (r.switched) await db.from("activity").insert({ client_id: client.id, area: "account", title: "Monthly plan switched to automatic payments" });
+    return r.switched;
+  });
+
   if (results.length) {
     await db.from("sync_runs").insert(results.map((r) => ({ client_id: client.id, source: r.source, ok: r.ok, message: r.message, rows: r.rows })));
   }
@@ -151,7 +159,7 @@ export async function syncClient(db: SupabaseClient, client: ClientRow, cfg: Cli
 }
 
 export async function syncAll(db: SupabaseClient, opts: { clientSlug?: string; sources?: Source[] } = {}) {
-  let q = db.from("clients").select("id, name, slug, website_url");
+  let q = db.from("clients").select("id, name, slug, website_url, square_customer_id");
   if (opts.clientSlug) q = q.eq("slug", opts.clientSlug);
   const { data: clients, error } = await q;
   if (error) throw new Error(error.message);

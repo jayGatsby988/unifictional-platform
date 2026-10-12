@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Check, Copy, KeyRound, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type Result = { email: string; password: string; reset: boolean; loginUrl: string; company: string };
+type Result = { email: string; password: string; reset: boolean; loginUrl: string; company: string; emailed?: boolean };
 
 function firstName(name: string) {
   return name.trim().split(/\s+/)[0] ?? "";
@@ -29,10 +29,11 @@ export function CreateLogin({ slug, email: initialEmail = "", name = "", phone =
   const [needsKey, setNeedsKey] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [copied, setCopied] = useState<"" | "text" | "pw">("");
+  const [emailThem, setEmailThem] = useState(true);
 
   async function create() {
     setState("busy"); setMsg(""); setResult(null);
-    const res = await fetch("/api/studio/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ slug, email, name }) });
+    const res = await fetch("/api/studio/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ slug, email, name, emailThem }) });
     const j = await res.json().catch(() => ({}));
     if (!res.ok) { setState("error"); setMsg(j.error ?? "Could not create the login."); setNeedsKey(Boolean(j.needsKey)); return; }
     // Don't refresh yet: the page would re-render and hide the one-time password.
@@ -60,6 +61,7 @@ export function CreateLogin({ slug, email: initialEmail = "", name = "", phone =
         <button className={cn("btn btn-ink", compact && "!py-1.5 !px-3 text-xs")} disabled={state === "busy"}>
           <KeyRound className="h-3.5 w-3.5" />{state === "busy" ? "Creating…" : "Create login"}
         </button>
+        <label className="flex items-center gap-1.5 text-xs text-ink-muted"><input type="checkbox" className="h-4 w-4 accent-black" checked={emailThem} onChange={(e) => setEmailThem(e.target.checked)} />Email it to them</label>
       </form>
 
       {state === "error" && (
@@ -77,7 +79,7 @@ export function CreateLogin({ slug, email: initialEmail = "", name = "", phone =
 
       {result && (
         <div className="mt-4 rounded-xl border border-ink p-4 space-y-3 text-left">
-          <div className="flex items-center gap-2 text-sm font-medium"><Check className="h-4 w-4 text-good" />{result.reset ? "Password reset and access given." : "Login created and linked."}</div>
+          <div className="flex items-center gap-2 text-sm font-medium"><Check className="h-4 w-4 text-good" />{result.emailed ? `Login created, linked, and emailed to ${result.email}.` : "Login created and linked."}</div>
           <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
             <dt className="text-ink-muted">Email</dt><dd className="font-mono break-all">{result.email}</dd>
             <dt className="text-ink-muted">Password</dt>

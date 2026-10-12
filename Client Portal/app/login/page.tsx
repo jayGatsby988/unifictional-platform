@@ -3,7 +3,7 @@ import { demoMode } from "@/lib/env";
 import { LoginForm } from "@/components/LoginForm";
 import { Logo } from "@/components/Logo";
 
-export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string; next?: string }> }) {
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string; next?: string; email?: string }> }) {
   const sp = await searchParams;
   return (
     <main className="flex-1 grid lg:grid-cols-2">
@@ -32,10 +32,10 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
           </div>
           <p className="label mb-3">Sign in</p>
           <h2 className="font-display text-3xl mb-2">Welcome back.</h2>
-          <p className="text-ink-muted mb-8">Sign in with the email and password we set up for your company, or request an email link.</p>
+          <p className="text-ink-muted mb-8 text-base">Use the email you signed up with and the password from your welcome email. Forgot it? We&apos;ll email you a one-tap link.</p>
 
           {sp.error === "link" && (
-            <p className="mb-5 rounded-xl bg-bad-bg text-bad px-4 py-3 text-sm">That link has expired. Request a new one below.</p>
+            <p className="mb-5 rounded-xl bg-bad-bg text-bad px-4 py-3 text-sm">That sign-in link has expired or was already used. Tap &quot;Forgot your password?&quot; below for a fresh one.</p>
           )}
 
           {demoMode ? (
@@ -45,7 +45,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
               <Link href="/overview" className="btn btn-ink w-full justify-center">Open the demo portal</Link>
             </div>
           ) : (
-            <LoginForm next={sp.next} />
+            <LoginForm next={sp.next} initialEmail={sp.email ?? ""} />
           )}
 
           <p className="mt-10 text-xs text-ink-muted">

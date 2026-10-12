@@ -100,6 +100,9 @@ export default async function BillingPage({ searchParams }: { searchParams: Prom
               <p className="text-sm text-ink-muted mt-2">
                 {plan.cancelAt ? `Ends ${fmt.dateLong(plan.cancelAt)}` : plan.nextChargeAt ? `Next invoice ${fmt.dateLong(plan.nextChargeAt)}` : plan.status === "past_due" ? "Payment past due" : "Active"}
               </p>
+              <p className={cn("text-sm mt-2 font-medium", plan.autopay ? "text-good" : "text-ink")}>
+                {plan.autopay ? "Autopay is on: charged to your saved card each month." : "Autopay is off: pay your next invoice and tick \u201cSave my card\u201d to switch to automatic payments."}
+              </p>
               {b.plans.length > 1 && <p className="text-xs text-ink-muted mt-2">+ {b.plans.length - 1} more: {b.plans.slice(1).map((p) => `${p.name} (${money(p.amount, p.currency)}/${p.interval})`).join(", ")}</p>}
             </>
           ) : (

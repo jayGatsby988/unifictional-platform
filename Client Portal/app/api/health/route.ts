@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/lib/data/repo";
 import { adminConfigured, createAdminClient } from "@/lib/supabase/admin";
 import { locationId, squareConfigured, squareSandbox } from "@/lib/billing/square";
+import { emailConfigured } from "@/lib/email/send";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,7 @@ export async function GET(request: Request) {
   const viaSecret = Boolean(secret && request.headers.get("authorization") === `Bearer ${secret}`);
   if (!viaSecret) {
     const session = await getSession().catch(() => null);
-    if (!session?.isAdmin || session.isDemo) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!session?.isAdmin || session.isDemo) return NextResponse.json({ error: "Unauthorized", secretConfigured: Boolean(secret) }, { status: 401 });
   }
 
   const out: Record<string, string> = {};
@@ -35,6 +36,7 @@ export async function GET(request: Request) {
     }
   }
 
+  out.email = emailConfigured ? "configured" : "missing";
   // ?detail=logins (secret only): which login is linked to which company. Emails only, no secrets.
   if (viaSecret && new URL(request.url).searchParams.get("detail") === "logins" && adminConfigured) {
     const admin = createAdminClient();
@@ -54,5 +56,6 @@ export async function GET(request: Request) {
       })),
     });
   }
+  out.email = emailConfigured ? "configured" : "missing";
   return NextResponse.json(out);
 }

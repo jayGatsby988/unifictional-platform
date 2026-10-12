@@ -4,6 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import { slugify } from "@/lib/data/studio";
 import { onboardBilling } from "@/lib/billing/onboard";
 import { addInvite } from "@/lib/data/invites";
+import { emailConfigured, sendEmail, signOffFor } from "@/lib/email/send";
+import { dashboardReadyEmail } from "@/lib/email/templates";
 
 /**
  * Create a company (optionally from a lead) and give a login access to it.
@@ -48,5 +50,15 @@ export async function POST(request: Request) {
   }
   await db.from("activity").insert({ client_id: client.id, area: "account", title: "Company added to the portal" });
   const billing = await onboardBilling(db, { client: { id: client.id, name }, email, start: b.billing?.start ? b.billing : null });
-  return NextResponse.json({ ok: true, slug: client.slug, linked, billing });
+  // They already have a login (e.g. signed up themselves): tell them their dashboard is live.
+  let notified = false;
+  if (linked && emailConfigured) {
+    let person = "";
+    if (b.from?.kind === "signup" && typeof b.from.id === "string") {
+      const { data: req } = await db.from("signup_requests").select("name").eq("id", b.from.id).maybeSingle();
+      person = req?.name ?? "";
+    }
+    notified = (await sendEmail({ to: email, sender: "updates", ...dashboardReadyEmail({ name: person, company: name, loginUrl: `${new URL(request.url).origin}/login?email=${encodeURIComponent(email)}`, signOff: signOffFor("updates") }) })).sent;
+  }
+  return NextResponse.json({ ok: true, slug: client.slug, linked, billing, notified });
 }

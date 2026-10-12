@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 
 type Mode = "" | "invoice" | "plan";
 
-export function BillingActions({ slug, name, customerId, defaultEmail, dashboard, presets = [] }:
-  { slug: string; name: string; customerId: string | null; defaultEmail: string; dashboard: string; presets?: { name: string; dollars: string }[] }) {
+export function BillingActions({ slug, name, customerId, defaultEmail, dashboard, presets = [], needsAutopay = false }:
+  { slug: string; name: string; customerId: string | null; defaultEmail: string; dashboard: string; presets?: { name: string; dollars: string }[]; needsAutopay?: boolean }) {
   const router = useRouter();
   const [email, setEmail] = useState(defaultEmail);
   const [mode, setMode] = useState<Mode>("");
@@ -45,6 +45,7 @@ export function BillingActions({ slug, name, customerId, defaultEmail, dashboard
       <div className="flex flex-wrap items-center gap-2">
         <button type="button" className={cn("btn !py-1.5 !px-3 text-xs", mode === "invoice" ? "btn-ink" : "btn-ghost")} onClick={() => { setMode(mode === "invoice" ? "" : "invoice"); setAmount("2000"); }}><FileText className="h-3.5 w-3.5" />Send invoice</button>
         <button type="button" className={cn("btn !py-1.5 !px-3 text-xs", mode === "plan" ? "btn-ink" : "btn-ghost")} onClick={() => { setMode(mode === "plan" ? "" : "plan"); setPlanName(presets[0]?.name ?? "SEO & website care"); setAmount(presets[0]?.dollars ?? "1500"); }}><Repeat className="h-3.5 w-3.5" />Start monthly plan</button>
+        {needsAutopay && <button type="button" disabled={busy} className="btn btn-ghost !py-1.5 !px-3 text-xs" onClick={() => call({ action: "autopay" }, (j) => String(j.message ?? "Done."))}><Repeat className="h-3.5 w-3.5" />Turn on autopay</button>}
         <a className="btn btn-ghost !py-1.5 !px-3 text-xs" target="_blank" rel="noreferrer" href={`${dashboard}/customers/directory/customer/${customerId}`}>Square<ExternalLink className="h-3.5 w-3.5" /></a>
       </div>
 
@@ -58,10 +59,10 @@ export function BillingActions({ slug, name, customerId, defaultEmail, dashboard
       {mode && (
         <form className={cn("rounded-xl border border-line p-3 grid gap-2 items-end", mode === "invoice" ? "sm:grid-cols-[1fr_120px_110px_auto]" : "sm:grid-cols-[1fr_120px_auto]")} onSubmit={(e) => {
           e.preventDefault();
-          const what = mode === "invoice" ? `Email ${name} a ${dollars} invoice for "${desc}", due in ${days} days?` : `Start a ${dollars}/month "${planName}" plan for ${name}? Square emails an invoice every month, starting today.`;
+          const what = mode === "invoice" ? `Email ${name} a ${dollars} invoice for "${desc}", due in ${days} days?` : `Start a ${dollars}/month "${planName}" plan for ${name}? Square emails the first invoice today. When they pay it and tick "save my card", the plan switches to automatic monthly charges.`;
           if (!window.confirm(what)) return;
           if (mode === "invoice") call({ action: "invoice", description: desc, amount, days }, () => "Invoice emailed. It's also on their Billing page.");
-          else call({ action: "plan", name: planName, amount }, () => "Monthly plan started. The first invoice is on its way.");
+          else call({ action: "plan", name: planName, amount }, () => "Monthly plan started. First invoice is on its way; autopay turns on once they save a card.");
         }}>
           <label className="block"><span className="label !text-[9px] block mb-1">{mode === "invoice" ? "What it's for" : "Plan name"}</span>
             <input className="input !py-1.5 text-xs" required value={mode === "invoice" ? desc : planName} onChange={(e) => (mode === "invoice" ? setDesc(e.target.value) : setPlanName(e.target.value))} /></label>

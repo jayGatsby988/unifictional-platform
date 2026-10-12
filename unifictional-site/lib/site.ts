@@ -64,6 +64,7 @@ export const navLinks: NavLink[] = [
   { label: "Work", href: "/work" },
   { label: "Guides", href: "/guides" },
   { label: "Process", href: "/process" },
+  { label: "3D studio", href: "https://3d.unifictional.com" },
   { label: "Studio", href: "/about" },
 ];
 

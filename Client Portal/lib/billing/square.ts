@@ -250,3 +250,30 @@ export async function cancelSubscription(subscriptionId: string): Promise<{ stat
   const res = await sq<{ subscription?: { status?: string; canceled_date?: string } }>(`/v2/subscriptions/${encodeURIComponent(subscriptionId)}/cancel`, {});
   return { status: res.subscription?.status ?? "", canceledDate: res.subscription?.canceled_date ?? null };
 }
+
+/**
+ * A one-off Square checkout (Quick Pay): the buyer pays `amount` on Square's
+ * page and is sent to `redirectUrl`. Returns the order to verify against later.
+ */
+export async function createQuickPay(input: { name: string; amount: number; redirectUrl: string; note?: string }): Promise<{ url: string; orderId: string }> {
+  const loc = await locationId();
+  const res = await sq<{ payment_link?: { url?: string; long_url?: string; order_id?: string } }>("/v2/online-checkout/payment-links", {
+    idempotency_key: randomUUID(),
+    quick_pay: { name: input.name, price_money: { amount: input.amount, currency: "USD" }, location_id: loc },
+    checkout_options: { redirect_url: input.redirectUrl, ask_for_shipping_address: false, allow_tipping: false, enable_coupon: false },
+    payment_note: input.note ?? `${input.name} — Unifictional`,
+  });
+  const url = res.payment_link?.url ?? res.payment_link?.long_url;
+  if (!url || !res.payment_link?.order_id) throw new Error("Square didn't return a checkout link.");
+  return { url, orderId: res.payment_link.order_id };
+}
+
+/** Was the order behind a checkout link paid? Square marks it COMPLETED (with tenders) once the card went through. */
+export async function orderPaid(orderId: string): Promise<boolean> {
+  const res = await sq<{ order?: { state?: string; tenders?: unknown[]; total_money?: { amount?: number }; net_amount_due_money?: { amount?: number } } }>(`/v2/orders/${encodeURIComponent(orderId)}`);
+  const o = res.order;
+  if (!o) return false;
+  if (o.state === "COMPLETED") return true;
+  if (Array.isArray(o.tenders) && o.tenders.length > 0) return true;
+  return typeof o.net_amount_due_money?.amount === "number" && o.net_amount_due_money.amount === 0 && (o.total_money?.amount ?? 0) > 0;
+}

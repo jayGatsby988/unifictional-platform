@@ -7,7 +7,7 @@ One repo, three deployable apps, one placeholder. Each app has its own `package.
 | `Client Portal/` | The product. Client dashboard + self-serve **SEO Autopilot** (sign up → build a plan → pay on Square → posts researched, written, checked and published automatically) + the studio back office. Next.js 16, Supabase, Square, Anthropic. | https://unifictional-client-portal.vercel.app | `vercel deploy --prod` from the folder (project `unifictional-client-portal`; not GitHub-linked, so pushing to `main` deploys nothing). Migrations in `supabase/migrations/`, applied by hand to the live DB. |
 | `unifictional-site/` | The agency marketing site that is live on unifictional.com, with the booking flow and the AI site-build pipeline behind it (Trigger.dev). Start with its `HANDOFF.md`. | https://unifictional.com | Vercel project `unifictional`. |
 | `Unifictional Startup Web/` | **Superseded.** An earlier copy of the marketing site with "growth platform" sections (portal preview, quote tool). Not deployed; kept only until its platform sections are ported into `unifictional-site/`. Do not deploy it: it targets the same Vercel project as `unifictional-site/`. | — | — |
-| `3D Modeling/` | Placeholder for the embeddable 3D quote tool. No code yet; the portal's "3D Quote Tool" plan is unpublished until this ships. | — | — |
+| `3D Modeling/` | Placeholder. The real 3D remodel studio (photo → 3D twin → live-priced redesign) is the separate MANHATTAN app in `~/Downloads/Unifictional/manhatten` (Vercel project `manhattan`): 2 free scans per IP, then a $1 unlock billed through the portal's `/api/public/3d/*` (shared `PLATFORM_KEY`). | https://3d.unifictional.com | `vercel deploy --prod` from the manhatten folder. |
 
 ## How the pieces connect
 

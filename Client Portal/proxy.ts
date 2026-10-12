@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 // /api/sync, /api/health, /api/ops and /api/autopilot/run check their own CRON_SECRET (Vercel Cron) or an admin session, and
 // /api/autopilot/feed is a public read-only feed and /b/<company> is the blog we host for clients, so the login redirect must not intercept them.
-const PUBLIC = ["/login", "/auth", "/signup", "/report", "/guide", "/b", "/api/audit", "/api/signup", "/api/sync", "/api/health", "/api/ops", "/api/autopilot/run", "/api/autopilot/feed"];
+const PUBLIC = ["/login", "/auth", "/signup", "/report", "/guide", "/b", "/api/public", "/api/audit", "/api/signup", "/api/sync", "/api/health", "/api/ops", "/api/autopilot/run", "/api/autopilot/feed"];
 
 export async function proxy(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

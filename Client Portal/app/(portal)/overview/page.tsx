@@ -95,7 +95,7 @@ export default async function OverviewPage() {
         <Link href="/estimator" className="panel p-5 hover:border-ink transition">
           <div className="flex items-center justify-between mb-4"><Calculator className="h-5 w-5" />{newQuoteLeads > 0 ? <span className="pill pill-warn">{newQuoteLeads} new leads</span> : <span className="pill pill-neutral">{d.estimator.embedded ? `${d.estimator.stats30.generated} quotes` : "Not on your site yet"}</span>}</div>
           <p className="font-display text-xl mb-1">Quote tool</p>
-          <p className="text-sm text-ink-muted">{d.estimator.embedded ? `${fmt.int(d.estimator.stats30.generated)} 3D quotes · ${fmt.int(d.estimator.stats30.leads)} left details` : "Instant 3D quotes for homeowners. Ask us to add it."}</p>
+          <p className="text-sm text-ink-muted">{d.estimator.embedded ? `${fmt.int(d.estimator.stats30.generated)} 3D quotes · ${fmt.int(d.estimator.stats30.leads)} left details` : "Photo → 3D twin with live pricing. Try it at 3d.unifictional.com: two scans free."}</p>
         </Link>
       </div>
     </>

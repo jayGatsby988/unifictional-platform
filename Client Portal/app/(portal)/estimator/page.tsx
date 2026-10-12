@@ -17,6 +17,10 @@ export default async function EstimatorPage() {
 
   return (
     <>
+      <div className="panel p-4 mb-6 flex flex-wrap items-center justify-between gap-3 text-sm">
+        <div><span className="font-medium">Try the 3D remodel studio.</span> <span className="text-ink-muted">Upload photos of a kitchen, bath or lot, get a 3D twin in about a minute, swap materials and watch the price update. Two scans free, then $1 for a month.</span></div>
+        <a className="btn btn-ink !py-2 !px-4 text-xs" href="https://3d.unifictional.com/studio" target="_blank" rel="noreferrer">Open the studio</a>
+      </div>
       <Section num="05" label="Quote tool" title="Your instant-quote tool."
         intro="Homeowners size up their project in 3D on your website and get a price range on the spot. Here is what it produced, and the prices it uses."
         action={e.embedded ? (

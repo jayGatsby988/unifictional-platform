@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Check, MessageSquare } from "lucide-react";
+import { Box, Check, MessageSquare } from "lucide-react";
+import { UNLOCK_CENTS } from "@/lib/billing/platform";
 import { Section, SubHead } from "@/components/Section";
 import { ChoosePlan } from "@/components/plans/ChoosePlan";
 import { PlanBuilder } from "@/components/plans/PlanBuilder";
@@ -29,6 +30,27 @@ export default async function PlansPage() {
       {catalog
         ? <div className="mb-12"><PlanBuilder catalog={catalog} rec={rec} company={{ name: session.client?.name ?? "you" }} slug={session.client?.slug ?? ""} demo={session.isDemo} admin={session.isAdmin} current={current} mode="plans" /></div>
         : <div className="panel p-6 max-w-2xl text-sm text-ink-muted mb-12">Plans are being set up. Ask us anytime about what&apos;s included.</div>}
+
+      <section className="mb-10">
+        <SubHead right={<span className="label !text-[9px]">Pay once · no subscription</span>}>Tools</SubHead>
+        <div className="panel p-6 grid md:grid-cols-5 gap-6 items-center">
+          <div className="md:col-span-3">
+            <div className="flex items-center gap-2 mb-2"><Box className="h-4 w-4" /><h2 className="font-display text-3xl uppercase leading-none">3D Remodel Studio</h2></div>
+            <p className="text-sm text-ink-muted">Upload photos of a kitchen, bath or lot and get an explorable 3D twin in about a minute. Swap materials and the price updates live; render photoreal images from your own photo; share a link clients can spin on their phone.</p>
+            <ul className="mt-4 grid sm:grid-cols-2 gap-x-6 gap-y-1.5 text-sm">
+              {["2 scans free, no card", `${money(UNLOCK_CENTS)} unlocks unlimited scans for 30 days`, "250+ real materials, live line-item pricing", "Photoreal renders and share links"].map((f) => <li key={f} className="flex items-start gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0 text-good" />{f}</li>)}
+            </ul>
+          </div>
+          <div className="md:col-span-2 md:border-l md:border-line md:pl-6">
+            <p className="font-display text-5xl leading-none">{money(UNLOCK_CENTS)}<span className="text-sm text-ink-muted font-sans"> / 30 days</span></p>
+            <p className="text-xs text-ink-muted mt-1">Launch price. Billed once on Square.</p>
+            <div className="mt-4 flex flex-col gap-2">
+              <a className="btn btn-ink justify-center" href="https://3d.unifictional.com/studio?buy=1" target="_blank" rel="noreferrer">Unlock for {money(UNLOCK_CENTS)}</a>
+              <a className="btn btn-ghost justify-center" href="https://3d.unifictional.com/studio" target="_blank" rel="noreferrer">Try 2 scans free</a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {custom.length > 0 && (
         <section className="mb-10">

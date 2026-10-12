@@ -179,3 +179,74 @@ export type PortalData = {
   generatedAt: string;
   isDemo: boolean;
 };
+
+// SEO Autopilot -------------------------------------------------------------
+export type AutopilotCadence = "twice_weekly" | "weekly" | "biweekly" | "monthly";
+export type AutopilotMode = "auto" | "approve";
+export type AutopilotTarget = "hosted" | "wordpress" | "manual";
+
+export type AutopilotSettings = {
+  enabled: boolean;
+  cadence: AutopilotCadence;
+  mode: AutopilotMode;
+  target: AutopilotTarget;
+  /** The client's WordPress login was verified and stored (never shown back). */
+  wpConnected: boolean;
+  notes: string;
+  nextRunAt: string | null;
+  lastRunAt: string | null;
+  plan: PlanItem[];
+};
+
+export type SeoPostStatus = "awaiting_approval" | "approved" | "ready" | "published" | "skipped" | "failed";
+
+/** One line of the SEO checklist every post is scored against (lib/autopilot/quality.ts). */
+export type QualityCheck = { id: string; label: string; ok: boolean; detail: string };
+export type PostQuality = { score: number; checks: QualityCheck[] };
+/** Search Console numbers for the post's URL, once GSC is connected and has data. */
+export type PostPerformance = { clicks: number; impressions: number; position: number | null; keywords: number };
+
+export type SeoPost = {
+  id: string;
+  createdAt: string;
+  title: string;
+  slug: string;
+  targetQuery: string;
+  /** One sentence from the writer on why this search, for the owner. */
+  rationale: string;
+  metaDescription: string;
+  excerpt: string;
+  bodyMd: string;
+  wordCount: number;
+  status: SeoPostStatus;
+  publishedUrl: string | null;
+  publishedAt: string | null;
+  error: string | null;
+  quality: PostQuality | null;
+  performance: PostPerformance | null;
+};
+
+export type AutopilotFix = { title: string; where: string; why: string; how: string; impact: "high" | "medium" | "low"; done?: boolean };
+
+/** A post in the content plan queue. */
+export type PlanItem = { id: string; title: string; targetQuery: string; angle: string; status: "planned" | "written" | "skipped" };
+
+export type AutopilotRun = { id: string; ranAt: string; ok: boolean; summary: string; postId: string | null; fixes: AutopilotFix[] };
+
+export type Autopilot = { settings: AutopilotSettings; posts: SeoPost[]; runs: AutopilotRun[] };
+
+/** One row on Studio · SEO Autopilot. */
+export type StudioAutopilotRow = {
+  slug: string;
+  name: string;
+  website: string;
+  settings: AutopilotSettings;
+  /** Whether posts can actually go out on their own, and why not when they can't. */
+  publishing: { ready: boolean; note: string };
+  awaiting: number;
+  published: number;
+  upcoming: number;
+  fixesDone: number;
+  fixesTotal: number;
+  lastRun: { at: string; ok: boolean; summary: string } | null;
+};

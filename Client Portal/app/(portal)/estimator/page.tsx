@@ -17,7 +17,7 @@ export default async function EstimatorPage() {
 
   return (
     <>
-      <Section num="04" label="Quote tool" title="Your instant-quote tool."
+      <Section num="05" label="Quote tool" title="Your instant-quote tool."
         intro="Homeowners size up their project in 3D on your website and get a price range on the spot. Here is what it produced, and the prices it uses."
         action={e.embedded ? (
           <a href={`${site}${e.embedPath}`} target="_blank" rel="noreferrer" className="btn btn-ghost"><ExternalLink className="h-4 w-4" />See it on your site</a>

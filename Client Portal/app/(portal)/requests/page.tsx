@@ -11,7 +11,7 @@ export default async function RequestsPage({ searchParams }: { searchParams: Pro
   const d = await getPortal();
   return (
     <>
-      <Section num="05" label="Requests" title="Ask for anything."
+      <Section num="06" label="Requests" title="Ask for anything."
         intro="New photos for the site, a post you want out this week, a change to a model. Send it here and it lands with your studio contact." />
 
       <div className="grid lg:grid-cols-3 gap-4">

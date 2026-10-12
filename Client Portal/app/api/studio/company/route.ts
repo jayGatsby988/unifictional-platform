@@ -16,7 +16,8 @@ import { dashboardReadyEmail } from "@/lib/email/templates";
  */
 export async function POST(request: Request) {
   const session = await getSession();
-  if (!session.isAdmin || session.isDemo) return NextResponse.json({ error: "Admins only." }, { status: 403 });
+  if (session.isDemo) return NextResponse.json({ error: "Demo mode: connect Supabase to save changes (Setup & keys)." }, { status: 403 });
+  if (!session.isAdmin) return NextResponse.json({ error: "Admins only." }, { status: 403 });
   const b = await request.json().catch(() => ({}));
   const name = String(b.name ?? "").trim().slice(0, 120);
   if (!name) return NextResponse.json({ error: "Company name is required." }, { status: 400 });

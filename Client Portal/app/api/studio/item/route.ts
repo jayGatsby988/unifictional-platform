@@ -9,7 +9,8 @@ const SUPPORT = new Set(["open", "in_progress", "done"]);
 /** Update status / notes / reply on any inbox item. Admins only (RLS enforces it too). */
 export async function PATCH(request: Request) {
   const session = await getSession();
-  if (!session.isAdmin || session.isDemo) return NextResponse.json({ error: "Admins only." }, { status: 403 });
+  if (session.isDemo) return NextResponse.json({ error: "Demo mode: connect Supabase to save changes (Setup & keys)." }, { status: 403 });
+  if (!session.isAdmin) return NextResponse.json({ error: "Admins only." }, { status: 403 });
   const body = await request.json().catch(() => ({}));
   const kind = body.kind as keyof typeof TABLE;
   if (!TABLE[kind] || typeof body.id !== "string") return NextResponse.json({ error: "Bad request." }, { status: 400 });

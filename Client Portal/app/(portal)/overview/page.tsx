@@ -1,17 +1,21 @@
 import Link from "next/link";
-import { ArrowUpRight, Calculator, Globe, Search, Share2 } from "lucide-react";
+import { ArrowUpRight, Bot, Calculator, Globe, Search, Share2 } from "lucide-react";
 import { Section, SubHead } from "@/components/Section";
 import { Delta, Stat, StatusPill } from "@/components/Stat";
 import { TrendLazy as Trend } from "@/components/charts/TrendLazy";
 import { SetupChecklist } from "@/components/SetupChecklist";
 import { SourceGate } from "@/components/Gate";
-import { getPortal } from "@/lib/data/repo";
+import { getPortal, getSession } from "@/lib/data/repo";
+import { getAutopilot } from "@/lib/data/autopilot";
 import { fmt } from "@/lib/utils";
 
 const AREA_ICON = { website: Globe, seo: Search, social: Share2, estimator: Calculator, account: ArrowUpRight } as const;
 
 export default async function OverviewPage() {
   const d = await getPortal();
+  const auto = await getAutopilot(await getSession());
+  const autoLive = auto.posts.filter((p) => p.status === "published").length;
+  const autoWaiting = auto.posts.filter((p) => p.status === "awaiting_approval").length;
   const st = d.status;
   const traffic = st.connected.ga4 && st.has.traffic;
   const search = st.connected.gsc && st.has.seo;
@@ -67,7 +71,12 @@ export default async function OverviewPage() {
       </div>
 
       <SubHead>Where things stand</SubHead>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <Link href="/autopilot" className="panel p-5 hover:border-ink transition">
+          <div className="flex items-center justify-between mb-4"><Bot className="h-5 w-5" />{!auto.settings.enabled ? <span className="pill pill-warn">Off</span> : autoWaiting ? <span className="pill pill-warn">{autoWaiting} to approve</span> : <span className="pill pill-good">On</span>}</div>
+          <p className="font-display text-xl mb-1">SEO Autopilot</p>
+          <p className="text-sm text-ink-muted">{auto.settings.enabled ? `${autoLive} post${autoLive === 1 ? "" : "s"} live · next ${auto.settings.nextRunAt ? fmt.date(auto.settings.nextRunAt) : "soon"}` : "A post a week, written and published for you. Two questions to start."}</p>
+        </Link>
         <Link href="/website" className="panel p-5 hover:border-ink transition">
           <div className="flex items-center justify-between mb-4"><Globe className="h-5 w-5" />{health ? <span className="pill pill-neutral">Grade {health.summary.grade}</span> : <StatusPill status={d.website.status} />}</div>
           <p className="font-display text-xl mb-1">Website</p>

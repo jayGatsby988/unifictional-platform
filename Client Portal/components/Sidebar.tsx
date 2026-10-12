@@ -2,19 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Calculator, CreditCard, Globe, Inbox, Layers, LayoutDashboard, Plug, Search, Settings, Share2 } from "lucide-react";
+import { Bot, Calculator, CreditCard, Globe, Inbox, Layers, LayoutDashboard, Plug, Search, Settings, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const NAV = [
   { href: "/overview", label: "Overview", num: "00", icon: LayoutDashboard },
   { href: "/website", label: "Website", num: "01", icon: Globe },
   { href: "/seo", label: "Search", num: "02", icon: Search },
-  { href: "/social", label: "Social", num: "03", icon: Share2 },
-  { href: "/estimator", label: "Quote tool", num: "04", icon: Calculator },
-  { href: "/requests", label: "Requests", num: "05", icon: Inbox },
-  { href: "/connect", label: "Connections", num: "06", icon: Plug },
-  { href: "/billing", label: "Billing", num: "07", icon: CreditCard },
-  { href: "/plans", label: "Plans", num: "08", icon: Layers },
+  { href: "/autopilot", label: "SEO Autopilot", num: "03", icon: Bot },
+  { href: "/social", label: "Social", num: "04", icon: Share2 },
+  { href: "/estimator", label: "Quote tool", num: "05", icon: Calculator },
+  { href: "/requests", label: "Requests", num: "06", icon: Inbox },
+  { href: "/connect", label: "Connections", num: "07", icon: Plug },
+  { href: "/billing", label: "Billing", num: "08", icon: CreditCard },
+  { href: "/plans", label: "Plans", num: "09", icon: Layers },
 ];
 
 export function Sidebar({ onNavigate, admin = false }: { onNavigate?: () => void; admin?: boolean }) {

@@ -45,7 +45,7 @@ export default async function BillingPage({ searchParams }: { searchParams: Prom
       : { h: "Your invoices will show up here.", p: "Once we set up billing for your account, you'll see your plan, pay invoices in one tap and download receipts here." };
     return (
       <>
-        <Section num="07" label="Billing" title="Billing." intro={intro} />
+        <Section num="08" label="Billing" title="Billing." intro={intro} />
         <div className="panel p-6 max-w-2xl flex items-start gap-4">
           <span className="grid place-items-center h-10 w-10 rounded-full bg-sand shrink-0"><FileText className="h-4 w-4" /></span>
           <div>
@@ -65,7 +65,7 @@ export default async function BillingPage({ searchParams }: { searchParams: Prom
 
   return (
     <>
-      <Section num="07" label="Billing" title="Billing." intro={intro} />
+      <Section num="08" label="Billing" title="Billing." intro={intro} />
 
       {(state.sample || state.testMode) && (
         <p className="mb-6 text-xs font-mono uppercase tracking-wider text-ink-muted">{state.sample ? "Sample data · preview only" : "Square sandbox · no real charges"}</p>

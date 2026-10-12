@@ -13,7 +13,8 @@ import { toCents } from "@/lib/billing/types";
  */
 export async function POST(request: Request) {
   const session = await getSession();
-  if (!session.isAdmin || session.isDemo) return NextResponse.json({ error: "Admins only." }, { status: 403 });
+  if (session.isDemo) return NextResponse.json({ error: "Demo mode: connect Supabase to save changes (Setup & keys)." }, { status: 403 });
+  if (!session.isAdmin) return NextResponse.json({ error: "Admins only." }, { status: 403 });
   if (!squareConfigured) return NextResponse.json({ error: "Add SQUARE_ACCESS_TOKEN in Vercel first." }, { status: 503 });
 
   const b = await request.json().catch(() => ({}));

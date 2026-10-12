@@ -54,7 +54,7 @@
   --font-mono: var(--font-space-mono), "Space Mono", ui-monospace, monospace;
 }
 
-html, body {
+html {
   height: 100%;
 }
 
@@ -114,11 +114,12 @@ body {
   font-weight: 500;
   transition: transform 150ms ease, opacity 150ms ease, background 150ms ease;
 }
-.btn:active { transform: scale(0.98); }
+.btn:active:not(:disabled) { transform: scale(0.98); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .btn-ink { background: rgb(var(--ink)); color: rgb(var(--bone)); }
-.btn-ink:hover { opacity: 0.9; }
+.btn-ink:hover:not(:disabled) { opacity: 0.9; }
 .btn-ghost { border: 1px solid rgb(var(--line)); color: rgb(var(--ink)); }
-.btn-ghost:hover { background: rgb(var(--paper)); }
+.btn-ghost:hover:not(:disabled) { background: rgb(var(--paper)); }
 
 .input {
   width: 100%;
@@ -210,3 +211,16 @@ model-viewer {
   .gstep { break-inside: avoid; }
   body { background: #fff; color: #000; }
 }
+
+/* Generated blog posts previewed in the portal (SEO Autopilot). */
+.post-body h2 { font-size: 1.25rem; font-weight: 600; line-height: 1.25; margin: 1.5rem 0 .5rem; }
+.post-body h3 { font-size: 1rem; font-weight: 600; margin: 1.25rem 0 .4rem; }
+.post-body h2:first-child, .post-body h3:first-child, .post-body p:first-child { margin-top: 0; }
+.post-body p { margin: .6rem 0; line-height: 1.65; }
+.post-body ul, .post-body ol { margin: .6rem 0 .6rem 1.25rem; }
+.post-body ul { list-style: disc; }
+.post-body ol { list-style: decimal; }
+.post-body li { margin: .25rem 0; line-height: 1.55; }
+.post-body a { text-decoration: underline; }
+.post-body strong { font-weight: 600; }
+.post-body code { font-family: var(--font-mono); font-size: .85em; }

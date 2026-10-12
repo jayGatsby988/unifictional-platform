@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 
 export type AdminClient = {
   slug: string; name: string;
-  fields: { site_url: string; ga4_property_id: string; gsc_site_url: string; gbp_location_id: string; gbp_account_id: string; ig_user_id: string; fb_page_id: string; ghl_contact_id: string };
+  fields: { site_url: string; ga4_property_id: string; gsc_site_url: string; gbp_location_id: string; gbp_account_id: string; ig_user_id: string; fb_page_id: string; ghl_contact_id: string; site_repo: string; site_blog_dir: string; site_revalidate_url: string };
   updatedAt: string | null;
   google: { connected: boolean; label: string | null };
   meta: { connected: boolean; label: string | null; expiring: boolean };
@@ -13,7 +13,7 @@ export type StudioAccount = { provider: "google" | "meta"; connected: boolean; l
 
 const ENV_KEYS = ["SUPABASE_SERVICE_ROLE_KEY", "CRON_SECRET", "GOOGLE_OAUTH_CLIENT_ID", "GOOGLE_OAUTH_CLIENT_SECRET", "META_APP_ID", "META_APP_SECRET", "PSI_API_KEY", "GOOGLE_CSE_KEY", "GOOGLE_CSE_CX", "GHL_TOKEN", "GHL_LOCATION_ID"];
 
-const empty = { site_url: "", ga4_property_id: "", gsc_site_url: "", gbp_location_id: "", gbp_account_id: "", ig_user_id: "", fb_page_id: "", ghl_contact_id: "" };
+const empty = { site_url: "", ga4_property_id: "", gsc_site_url: "", gbp_location_id: "", gbp_account_id: "", ig_user_id: "", fb_page_id: "", ghl_contact_id: "", site_repo: "", site_blog_dir: "", site_revalidate_url: "" };
 
 export async function getAdminData(session: Session): Promise<{ env: { key: string; set: boolean }[]; studio: StudioAccount[]; runs: SyncRun[]; clients: AdminClient[] }> {
   const env = ENV_KEYS.map((key) => ({ key, set: Boolean(process.env[key]) }));
@@ -33,7 +33,7 @@ export async function getAdminData(session: Session): Promise<{ env: { key: stri
       clients: [
         {
           slug: "northline-builders", name: "Northline Builders",
-          fields: { ...empty, site_url: "https://northlinebuilders.com", ga4_property_id: "412345678", gsc_site_url: "sc-domain:northlinebuilders.com", gbp_location_id: "1234567890", gbp_account_id: "1098765" },
+          fields: { ...empty, site_url: "https://northlinebuilders.com", ga4_property_id: "412345678", gsc_site_url: "sc-domain:northlinebuilders.com", gbp_location_id: "1234567890", gbp_account_id: "1098765", site_repo: "unifictional/northline-builders" },
           updatedAt: new Date().toISOString(),
           google: { connected: true, label: "office@northlinebuilders.com" }, meta: { connected: false, label: null, expiring: false },
         },
@@ -65,7 +65,7 @@ export async function getAdminData(session: Session): Promise<{ env: { key: stri
       const i = byId.get(c.id) ?? {};
       return {
         slug: c.slug, name: c.name,
-        fields: { site_url: i.site_url ?? "", ga4_property_id: i.ga4_property_id ?? "", gsc_site_url: i.gsc_site_url ?? "", gbp_location_id: i.gbp_location_id ?? "", gbp_account_id: i.gbp_account_id ?? "", ig_user_id: i.ig_user_id ?? "", fb_page_id: i.fb_page_id ?? "", ghl_contact_id: i.ghl_contact_id ?? "" },
+        fields: { site_url: i.site_url ?? "", ga4_property_id: i.ga4_property_id ?? "", gsc_site_url: i.gsc_site_url ?? "", gbp_location_id: i.gbp_location_id ?? "", gbp_account_id: i.gbp_account_id ?? "", ig_user_id: i.ig_user_id ?? "", fb_page_id: i.fb_page_id ?? "", ghl_contact_id: i.ghl_contact_id ?? "", site_repo: i.site_repo ?? "", site_blog_dir: i.site_blog_dir ?? "", site_revalidate_url: i.site_revalidate_url ?? "" },
         updatedAt: i.updated_at ?? null,
         google: { connected: Boolean(i.google_refresh_token), label: i.google_account_label ?? null },
         meta: { connected: Boolean(i.meta_user_token), label: i.meta_account_label ?? null, expiring: Boolean(i.meta_expires_at && new Date(i.meta_expires_at).getTime() - Date.now() < 10 * 864e5) },

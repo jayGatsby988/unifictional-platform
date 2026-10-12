@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Building2, CreditCard, Inbox, Layers, Plug, Wrench } from "lucide-react";
+import { BookOpen, Bot, Building2, CreditCard, Inbox, Layers, Plug, Wrench } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const ITEMS = [
@@ -10,6 +10,7 @@ const ITEMS = [
   { href: "/studio/companies", label: "Companies", icon: Building2 },
   { href: "/studio/billing", label: "Billing", icon: CreditCard },
   { href: "/studio/plans", label: "Plans", icon: Layers },
+  { href: "/studio/autopilot", label: "SEO Autopilot", icon: Bot },
   { href: "/admin", label: "Data connections", icon: Plug },
   { href: "/admin/setup", label: "Setup & keys", icon: Wrench },
   { href: "/guide?studio", label: "Client guides", icon: BookOpen },

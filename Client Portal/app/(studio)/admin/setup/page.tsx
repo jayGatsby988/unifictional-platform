@@ -21,6 +21,8 @@ const KEYS: { key: string; what: string; where: string; needed: string }[] = [
   { key: "META_APP_SECRET", what: "Connect Meta button", where: "App → Settings → Basic → App secret.", needed: "Meta connections" },
   { key: "GHL_TOKEN", what: "Leads from the landing page into GoHighLevel", where: "The same private integration token the main site uses.", needed: "lead capture" },
   { key: "GHL_LOCATION_ID", what: "GoHighLevel sub-account", where: "Same value as the main site.", needed: "lead capture" },
+  { key: "ANTHROPIC_API_KEY", what: "SEO Autopilot writes the posts", where: "platform.claude.com → API keys → Create key. Each post is one call to Claude Opus 5.5 (about $0.10-0.30).", needed: "SEO Autopilot" },
+  { key: "GITHUB_TOKEN", what: "SEO Autopilot publishes to sites we host", where: "github.com → Settings → Developer settings → Fine-grained tokens → the client site repos, Contents: read and write. Then set each company's repo on Data connections.", needed: "auto-publish (hosted sites)" },
 ];
 
 export default async function SetupPage() {
@@ -65,6 +67,10 @@ export default async function SetupPage() {
         <li className="panel p-6">
           <p className="label mb-2">Step 5 · Billing with Square (~5 minutes)</p>
           <p className="text-sm text-ink-muted">Create an app at developer.squareup.com, add its production access token in Vercel as <span className="font-mono">SQUARE_ACCESS_TOKEN</span>, then link each company on <Link className="underline" href="/studio/billing">Studio · Billing</Link>. Clients get a Billing page to pay invoices and see receipts.</p>
+        </li>
+        <li className="panel p-6">
+          <p className="label mb-2">Step 6 · SEO Autopilot (~5 minutes)</p>
+          <p className="text-sm text-ink-muted">Add <span className="font-mono">ANTHROPIC_API_KEY</span> so the daily run can write posts, and <span className="font-mono">GITHUB_TOKEN</span> so it can commit them to the sites we host (WordPress clients give their own login on their page). Then add <span className="font-mono">/api/autopilot/run</span> to the cron list, which <span className="font-mono">vercel.json</span> already does. Clients switch it on from <span className="font-mono">/autopilot</span>; you watch it on <Link className="underline" href="/studio/autopilot">Studio · SEO Autopilot</Link>.</p>
         </li>
       </ol>
 

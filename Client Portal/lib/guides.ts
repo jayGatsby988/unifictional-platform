@@ -245,6 +245,35 @@ export const GUIDES: Guide[] = [
     ],
     message: `Hi — your site needs the Google Analytics tag so visits get counted. Your Measurement ID is G-XXXXXXX. Where to paste it depends on the platform; the guide lists Squarespace, Wix, WordPress, Shopify and GoDaddy: unifictional-client-portal.vercel.app/guide/website-tag — or send me a login and I'll do it.`,
   },
+  {
+    slug: "wordpress-access",
+    title: "Let SEO Autopilot publish to your WordPress site",
+    short: "One application password from your WordPress admin. Not your login password, and you can delete it any time.",
+    minutes: 1,
+    who: "Anyone who signs in to your WordPress admin as an Administrator or Editor.",
+    why: "SEO Autopilot writes a blog post for your site on a schedule. To put it on your site without bothering you, it needs permission to create posts. WordPress has a safe way to grant exactly that: an application password, which only works for publishing and can be revoked with one click.",
+    needs: ["Your WordPress admin login (yoursite.com/wp-admin)", "WordPress 5.6 or newer, which is almost every site"],
+    tracks: [
+      {
+        title: "Make the application password",
+        steps: [
+          { do: "Sign in to your WordPress admin.", where: "yoursite.com/wp-admin" },
+          { do: "In the left menu click Users, then Profile." },
+          { do: "Scroll to the bottom, to Application Passwords.", note: "Don't see it? Your host may have switched it off. Email us and we'll sort it out with them." },
+          { do: "Under New Application Password Name type Unifictional, then click Add New Application Password." },
+          { do: "Copy the password that appears. It's shown once, with spaces; the spaces don't matter." },
+          { do: "Back in your portal open SEO Autopilot, choose It's on WordPress, and paste your site address, your WordPress username (top of the Profile page) and that password. We check it works before saving." },
+        ],
+      },
+    ],
+    verify: "After you save, the WordPress box on your SEO Autopilot page says connected. Each new post appears under Posts in your WordPress admin, published, with the same title the portal shows.",
+    faq: [
+      { q: "Is this my real password?", a: "No. It's a separate key that can only use the WordPress publishing API. Your login password never leaves your site." },
+      { q: "How do I remove it?", a: "Users → Profile → Application Passwords → Revoke next to Unifictional. Posts already published stay up." },
+      { q: "Do you change my other pages?", a: "No. Autopilot only creates new blog posts. Fixes to existing pages are listed in your portal and done by your studio with you." },
+    ],
+    message: `Hi — to let your portal publish the weekly SEO posts straight to your WordPress site, it needs an application password (not your real one; takes a minute):\n\n1. yoursite.com/wp-admin → Users → Profile\n2. Scroll to Application Passwords → name it Unifictional → Add New\n3. Copy the password, then in your portal open SEO Autopilot → It's on WordPress → paste the site address, your username and that password\n\nWalkthrough: unifictional-client-portal.vercel.app/guide/wordpress-access`,
+  },
 ];
 
 export function getGuide(slug: string) {

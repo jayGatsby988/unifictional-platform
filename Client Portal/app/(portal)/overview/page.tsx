@@ -75,7 +75,7 @@ export default async function OverviewPage() {
         <Link href="/autopilot" className="panel p-5 hover:border-ink transition">
           <div className="flex items-center justify-between mb-4"><Bot className="h-5 w-5" />{!auto.settings.enabled ? <span className="pill pill-warn">Off</span> : autoWaiting ? <span className="pill pill-warn">{autoWaiting} to approve</span> : <span className="pill pill-good">On</span>}</div>
           <p className="font-display text-xl mb-1">SEO Autopilot</p>
-          <p className="text-sm text-ink-muted">{auto.settings.enabled ? `${autoLive} post${autoLive === 1 ? "" : "s"} live · next ${auto.settings.nextRunAt ? fmt.date(auto.settings.nextRunAt) : "soon"}` : "A post a week, written and published for you. Two questions to start."}</p>
+          <p className="text-sm text-ink-muted">{auto.settings.enabled ? `${autoLive} post${autoLive === 1 ? "" : "s"} live · next ${auto.settings.nextRunAt ? fmt.date(auto.settings.nextRunAt) : "soon"}` : auto.settings.access ? "A post a week, written and published for you. Two questions to start." : "A post a week, written and published for you. Start your plan here."}</p>
         </Link>
         <Link href="/website" className="panel p-5 hover:border-ink transition">
           <div className="flex items-center justify-between mb-4"><Globe className="h-5 w-5" />{health ? <span className="pill pill-neutral">Grade {health.summary.grade}</span> : <StatusPill status={d.website.status} />}</div>

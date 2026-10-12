@@ -4,6 +4,7 @@ import { getSession } from "@/lib/data/repo";
 import { createClient } from "@/lib/supabase/server";
 import { adminConfigured, createAdminClient } from "@/lib/supabase/admin";
 import { isCadence } from "@/lib/autopilot/schedule";
+import { accessFrom } from "@/lib/autopilot/access";
 import { normalizeWpUrl, verifyWordpress } from "@/lib/autopilot/publish";
 
 const MODES = new Set(["auto", "approve"]);
@@ -34,6 +35,7 @@ export async function POST(request: Request) {
   const cid = session.client.id;
   const db = await createClient();
   const { data: prev } = await db.from("seo_autopilot").select("*").eq("client_id", cid).maybeSingle();
+  if (enabled && !session.isAdmin && !accessFrom(prev)) return NextResponse.json({ error: "Start the SEO Autopilot plan first; it unlocks the moment Square confirms your card." }, { status: 402 });
 
   let wpConnected = Boolean(prev?.wp_connected);
   if (target === "wordpress" && enabled) {

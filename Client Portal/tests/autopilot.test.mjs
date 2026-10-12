@@ -155,3 +155,12 @@ test("automatic mode publishes at the bar and holds under it; the calendar proje
   const dates = sched.projectSchedule(plan.setStatus(items, items[1].id, "skipped"), "2026-10-17T14:00:00.000Z", "weekly");
   assert.deepEqual(dates.map((s) => s.date), ["2026-10-17T14:00:00.000Z", "2026-10-24T14:00:00.000Z"]);
 });
+
+test("access comes from the studio comping it or a live Square subscription", async () => {
+  const access = await import("../lib/autopilot/access.ts");
+  assert.equal(access.accessFrom(null), false);
+  assert.equal(access.accessFrom({ comped: false, subscription_status: "CANCELED" }), false);
+  assert.equal(access.accessFrom({ comped: false, subscription_status: "active" }), true);
+  assert.equal(access.accessFrom({ comped: true, subscription_status: null }), true);
+  assert.equal(access.PLAN_NAME, "SEO Autopilot");
+});

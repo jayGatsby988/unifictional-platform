@@ -5,6 +5,7 @@ import { supabaseConfigured } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 import { adminConfigured, createAdminClient } from "@/lib/supabase/admin";
 import { ensureLogin, signInLink } from "@/lib/accounts/create";
+import { ensureCompany } from "@/lib/accounts/company";
 import { emailConfigured, sendEmail, signOffFor, STUDIO_EMAIL } from "@/lib/email/send";
 import { signInLinkEmail, studioNewSignupEmail, welcomeEmail } from "@/lib/email/templates";
 import { normalizeUrl, runAudit } from "@/lib/audit";
@@ -45,16 +46,21 @@ export async function POST(request: Request) {
   }
   const crm = pushLeadToGhl({ name, email, phone, company, website, source: "Portal account request", note: `Created a client portal account for ${company}${website ? ` (${website})` : ""}.` }).catch(() => null);
 
-  // 2. Their login + welcome email.
+  // 2. Their login, their company (so they land in their own portal), and the welcome email.
   let emailed = false, existing = false;
   if (adminConfigured && emailConfigured) {
     const login = await ensureLogin({ email, name, extra: { company, ...(phone ? { phone } : {}) } });
+    if (login.kind === "created" || login.kind === "exists") {
+      const co = await ensureCompany({ userId: login.userId, name, company, website, email });
+      if (co && supabaseConfigured) await createAdminClient().from("signup_requests").update({ client_id: co.clientId }).eq("id", requestId);
+    }
     if (login.kind === "created") {
-      const mail = welcomeEmail({ name, email, tempPassword: login.password, loginUrl: `${origin}/login?email=${encodeURIComponent(email)}`, company, signOff: signOffFor("onboarding") });
+      // First stop after signing in: the SEO Autopilot page, where they start their plan.
+      const mail = welcomeEmail({ name, email, tempPassword: login.password, loginUrl: `${origin}/login?email=${encodeURIComponent(email)}&next=${encodeURIComponent("/autopilot")}`, company, signOff: signOffFor("onboarding") });
       emailed = (await sendEmail({ to: email, sender: "onboarding", ...mail })).sent;
     } else if (login.kind === "exists") {
       existing = true;
-      const link = await signInLink(email, origin);
+      const link = await signInLink(email, origin, "/autopilot");
       if (link) emailed = (await sendEmail({ to: email, sender: "onboarding", ...signInLinkEmail({ name, link, signOff: signOffFor("onboarding") }) })).sent;
     } else {
       console.error("[signup] login", login.error);

@@ -196,6 +196,12 @@ export type AutopilotSettings = {
   nextRunAt: string | null;
   lastRunAt: string | null;
   plan: PlanItem[];
+  /** The studio includes it in their plan (no subscription needed). */
+  comped: boolean;
+  /** Square subscription to the SEO Autopilot plan, as last checked. */
+  subscription: { id: string; status: string; plan: string; checkedAt: string } | null;
+  /** comped, or a live subscription: may the client use the feature? */
+  access: boolean;
 };
 
 export type SeoPostStatus = "awaiting_approval" | "approved" | "ready" | "published" | "skipped" | "failed";

@@ -119,28 +119,7 @@ async function findCatalog(type: "SUBSCRIPTION_PLAN" | "SUBSCRIPTION_PLAN_VARIAT
  */
 export async function startMonthlyPlan(input: { customerId: string; name: string; amount: number; nowMs: number }) {
   const loc = await locationId();
-  const variationName = `${input.name} · $${(input.amount / 100).toLocaleString("en-US")}/mo`;
-  let variationId = await findCatalog("SUBSCRIPTION_PLAN_VARIATION", variationName);
-  if (!variationId) {
-    let planId = await findCatalog("SUBSCRIPTION_PLAN", input.name);
-    if (!planId) {
-      const plan = await sq<{ catalog_object: { id: string } }>("/v2/catalog/object", {
-        idempotency_key: randomUUID(), object: { type: "SUBSCRIPTION_PLAN", id: "#plan", subscription_plan_data: { name: input.name } },
-      });
-      planId = plan.catalog_object.id;
-    }
-    const variation = await sq<{ catalog_object: { id: string } }>("/v2/catalog/object", {
-      idempotency_key: randomUUID(),
-      object: {
-        type: "SUBSCRIPTION_PLAN_VARIATION", id: "#variation",
-        subscription_plan_variation_data: {
-          name: variationName, subscription_plan_id: planId,
-          phases: [{ ordinal: 0, cadence: "MONTHLY", pricing: { type: "STATIC", price: { amount: input.amount, currency: "USD" } } }],
-        },
-      },
-    });
-    variationId = variation.catalog_object.id;
-  }
+  const { variationId } = await ensurePlanVariation(input.name, input.amount);
   const sub = await sq<{ subscription: { id: string; status?: string } }>("/v2/subscriptions", {
     idempotency_key: randomUUID(), location_id: loc, customer_id: input.customerId, plan_variation_id: variationId,
     start_date: ymd(input.nowMs), timezone: "America/Los_Angeles",
@@ -190,4 +169,77 @@ export async function studioBilling(customerIds: string[], nowMs: number): Promi
     out[id].openCount = s.invoices.filter((i) => i.status === "open").length;
   }
   return out;
+}
+
+/** The catalog plan + monthly variation for a named plan at a price, created on first use. */
+export async function ensurePlanVariation(name: string, amount: number): Promise<{ planId: string; variationId: string; variationName: string }> {
+  const variationName = `${name} · $${(amount / 100).toLocaleString("en-US")}/mo`;
+  let planId = await findCatalog("SUBSCRIPTION_PLAN", name);
+  if (!planId) {
+    const plan = await sq<{ catalog_object: { id: string } }>("/v2/catalog/object", {
+      idempotency_key: randomUUID(), object: { type: "SUBSCRIPTION_PLAN", id: "#plan", subscription_plan_data: { name } },
+    });
+    planId = plan.catalog_object.id;
+  }
+  let variationId = await findCatalog("SUBSCRIPTION_PLAN_VARIATION", variationName);
+  if (!variationId) {
+    const variation = await sq<{ catalog_object: { id: string } }>("/v2/catalog/object", {
+      idempotency_key: randomUUID(),
+      object: {
+        type: "SUBSCRIPTION_PLAN_VARIATION", id: "#variation",
+        subscription_plan_variation_data: {
+          name: variationName, subscription_plan_id: planId,
+          phases: [{ ordinal: 0, cadence: "MONTHLY", pricing: { type: "STATIC", price: { amount, currency: "USD" } } }],
+        },
+      },
+    });
+    variationId = variation.catalog_object.id;
+  }
+  return { planId, variationId, variationName };
+}
+
+/**
+ * Square-hosted checkout for a monthly plan: the client enters a card on Square's
+ * page, Square charges the first month, creates the subscription with the card
+ * on file (autopay) and sends them back to `redirectUrl`. Nothing card-related
+ * touches the portal.
+ */
+export async function createPlanCheckout(input: { customerId: string; email: string; planName: string; amount: number; redirectUrl: string }): Promise<{ url: string; linkId: string }> {
+  const loc = await locationId();
+  const { planId, variationId } = await ensurePlanVariation(input.planName, input.amount);
+  const body = (subscriptionPlanId: string) => ({
+    idempotency_key: randomUUID(),
+    order: { location_id: loc, customer_id: input.customerId, line_items: [{ name: input.planName, quantity: "1", base_price_money: { amount: input.amount, currency: "USD" } }] },
+    checkout_options: { subscription_plan_id: subscriptionPlanId, redirect_url: input.redirectUrl, ask_for_shipping_address: false, allow_tipping: false, enable_coupon: false },
+    pre_populated_data: { buyer_email: input.email },
+    payment_note: `${input.planName} — Unifictional`,
+  });
+  // Square moved subscription checkout from plan ids to plan-variation ids; accept whichever this account's API version wants.
+  let res: { payment_link?: { id?: string; url?: string; long_url?: string } };
+  try {
+    res = await sq("/v2/online-checkout/payment-links", body(variationId));
+  } catch (e) {
+    if (!/plan|variation/i.test(e instanceof Error ? e.message : "")) throw e;
+    res = await sq("/v2/online-checkout/payment-links", body(planId));
+  }
+  const url = res.payment_link?.url ?? res.payment_link?.long_url;
+  if (!url || !res.payment_link?.id) throw new Error("Square didn't return a checkout link.");
+  return { url, linkId: res.payment_link.id };
+}
+
+export async function findCustomerByEmail(email: string): Promise<string | null> {
+  const found = await sq<{ customers?: { id: string }[] }>("/v2/customers/search", { query: { filter: { email_address: { exact: email } } }, limit: 1 });
+  return found.customers?.[0]?.id ?? null;
+}
+
+/** The customer's subscription to a named plan, if any (most recent first). */
+export async function findPlanSubscription(customerId: string, planName: string): Promise<{ id: string; status: string; variationName: string; cardOnFile: boolean } | null> {
+  const subs = await subscriptionsFor([customerId]);
+  const variations = await variationsFor(subs);
+  const mine = subs
+    .map((s) => ({ s, name: s.plan_variation_id ? variations[s.plan_variation_id]?.subscription_plan_variation_data?.name ?? "" : "" }))
+    .filter((x) => x.name.toLowerCase().startsWith(planName.toLowerCase()))
+    .sort((a, b) => (b.s.start_date ?? "").localeCompare(a.s.start_date ?? ""));
+  const live = mine.find((x) => ["ACTIVE", "PENDING"].includes(x.s.status ?? "")) ?? mine[0];
+  return live?.s.id ? { id: live.s.id, status: live.s.status ?? "", variationName: live.name, cardOnFile: Boolean(live.s.card_id) } : null;
 }

@@ -21,7 +21,7 @@ export default function SignupPage() {
           <div className="lg:hidden flex items-center gap-3 mb-10"><Logo className="h-8 w-8" /><span className="font-display text-lg tracking-wide">Unifictional</span></div>
           <p className="label mb-3">Create account</p>
           <h2 className="font-display text-3xl mb-2">Let&apos;s get you a dashboard.</h2>
-          <p className="text-ink-muted mb-8">Free for Unifictional clients. Not a client yet? Start with the <Link href="/" className="underline">free inspection</Link>.</p>
+          <p className="text-ink-muted mb-8">The account is free. Add SEO Autopilot (a blog post a week, written and published for you, billed monthly) from inside your portal whenever you like. Not sure yet? Start with the <Link href="/" className="underline">free inspection</Link>.</p>
           <SignupForm />
           <Link href="/guide/create-account" className="mt-6 flex items-center gap-3 rounded-2xl border border-line p-4 hover:border-ink transition">
             <span className="h-10 w-10 rounded-full bg-ink text-bone grid place-items-center shrink-0">▶</span>

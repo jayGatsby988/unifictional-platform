@@ -11,6 +11,7 @@ import { autoReview, failedChecks, scorePost } from "./quality";
 import { fetchSuggestions, seedQueries } from "./research";
 import { cadenceLabel, isDue, nextRunAt, retryAt } from "./schedule";
 import { fetchSiteContext } from "./site";
+import { accessFrom, refreshSubscription } from "./access";
 
 export type RunOutcome = { ok: boolean; message: string; postId?: string; published?: number };
 
@@ -39,7 +40,7 @@ export function resolveTarget(settings: { target: string }, cfg: any, siteUrl: s
 }
 
 async function loadContexts(db: SupabaseClient, slug?: string): Promise<Ctx[]> {
-  const { data, error } = await db.from("seo_autopilot").select("*, clients(id, slug, name, industry, city, website_url, services)").eq("enabled", true);
+  const { data, error } = await db.from("seo_autopilot").select("*, clients(id, slug, name, industry, city, website_url, services, square_customer_id)").eq("enabled", true);
   if (error) throw new Error(error.message);
   const rows = ((data ?? []) as any[]).filter((r) => r.clients && (!slug || r.clients.slug === slug));
   const ids = rows.map((r) => r.client_id);
@@ -62,6 +63,12 @@ export async function runAutopilot(db: SupabaseClient, opts: { clientSlug?: stri
   for (const c of ctxs) {
     const slug = c.client.slug as string;
     try {
+      // Paid feature: comped by the studio, or a live Square subscription (re-checked daily).
+      if (!accessFrom(c.settings)) {
+        const stale = !c.settings.subscription_checked_at || Date.now() - new Date(c.settings.subscription_checked_at).getTime() > 20 * 3600e3;
+        const r = stale ? await refreshSubscription(db, c.client).catch(() => ({ access: false })) : { access: false };
+        if (!r.access) { out[slug] = { ok: true, message: "no active subscription (not written)" }; continue; }
+      }
       const published = await publishApproved(db, c);
       const due = opts.force || isDue(c.settings.next_run_at, now);
       if (!due) { out[slug] = { ok: true, message: `next post ${new Date(c.settings.next_run_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`, published }; continue; }

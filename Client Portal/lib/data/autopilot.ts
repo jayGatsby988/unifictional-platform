@@ -1,16 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- rows are untyped until `supabase gen types` runs against the live schema */
 import { createClient } from "@/lib/supabase/server";
 import type { Session } from "./repo";
+import { accessFrom } from "@/lib/autopilot/access";
 import { demoAutopilot, demoStudioAutopilot } from "./demo";
 import type { Autopilot, AutopilotRun, AutopilotSettings, PostPerformance, SeoPost, StudioAutopilotRow } from "./types";
 
-export const EMPTY_SETTINGS: AutopilotSettings = { enabled: false, cadence: "weekly", mode: "auto", target: "hosted", wpConnected: false, notes: "", nextRunAt: null, lastRunAt: null, plan: [] };
+export const EMPTY_SETTINGS: AutopilotSettings = { enabled: false, cadence: "weekly", mode: "auto", target: "hosted", wpConnected: false, notes: "", nextRunAt: null, lastRunAt: null, plan: [], comped: false, subscription: null, access: false };
 
 export function mapSettings(r: any): AutopilotSettings {
   return {
     enabled: Boolean(r.enabled), cadence: r.cadence ?? "weekly", mode: r.mode ?? "auto", target: r.target ?? "hosted",
     wpConnected: Boolean(r.wp_connected), notes: r.notes ?? "", nextRunAt: r.next_run_at ?? null, lastRunAt: r.last_run_at ?? null,
     plan: Array.isArray(r.plan) ? r.plan : [],
+    comped: Boolean(r.comped),
+    subscription: r.square_subscription_id ? { id: r.square_subscription_id, status: r.subscription_status ?? "", plan: r.subscription_plan ?? "", checkedAt: r.subscription_checked_at ?? "" } : null,
+    access: accessFrom(r),
   };
 }
 

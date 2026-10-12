@@ -3,6 +3,7 @@ import { demoMode } from "@/lib/env";
 import { getSession } from "@/lib/data/repo";
 import { adminConfigured, createAdminClient } from "@/lib/supabase/admin";
 import { writeNow } from "@/lib/autopilot/run";
+import { accessFrom } from "@/lib/autopilot/access";
 
 export const maxDuration = 300;
 
@@ -17,8 +18,9 @@ export async function POST() {
   if (!session.client) return NextResponse.json({ error: "Not signed in." }, { status: 401 });
   if (!adminConfigured) return NextResponse.json({ error: "Writing on demand needs the service key (Setup & keys)." }, { status: 503 });
   const admin = createAdminClient();
-  const { data: s } = await admin.from("seo_autopilot").select("enabled, last_run_at").eq("client_id", session.client.id).maybeSingle();
+  const { data: s } = await admin.from("seo_autopilot").select("enabled, last_run_at, comped, subscription_status").eq("client_id", session.client.id).maybeSingle();
   if (!s?.enabled) return NextResponse.json({ error: "Turn on SEO Autopilot first." }, { status: 400 });
+  if (!session.isAdmin && !accessFrom(s)) return NextResponse.json({ error: "Your SEO Autopilot plan isn't active." }, { status: 402 });
   if (!session.isAdmin && s.last_run_at && Date.now() - new Date(s.last_run_at).getTime() < 20 * 3600e3) {
     return NextResponse.json({ error: "One extra post a day. The next scheduled one is already on its way." }, { status: 429 });
   }

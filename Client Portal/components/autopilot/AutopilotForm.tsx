@@ -15,8 +15,8 @@ const TARGETS: { key: AutopilotTarget; title: string; detail: string }[] = [
 ];
 
 const MODES: { key: AutopilotMode; title: string; detail: string }[] = [
-  { key: "approve", title: "Show me each post first", detail: "You get a note when a post is ready. One tap to publish or skip." },
-  { key: "auto", title: "Just publish it", detail: "Posts go live on schedule. You can still skip or take down any of them." },
+  { key: "auto", title: "Automatic (recommended)", detail: "Every post is reviewed by the SEO checklist. Posts that pass go live on their own; anything that doesn't waits for you." },
+  { key: "approve", title: "I'll review every post", detail: "Nothing goes live until you tap Publish. Good for the first few weeks if you want to see the voice first." },
 ];
 
 function Choice({ on, title, detail, onPick, name }: { on: boolean; title: string; detail: string; onPick: () => void; name: string }) {
@@ -85,7 +85,7 @@ export function AutopilotForm({ settings, demo }: { settings: AutopilotSettings;
       </fieldset>
 
       <fieldset>
-        <legend className="label mb-3">2 · Publish on its own, or ask you first?</legend>
+        <legend className="label mb-3">2 · Who reviews each post?</legend>
         <div className="grid sm:grid-cols-2 gap-2">
           {MODES.map((m) => <Choice key={m.key} name="mode" on={mode === m.key} title={m.title} detail={m.detail} onPick={() => setMode(m.key)} />)}
         </div>

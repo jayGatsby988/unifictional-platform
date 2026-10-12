@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ArrowUpRight, Check, Copy, Pencil, X } from "lucide-react";
 import type { PostQuality, SeoPost } from "@/lib/data/types";
 import { mdToHtml } from "@/lib/autopilot/markdown";
+import { AUTO_PUBLISH_BAR } from "@/lib/autopilot/quality";
 import { cn, fmt } from "@/lib/utils";
 
 const STATUS: Record<SeoPost["status"], { cls: string; text: string }> = {
@@ -100,6 +101,9 @@ export function PostCard({ post, open = false }: { post: SeoPost; open?: boolean
         </div>
         {post.publishedUrl && <a href={post.publishedUrl} target="_blank" rel="noreferrer" className="btn btn-ghost !py-1.5 !px-3 text-xs">View on your site <ArrowUpRight className="h-3.5 w-3.5" /></a>}
       </div>
+      {post.status === "awaiting_approval" && post.quality && post.quality.score < AUTO_PUBLISH_BAR && (
+        <p className="mt-2 text-xs text-warn">Held for your review: it scored {post.quality.score}/100, under the {AUTO_PUBLISH_BAR} the automatic reviewer needs. Fix it with Edit, or publish it anyway.</p>
+      )}
       {post.status === "failed" && post.error && <p className="mt-2 text-xs text-bad">{post.error}</p>}
       {post.status === "ready" && post.error && <p className="mt-2 text-xs text-ink-muted">{post.error}</p>}
 

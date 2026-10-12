@@ -20,7 +20,7 @@ export async function POST(request: Request) {
   const b = await request.json().catch(() => ({}));
   const enabled = Boolean(b.enabled);
   const cadence = isCadence(b.cadence) ? b.cadence : "weekly";
-  const mode = MODES.has(b.mode) ? b.mode : "approve";
+  const mode = MODES.has(b.mode) ? b.mode : "auto";
   const target = TARGETS.has(b.target) ? b.target : "hosted";
   const notes = String(b.notes ?? "").trim().slice(0, 2000);
   const wpUser = String(b.wpUser ?? "").trim().slice(0, 200);

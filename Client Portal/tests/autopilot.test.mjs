@@ -146,3 +146,12 @@ test("the content plan queues topics, skips written ones, and can be reordered",
   assert.equal(moved[0].title, "B");
   assert.equal(plan.upcoming(moved).length, 2);
 });
+
+test("automatic mode publishes at the bar and holds under it; the calendar projects one post per cadence step", () => {
+  assert.deepEqual(quality.autoReview("auto", quality.AUTO_PUBLISH_BAR), { publish: true, held: false });
+  assert.deepEqual(quality.autoReview("auto", quality.AUTO_PUBLISH_BAR - 1), { publish: false, held: true });
+  assert.deepEqual(quality.autoReview("approve", 100), { publish: false, held: false });
+  const items = plan.toPlanItems([{ title: "A", targetQuery: "q1", angle: "" }, { title: "B", targetQuery: "q2", angle: "" }, { title: "C", targetQuery: "q3", angle: "" }]);
+  const dates = sched.projectSchedule(plan.setStatus(items, items[1].id, "skipped"), "2026-10-17T14:00:00.000Z", "weekly");
+  assert.deepEqual(dates.map((s) => s.date), ["2026-10-17T14:00:00.000Z", "2026-10-24T14:00:00.000Z"]);
+});

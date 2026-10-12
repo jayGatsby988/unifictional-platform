@@ -2,13 +2,15 @@ import Link from "next/link";
 import { Section, SubHead } from "@/components/Section";
 import { Stat } from "@/components/Stat";
 import { AutopilotForm } from "@/components/autopilot/AutopilotForm";
+import { Calendar, type CalendarEntry } from "@/components/autopilot/Calendar";
 import { Fixes } from "@/components/autopilot/Fixes";
 import { PostCard } from "@/components/autopilot/PostCard";
 import { Upcoming } from "@/components/autopilot/Upcoming";
 import { WriteNow } from "@/components/autopilot/WriteNow";
 import { getSession } from "@/lib/data/repo";
 import { getAutopilot } from "@/lib/data/autopilot";
-import { cadenceLabel } from "@/lib/autopilot/schedule";
+import { AUTO_PUBLISH_BAR } from "@/lib/autopilot/quality";
+import { cadenceLabel, projectSchedule } from "@/lib/autopilot/schedule";
 import { fmt } from "@/lib/utils";
 
 const HOW = [
@@ -31,6 +33,14 @@ export default async function AutopilotPage() {
   const fixesDone = allFixes.filter((f) => f.done).length;
   const clicks = published.reduce((n, p) => n + (p.performance?.clicks ?? 0), 0);
   const upcoming = s.plan.filter((p) => p.status === "planned").length;
+  const schedule = projectSchedule(s.plan, s.nextRunAt, s.cadence);
+  const dates = Object.fromEntries(schedule.map((x) => [x.id, x.date]));
+  const titles = new Map(s.plan.map((p) => [p.id, p.title]));
+  const entries: CalendarEntry[] = [
+    ...published.map((p) => ({ date: p.publishedAt ?? p.createdAt, kind: "published" as const, title: p.title, href: p.publishedUrl ?? undefined })),
+    ...awaiting.map((p) => ({ date: p.createdAt, kind: "awaiting" as const, title: p.title })),
+    ...schedule.map((x) => ({ date: x.date, kind: "scheduled" as const, title: titles.get(x.id) ?? "Planned post" })),
+  ];
 
   if (!s.enabled) {
     return (
@@ -73,7 +83,7 @@ export default async function AutopilotPage() {
   return (
     <>
       <Section num="03" label="SEO Autopilot" title="Your SEO, on autopilot."
-        intro={`On. ${cadenceLabel(s.cadence)}. ${s.mode === "approve" ? "Each post waits for your OK before it goes live." : "Posts go live on schedule; you can skip any of them."}`}
+        intro={`On. ${cadenceLabel(s.cadence)}. ${s.mode === "approve" ? "Each post waits for your OK before it goes live." : `Reviewed automatically: a post that passes the SEO checklist (${AUTO_PUBLISH_BAR}+) goes live on its own; anything under that waits for you.`}`}
         action={a.posts.length > 0 ? <WriteNow demo={session.isDemo} /> : undefined} />
 
       {a.posts.length === 0 && <div className="mb-10"><WriteNow big demo={session.isDemo} /></div>}
@@ -91,6 +101,11 @@ export default async function AutopilotPage() {
           <div className="space-y-4">{awaiting.map((p) => <PostCard key={p.id} post={p} open />)}</div>
         </section>
       )}
+
+      <section className="mb-10">
+        <SubHead right={<span className="label !text-[9px]">{published.length} live · {awaiting.length} waiting · {upcoming} scheduled</span>}>Calendar</SubHead>
+        <Calendar entries={entries} />
+      </section>
 
       <div className="grid lg:grid-cols-3 gap-4 mb-10">
         <div className="lg:col-span-2 space-y-8">
@@ -110,7 +125,7 @@ export default async function AutopilotPage() {
           </div>
           <div>
             <SubHead right={upcoming ? <span className="label !text-[9px]">{upcoming} planned</span> : undefined}>Coming up</SubHead>
-            <Upcoming plan={s.plan} />
+            <Upcoming plan={s.plan} dates={dates} />
           </div>
         </div>
       </div>

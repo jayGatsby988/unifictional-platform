@@ -4,11 +4,11 @@ import type { Session } from "./repo";
 import { demoAutopilot, demoStudioAutopilot } from "./demo";
 import type { Autopilot, AutopilotRun, AutopilotSettings, PostPerformance, SeoPost, StudioAutopilotRow } from "./types";
 
-export const EMPTY_SETTINGS: AutopilotSettings = { enabled: false, cadence: "weekly", mode: "approve", target: "hosted", wpConnected: false, notes: "", nextRunAt: null, lastRunAt: null, plan: [] };
+export const EMPTY_SETTINGS: AutopilotSettings = { enabled: false, cadence: "weekly", mode: "auto", target: "hosted", wpConnected: false, notes: "", nextRunAt: null, lastRunAt: null, plan: [] };
 
 export function mapSettings(r: any): AutopilotSettings {
   return {
-    enabled: Boolean(r.enabled), cadence: r.cadence ?? "weekly", mode: r.mode ?? "approve", target: r.target ?? "hosted",
+    enabled: Boolean(r.enabled), cadence: r.cadence ?? "weekly", mode: r.mode ?? "auto", target: r.target ?? "hosted",
     wpConnected: Boolean(r.wp_connected), notes: r.notes ?? "", nextRunAt: r.next_run_at ?? null, lastRunAt: r.last_run_at ?? null,
     plan: Array.isArray(r.plan) ? r.plan : [],
   };

@@ -4,8 +4,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { PlanItem } from "@/lib/data/types";
 
-/** The next topics in the content plan. The client can skip one or pull one forward. */
-export function Upcoming({ plan }: { plan: PlanItem[] }) {
+const when = (iso?: string) => (iso ? new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }) : "");
+
+/** The next topics in the content plan with their projected dates. The client can skip one or pull one forward. */
+export function Upcoming({ plan, dates = {} }: { plan: PlanItem[]; dates?: Record<string, string> }) {
   const router = useRouter();
   const [busy, setBusy] = useState("");
   const [msg, setMsg] = useState("");
@@ -25,7 +27,7 @@ export function Upcoming({ plan }: { plan: PlanItem[] }) {
       {items.map((p, i) => (
         <div key={p.id} className="p-4">
           <div className="flex items-start gap-3">
-            <span className="font-mono text-xs text-ink-muted mt-0.5">{String(i + 1).padStart(2, "0")}</span>
+            <span className="font-mono text-xs text-ink-muted mt-0.5 w-12 shrink-0">{dates[p.id] ? when(dates[p.id]) : String(i + 1).padStart(2, "0")}</span>
             <div className="min-w-0 flex-1">
               <p className="text-sm font-medium leading-snug">{p.title}</p>
               <p className="text-xs text-ink-muted mt-0.5">for <span className="text-ink">“{p.targetQuery}”</span></p>

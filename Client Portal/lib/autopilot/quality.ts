@@ -52,3 +52,12 @@ export function scorePost(p: QualityInput, knownPaths: string[] = []): PostQuali
 export function failedChecks(q: PostQuality): string[] {
   return q.checks.filter((c) => !c.ok).map((c) => `${c.label} (${c.detail})`);
 }
+
+/** In automatic mode a post goes live on its own at or above this score; below it, it waits for a person. */
+export const AUTO_PUBLISH_BAR = 85;
+
+/** The reviewer: who decides whether this post goes live. */
+export function autoReview(mode: "auto" | "approve", score: number): { publish: boolean; held: boolean } {
+  if (mode === "approve") return { publish: false, held: false };
+  return score >= AUTO_PUBLISH_BAR ? { publish: true, held: false } : { publish: false, held: true };
+}

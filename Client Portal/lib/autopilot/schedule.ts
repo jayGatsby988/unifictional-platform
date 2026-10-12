@@ -1,4 +1,4 @@
-import type { AutopilotCadence } from "../data/types";
+import type { AutopilotCadence, PlanItem } from "../data/types";
 
 /** How often the bot publishes. "weekly" is the default: four posts a month. */
 export const CADENCES: { key: AutopilotCadence; label: string; hours: number; perMonth: string }[] = [
@@ -30,4 +30,15 @@ export function retryAt(from = new Date()): string {
 
 export function isDue(next: string | null, now = new Date()): boolean {
   return !next || new Date(next).getTime() <= now.getTime();
+}
+
+/**
+ * Projected dates for the planned posts: the first one at the next run, then
+ * one per cadence step. For the calendar; the real run can land a day later
+ * (the cron is daily) and the plan can change, so these are "about".
+ */
+export function projectSchedule(plan: PlanItem[], nextRunAt: string | null, cadence: AutopilotCadence): { id: string; date: string }[] {
+  const c = CADENCES.find((x) => x.key === cadence) ?? CADENCES[0];
+  const start = nextRunAt ? new Date(nextRunAt) : new Date();
+  return plan.filter((p) => p.status === "planned").map((p, i) => ({ id: p.id, date: new Date(start.getTime() + i * c.hours * 3600e3).toISOString() }));
 }

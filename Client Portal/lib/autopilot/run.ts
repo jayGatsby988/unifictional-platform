@@ -7,7 +7,7 @@ import { generatePlan, generatePost, revisePost, type GeneratedPost } from "./ge
 import { assembleBody, slugFor, uniqueSlug, wordCount } from "./markdown";
 import { nextPlanned, setStatus, toPlanItems } from "./plan";
 import { publish, type Target } from "./publish";
-import { failedChecks, scorePost } from "./quality";
+import { autoReview, failedChecks, scorePost } from "./quality";
 import { fetchSuggestions, seedQueries } from "./research";
 import { cadenceLabel, isDue, nextRunAt, retryAt } from "./schedule";
 import { fetchSiteContext } from "./site";
@@ -149,7 +149,9 @@ export async function runForClient(db: SupabaseClient, c: Ctx): Promise<RunOutco
 
   const bodyMd = assembleBody(gen.bodyMarkdown, gen.faq);
   const slug = uniqueSlug(slugFor(gen.slug || gen.title), ((prior.data ?? []) as any[]).map((p) => p.slug));
-  const approve = c.settings.mode === "approve";
+  // Automatic mode: the checklist is the reviewer. A post that passes goes live; one that doesn't waits for a person.
+  const review = autoReview(c.settings.mode === "approve" ? "approve" : "auto", quality.score);
+  const approve = !review.publish;
   const { data: post, error } = await db.from("seo_posts").insert({
     client_id: cid, title: gen.title, slug, target_query: gen.targetQuery, rationale: gen.rationale, meta_description: gen.metaDescription, excerpt: gen.excerpt,
     body_md: bodyMd, word_count: wordCount(bodyMd), quality, status: approve ? "awaiting_approval" : "approved",
@@ -157,14 +159,14 @@ export async function runForClient(db: SupabaseClient, c: Ctx): Promise<RunOutco
   if (error || !post) throw new Error(error?.message ?? "Could not save the post.");
 
   const fixes = gen.optimizations.slice(0, 5).map((f) => ({ ...f, done: false }));
-  await db.from("seo_autopilot_runs").insert({ client_id: cid, ok: true, post_id: post.id, fixes, summary: `Wrote "${gen.title}" for "${gen.targetQuery}" · SEO check ${quality.score}/100${fixes.length ? ` · ${fixes.length} fixes suggested` : ""}` });
+  await db.from("seo_autopilot_runs").insert({ client_id: cid, ok: true, post_id: post.id, fixes, summary: `Wrote "${gen.title}" for "${gen.targetQuery}" · SEO check ${quality.score}/100${review.held ? " · held for review" : ""}${fixes.length ? ` · ${fixes.length} fixes suggested` : ""}` });
   if (planned) plan = setStatus(plan, planned.id, "written");
   await db.from("seo_autopilot").update({ next_run_at: nextRunAt(c.settings.cadence), last_run_at: stamp(), plan, updated_at: stamp() }).eq("client_id", cid);
   await db.from("work_log").insert({ client_id: cid, area: "seo", title: `Blog post written: ${gen.title}`, detail: `Targets "${gen.targetQuery}" · SEO check ${quality.score}/100.${fixes.length ? ` ${fixes.length} on-page fixes suggested.` : ""}` });
 
   if (approve) {
-    await db.from("activity").insert({ client_id: cid, area: "seo", title: `New blog post ready for your OK: ${gen.title}` });
-    return { ok: true, message: `wrote "${gen.title}" (awaiting approval)`, postId: post.id };
+    await db.from("activity").insert({ client_id: cid, area: "seo", title: review.held ? `Held for your review (SEO check ${quality.score}/100): ${gen.title}` : `New blog post ready for your OK: ${gen.title}` });
+    return { ok: true, message: `wrote "${gen.title}" (${review.held ? `held for review, SEO check ${quality.score}/100` : "awaiting approval"})`, postId: post.id };
   }
   const r = await publishPost(db, c, post);
   return { ok: r.ok, message: r.ok ? `published "${gen.title}"` : `wrote "${gen.title}" but publishing failed: ${r.message}`, postId: post.id };

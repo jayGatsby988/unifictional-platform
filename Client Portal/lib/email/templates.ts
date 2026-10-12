@@ -100,3 +100,18 @@ export function studioNewSignupEmail(o: { name: string; company: string; email: 
   const text = `New portal sign-up: ${o.name}, ${o.company}\nEmail: ${o.email}\nPhone: ${o.phone || "-"}\nWebsite: ${o.website || "-"}\nStudio: ${o.studioUrl}${o.reportUrl ? `\nWebsite check: ${o.reportUrl}` : ""}`;
   return { subject, html, text };
 }
+
+/** Studio: a post is written for a GoDaddy/Wix/… client and waits for someone to paste it. */
+export function studioPastePostEmail(o: { company: string; platform: string; title: string; access: string; portalUrl: string }): Email {
+  return {
+    subject: `Paste on ${o.platform}: ${o.title} (${o.company})`,
+    html: shell(
+      `A post is ready to paste for ${esc(o.company)}`,
+      p(`<b>${esc(o.title)}</b> passed the SEO check and is waiting on their SEO Autopilot page.`) +
+      p(`Site: <b>${esc(o.platform)}</b> · ${esc(o.access)}.`) +
+      button(o.portalUrl, "Open their page") +
+      p(`Copy it as HTML, paste it on ${esc(o.platform)}, then tap “It’s live” on the post with the URL so the client sees it and the request closes.`),
+    ),
+    text: `A post is ready to paste for ${o.company}\n\n"${o.title}" passed the SEO check and is waiting on their SEO Autopilot page.\nSite: ${o.platform} · ${o.access}.\n\nOpen their page: ${o.portalUrl}\n\nCopy it as HTML, paste it on ${o.platform}, then tap "It's live" on the post with the URL.`,
+  };
+}

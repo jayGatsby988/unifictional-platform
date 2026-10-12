@@ -2,10 +2,11 @@
 import { createClient } from "@/lib/supabase/server";
 import type { Session } from "./repo";
 import { accessFrom } from "@/lib/autopilot/access";
+import { EMPTY_SITE, isSiteAccess, siteStatus } from "@/lib/autopilot/site-access";
 import { demoAutopilot, demoStudioAutopilot } from "./demo";
 import type { Autopilot, AutopilotRun, AutopilotSettings, PostPerformance, SeoPost, StudioAutopilotRow } from "./types";
 
-export const EMPTY_SETTINGS: AutopilotSettings = { enabled: false, cadence: "weekly", mode: "auto", target: "hosted", wpConnected: false, notes: "", nextRunAt: null, lastRunAt: null, plan: [], comped: false, subscription: null, package: null, access: false };
+export const EMPTY_SETTINGS: AutopilotSettings = { enabled: false, cadence: "weekly", mode: "auto", target: "hosted", wpConnected: false, notes: "", nextRunAt: null, lastRunAt: null, plan: [], comped: false, subscription: null, package: null, site: EMPTY_SITE, access: false };
 
 export function mapSettings(r: any): AutopilotSettings {
   return {
@@ -13,6 +14,7 @@ export function mapSettings(r: any): AutopilotSettings {
     wpConnected: Boolean(r.wp_connected), notes: r.notes ?? "", nextRunAt: r.next_run_at ?? null, lastRunAt: r.last_run_at ?? null,
     plan: Array.isArray(r.plan) ? r.plan : [],
     comped: Boolean(r.comped),
+    site: { platform: r.site_platform ?? "", access: isSiteAccess(r.site_access) ? r.site_access : null, loginOnFile: Boolean(r.site_login_on_file), inviteSentAt: r.site_invite_sent_at ?? null },
     package: r.package && typeof r.package.posts === "number" ? { posts: r.package.posts, addons: Array.isArray(r.package.addons) ? r.package.addons : [], amount: Number(r.package.amount) || 0, name: String(r.package.name ?? "") } : null,
     subscription: r.square_subscription_id ? { id: r.square_subscription_id, status: r.subscription_status ?? "", plan: r.subscription_plan ?? "", checkedAt: r.subscription_checked_at ?? "" } : null,
     access: accessFrom(r),
@@ -64,14 +66,14 @@ export async function getAutopilot(session: Session): Promise<Autopilot> {
 }
 
 /** Can posts go out on their own for this company, given its target and what the studio has set up? */
-export function publishingStatus(s: Pick<AutopilotSettings, "target" | "wpConnected">, cfg: { site_repo?: string | null; site_revalidate_url?: string | null } | null, githubToken: boolean): StudioAutopilotRow["publishing"] {
+export function publishingStatus(s: Pick<AutopilotSettings, "target" | "wpConnected" | "site">, cfg: { site_repo?: string | null; site_revalidate_url?: string | null } | null, githubToken: boolean): StudioAutopilotRow["publishing"] {
   if (s.target === "wordpress") return s.wpConnected ? { ready: true, note: "WordPress" } : { ready: false, note: "WordPress login missing" };
   if (s.target === "hosted") {
     if (cfg?.site_repo) return githubToken ? { ready: true, note: `GitHub · ${cfg.site_repo}` } : { ready: false, note: "GITHUB_TOKEN not set" };
     if (cfg?.site_revalidate_url) return { ready: true, note: "Site pulls posts from the portal" };
     return { ready: false, note: "Add the repo or revalidate URL on Data connections" };
   }
-  return { ready: false, note: "Client pastes posts themselves" };
+  return siteStatus(s.site);
 }
 
 /** Every company's autopilot at a glance, for Studio · SEO Autopilot. */
@@ -81,7 +83,7 @@ export async function getStudioAutopilot(session: Session): Promise<StudioAutopi
   const [clients, settings, integ, posts, runs] = await Promise.all([
     db.from("clients").select("id, slug, name, website_url").order("name"),
     db.from("seo_autopilot").select("*"),
-    db.from("client_integrations").select("client_id, site_url, site_repo, site_revalidate_url"),
+    db.from("client_integrations").select("client_id, site_url, site_repo, site_revalidate_url, site_login_user, site_login_password"),
     db.from("seo_posts").select("client_id, status"),
     db.from("seo_autopilot_runs").select("client_id, ran_at, ok, summary, fixes").order("ran_at", { ascending: false }).limit(300),
   ]);
@@ -96,6 +98,7 @@ export async function getStudioAutopilot(session: Session): Promise<StudioAutopi
     return {
       slug: c.slug, name: c.name, website: cfg?.site_url ?? c.website_url ?? "",
       settings: st, publishing: publishingStatus(st, cfg, githubToken),
+      siteLogin: st.target === "manual" && cfg?.site_login_user ? { user: cfg.site_login_user, password: cfg.site_login_password ?? "" } : null,
       awaiting: mine.filter((p) => p.status === "awaiting_approval").length,
       published: mine.filter((p) => p.status === "published").length,
       upcoming: st.plan.filter((p) => p.status === "planned").length,

@@ -65,6 +65,12 @@ export default async function StudioAutopilotPage() {
                   <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider", r.publishing.ready ? "bg-good-bg text-good" : "bg-sand text-ink-muted")}>{r.publishing.ready ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}{r.publishing.note}</span>
                   <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider", r.settings.access ? "bg-good-bg text-good" : "bg-sand text-ink-muted")}>{r.settings.access ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}{r.settings.comped ? "Included by studio" : r.settings.subscription ? `Subscribed · ${r.settings.subscription.status.toLowerCase()}` : "No subscription"}</span>
                 </div>
+                {r.siteLogin && (
+                  <details className="mt-2 text-xs">
+                    <summary className="cursor-pointer select-none text-ink-muted">Site login the client shared</summary>
+                    <p className="mt-1 font-mono">{r.siteLogin.user} · {r.siteLogin.password}</p>
+                  </details>
+                )}
                 {r.settings.notes && <p className="mt-2 text-xs text-ink-muted italic">“{r.settings.notes}”</p>}
               </div>
               <dl className="grid grid-cols-5 gap-4 text-center">

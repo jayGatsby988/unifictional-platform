@@ -38,10 +38,12 @@ function QualityBadge({ q }: { q: PostQuality }) {
 /** One generated post: status, why it was written, its SEO score, the text itself, and what the client can do with it. */
 export function PostCard({ post, open = false }: { post: SeoPost; open?: boolean }) {
   const router = useRouter();
-  const [busy, setBusy] = useState<"" | "approve" | "skip" | "save">("");
+  const [busy, setBusy] = useState<"" | "approve" | "skip" | "save" | "live">("");
   const [msg, setMsg] = useState("");
   const [copied, setCopied] = useState("");
   const [editing, setEditing] = useState(false);
+  const [marking, setMarking] = useState(false);
+  const [liveUrl, setLiveUrl] = useState("");
   const [title, setTitle] = useState(post.title);
   const [meta, setMeta] = useState(post.metaDescription);
   const [body, setBody] = useState(post.bodyMd);
@@ -73,6 +75,17 @@ export function PostCard({ post, open = false }: { post: SeoPost; open?: boolean
     if (!res.ok) { setMsg(j.error ?? "Couldn't save."); return; }
     setEditing(false);
     setMsg(j.demo ? "Demo mode: not saved." : j.quality ? `Saved. SEO check now ${j.quality.score}/100.` : "Saved.");
+    router.refresh();
+  }
+
+  async function markLive() {
+    setBusy("live"); setMsg("");
+    const res = await fetch("/api/autopilot/posts", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: post.id, action: "live", url: liveUrl.trim() }) });
+    const j = await res.json().catch(() => ({}));
+    setBusy("");
+    if (!res.ok) { setMsg(j.error ?? "Couldn't save."); return; }
+    setMarking(false);
+    setMsg(j.demo ? "Demo mode: nothing changed, but this is where it would be marked live." : "Marked live. Google clicks show up here once Search Console sees it.");
     router.refresh();
   }
 
@@ -135,6 +148,14 @@ export function PostCard({ post, open = false }: { post: SeoPost; open?: boolean
           </>
         )}
         {post.status === "failed" && <button type="button" className="btn btn-ink !py-2 !px-4 text-xs" disabled={busy !== ""} onClick={() => act("approve")}>{busy === "approve" ? "Trying…" : "Try again"}</button>}
+        {post.status === "ready" && !marking && <button type="button" className="btn btn-ink !py-2 !px-4 text-xs" disabled={busy !== "" || editing} onClick={() => setMarking(true)}><Check className="h-3.5 w-3.5" /> It&apos;s live</button>}
+        {post.status === "ready" && marking && (
+          <span className="flex flex-wrap items-center gap-2">
+            <input className="input !py-1.5 text-xs w-72 font-mono" placeholder="https://yoursite.com/blog/the-post" value={liveUrl} onChange={(e) => setLiveUrl(e.target.value)} autoFocus />
+            <button type="button" className="btn btn-ink !py-1.5 !px-3 text-xs" disabled={busy !== ""} onClick={markLive}>{busy === "live" ? "Saving…" : "Save"}</button>
+            <button type="button" className="btn btn-ghost !py-1.5 !px-3 text-xs" disabled={busy !== ""} onClick={() => setMarking(false)}>Cancel</button>
+          </span>
+        )}
         {canEdit && !editing && <button type="button" className="btn btn-ghost !py-2 !px-4 text-xs" disabled={busy !== ""} onClick={() => setEditing(true)}><Pencil className="h-3.5 w-3.5" /> Edit</button>}
         {canCopy && (
           <>

@@ -12,6 +12,9 @@ import { fetchSuggestions, seedQueries } from "./research";
 import { cadenceLabel, isDue, nextRunAt, retryAt } from "./schedule";
 import { fetchSiteContext } from "./site";
 import { accessFrom, refreshSubscription } from "./access";
+import { isSiteAccess, pasteNote, studioPastes, type SiteSetup } from "./site-access";
+import { emailConfigured, sendEmail, STUDIO_EMAIL } from "@/lib/email/send";
+import { studioPastePostEmail } from "@/lib/email/templates";
 
 export type RunOutcome = { ok: boolean; message: string; postId?: string; published?: number };
 
@@ -184,9 +187,15 @@ export async function publishPost(db: SupabaseClient, c: Ctx, post: any): Promis
   const target = resolveTarget(c.settings, c.cfg, siteOf(c));
   const now = stamp();
   if (target.kind === "manual") {
-    await db.from("seo_posts").update({ status: "ready", error: target.reason, updated_at: now }).eq("id", post.id);
-    await db.from("activity").insert({ client_id: c.client.id, area: "seo", title: `Blog post ready to put on your site: ${post.title}` });
-    return { ok: true, message: `ready in the portal (${target.reason})`, postId: post.id };
+    // A "somewhere else" site: the studio pastes it (invited, or login on file) or the client does.
+    const site: SiteSetup = { platform: c.settings.site_platform ?? "", access: isSiteAccess(c.settings.site_access) ? c.settings.site_access : null, loginOnFile: Boolean(c.settings.site_login_on_file), inviteSentAt: c.settings.site_invite_sent_at ?? null };
+    const other = c.settings.target === "manual";
+    const byStudio = other && studioPastes(site);
+    const note = other ? pasteNote(site) : target.reason;
+    await db.from("seo_posts").update({ status: "ready", error: note, updated_at: now }).eq("id", post.id);
+    await db.from("activity").insert({ client_id: c.client.id, area: "seo", title: byStudio ? `Blog post written; Unifictional is putting it on your site: ${post.title}` : `Blog post ready to put on your site: ${post.title}` });
+    if (byStudio) await notifyStudioToPaste(db, c, post, site).catch((e) => console.error("[autopilot] paste notice", e));
+    return { ok: true, message: byStudio ? `ready for the studio to paste on ${site.platform || "their site"}` : `ready in the portal (${note})`, postId: post.id };
   }
   try {
     const { url } = await publish(target, { title: post.title, slug: post.slug, metaDescription: post.meta_description ?? "", excerpt: post.excerpt ?? "", targetQuery: post.target_query ?? "", bodyMd: post.body_md }, now.slice(0, 10));
@@ -198,6 +207,22 @@ export async function publishPost(db: SupabaseClient, c: Ctx, post: any): Promis
     await db.from("seo_posts").update({ status: "failed", error: message, updated_at: now }).eq("id", post.id);
     return { ok: false, message, postId: post.id };
   }
+}
+
+/** Where the portal lives, for links in studio notices sent from the cron (no request to read it from). */
+const portalOrigin = () => process.env.NEXT_PUBLIC_PORTAL_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:8120");
+
+/** A post is waiting for the studio to paste onto a GoDaddy/Wix/… site: an Inbox request plus an email. */
+async function notifyStudioToPaste(db: SupabaseClient, c: Ctx, post: any, site: SiteSetup): Promise<void> {
+  const platform = site.platform || "their site";
+  const access = site.access === "login" ? "login on file (Studio · SEO Autopilot)" : "we're invited as a collaborator";
+  const portalUrl = `${portalOrigin()}/api/client/open?slug=${encodeURIComponent(c.client.slug)}&next=${encodeURIComponent("/autopilot")}`;
+  await db.from("requests").insert({
+    client_id: c.client.id, type: "seo", status: "open", requester_email: null,
+    title: `Paste on ${platform}: ${post.title}`,
+    body: `Written for ${c.client.name} and waiting on their SEO Autopilot page. Access: ${access}. Open their page, copy the post as HTML, paste it on ${platform}, then tap "It's live" on the post with the URL.`,
+  });
+  if (emailConfigured) await sendEmail({ to: STUDIO_EMAIL, ...studioPastePostEmail({ company: c.client.name, platform, title: post.title, access, portalUrl }) });
 }
 
 /** Posts the client approved in the portal, and ones that failed last time, go out first. Returns how many went live. */

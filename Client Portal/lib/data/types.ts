@@ -202,6 +202,8 @@ export type AutopilotSettings = {
   subscription: { id: string; status: string; plan: string; checkedAt: string } | null;
   /** What they picked in the plan builder at checkout (posts a month, add-ons, monthly amount in cents). */
   package: { posts: number; addons: string[]; amount: number; name: string } | null;
+  /** "Somewhere else" sites: which builder, and how posts get onto it (never the login itself). */
+  site: { platform: string; access: "invite" | "login" | "self" | null; loginOnFile: boolean; inviteSentAt: string | null };
   /** comped, or a live subscription: may the client use the feature? */
   access: boolean;
 };
@@ -251,6 +253,8 @@ export type StudioAutopilotRow = {
   settings: AutopilotSettings;
   /** Whether posts can actually go out on their own, and why not when they can't. */
   publishing: { ready: boolean; note: string };
+  /** The login a "somewhere else" client shared so the studio can paste posts. Admin-only page. */
+  siteLogin: { user: string; password: string } | null;
   awaiting: number;
   published: number;
   upcoming: number;

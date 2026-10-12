@@ -18,6 +18,7 @@ import { loadBuilder } from "@/lib/billing/builder";
 import { AUTO_PUBLISH_BAR } from "@/lib/autopilot/quality";
 import { cadenceLabel, projectSchedule } from "@/lib/autopilot/schedule";
 import { fmt } from "@/lib/utils";
+import { STUDIO_EMAIL } from "@/lib/email/send";
 
 const HOW = [
   ["Pick the search", "We look at what your site ranks for, what it doesn't, and what homeowners near you actually type into Google."],
@@ -86,7 +87,7 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
           intro="Every week we write and publish a blog post aimed at a search homeowners near you actually type, check it against an SEO checklist, and list the fixes that move your site up. Answer two questions once; we handle the rest." />
         {sp.checkout === "return" && <div className="panel p-4 mb-6 text-sm"><span className="font-medium">You&apos;re in.</span> Your plan is active. Two questions and your first post is on its way.</div>}
         <div className="grid lg:grid-cols-5 gap-4 mb-10">
-          <div className="lg:col-span-3"><AutopilotForm settings={s} demo={session.isDemo} maxPosts={maxPosts} /></div>
+          <div className="lg:col-span-3"><AutopilotForm settings={s} demo={session.isDemo} maxPosts={maxPosts} studioEmail={STUDIO_EMAIL} siteUrl={c.websiteUrl} /></div>
           <div className="lg:col-span-2 space-y-4">
             <div className="panel p-5">
               <SubHead>What we already know</SubHead>
@@ -170,7 +171,7 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
 
       <details className="panel p-5">
         <summary className="text-sm font-medium cursor-pointer select-none">Settings: where it publishes, how often, what to push</summary>
-        <div className="mt-4"><AutopilotForm settings={s} demo={session.isDemo} maxPosts={maxPosts} /></div>
+        <div className="mt-4"><AutopilotForm settings={s} demo={session.isDemo} maxPosts={maxPosts} studioEmail={STUDIO_EMAIL} siteUrl={c.websiteUrl} /></div>
       </details>
     </>
   );

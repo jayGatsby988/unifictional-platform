@@ -164,3 +164,19 @@ test("access comes from the studio comping it or a live Square subscription", as
   assert.equal(access.accessFrom({ comped: true, subscription_status: null }), true);
   assert.equal(access.PLAN_NAME, "SEO Autopilot");
 });
+
+test("somewhere-else sites: the note under a post and the studio status follow how we get access", async () => {
+  const sa = await import("../lib/autopilot/site-access.ts");
+  const invited = { platform: "GoDaddy", access: "invite", loginOnFile: false, inviteSentAt: "2026-10-12T00:00:00Z" };
+  assert.equal(sa.studioPastes(invited), true);
+  assert.match(sa.pasteNote(invited), /Unifictional pastes this onto your GoDaddy site/);
+  assert.deepEqual(sa.siteStatus(invited), { ready: true, note: "GoDaddy · invited, studio pastes" });
+  assert.equal(sa.siteStatus({ ...invited, inviteSentAt: null }).ready, false);
+  assert.equal(sa.siteStatus({ platform: "Wix", access: "login", loginOnFile: false, inviteSentAt: null }).note, "Wix · login missing");
+  assert.match(sa.pasteNote({ platform: "", access: "self", loginOnFile: false, inviteSentAt: null }), /paste it onto your site/);
+  assert.equal(sa.studioPastes({ access: "self" }), false);
+  assert.equal(sa.inviteSteps("GoDaddy", "x@y.com").length, 3);
+  assert.ok(sa.inviteSteps("GoDaddy", "x@y.com").some((s) => s.includes("x@y.com")));
+  assert.equal(sa.isSiteAccess("invite"), true);
+  assert.equal(sa.isSiteAccess("ftp"), false);
+});

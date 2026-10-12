@@ -7,16 +7,21 @@ import { isCadence } from "@/lib/autopilot/schedule";
 import { accessFrom } from "@/lib/autopilot/access";
 import { isPostsChoice, postsFor } from "@/lib/billing/packages";
 import { normalizeWpUrl, verifyWordpress } from "@/lib/autopilot/publish";
+import { isSiteAccess } from "@/lib/autopilot/site-access";
+import { normalizeUrl } from "@/lib/audit";
 
 const MODES = new Set(["auto", "approve"]);
 const TARGETS = new Set(["hosted", "wordpress", "manual"]);
 
 /**
  * The client turns SEO Autopilot on, pauses it, or changes how it runs.
- * Body: { enabled, cadence, mode, target, notes, wpUrl?, wpUser?, wpAppPassword? }
+ * Body: { enabled, cadence, mode, target, notes, wpUrl?, wpUser?, wpAppPassword?,
+ *         platform?, siteUrl?, access?, siteUser?, sitePassword?, inviteSent? }
  * A WordPress login is verified against the site before it is stored (through a
  * definer function, into the admin-only client_integrations table) and is never
- * returned to the browser.
+ * returned to the browser. A "somewhere else" site (GoDaddy, Wix…) must say how
+ * we get posts onto it: invite the studio, share a login (stored the same way), or
+ * paste posts themselves.
  */
 export async function POST(request: Request) {
   const b = await request.json().catch(() => ({}));
@@ -28,6 +33,13 @@ export async function POST(request: Request) {
   const wpUser = String(b.wpUser ?? "").trim().slice(0, 200);
   const wpPass = String(b.wpAppPassword ?? "").trim().slice(0, 200);
   const wpUrl = normalizeWpUrl(String(b.wpUrl ?? ""));
+  // "Somewhere else" sites: which builder, the address, and how we get posts onto it.
+  const platform = String(b.platform ?? "").trim().slice(0, 40);
+  const access = isSiteAccess(b.access) ? b.access : null;
+  const siteUrl = String(b.siteUrl ?? "").trim() ? normalizeUrl(String(b.siteUrl)) : "";
+  const siteUser = String(b.siteUser ?? "").trim().slice(0, 200);
+  const sitePass = String(b.sitePassword ?? "").slice(0, 200);
+  const inviteSent = Boolean(b.inviteSent);
 
   if (demoMode) return NextResponse.json({ ok: true, demo: true, enabled });
 
@@ -57,10 +69,26 @@ export async function POST(request: Request) {
   }
 
   const now = new Date().toISOString();
+  let siteFields: Record<string, unknown> = {};
+  if (target === "manual" && enabled) {
+    if (!platform) return NextResponse.json({ error: "Tell us which site builder your website is on." }, { status: 400 });
+    if (!access) return NextResponse.json({ error: "Choose how we get posts onto your site." }, { status: 400 });
+    if (!siteUrl && !session.client.websiteUrl) return NextResponse.json({ error: "Enter your website address." }, { status: 400 });
+    const loginOnFile = Boolean(prev?.site_login_on_file) || Boolean(siteUser && sitePass);
+    if (access === "login" && !loginOnFile) return NextResponse.json({ error: `Enter the username and password for your ${platform} account, or choose "Invite us" instead.` }, { status: 400 });
+    if (siteUrl || (siteUser && sitePass)) {
+      const { error } = await db.rpc("autopilot_set_site", { p_client: cid, p_url: siteUrl || null, p_user: siteUser || null, p_password: sitePass || null });
+      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    siteFields = {
+      site_platform: platform, site_access: access, site_login_on_file: loginOnFile,
+      site_invite_sent_at: access === "invite" ? (inviteSent ? prev?.site_invite_sent_at ?? now : null) : prev?.site_invite_sent_at ?? null,
+    };
+  }
   // Switching on (or back on) makes the first post due at the next daily run.
   const nextRunAt = enabled ? (prev?.enabled && prev?.next_run_at ? prev.next_run_at : now) : prev?.next_run_at ?? null;
   const { error } = await db.from("seo_autopilot").upsert(
-    { client_id: cid, enabled, cadence, mode, target, notes: notes || null, wp_connected: wpConnected, next_run_at: nextRunAt, updated_at: now },
+    { client_id: cid, enabled, cadence, mode, target, notes: notes || null, wp_connected: wpConnected, next_run_at: nextRunAt, updated_at: now, ...siteFields },
     { onConflict: "client_id" },
   );
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

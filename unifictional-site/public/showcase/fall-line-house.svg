@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 750" font-family="Georgia, 'Times New Roman', serif">
+  <defs>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2B2E33"/><stop offset="1" stop-color="#444B53"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="750" fill="#FFFFFF"/>
+
+  <!-- browser chrome -->
+  <rect width="1000" height="46" fill="#ECEAE4"/>
+  <circle cx="28" cy="23" r="6" fill="#E0796B"/><circle cx="50" cy="23" r="6" fill="#E8C26B"/><circle cx="72" cy="23" r="6" fill="#86C28B"/>
+  <rect x="120" y="12" width="620" height="22" rx="11" fill="#FFFFFF"/>
+  <text x="140" y="28" font-size="13" fill="#9A9387" font-family="ui-monospace, monospace">fall-line-house.vercel.app</text>
+
+  <!-- hero -->
+  <rect y="46" width="1000" height="430" fill="url(#hero)"/>
+  <!-- nav -->
+  <text x="60" y="106" font-size="25" font-weight="700" fill="#FFFFFF">Fall Line House</text>
+  <text x="582" y="101" font-size="15" fill="#FFFFFF" opacity="0.82">House</text>
+  <text x="678" y="101" font-size="15" fill="#FFFFFF" opacity="0.82">Atelier</text>
+  <text x="772" y="101" font-size="15" fill="#FFFFFF" opacity="0.82">Contact</text>
+  <rect x="858" y="80" width="86" height="34" rx="17" fill="#B98A4B"/>
+  <text x="901" y="102" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">Call</text>
+
+  <!-- headline -->
+  <text x="60" y="244" font-size="62" font-weight="700" fill="#FFFFFF">On the</text>
+  <text x="60" y="312" font-size="62" font-weight="700" fill="#FFFFFF">fall line.</text>
+  <text x="62" y="356" font-size="18" fill="#FFFFFF" opacity="0.85" font-family="ui-sans-serif, system-ui, sans-serif">Architecture &amp; custom homes by Cliffhaven Atelier.</text>
+  <rect x="60" y="384" width="196" height="48" rx="24" fill="#B98A4B"/>
+  <text x="158" y="414" font-size="16" font-weight="700" fill="#FFFFFF" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif">View the house</text>
+
+  <!-- hero image card + trade glyph -->
+  <rect x="612" y="150" width="328" height="276" rx="16" fill="#FFFFFF" opacity="0.10"/>
+  <rect x="632" y="170" width="288" height="236" rx="12" fill="#FFFFFF" opacity="0.08"/>
+  <g transform="translate(700,200)" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" opacity="0.9">
+    <path d="M10 70 L70 20 L130 70"/><path d="M25 62 L25 120 L115 120 L115 62"/><rect x="55" y="86" width="30" height="34"/></g>
+
+  <!-- section -->
+  <text x="60" y="540" font-size="12" letter-spacing="3" fill="#B98A4B" font-family="ui-monospace, monospace">SELECTED</text>
+  <text x="60" y="582" font-size="33" font-weight="700" fill="#1A1714">A house on the slope.</text>
+  <rect x="60" y="624" width="280" height="98" rx="10" fill="#F7F5EF" stroke="#E6E0D2"/>
+    <rect x="82" y="646" width="34" height="34" rx="8" fill="#B98A4B" opacity="0.18"/>
+    <rect x="130" y="650" width="150" height="11" rx="5" fill="#2B2E33"/>
+    <rect x="130" y="672" width="180" height="7" rx="3" fill="#CFC7B6"/>
+    <rect x="130" y="686" width="120" height="7" rx="3" fill="#CFC7B6"/>
+  <rect x="360" y="624" width="280" height="98" rx="10" fill="#F7F5EF" stroke="#E6E0D2"/>
+    <rect x="382" y="646" width="34" height="34" rx="8" fill="#B98A4B" opacity="0.18"/>
+    <rect x="430" y="650" width="150" height="11" rx="5" fill="#2B2E33"/>
+    <rect x="430" y="672" width="180" height="7" rx="3" fill="#CFC7B6"/>
+    <rect x="430" y="686" width="120" height="7" rx="3" fill="#CFC7B6"/>
+  <rect x="660" y="624" width="280" height="98" rx="10" fill="#F7F5EF" stroke="#E6E0D2"/>
+    <rect x="682" y="646" width="34" height="34" rx="8" fill="#B98A4B" opacity="0.18"/>
+    <rect x="730" y="650" width="150" height="11" rx="5" fill="#2B2E33"/>
+    <rect x="730" y="672" width="180" height="7" rx="3" fill="#CFC7B6"/>
+    <rect x="730" y="686" width="120" height="7" rx="3" fill="#CFC7B6"/>
+</svg>

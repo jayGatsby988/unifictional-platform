@@ -1,0 +1,14 @@
+@@@FILE 711f271cb85b4a3b839d327e4ed53747ac78dd5e components/ui/waves.tsx
+@@@EDIT 32 34
+ * Also: 1x resolution at ~24fps on phones / slow devices (the drift is slow,
+ * it reads the same), a still frame for reduced-motion, pauses when the tab is
+ * hidden, and
+@@@EDIT 57 58
+    // Phones / slow devices: paint at 1x and ~24fps. The cost here is almost
+    // all rasterising the canvas, not the maths — at 2x a phone without GPU
+    // canvas spent ~94% of its main thread on it, at 1x ~20%. These are faint
+    // hairlines behind the booking card, so 1x reads the same.
+    const frameInterval = lowPower ? 1000 / 24 : 0;
+    const maxDpr = lowPower ? 1 : 2;
+@@@EDIT 70 71
+      const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);

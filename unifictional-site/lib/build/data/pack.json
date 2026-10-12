@@ -1,0 +1,1092 @@
+[
+ {
+  "id": "hero-7",
+  "category": "Hero Animations",
+  "effect": "Capsule preloader into hero reveal",
+  "see": "Pill-shaped loader fills, then its outline scales up as a window that opens onto a full-bleed hero photo with rising text",
+  "best_for": "hero + intro for a brand landing page",
+  "stack": "static \u00b7 GSAP core (CDN)",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "menu-1",
+  "category": "Navigation Menus",
+  "effect": "Rotating half-panel overlay menu",
+  "see": "Two white half-screen panels swing 180\u00b0 around the screen centre to cover the page, then two link columns rise line by line",
+  "best_for": "full-screen menu for editorial or portfolio sites",
+  "stack": "static \u00b7 GSAP + SplitText + CustomEase (CDN)",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "menu-4",
+  "category": "Navigation Menus",
+  "effect": "Header dropdown panel with image preview",
+  "see": "Header expands into a cream panel over a dimmed page; links rise letter by letter; hover blurs siblings, shows a preview image",
+  "best_for": "dropdown mega-menu for shops and editorial",
+  "stack": "static \u00b7 GSAP core (CDN)",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "menu-5",
+  "category": "Navigation Menus",
+  "effect": "Stair-bar wipe overlay with marquee hover",
+  "see": "Five black columns drop in right to left, three huge links flip down; hovering a link wipes in a lime image marquee",
+  "best_for": "bold agency menu with 3-4 links",
+  "stack": "static \u00b7 GSAP core (CDN)",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "menu-6",
+  "category": "Navigation Menus",
+  "effect": "Slanted clip-path overlay with page tilt",
+  "see": "Dark overlay wipes down on a slant while the page rotates and slides away; links rise; hover swaps a rotating preview image",
+  "best_for": "full-screen menu for portfolio or studio",
+  "stack": "static \u00b7 GSAP core (CDN)",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "menu-7",
+  "category": "Navigation Menus",
+  "effect": "Curved-edge curtain menu from round toggle",
+  "see": "Ring button drops a black panel with a bulging bottom edge over a cream hero; serif links rise in, then it retracts",
+  "best_for": "nav menu for editorial or music sites",
+  "stack": "recreate: DOM + SVG path tween, GSAP",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "menu-8",
+  "category": "Navigation Menus",
+  "effect": "Product-row overlay with floating thumbnail",
+  "see": "White overlay wipes down; hairlines draw, product titles rise; hovering a row dims the rest and glides a photo into place",
+  "best_for": "product or project index, 4-8 rows",
+  "stack": "static \u00b7 GSAP core (CDN)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "menu-9",
+  "category": "Navigation Menus",
+  "effect": "Jelly sheet menu with lime-hover links",
+  "see": "Pill toggle drops a rounded navy sheet from the top; four huge links turn lime, with a small icon, on hover",
+  "best_for": "nav menu for playful agency sites",
+  "stack": "recreate: DOM + GSAP (spring ease)",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "menu-11",
+  "category": "Navigation Menus",
+  "effect": "Staggered colour-column curtain menu",
+  "see": "MENU drops six colour bars one after another over a cream page; huge white links rise over them; bars lift on close",
+  "best_for": "nav menu for bold brand or studio sites",
+  "stack": "recreate: DOM + GSAP stagger",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "menu-16",
+  "category": "Navigation Menus",
+  "effect": "Blur-out dark menu overlay with block-wipe close",
+  "see": "MENU blurs the dark bento hero and fades up four big caps links; closing breaks the panel into blocks that dissolve",
+  "best_for": "nav menu for dark studio sites",
+  "stack": "recreate: DOM + GSAP (grid of blocks)",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "menu-18",
+  "category": "Navigation Menus",
+  "effect": "Layered colour-wipe dropdown menu",
+  "see": "Four green layers wipe down from the top in quick succession, then a dark panel whose link groups rise line by line",
+  "best_for": "top-panel menu with many link groups",
+  "stack": "Vite-style ESM \u00b7 GSAP + SplitText (npm)",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "menu-20",
+  "category": "Navigation Menus",
+  "effect": "Page-slides-down menu reveal",
+  "see": "Whole page slides down half a screen, uncovering a cream menu behind it; burger becomes a self-drawing circled-arrow close icon",
+  "best_for": "agency site menu with contact details",
+  "stack": "static \u00b7 GSAP core (CDN)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-1",
+  "category": "Scroll Animation",
+  "effect": "Velocity bend + RGB-split image scroll",
+  "see": "Photos glide on a smoothed scroll; while moving they bow vertically and the red channel splits off, settling when scrolling stops",
+  "best_for": "smooth-scrolling photo list for portfolios",
+  "stack": "Parcel \u00b7 three.js r127 + GLSL, no GSAP",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "scroll-2",
+  "category": "Scroll Animation",
+  "effect": "SVG text clip-path image windows",
+  "see": "Huge words work as windows onto photos or video; scrolling slides each word sideways while its letters scale, skew or rotate in",
+  "best_for": "big typographic image windows between text sections",
+  "stack": "static \u00b7 GSAP + ScrollTrigger + Lenis (bundled)",
+  "weight": "medium",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-3",
+  "category": "Scroll Animation",
+  "effect": "WebGL DOM-synced text with scroll wave + RGB shift",
+  "see": "Headline and paragraphs rendered in WebGL rise into view block by block; scrolling makes all text wobble with a colour fringe",
+  "best_for": "text-led landing page with shader flair",
+  "stack": "Vite + TS \u00b7 three, troika-three-text, Lenis, Motion",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "scroll-4",
+  "category": "Scroll Animation",
+  "effect": "Fullscreen image to thumbnail-row clip-path toggle",
+  "see": "Button click shrinks a full-screen photo into the middle pill of a five-image row as neighbours fly in; click again reverses",
+  "best_for": "hero cover that opens into a gallery row",
+  "stack": "static \u00b7 GSAP core + Splitting.js (CDN)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-5",
+  "category": "Scroll Animation",
+  "effect": "Scrubbed 3D perspective image grids",
+  "see": "Six image grids tilt in 3D perspective; scrolling makes tiles fly sideways, rise, flip, split by rows or rush past the camera",
+  "best_for": "showy gallery interludes between content sections",
+  "stack": "static \u00b7 GSAP + ScrollTrigger + Lenis (bundled)",
+  "weight": "medium",
+  "has": "code"
+ },
+ {
+  "id": "scroll-6",
+  "category": "Scroll Animation",
+  "effect": "Staggered 3D tilt thumbnail stream with scroll marquee",
+  "see": "Two-column thumbnails tip up out of blurred darkness and fold away on scroll; a name marquee crosses, then a 7x5 grid rises",
+  "best_for": "portfolio thumbnail stream with marquee and grid finale",
+  "stack": "static \u00b7 GSAP + ScrollTrigger + SplitText + Lenis",
+  "weight": "medium",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-8",
+  "category": "Scroll Animation",
+  "effect": "Sticky text-mask zoom onto video",
+  "see": "Video shows only through big letters on white; scrolling zooms the letters until one glyph fills the screen with video",
+  "best_for": "hero intro: brand word zooming into video",
+  "stack": "Next.js 13 \u00b7 React, no animation library",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "scroll-9",
+  "category": "Scroll Animation",
+  "effect": "Pinned SVG-mask blinds image transitions",
+  "see": "Pinned full-screen images replace each other through opening blinds or grid cells while captions clip in and a segmented progress bar fills",
+  "best_for": "pinned storytelling with three full-screen images",
+  "stack": "static \u00b7 GSAP + ScrollTrigger + Lenis (bundled)",
+  "weight": "medium",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-10",
+  "category": "Scroll Animation",
+  "effect": "Pinned layered zoom photo reveal",
+  "see": "Scattered thumbnails fly past the camera while a photo grows from the centre, its subject nested in shrinking blurred copies that merge",
+  "best_for": "hero or pinned intro with one photo",
+  "stack": "Vite \u00b7 GSAP ScrollTrigger + ScrollSmoother (npm)",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "scroll-11",
+  "category": "Scroll Animation",
+  "effect": "WebGL pixel-wipe image reveal",
+  "see": "Photo grid where each image wipes in top-to-bottom behind a band of random dark squares; clicked image expands to a detail page",
+  "best_for": "gallery grid with detail-page transitions",
+  "stack": "Astro \u00b7 three.js \u00b7 GSAP ScrollSmoother, Flip, SplitText \u00b7 Barba",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "scroll-12",
+  "category": "Scroll Animation",
+  "effect": "WebGL edge-blur image gallery",
+  "see": "Scrolling photo layout where images are sharp mid-screen and melt into grainy blur near the top and bottom viewport edges",
+  "best_for": "editorial gallery or lookbook page",
+  "stack": "Vite \u00b7 OGL \u00b7 Lenis \u00b7 GLSL \u00b7 Sass",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "scroll-13",
+  "category": "Scroll Animation",
+  "effect": "Neon pixel-block enter/leave shader on DOM elements",
+  "see": "Headings and a logo materialise through clusters of glowing rainbow-outlined squares on scrolling into view, dissolving the same way on leaving",
+  "best_for": "text reveal for hero headings or logos",
+  "stack": "recreate: VFX-JS or three.js overlay + GLSL",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "scroll-14",
+  "category": "Scroll Animation",
+  "effect": "Scroll-velocity RGB streak distortion on text",
+  "see": "Giant white serif words over a dark photo tear into vertical red/green/blue streaks while scrolling and snap back sharp at rest",
+  "best_for": "text reveal for statement or manifesto heroes",
+  "stack": "recreate: three.js or VFX-JS shader + Lenis velocity",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "scroll-15",
+  "category": "Scroll Animation",
+  "effect": "Horizontal sentence with tumbling letters",
+  "see": "One giant sentence travels right to left while pinned; each letter enters offset and tilted, then settles onto the baseline",
+  "best_for": "big statement between sections",
+  "stack": "static \u00b7 GSAP ScrollTrigger + SplitText (CDN)",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "scroll-16",
+  "category": "Scroll Animation",
+  "effect": "Sticky grid reveal and zoom",
+  "see": "Three image columns slide in from opposite directions in a sticky screen, then zoom and part around a centred title and CTA",
+  "best_for": "pinned storytelling section with CTA",
+  "stack": "Vite \u00b7 GSAP ScrollTrigger \u00b7 Lenis",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "scroll-18",
+  "category": "Scroll Animation",
+  "effect": "3D card stack fly-through",
+  "see": "Stacks of cards, tilted in 3D, rush from deep in the screen past the camera while spinning as each section scrolls by",
+  "best_for": "section transition with a deck of cards",
+  "stack": "static \u00b7 GSAP ScrollTrigger + Lenis (bundled)",
+  "weight": "medium",
+  "has": "code"
+ },
+ {
+  "id": "scroll-19",
+  "category": "Scroll Animation",
+  "effect": "Corner-connected grid item reveals",
+  "see": "Images in a staircase grid grow out of the corner where they touch the previous image, captions sliding in beside them",
+  "best_for": "gallery grid for projects or portfolio",
+  "stack": "static \u00b7 GSAP ScrollTrigger + Lenis (bundled)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-20",
+  "category": "Scroll Animation",
+  "effect": "Infinite loop with squash-stretch wordmark and scaling image",
+  "see": "A centred photo shrinks away as a full-width word rises and stretches vertically to fill the screen, then squashes out; endless loop",
+  "best_for": "hero or intro loop for a studio landing",
+  "stack": "recreate: DOM + GSAP ScrollTrigger (scrub) + Lenis infinite",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "scroll-22",
+  "category": "Scroll Animation",
+  "effect": "Pixelated image load-in on scroll",
+  "see": "Tall photos appear as coarse colour blocks, then snap through finer pixel grids to sharp as each scrolls into view",
+  "best_for": "image reveal for editorial or lookbook galleries",
+  "stack": "static \u00b7 GSAP + ScrollTrigger + Lenis (bundled) \u00b7 canvas 2D",
+  "weight": "medium",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-23",
+  "category": "Scroll Animation",
+  "effect": "Repeated headline echo on scroll",
+  "see": "Huge headline words fan out stacked copies of themselves above and below (or as a fading trail) while scrolling past",
+  "best_for": "text reveal for big section titles",
+  "stack": "bundler needed (no package.json) \u00b7 GSAP core only",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-24",
+  "category": "Scroll Animation",
+  "effect": "Full-screen section snap with curtain wipe",
+  "see": "Each scroll gesture wipes the next full-bleed section up over the current one with image parallax while heading letters rise in",
+  "best_for": "full-page section transition for showcase sites",
+  "stack": "recreate: DOM + GSAP Observer + SplitText",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "scroll-25",
+  "category": "Scroll Animation",
+  "effect": "Background shift with blend inversion",
+  "see": "Fixed light background is replaced by a dark one in sliding bands; text and photos invert through an exclusion blend",
+  "best_for": "section transition into a dark chapter",
+  "stack": "bundler needed (no package.json) \u00b7 Locomotive Scroll v4, no GSAP",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "scroll-26",
+  "category": "Scroll Animation",
+  "effect": "Scrolling content folded over 3D planes",
+  "see": "Page content scrolls across a flat centre band and bends onto tilted 3D planes at the top and bottom edges",
+  "best_for": "experimental full-screen type or gallery page",
+  "stack": "static \u00b7 vanilla JS + CSS 3D, no GSAP",
+  "weight": "medium",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-27",
+  "category": "Scroll Animation",
+  "effect": "SVG text travelling along a curve",
+  "see": "Sentences slide along wavy SVG paths as you scroll and blur or ripple more the faster you go",
+  "best_for": "decorative quote lines between content sections",
+  "stack": "Parcel 1 \u00b7 vanilla JS, SVG textPath + filters, no GSAP",
+  "weight": "medium",
+  "has": "code"
+ },
+ {
+  "id": "scroll-28",
+  "category": "Scroll Animation",
+  "effect": "Fullscreen wheel/drag slideshow with detail view",
+  "see": "Wheel or drag swaps full-screen images with a stretch-and-slide; clicking one wipes it up to reveal a text panel",
+  "best_for": "slider for a small portfolio or lookbook",
+  "stack": "bundler needed (no package.json) \u00b7 GSAP + Observer, Splitting.js",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-29",
+  "category": "Scroll Animation",
+  "effect": "Pinned image mask reveal",
+  "see": "Text blocks scroll on the left while a pinned image on the right wipes to the next photo; background recolours",
+  "best_for": "pinned storytelling section for features or services",
+  "stack": "static (CodePen export) \u00b7 GSAP + ScrollTrigger + Lenis, none included",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-30",
+  "category": "Scroll Animation",
+  "effect": "One image Flip-morphing through page slots",
+  "see": "A full-screen photo shrinks and travels down the page, re-fitting into a new slot in each section's layout as you scroll",
+  "best_for": "hero image that follows the story downpage",
+  "stack": "static \u00b7 GSAP + ScrollTrigger + Flip + Lenis (bundled)",
+  "weight": "medium",
+  "has": "code"
+ },
+ {
+  "id": "scroll-31",
+  "category": "Scroll Animation",
+  "effect": "Dual-column sine-wave text index",
+  "see": "Two columns of names sway in a sine wave on scroll; the row at screen centre lights up and swaps a thumbnail",
+  "best_for": "Long client or project index with thumbnails",
+  "stack": "Vite \u00b7 GSAP 3.13 ScrollTrigger + ScrollSmoother (npm)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-32",
+  "category": "Scroll Animation",
+  "effect": "Marquee image expands into pinned horizontal scroll",
+  "see": "Tilted image strip drifts sideways; one image grows fullscreen while the page darkens, then slides off as text panels scroll horizontally",
+  "best_for": "Gallery strip leading into horizontal story panels",
+  "stack": "static \u00b7 GSAP 3.14 ScrollTrigger + Flip (CDN)",
+  "weight": "medium",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-33",
+  "category": "Scroll Animation",
+  "effect": "Scroll-drawn ribbon path through illustrations",
+  "see": "A very thick orange line draws itself down the page as you scroll, snaking behind four line-art illustrations and two text cards",
+  "best_for": "storytelling section linking feature blocks",
+  "stack": "recreate: inline SVG + GSAP ScrollTrigger (dashoffset or DrawSVG) + Lenis",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "scroll-34",
+  "category": "Scroll Animation",
+  "effect": "Pinned zoom through a window frame",
+  "see": "Camera pushes through an airplane-window cutout as scaled-up headings fly past; the sky behind pans upward and a paragraph rises in",
+  "best_for": "Hero that zooms through a framed cutout",
+  "stack": "Vite \u00b7 GSAP ScrollTrigger + Lenis (npm)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-35",
+  "category": "Scroll Animation",
+  "effect": "Pinned icons shrink into inline text slots",
+  "see": "Five big icons rise from the bottom, shrink to centre as the background turns light, then slot into gaps in a sentence",
+  "best_for": "Hero introducing five features or tools",
+  "stack": "static \u00b7 GSAP 3.14 ScrollTrigger (CDN)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-36",
+  "category": "Scroll Animation",
+  "effect": "Thumbnail rows that widen while scrolling",
+  "see": "A wall of project thumbnails where each row grows from 125% to 500% of viewport width while crossing the screen",
+  "best_for": "Dense portfolio or project index wall",
+  "stack": "Next.js 16 \u00b7 React 19 \u00b7 Lenis + gsap.ticker (no ScrollTrigger)",
+  "weight": "medium",
+  "has": "code"
+ },
+ {
+  "id": "scroll-37",
+  "category": "Scroll Animation",
+  "effect": "ASCII scramble image reveal (on load)",
+  "see": "Each image first appears as a flickering grid of ASCII characters that settles into its shape, then snaps to the real photo",
+  "best_for": "Image reveal for photo grids or heroes",
+  "stack": "static \u00b7 vanilla JS + canvas 2D, no libraries",
+  "weight": "medium",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-38",
+  "category": "Scroll Animation",
+  "effect": "Pinned card flip into fanned stack",
+  "see": "A centred card flips in 3D into a fanned stack of four coloured cards that fly up and away one by one",
+  "best_for": "pinned storytelling section for 4-5 steps",
+  "stack": "recreate: DOM + GSAP ScrollTrigger (pin, scrub) + Lenis",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "scroll-39",
+  "category": "Scroll Animation",
+  "effect": "Scattered tags merge into a search bar",
+  "see": "Headline slides up while seven floating tag pills converge into one dot, which stretches into a search bar under a new headline",
+  "best_for": "Feature tags resolving into a single CTA",
+  "stack": "static \u00b7 GSAP 3.14 ScrollTrigger (CDN)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-40",
+  "category": "Scroll Animation",
+  "effect": "Image splits into three flipping cards",
+  "see": "A wide image shrinks under a fading-in title, splits into three rounded cards, which flip and fan out to reveal text",
+  "best_for": "Three services, pillars or steps",
+  "stack": "static \u00b7 GSAP 3.14 ScrollTrigger (CDN)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-41",
+  "category": "Scroll Animation",
+  "effect": "Split-word intro with expanding clip-path image",
+  "see": "A huge word splits and flies off sideways while a small tilted image window straightens and expands to fullscreen",
+  "best_for": "Hero opener for editorial or portfolio pages",
+  "stack": "static \u00b7 GSAP 3.12 ScrollTrigger (CDN), inline script",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "scroll-42",
+  "category": "Scroll Animation",
+  "effect": "CSS 3D image cubes fly in around text",
+  "see": "A small logo dissolves into six image-covered cubes that tumble toward the viewer and settle around the text while headings blur-swap",
+  "best_for": "Hero with brand mark and image set",
+  "stack": "static \u00b7 GSAP 3.12 ScrollTrigger + Lenis 1.1 (CDN)",
+  "weight": "medium",
+  "has": "code"
+ },
+ {
+  "id": "scroll-44",
+  "category": "Scroll Animation",
+  "effect": "Pinned card fan-out and flip",
+  "see": "Four stacked playing cards spread into a fanned row while pinned, then flip one after another to show their text backs",
+  "best_for": "pinned services or features, exactly four cards",
+  "stack": "static \u00b7 GSAP + ScrollTrigger + Lenis (CDN)",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "scroll-45",
+  "category": "Scroll Animation",
+  "effect": "Pinned glyph-band image wipe",
+  "see": "Pinned full-screen image stack; each scroll step wipes to the next image top-down behind a noisy band of orange character cells",
+  "best_for": "pinned full-bleed image sequence, tech or studio",
+  "stack": "Vite \u00b7 GSAP + ScrollTrigger + Lenis (npm)",
+  "weight": "medium",
+  "has": "code"
+ },
+ {
+  "id": "scroll-46",
+  "category": "Scroll Animation",
+  "effect": "Sine-wave image column",
+  "see": "A tall column of photos snakes left and right as you scroll, each widening from a cropped strip to full width mid-screen",
+  "best_for": "gallery section between two headline screens",
+  "stack": "Vite (no package.json) \u00b7 GSAP + ScrollTrigger + Lenis (npm)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-47",
+  "category": "Scroll Animation",
+  "effect": "Pinned photo pile then scatter",
+  "see": "Four photos rise one by one into a tilted pile over a pinned headline, then spread to its four corners",
+  "best_for": "pinned statement section with four images",
+  "stack": "Vite (no package.json) \u00b7 GSAP + ScrollTrigger + Lenis (npm)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-48",
+  "category": "Scroll Animation",
+  "effect": "Scroll-walked Lottie mascot with shrinking hero",
+  "see": "A small Lottie duck walks frame by frame as you scroll, beside a fixed hero image that shrinks into the top-right corner",
+  "best_for": "hero with a mascot or brand character",
+  "stack": "Vite (no package.json) \u00b7 GSAP + ScrollTrigger + Lenis + lottie-web (npm)",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "scroll-49",
+  "category": "Scroll Animation",
+  "effect": "Infinite snapping parallax panels",
+  "see": "Full-screen image panels scroll in an endless loop, each image sliding at half speed inside its frame and snapping into place",
+  "best_for": "looping full-screen lookbook or landing page",
+  "stack": "static \u00b7 GSAP + ScrollTrigger + Lenis + lenis-snap (CDN)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-50",
+  "category": "Scroll Animation",
+  "effect": "Three-view portfolio layout morph",
+  "see": "Clicking 01/02/03 morphs images between a scattered thumbnail grid, a filmstrip with large image, and a title index with stacked preview",
+  "best_for": "gallery grid with switchable index views",
+  "stack": "recreate: DOM + GSAP Flip, masked line reveals",
+  "weight": "medium (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "scroll-51",
+  "category": "Scroll Animation",
+  "effect": "Slanted clip-path project sections",
+  "see": "Tall full-bleed project images open from a slanted trapezoid to full frame, title letters rise, then the image closes into a wedge",
+  "best_for": "work or case-study list, 3 to 6 projects",
+  "stack": "Vite (no package.json) \u00b7 GSAP + ScrollTrigger + SplitText + Lenis (npm)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-52",
+  "category": "Scroll Animation",
+  "effect": "Zoom-through photo wall behind the page",
+  "see": "A fixed 15-tile photo wall behind the page enlarges through a transparent gap until its centre image fills the screen",
+  "best_for": "section transition between text blocks, portfolio teaser",
+  "stack": "static \u00b7 GSAP + ScrollTrigger + Lenis (CDN)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-53",
+  "category": "Scroll Animation",
+  "effect": "Nine-tile mask image reveal",
+  "see": "Images in an editorial layout assemble from nine tiles that grow in a diagonal sweep when their row scrolls into view",
+  "best_for": "image reveal for editorial or shop grids",
+  "stack": "static \u00b7 GSAP + ScrollTrigger + Lenis (CDN)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-56",
+  "category": "Scroll Animation",
+  "effect": "Falling word blocks text reveal",
+  "see": "Every word of a headline starts hidden under a rounded colour block; the blocks tumble down and off, uncovering the text",
+  "best_for": "text reveal for hero headlines and statements",
+  "stack": "Next.js 16 \u00b7 GSAP + ScrollTrigger + SplitText + Lenis (npm) \u00b7 Tailwind 4",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-57",
+  "category": "Scroll Animation",
+  "effect": "Stepped pixelation image reveal on scroll",
+  "see": "Gallery images enter the viewport as a few huge colour blocks, then sharpen through four or five pixelation steps",
+  "best_for": "image reveal for portfolio or case-study grids",
+  "stack": "recreate: canvas 2D + GSAP ScrollTrigger (once)",
+  "weight": "medium (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "scroll-60",
+  "category": "Scroll Animation",
+  "effect": "Two-colour scroll page: liquid mark, pie wipe, converging list",
+  "see": "Red hero with cursor-smeared ring, slanted black wipe, dotted circle that fills clockwise then expands, sticky stats and a fanning client list",
+  "best_for": "full scroll narrative for a studio page",
+  "stack": "recreate: GSAP ScrollTrigger + SplitText + Lenis; three.js for the hero only",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "scroll-61",
+  "category": "Scroll Animation",
+  "effect": "Text fill wipe and merging triple heading",
+  "see": "Grey paragraphs fill white top to bottom; three copies of a huge heading slide in, merge into one, then shrink small",
+  "best_for": "about or services section, dark portfolio",
+  "stack": "static \u00b7 GSAP + ScrollTrigger (CDN)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "scroll-62",
+  "category": "Scroll Animation",
+  "effect": "Pinned horizontal cards over flowing letters",
+  "see": "Pinned black section: rows of giant red letters stream along curved paths over a drifting dot grid while image cards glide past",
+  "best_for": "work showcase strip, about seven projects",
+  "stack": "static \u00b7 GSAP + ScrollTrigger + Lenis + Three.js r128 (CDN)",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "scroll-63",
+  "category": "Scroll Animation",
+  "effect": "Pinned hero slit-and-spin transition",
+  "see": "Pinned hero photo narrows to a slit, tilts, turns red and shrinks away; two half-screen images then wipe in with a headline",
+  "best_for": "hero into intro copy, editorial or studio",
+  "stack": "Vite \u00b7 GSAP + ScrollTrigger + SplitText + Lenis (npm)",
+  "weight": "light",
+  "has": "code + video"
+ },
+ {
+  "id": "text-16",
+  "category": "Text Animations",
+  "effect": "Cursor-repelled letters and words",
+  "see": "Headline letters and paragraph words scatter away from the cursor within a small radius, then ease back into place",
+  "best_for": "playful hero headline or statement text",
+  "stack": "Vite \u00b7 vanilla JS, no library",
+  "weight": "medium",
+  "has": "code"
+ },
+ {
+  "id": "slider-1",
+  "category": "Sliders",
+  "effect": "Thumbnail strip with live preview",
+  "see": "Row of 100 tiny thumbnails slides sideways on wheel with inertia; the thumbnail reaching the left edge fills a large preview",
+  "best_for": "gallery index for image-heavy portfolios",
+  "stack": "Vite \u00b7 vanilla JS, no libraries",
+  "weight": "medium",
+  "has": "code"
+ },
+ {
+  "id": "slider-5",
+  "category": "Sliders",
+  "effect": "Wavy chromatic wipe slider with inset card",
+  "see": "Full-bleed image is replaced behind a wobbling rainbow-fringed edge sweeping left to right; an inset card wipes top-down and the title scrambles",
+  "best_for": "cinematic hero slider for film or game",
+  "stack": "recreate: three.js or OGL shader + GSAP + ScrambleText",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "slider-7",
+  "category": "Sliders",
+  "effect": "Infinite WebGL strip with bulge and text ring",
+  "see": "Mixed-size photos scroll in an endless row that bulges with speed; a rotating 3D text ring passes through; click expands one fullscreen",
+  "best_for": "hero slider for photo or fashion portfolios",
+  "stack": "Parcel 1 \u00b7 three r122 \u00b7 GSAP 3 \u00b7 virtual-scroll \u00b7 GLSL",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "slider-9",
+  "category": "Sliders",
+  "effect": "Inside-the-cylinder curved image carousel",
+  "see": "Curved photo panels line the inside of a rotating cylinder behind a fixed serif wordmark; the ring drifts, spins fast, then coasts",
+  "best_for": "hero carousel for editorial or fashion brands",
+  "stack": "recreate: three.js (cylinder-segment meshes) + inertia loop",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "slider-10",
+  "category": "Sliders",
+  "effect": "Infinite drag strip with warped cards and blurred titles",
+  "see": "Monochrome portrait cards move sideways in an endless loop and bend with speed; each card's large title sharpens only near the centre",
+  "best_for": "slider for project or collection showcase",
+  "stack": "recreate: OGL or three.js planes + GSAP Observer",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "slider-11",
+  "category": "Sliders",
+  "effect": "Stepped WebGL carousel with fullscreen expand",
+  "see": "Tall image planes in a stepped row slide on wheel or drag, refracting at speed; a click ripples one open to fullscreen",
+  "best_for": "gallery slider for a React portfolio",
+  "stack": "CRA \u00b7 React 18 \u00b7 R3F 8 + drei \u00b7 three r151 \u00b7 GSAP 3",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "slider-15",
+  "category": "Sliders",
+  "effect": "Single-plane WebGL film-strip slider",
+  "see": "Centred 16:9 plane; wheel rolls images through it like a film strip while it bends, then snaps and swaps the title",
+  "best_for": "featured-projects slider, one title per slide",
+  "stack": "Vite \u00b7 three (undeclared) \u00b7 no GSAP",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "slider-17",
+  "category": "Sliders",
+  "effect": "Fullscreen wipe slider with gooey blur titles",
+  "see": "Arrow buttons wipe a new full-bleed image in from the side with parallax while centred titles melt out and in",
+  "best_for": "hero slider for editorial or gallery sites",
+  "stack": "static/Vite \u00b7 GSAP 3.14 + SplitText + CustomEase (CDN)",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "grid-2",
+  "category": "Grid Animations",
+  "effect": "3D parallax field of floating music-player cards",
+  "see": "Hundreds of small player cards float at different depths on white; near ones swell and sweep past as the view glides",
+  "best_for": "hero background or product-ecosystem showcase",
+  "stack": "recreate: three.js instanced planes + fog (or CSS 3D)",
+  "weight": "medium (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "grid-7",
+  "category": "Grid Animations",
+  "effect": "Scroll-staged image wall that scatters, tiles, curves and zooms",
+  "see": "Dark photographer portfolio: moody photos scatter, lock into a 9x4 wall, bulge into a globe, then one zooms full-screen behind a title",
+  "best_for": "portfolio or gallery landing with staged image sequences",
+  "stack": "recreate: three.js planes + Lenis and ScrollTrigger",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "mouse-1",
+  "category": "Mouse Effects",
+  "effect": "Name list with cursor-following warped image",
+  "see": "Hovering a list of names makes a photo trail the pointer with lag, bending like a curved sheet as it moves",
+  "best_for": "portfolio index, directory or team list hover",
+  "stack": "recreate: OGL/three plane (or DOM + GSAP)",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "mouse-4",
+  "category": "Mouse Effects",
+  "effect": "X-ray reveal blob following the cursor",
+  "see": "Glowing blue head silhouettes; moving the cursor opens a dark organic blob showing an X-ray skull and spine, fading when idle",
+  "best_for": "hero cursor reveal, medical or sci-fi sites",
+  "stack": "recreate: WebGL (OGL or three) shader with trail FBO",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "mouse-9",
+  "category": "Mouse Effects",
+  "effect": "Cursor image trail over centred wordmark",
+  "see": "As the pointer moves, a fanned ribbon of about ten portrait photos follows it, each newer one stacked on top",
+  "best_for": "hero cursor trail for agency or art sites",
+  "stack": "recreate: DOM images + GSAP",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "mouse-10",
+  "category": "Mouse Effects",
+  "effect": "Inertial image follower with tilt and echo",
+  "see": "A single portrait photo trails the cursor with heavy lag, tilts with its movement and leaves faded echo strips behind while moving",
+  "best_for": "hero cursor follower for fashion or photography",
+  "stack": "recreate: DOM clones + GSAP quickTo (or WebGL)",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "mouse-16",
+  "category": "Mouse Effects",
+  "effect": "Cursor image trail with switchable mask styles",
+  "see": "Moving over a giant FLAME headline lays down a chain of randomly rotated dark portraits; a top nav selects other trail styles",
+  "best_for": "creative-studio landing hero",
+  "stack": "recreate: DOM image pool + GSAP, clip-path masks",
+  "weight": "medium (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "mouse-20",
+  "category": "Mouse Effects",
+  "effect": "Dot-matrix image lit by pixel trail",
+  "see": "Orange word counter, then a dim dot-matrix photo of hands under a huge headline; the cursor paints bright blocky pixels that fade",
+  "best_for": "studio landing hero with cursor interaction",
+  "stack": "recreate: canvas 2D or WebGL shader, GSAP",
+  "weight": "medium (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "transition-3",
+  "category": "Page Transitions",
+  "effect": "Diagonal polygon-wipe image stack transition",
+  "see": "On click, six illustration layers open corner-to-corner as growing polygons, hold full-bleed, then peel back to reveal the next text",
+  "best_for": "page transition or chapter change in storytelling",
+  "stack": "recreate: DOM + GSAP (clip-path polygon tweens)",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "transition-4",
+  "category": "Page Transitions",
+  "effect": "Pixel-grid cover page transition",
+  "see": "Green squares grow outward from the centre until the screen is solid, then vanish in the same order, revealing the next view",
+  "best_for": "page transition between index and detail",
+  "stack": "recreate: DOM grid + GSAP grid stagger",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "transition-10",
+  "category": "Page Transitions",
+  "effect": "Rotating giant-type page transition",
+  "see": "Faint background words darken, grow about threefold and rotate 90 degrees to cover the screen, then fade into the detail view",
+  "best_for": "page transition for editorial or portfolio sites",
+  "stack": "recreate: DOM + GSAP transform timeline",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "svg-5",
+  "category": "SVG Animations",
+  "effect": "Scroll storytelling with wavy-edge image masks",
+  "see": "Beige serif editorial page where photos rise through wavy-edged masks with concave sides between big headings and drawn wave lines",
+  "best_for": "long-form brand story or culture site",
+  "stack": "recreate: GSAP ScrollTrigger + SVG clipPath, Lenis",
+  "weight": "light (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "3d-1",
+  "category": "3D Animation",
+  "effect": "Extruded 3D glyph grid reacting to cursor",
+  "see": "Dark grid of heavy extruded Japanese glyphs; those near the cursor swell, tilt and light up white, the rest stay dim",
+  "best_for": "hero backdrop, typographic cursor playground",
+  "stack": "recreate: three.js (extruded text), GSAP",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "3d-2",
+  "category": "3D Animation",
+  "effect": "Camera-projected 2D layout turning into 3D set",
+  "see": "Flat white poster of big words and a red card; the camera swings and reveals it is projected onto white 3D architecture",
+  "best_for": "hero intro, scroll-driven studio showcase",
+  "stack": "recreate: three.js projected texture, GSAP ScrollTrigger",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "3d-4",
+  "category": "3D Animation",
+  "effect": "Infinite photo tunnel behind hero copy",
+  "see": "White hero with a large headline over a faint square corridor where portrait photos and gradient tiles rush toward the camera",
+  "best_for": "AI or SaaS landing hero with image motion",
+  "stack": "recreate: three.js (or OGL) canvas + HTML overlay",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "3d-5",
+  "category": "3D Animation",
+  "effect": "Draggable curved product grid with focus zoom",
+  "see": "Grid of product cut-outs curves away like a dome; drag to pan, click one to zoom in with sheen sweep, title, price",
+  "best_for": "browsable product catalogue page",
+  "stack": "Next.js 16 \u00b7 R3F 9 \u00b7 three r182 \u00b7 framer-motion",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "3d-7",
+  "category": "3D Animation",
+  "effect": "Scroll-spun CSS 3D carousels with grid expand",
+  "see": "Rings of portrait cards spin in 3D on scroll; clicking a title flies the ring past the camera, revealing a thumbnail grid",
+  "best_for": "collection or project index with galleries",
+  "stack": "static \u00b7 GSAP 3.13 + ScrollTrigger, ScrollSmoother, ScrollTo, SplitText (bundled)",
+  "weight": "medium",
+  "has": "code + video"
+ },
+ {
+  "id": "3d-9",
+  "category": "3D Animation",
+  "effect": "Ordered-dither post-processing on a 3D model",
+  "see": "A floating metal helmet rendered as crisp black-and-white Bayer dither pixels on white; drag to orbit, it bobs gently",
+  "best_for": "stylised 3D hero or model showcase",
+  "stack": "CRA/craco \u00b7 R3F 8 \u00b7 three r170 \u00b7 postprocessing 6",
+  "weight": "heavy",
+  "has": "code + video"
+ },
+ {
+  "id": "3d-11",
+  "category": "3D Animation",
+  "effect": "Hover/click laptop and phone mockup scene",
+  "see": "A closed MacBook and face-down iPhone on a tabletop; hover makes them peek open, click opens one and flies the camera in",
+  "best_for": "app or website device-mockup showcase",
+  "stack": "Vite + TS \u00b7 threepipe 0.0.33 (three fork) + tweakpane plugin",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "3d-12",
+  "category": "3D Animation",
+  "effect": "Floating poster gallery around a rotating 3D object",
+  "see": "Dozens of stylised portrait posters hang in a black grid space around a turning dark faceted object while the camera drifts through",
+  "best_for": "portfolio or campaign gallery with 3D centrepiece",
+  "stack": "recreate: three.js with env-map reflections, GSAP",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "3d-14",
+  "category": "3D Animation",
+  "effect": "Drag-to-shatter image with swirl distortion",
+  "see": "A portrait photo of a green corridor twists into a spiral and breaks into tumbling shards while dragged, then re-forms",
+  "best_for": "image centrepiece for creative portfolio",
+  "stack": "recreate: three.js or OGL shader, GSAP",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "3d-15",
+  "category": "3D Animation",
+  "effect": "Live cube-camera mirror reflections of 3D text",
+  "see": "Floating mirror shards, diamonds or a knock-down cube wall reflect a 3D word in real time; the scene leans toward the pointer",
+  "best_for": "typographic 3D hero for one word",
+  "stack": "CRA 3 \u00b7 react-three-fiber 5 beta \u00b7 three r120 \u00b7 drei 1 \u00b7 cannon",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "3d-17",
+  "category": "3D Animation",
+  "effect": "Fixed GLB model tumbling with page scroll",
+  "see": "A 3D chair floats fixed at screen centre over an editorial page, bobbing and somersaulting twice as you scroll to the footer",
+  "best_for": "product model over a long landing page",
+  "stack": "static \u00b7 three r128, GSAP 3.12 + ScrollTrigger, Lenis, SplitType (all CDN)",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "3d-18",
+  "category": "3D Animation",
+  "effect": "CSS-only circular image vortex",
+  "see": "Five streams of small image tiles fade in on a ring, slide along it, then curl inward and shrink to nothing, looping",
+  "best_for": "looping hero or loader around a title",
+  "stack": "static \u00b7 pure CSS keyframes + inline vanilla JS, no libraries",
+  "weight": "light",
+  "has": "code"
+ },
+ {
+  "id": "webgl-1",
+  "category": "Webgl & ThreeJS Effects",
+  "effect": "MSDF text noise-dissolve with petal particles",
+  "see": "On click a serif word erodes through noise while glowing red and white petals and dust blow away leftwards",
+  "best_for": "hero title that disintegrates on click or scroll",
+  "stack": "Vite \u00b7 three r181 WebGPURenderer + TSL \u00b7 three-msdf-text-utils \u00b7 GSAP core",
+  "weight": "heavy",
+  "has": "code + video"
+ },
+ {
+  "id": "webgl-3",
+  "category": "Webgl & ThreeJS Effects",
+  "effect": "Shader hover reveals on image tiles",
+  "see": "Horizontal row of portrait tiles; hovering each reveals a second image through a cursor-following gooey, noise, shape or wave mask",
+  "best_for": "gallery grid of destinations, projects or products",
+  "stack": "webpack 4 \u00b7 three r109 \u00b7 GSAP 2 TweenMax + SplitText \u00b7 smooth-scrollbar",
+  "weight": "heavy",
+  "has": "code + video"
+ },
+ {
+  "id": "webgl-5",
+  "category": "Webgl & ThreeJS Effects",
+  "effect": "Cursor lens over thumbnail grid",
+  "see": "Tiny grey thumbnails tile the page; near the cursor they swell and turn full colour, forming a mosaic lens with a wake",
+  "best_for": "interactive hero background or archive wall",
+  "stack": "recreate: three.js InstancedMesh + texture atlas (canvas 2D fallback)",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "webgl-6",
+  "category": "Webgl & ThreeJS Effects",
+  "effect": "Liquid-edged radial image reveal and hide",
+  "see": "Click: an image blooms from the centre as a pale blob with wispy liquid edges, growing to fullscreen or a small card",
+  "best_for": "image reveal for hero media or lightbox",
+  "stack": "recreate: three.js or OGL fragment shader + GSAP",
+  "weight": "heavy (estimate)",
+  "has": "video only"
+ },
+ {
+  "id": "webgl-8",
+  "category": "Webgl & ThreeJS Effects",
+  "effect": "Mouse-velocity pixel grid distortion",
+  "see": "Full-screen photo broken into a grid; cursor movement drags cells along and they spring back; starts scrambled, then settles",
+  "best_for": "hero background image under a headline",
+  "stack": "Parcel 2 \u00b7 three r136 \u00b7 lil-gui \u00b7 GLSL",
+  "weight": "heavy",
+  "has": "code + video"
+ },
+ {
+  "id": "webgl-9",
+  "category": "Webgl & ThreeJS Effects",
+  "effect": "Image as interactive particle cloud",
+  "see": "Greyscale photo drawn as thousands of jittering dots; the cursor scatters dots along its trail; click dissolves to the next image",
+  "best_for": "hero visual on dark, portraits or logos",
+  "stack": "webpack 4 \u00b7 three r98 \u00b7 GSAP 2 \u00b7 glslify",
+  "weight": "heavy",
+  "has": "code + video"
+ },
+ {
+  "id": "webgl-10",
+  "category": "Webgl & ThreeJS Effects",
+  "effect": "SDF shape with cursor lens blur",
+  "see": "A crisp white outline or solid shape on black turns soft and glowing wherever the cursor comes close",
+  "best_for": "hero background or interactive logo mark",
+  "stack": "Vite 5 \u00b7 three r164 \u00b7 vite-plugin-glsl",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "webgl-17",
+  "category": "Webgl & ThreeJS Effects",
+  "effect": "Scroll noise-dissolve hero to solid colour",
+  "see": "On scroll a flat colour rises through the hero image with a ragged noise edge; branches parallax up; words fade in",
+  "best_for": "hero that dissolves into the next section",
+  "stack": "no build config \u00b7 three + GSAP ScrollTrigger + SplitText + Lenis",
+  "weight": "heavy",
+  "has": "code"
+ },
+ {
+  "id": "webgl-18",
+  "category": "Webgl & ThreeJS Effects",
+  "effect": "Sticky scroll displacement image transitions",
+  "see": "Sticky full-screen image morphs into the next with liquid displacement, zoom and RGB split each time a new label scrolls in",
+  "best_for": "pinned storytelling section with full-bleed images",
+  "stack": "Vite 6 \u00b7 three r183 \u00b7 GSAP ScrollTrigger \u00b7 Lenis",
+  "weight": "heavy",
+  "has": "code + video"
+ }
+]

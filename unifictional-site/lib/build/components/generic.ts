@@ -161,13 +161,13 @@ export const text: Component = {
   fields: `{"type":"text","eyebrow":"","title":"","paragraphs":["",""],"items":["",""],"image":{"query":"","alt":""},"cta":{"label":"","href":""}}`,
   images: { min: 0, max: 1 },
   css: ({ pair, capsRule }) => `
-.textblock{padding:clamp(4rem,10vh,8rem) var(--gutter);display:grid;gap:2.5rem}
-@media(min-width:900px){.textblock{grid-template-columns:1fr 1.4fr;gap:4rem}}
+.textblock{padding:clamp(4rem,10vh,8rem) var(--gutter);display:grid;gap:2.5rem;max-width:1720px;margin-inline:auto;box-sizing:border-box}
+@media(min-width:900px){.textblock{grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:4rem;align-items:start}.textblock>div:first-child{position:sticky;top:96px}}
 .textblock h2{font-size:clamp(2rem,4.5vw,4rem);max-width:14ch;margin-top:.6rem}
-.textblock__body{display:grid;gap:1.4rem;max-width:62ch;font-size:1.08rem}
-.textblock__body p{color:var(--ink2)}
-.textblock__body ul{display:grid;gap:.6rem;padding-left:1.2rem;list-style:disc;color:var(--ink2)}
-.textblock__body img{width:100%;aspect-ratio:3/2;object-fit:cover;margin-top:1rem}
+.textblock__body{display:grid;gap:1.4rem;font-size:1.08rem;min-width:0}
+.textblock__body p{color:var(--ink2);max-width:62ch}
+.textblock__body ul{display:grid;gap:.6rem;padding-left:1.2rem;list-style:disc;color:var(--ink2);max-width:62ch}
+.textblock__body img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;margin-top:1rem;border-radius:6px}
 .textblock h3{font-family:var(--display);font-weight:${pair.weight};letter-spacing:${pair.track};${capsRule}font-size:1.3rem;margin-top:.5rem}`,
   html: (s, { esc, imgUrl, link, arrow }) => `
 <section class="textblock" id="${esc(s.id || "about")}">

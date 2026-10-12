@@ -241,8 +241,10 @@ export const areasList: Component = {
   describe: "areas-list (studio): where they work, as a numbered list of cities with a role under each (HEADQUARTERS · ROOFING & EXTERIORS), big type, and the address and hours in a side column. 3-8 places.",
   fields: `{"type":"areas-list","eyebrow":"Where we build","title":"Puget Sound, covered.","items":[{"city":"Mill Creek","role":"Headquarters","href":"areas/mill-creek"}],"aside":{"label":"Headquarters","lines":["1321 Central Ave S","Kent, WA 98032","Mon–Sat 7–6"]}}`,
   css: () => `${shared}
-.ar{padding:clamp(4rem,10vh,8rem) var(--gutter);display:grid;gap:3rem}
-@media(min-width:900px){.ar{grid-template-columns:1.4fr 1fr}}
+.ar{padding:clamp(4rem,10vh,8rem) var(--gutter);display:grid;gap:2.5rem 4rem;max-width:1720px;margin-inline:auto;box-sizing:border-box}
+.ar__list{grid-column:1/-1}
+@media(min-width:900px){.ar{grid-template-columns:1.4fr 1fr;align-items:end}}
+@media(min-width:1100px){.ar__list{display:grid;grid-template-columns:1fr 1fr;column-gap:4rem;border-top:0}.ar__row{border-top:1px solid var(--line);border-bottom:0}.ar__row:nth-last-child(-n+2){border-bottom:1px solid var(--line)}}
 .ar h2{font-size:clamp(2.2rem,5.6vw,5.6rem);margin:.8rem 0 2rem}
 .ar__list{border-top:1px solid var(--line)}
 .ar__row{display:grid;grid-template-columns:3rem 1fr;align-items:baseline;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--line);color:inherit;text-decoration:none}
@@ -254,9 +256,9 @@ export const areasList: Component = {
 .ar__aside p{margin:0;color:var(--ink2);line-height:1.6}`,
   html: (s, { esc, link }) => `
 <section class="ar" data-fx="areas-list">
-  <div>${eyebrow(s, esc)}<h2 class="st-display">${title(s.title, esc)}</h2>
-    <div class="ar__list">${(s.items || []).slice(0, 8).map((it, i) => `<${it.href ? "a" : "div"} class="ar__row"${it.href ? ` href="${esc(link(it.href))}"` : ""}><span class="ar__n">${String(i + 1).padStart(2, "0")}</span><span><span class="ar__c">${esc(it.city || "")}</span>${it.role ? `<span class="ar__r">${esc(it.role)}</span>` : ""}</span></${it.href ? "a" : "div"}>`).join("")}</div></div>
+  <div class="ar__head">${eyebrow(s, esc)}<h2 class="st-display">${title(s.title, esc)}</h2></div>
   ${s.aside ? `<aside class="ar__aside">${s.aside.label ? `<div class="st-eyebrow"><i></i>${esc(s.aside.label)}</div>` : ""}<p>${(s.aside.lines || []).map(esc).join("<br>")}</p></aside>` : ""}
+    <div class="ar__list">${(s.items || []).slice(0, 8).map((it, i) => `<${it.href ? "a" : "div"} class="ar__row"${it.href ? ` href="${esc(link(it.href))}"` : ""}><span class="ar__n">${String(i + 1).padStart(2, "0")}</span><span><span class="ar__c">${esc(it.city || "")}</span>${it.role ? `<span class="ar__r">${esc(it.role)}</span>` : ""}</span></${it.href ? "a" : "div"}>`).join("")}</div>
 </section>`,
 };
 

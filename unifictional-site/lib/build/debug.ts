@@ -25,6 +25,7 @@ const SYSTEM_DEBUG = () => `${THE_BRIEF()}
 
 You are the debugger at Unifictional: the last person who looks at a finished website before it goes live. You get ONE page: its section data (in each component's field shape), screenshots of it on a desktop (the top of the page, then each section) and on a phone, and the browser's own measurements. You look at it exactly as a careful person would before handing a site to a client:
 
+- Dead space: a two-column section where one column sits empty for most of the section's height (a heading that scrolled away, a list only on the left, a tall portrait photo alone in a column, a body capped at 60 characters on a wide screen). The browser's measurements name these as "half-empty". Fix with CSS on that section: make the heading column sticky ([data-sec="N"]>div:first-child{position:sticky;top:96px}), let the body use its column, give the photo aspect-ratio:3/2;object-fit:cover;width:100%;height:auto, or make the section single-column.
 - Layout: anything off-centre, cramped, overlapping, clipped, floating, uneven gaps, a headline wrapping into an orphan word, a card taller than its neighbours, an element hanging off the edge on the phone, text over a busy part of a photo so it cannot be read.
 - Photos: the wrong picture for its caption or heading (a patio under "garage floors"), a photo that is stretched, tiny, repeated right next to itself, or shows a logo/screenshot instead of work.
 - Wording: typos, double spaces, wrong capitalisation, a sentence that does not finish, placeholder-sounding text, a claim that contradicts another section, the company name spelt two ways, "Lorem", an eyebrow that repeats the headline.
@@ -54,6 +55,7 @@ function shotsFor(report, slug, limit = 11) {
 function factsFor(report, slug) {
   const lines = [];
   for (const p of (report?.pages || []).filter(p => p.slug === slug)) {
+    for (const d of p.deadSpace || []) lines.push(`${p.viewport}: section ${d.index + 1} (${d.type}) is half-empty on the ${d.side} for ${d.pct}% of its ${d.screens} screens`);
     lines.push(`${p.viewport}: ${p.loadError ? "DID NOT LOAD: " + p.loadError : `${(p.sections || p.sectionCount || 0) && ""}overflow ${p.overflowPx || 0}px${p.overflowBy?.length ? " (" + p.overflowBy.slice(0, 3).join(", ") + ")" : ""}, clipped text ${(p.clippedText || []).length}, broken images ${(p.brokenImages || []).length}${p.brokenImages?.length ? " (" + p.brokenImages.slice(0, 3).join(", ") + ")" : ""}, blank sections ${(p.blankSections || []).length}, tiny text blocks ${p.tinyText || 0}, script errors ${(p.consoleErrors || []).length}`}`);
   }
   return lines.join("\n");

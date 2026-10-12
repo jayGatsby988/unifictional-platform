@@ -6,6 +6,7 @@ import { AutopilotForm } from "@/components/autopilot/AutopilotForm";
 import { Calendar, type CalendarEntry } from "@/components/autopilot/Calendar";
 import { Fixes } from "@/components/autopilot/Fixes";
 import { ConfirmPayment } from "@/components/autopilot/ConfirmPayment";
+import { CancelPlan } from "@/components/autopilot/CancelPlan";
 import { PostCard } from "@/components/autopilot/PostCard";
 import { Upcoming } from "@/components/autopilot/Upcoming";
 import { WriteNow } from "@/components/autopilot/WriteNow";
@@ -191,6 +192,7 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
       <details className="panel p-5">
         <summary className="text-sm font-medium cursor-pointer select-none">Settings: where it publishes, how often, what to push</summary>
         <div className="mt-4"><AutopilotForm settings={s} demo={session.isDemo} maxPosts={maxPosts} studioEmail={STUDIO_EMAIL} siteUrl={c.websiteUrl} /></div>
+        {s.subscription && !s.comped && <CancelPlan plan={s.subscription.plan || s.package?.name || "SEO Autopilot"} demo={session.isDemo} />}
       </details>
     </>
   );

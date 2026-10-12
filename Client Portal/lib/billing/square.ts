@@ -244,3 +244,9 @@ export async function findPlanSubscription(customerId: string, planName: string)
   const live = mine.find((x) => ["ACTIVE", "PENDING"].includes(x.s.status ?? "")) ?? mine[0];
   return live?.s.id ? { id: live.s.id, status: live.s.status ?? "", variationName: live.name, cardOnFile: Boolean(live.s.card_id) } : null;
 }
+
+/** Cancel a subscription at the end of the paid period (Square keeps it ACTIVE until then, so access runs out naturally). */
+export async function cancelSubscription(subscriptionId: string): Promise<{ status: string; canceledDate: string | null }> {
+  const res = await sq<{ subscription?: { status?: string; canceled_date?: string } }>(`/v2/subscriptions/${encodeURIComponent(subscriptionId)}/cancel`, {});
+  return { status: res.subscription?.status ?? "", canceledDate: res.subscription?.canceled_date ?? null };
+}

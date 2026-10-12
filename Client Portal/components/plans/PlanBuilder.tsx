@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Check, Loader2, Sparkles } from "lucide-react";
@@ -219,7 +218,7 @@ export function PlanBuilder({ catalog, rec, company, slug, demo, admin, current,
                 <button type="button" className="btn bg-bone text-ink hover:opacity-90 w-full justify-center !py-3" disabled={busy !== ""} onClick={pay}>
                   {busy === "pay" ? <Loader2 className="h-4 w-4 animate-spin" /> : null}{busy === "pay" ? "Opening Square…" : `Start for ${money(total)}/month`}
                 </button>
-                <p className="mt-3 text-xs text-bone/60">Secure checkout by Square. Your first post is written minutes after you pay. Change or cancel any time from <Link href="/billing" className="underline">Billing</Link>.</p>
+                <p className="mt-3 text-xs text-bone/60">Secure checkout by Square. Your first post is written minutes after you pay. Cancel any time from your SEO Autopilot settings.</p>
               </>
             )}
             {admin && !current && (

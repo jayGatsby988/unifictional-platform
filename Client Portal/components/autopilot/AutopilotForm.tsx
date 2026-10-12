@@ -50,7 +50,7 @@ export function AutopilotForm({ settings, demo, maxPosts = null, studioEmail = "
   const [wpPass, setWpPass] = useState("");
   const [platform, setPlatform] = useState(settings.site.platform);
   const [access, setAccess] = useState<SiteAccess>(settings.site.access ?? "invite");
-  const [siteUrl, setSiteUrl] = useState(knownSite.replace(/^https?:\/\//, ""));
+  const [siteUrl, setSiteUrl] = useState(knownSite.replace(/^https?:\/\//, "").replace(/\/+$/, ""));
   const [siteUser, setSiteUser] = useState("");
   const [sitePass, setSitePass] = useState("");
   const [inviteSent, setInviteSent] = useState(Boolean(settings.site.inviteSentAt));

@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { adminConfigured, createAdminClient } from "@/lib/supabase/admin";
 import { isCadence } from "@/lib/autopilot/schedule";
 import { accessFrom } from "@/lib/autopilot/access";
+import { isPostsChoice, postsFor } from "@/lib/billing/packages";
 import { normalizeWpUrl, verifyWordpress } from "@/lib/autopilot/publish";
 
 const MODES = new Set(["auto", "approve"]);
@@ -36,6 +37,9 @@ export async function POST(request: Request) {
   const db = await createClient();
   const { data: prev } = await db.from("seo_autopilot").select("*").eq("client_id", cid).maybeSingle();
   if (enabled && !session.isAdmin && !accessFrom(prev)) return NextResponse.json({ error: "Start the SEO Autopilot plan first; it unlocks the moment Square confirms your card." }, { status: 402 });
+  // A bought package sets the ceiling on how often we post; the studio and comped companies choose freely.
+  const planPosts = !session.isAdmin && !prev?.comped && isPostsChoice(prev?.package?.posts) ? prev.package.posts : null;
+  if (planPosts && postsFor(cadence) > planPosts) return NextResponse.json({ error: `Your plan includes ${planPosts} post${planPosts === 1 ? "" : "s"} a month. Change your plan on the Plans page to post more often.` }, { status: 402 });
 
   let wpConnected = Boolean(prev?.wp_connected);
   if (target === "wordpress" && enabled) {

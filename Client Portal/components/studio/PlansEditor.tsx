@@ -3,11 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Eye, EyeOff, Plus, Star, Trash2 } from "lucide-react";
-import type { Plan } from "@/lib/data/plans";
+import { PLAN_ROLES, type Plan } from "@/lib/data/plans";
 import { cn } from "@/lib/utils";
 
-type Draft = { id?: string; name: string; tagline: string; price: string; features: string; highlight: boolean; published: boolean; sort: string };
-const toDraft = (p: Plan): Draft => ({ id: p.id, name: p.name, tagline: p.tagline, price: p.priceCents === null ? "" : String(p.priceCents / 100), features: p.features.join("\n"), highlight: p.highlight, published: p.published, sort: String(p.sort) });
+type Draft = { id?: string; name: string; tagline: string; price: string; features: string; highlight: boolean; published: boolean; sort: string; role: string; posts: string };
+const toDraft = (p: Plan): Draft => ({ id: p.id, name: p.name, tagline: p.tagline, price: p.priceCents === null ? "" : String(p.priceCents / 100), features: p.features.join("\n"), highlight: p.highlight, published: p.published, sort: String(p.sort), role: p.role ?? "", posts: p.postsPerMonth ? String(p.postsPerMonth) : "" });
 
 function PlanCard({ initial }: { initial: Draft }) {
   const router = useRouter();
@@ -49,6 +49,17 @@ function PlanCard({ initial }: { initial: Draft }) {
         <label className="block"><span className="label !text-[9px] block mb-1">$ / month</span><input className={field} inputMode="decimal" placeholder="blank = Custom" value={d.price} onChange={(e) => setD({ ...d, price: e.target.value })} /></label>
         <label className="block"><span className="label !text-[9px] block mb-1">Order</span><input className={field} inputMode="numeric" value={d.sort} onChange={(e) => setD({ ...d, sort: e.target.value })} /></label>
       </div>
+      <div className="grid sm:grid-cols-[1fr_140px] gap-3">
+        <label className="block">
+          <span className="label !text-[9px] block mb-1">In the plan builder</span>
+          <select className={field} value={d.role} onChange={(e) => setD({ ...d, role: e.target.value })}>
+            <option value="">Not in it: shown with &quot;I&apos;m interested&quot;, quoted by you</option>
+            {PLAN_ROLES.map((r) => <option key={r.key} value={r.key}>{r.label}</option>)}
+          </select>
+        </label>
+        {d.role === "posts" && <label className="block"><span className="label !text-[9px] block mb-1">Posts the price buys</span><input className={field} inputMode="numeric" placeholder="4" value={d.posts} onChange={(e) => setD({ ...d, posts: e.target.value })} /></label>}
+      </div>
+      {d.role === "posts" && <p className="text-[11px] text-ink-muted -mt-1">Clients pick 1, 2, 4 or 8 posts a month; each is priced at this rate divided by the posts it buys.</p>}
       <label className="block"><span className="label !text-[9px] block mb-1">One-line pitch</span><input className={field} value={d.tagline} onChange={(e) => setD({ ...d, tagline: e.target.value })} /></label>
       <label className="block"><span className="label !text-[9px] block mb-1">What&apos;s included (one per line)</span><textarea className={cn(field, "min-h-28")} value={d.features} onChange={(e) => setD({ ...d, features: e.target.value })} /></label>
       <div className="flex flex-wrap items-center gap-3">
@@ -65,7 +76,7 @@ export function PlansEditor({ plans }: { plans: Plan[] }) {
     <div className="space-y-4">
       {plans.map((p) => <PlanCard key={`${p.id}-${p.sort}-${p.published}-${p.highlight}`} initial={toDraft(p)} />)}
       {adding ? (
-        <PlanCard initial={{ name: "", tagline: "", price: "", features: "", highlight: false, published: false, sort: String((plans.at(-1)?.sort ?? 0) + 10) }} />
+        <PlanCard initial={{ name: "", tagline: "", price: "", features: "", highlight: false, published: false, sort: String((plans.at(-1)?.sort ?? 0) + 10), role: "", posts: "" }} />
       ) : (
         <button type="button" className="btn btn-ghost" onClick={() => setAdding(true)}><Plus className="h-4 w-4" />Add a plan</button>
       )}

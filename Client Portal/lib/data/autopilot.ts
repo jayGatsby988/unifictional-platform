@@ -5,7 +5,7 @@ import { accessFrom } from "@/lib/autopilot/access";
 import { demoAutopilot, demoStudioAutopilot } from "./demo";
 import type { Autopilot, AutopilotRun, AutopilotSettings, PostPerformance, SeoPost, StudioAutopilotRow } from "./types";
 
-export const EMPTY_SETTINGS: AutopilotSettings = { enabled: false, cadence: "weekly", mode: "auto", target: "hosted", wpConnected: false, notes: "", nextRunAt: null, lastRunAt: null, plan: [], comped: false, subscription: null, access: false };
+export const EMPTY_SETTINGS: AutopilotSettings = { enabled: false, cadence: "weekly", mode: "auto", target: "hosted", wpConnected: false, notes: "", nextRunAt: null, lastRunAt: null, plan: [], comped: false, subscription: null, package: null, access: false };
 
 export function mapSettings(r: any): AutopilotSettings {
   return {
@@ -13,6 +13,7 @@ export function mapSettings(r: any): AutopilotSettings {
     wpConnected: Boolean(r.wp_connected), notes: r.notes ?? "", nextRunAt: r.next_run_at ?? null, lastRunAt: r.last_run_at ?? null,
     plan: Array.isArray(r.plan) ? r.plan : [],
     comped: Boolean(r.comped),
+    package: r.package && typeof r.package.posts === "number" ? { posts: r.package.posts, addons: Array.isArray(r.package.addons) ? r.package.addons : [], amount: Number(r.package.amount) || 0, name: String(r.package.name ?? "") } : null,
     subscription: r.square_subscription_id ? { id: r.square_subscription_id, status: r.subscription_status ?? "", plan: r.subscription_plan ?? "", checkedAt: r.subscription_checked_at ?? "" } : null,
     access: accessFrom(r),
   };

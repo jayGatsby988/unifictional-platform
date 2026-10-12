@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/lib/data/repo";
 import { createClient } from "@/lib/supabase/server";
 import { toCents } from "@/lib/billing/types";
+import { PLAN_ROLES } from "@/lib/data/plans";
+
+const ROLES = new Set<string>(PLAN_ROLES.map((r) => r.key));
 
 /** Studio-only: { action: "save", plan } upserts a plan; { action: "delete", id } removes one. */
 export async function POST(request: Request) {
@@ -22,10 +25,15 @@ export async function POST(request: Request) {
   const priceText = String(p.price ?? "").trim();
   const price = priceText ? toCents(priceText) : null;
   if (priceText && price === null) return NextResponse.json({ error: "Price should be a dollar amount, or leave it blank for Custom." }, { status: 400 });
+  const role = ROLES.has(String(p.role ?? "")) ? String(p.role) : null;
+  const posts = Math.round(Number(p.posts));
+  if (role === "posts" && !(posts > 0)) return NextResponse.json({ error: "Say how many posts a month the price buys (usually 4)." }, { status: 400 });
   const row = {
     name,
     tagline: String(p.tagline ?? "").trim().slice(0, 200) || null,
     price_cents: price,
+    role,
+    posts_per_month: role === "posts" ? posts : null,
     features: String(p.features ?? "").split("\n").map((f: string) => f.trim()).filter(Boolean).slice(0, 20),
     highlight: Boolean(p.highlight),
     published: Boolean(p.published),

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 import type { AutopilotCadence, AutopilotMode, AutopilotSettings, AutopilotTarget } from "@/lib/data/types";
 import { CADENCES } from "@/lib/autopilot/schedule";
+import { postsFor } from "@/lib/billing/packages";
 import { cn } from "@/lib/utils";
 
 const TARGETS: { key: AutopilotTarget; title: string; detail: string }[] = [
@@ -29,9 +30,10 @@ function Choice({ on, title, detail, onPick, name }: { on: boolean; title: strin
   );
 }
 
-/** The two questions that switch autopilot on; reused inside Settings once it is. */
-export function AutopilotForm({ settings, demo }: { settings: AutopilotSettings; demo: boolean }) {
+/** The two questions that switch autopilot on; reused inside Settings once it is. `maxPosts` caps the cadence to the package they bought. */
+export function AutopilotForm({ settings, demo, maxPosts = null }: { settings: AutopilotSettings; demo: boolean; maxPosts?: number | null }) {
   const router = useRouter();
+  const cadences = CADENCES.filter((c) => !maxPosts || postsFor(c.key) <= maxPosts);
   const [target, setTarget] = useState<AutopilotTarget>(settings.target);
   const [mode, setMode] = useState<AutopilotMode>(settings.mode);
   const [cadence, setCadence] = useState<AutopilotCadence>(settings.cadence);
@@ -95,8 +97,9 @@ export function AutopilotForm({ settings, demo }: { settings: AutopilotSettings;
         <label className="block">
           <span className="label !text-[9px] block mb-1">How often</span>
           <select className="input !py-2 text-sm" value={cadence} onChange={(e) => setCadence(e.target.value as AutopilotCadence)}>
-            {CADENCES.map((c) => <option key={c.key} value={c.key}>{c.label} · {c.perMonth}</option>)}
+            {cadences.map((c) => <option key={c.key} value={c.key}>{c.label} · {c.perMonth}</option>)}
           </select>
+          {maxPosts ? <span className="block text-[11px] text-ink-muted mt-1">Your plan includes {maxPosts} post{maxPosts === 1 ? "" : "s"} a month. <Link href="/plans" className="underline">Change plan</Link></span> : null}
         </label>
         <label className="block">
           <span className="label !text-[9px] block mb-1">Anything to push or avoid? (optional)</span>

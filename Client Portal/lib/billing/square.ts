@@ -172,8 +172,8 @@ export async function studioBilling(customerIds: string[], nowMs: number): Promi
 }
 
 /** The catalog plan + monthly variation for a named plan at a price, created on first use. */
-export async function ensurePlanVariation(name: string, amount: number): Promise<{ planId: string; variationId: string; variationName: string }> {
-  const variationName = `${name} · $${(amount / 100).toLocaleString("en-US")}/mo`;
+export async function ensurePlanVariation(name: string, amount: number, label = name): Promise<{ planId: string; variationId: string; variationName: string }> {
+  const variationName = `${label} · $${(amount / 100).toLocaleString("en-US")}/mo`;
   let planId = await findCatalog("SUBSCRIPTION_PLAN", name);
   if (!planId) {
     const plan = await sq<{ catalog_object: { id: string } }>("/v2/catalog/object", {
@@ -204,15 +204,16 @@ export async function ensurePlanVariation(name: string, amount: number): Promise
  * on file (autopay) and sends them back to `redirectUrl`. Nothing card-related
  * touches the portal.
  */
-export async function createPlanCheckout(input: { customerId: string; email: string; planName: string; amount: number; redirectUrl: string }): Promise<{ url: string; linkId: string }> {
+export async function createPlanCheckout(input: { customerId: string; email: string; planName: string; variationName?: string; amount: number; redirectUrl: string }): Promise<{ url: string; linkId: string }> {
   const loc = await locationId();
-  const { planId, variationId } = await ensurePlanVariation(input.planName, input.amount);
+  const label = input.variationName ?? input.planName;
+  const { planId, variationId } = await ensurePlanVariation(input.planName, input.amount, label);
   const body = (subscriptionPlanId: string) => ({
     idempotency_key: randomUUID(),
-    order: { location_id: loc, customer_id: input.customerId, line_items: [{ name: input.planName, quantity: "1", base_price_money: { amount: input.amount, currency: "USD" } }] },
+    order: { location_id: loc, customer_id: input.customerId, line_items: [{ name: label, quantity: "1", base_price_money: { amount: input.amount, currency: "USD" } }] },
     checkout_options: { subscription_plan_id: subscriptionPlanId, redirect_url: input.redirectUrl, ask_for_shipping_address: false, allow_tipping: false, enable_coupon: false },
     pre_populated_data: { buyer_email: input.email },
-    payment_note: `${input.planName} — Unifictional`,
+    payment_note: `${label} — Unifictional`,
   });
   // Square moved subscription checkout from plan ids to plan-variation ids; accept whichever this account's API version wants.
   let res: { payment_link?: { id?: string; url?: string; long_url?: string } };

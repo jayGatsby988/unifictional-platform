@@ -5,20 +5,19 @@ import { Stat } from "@/components/Stat";
 import { AutopilotForm } from "@/components/autopilot/AutopilotForm";
 import { Calendar, type CalendarEntry } from "@/components/autopilot/Calendar";
 import { Fixes } from "@/components/autopilot/Fixes";
-import { ConfirmPayment, Paywall } from "@/components/autopilot/Paywall";
+import { ConfirmPayment } from "@/components/autopilot/ConfirmPayment";
 import { PostCard } from "@/components/autopilot/PostCard";
 import { Upcoming } from "@/components/autopilot/Upcoming";
 import { WriteNow } from "@/components/autopilot/WriteNow";
+import { PlanBuilder } from "@/components/plans/PlanBuilder";
 import { getSession } from "@/lib/data/repo";
 import { getAutopilot } from "@/lib/data/autopilot";
-import { createClient } from "@/lib/supabase/server";
 import { adminConfigured, createAdminClient } from "@/lib/supabase/admin";
-import { DEFAULT_PRICE_CENTS, PLAN_NAME, planOffer, refreshSubscription, subscriptionStale, type PlanOffer } from "@/lib/autopilot/access";
+import { refreshSubscription, subscriptionStale } from "@/lib/autopilot/access";
+import { loadBuilder } from "@/lib/billing/builder";
 import { AUTO_PUBLISH_BAR } from "@/lib/autopilot/quality";
 import { cadenceLabel, projectSchedule } from "@/lib/autopilot/schedule";
 import { fmt } from "@/lib/utils";
-
-const DEMO_OFFER: PlanOffer = { name: PLAN_NAME, amount: DEFAULT_PRICE_CENTS, tagline: "A blog post a week, written for the searches homeowners near you type, published and checked for you.", features: ["One SEO post every week, published to your site or ready to paste", "Reviewed by a 10-point SEO checklist before it goes live", "A 12-topic content plan you can shape", "On-page fixes for your existing site, as a checklist", "Google clicks per post once Search Console is connected", "Cancel any time from your Billing page"] };
 
 const HOW = [
   ["Pick the search", "We look at what your site ranks for, what it doesn't, and what homeowners near you actually type into Google."],
@@ -47,36 +46,22 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
     }
   }
   if (locked) {
-    const offer = session.isDemo ? DEMO_OFFER : await planOffer(await createClient());
+    const { catalog, rec } = await loadBuilder(session);
     return (
       <>
-        <Section num="03" label="SEO Autopilot" title="Your SEO, on autopilot."
-          intro="Every week we write and publish a blog post aimed at a search homeowners near you actually type, check it against an SEO checklist, and list the fixes that move your site up. You answer two questions once; we handle the rest." />
+        <Section num="03" label="SEO Autopilot" title="Build your plan."
+          intro="Pick how many posts a month, add what you need, and start on Square. We write and publish each post for a search homeowners near you actually type, check it against an SEO checklist, and list the fixes that move your site up." />
         {sp.checkout === "return" && !session.isDemo && <ConfirmPayment />}
-        <div className="grid lg:grid-cols-5 gap-4 mb-10">
-          <div className="lg:col-span-3"><Paywall offer={offer} slug={c.slug} demo={session.isDemo} admin={session.isAdmin} /></div>
-          <div className="lg:col-span-2 space-y-4">
-            <div className="panel p-5">
-              <SubHead>What happens after you start</SubHead>
-              <ol className="space-y-3 text-sm">
-                {[["Two questions", "Where your site lives, and whether posts go live on their own or wait for your OK."], ["Your first post, in minutes", "Hit Write a post now and watch it research, write and check itself."], ["Then every week", "A new post from your content plan, reviewed automatically, plus fixes for your site."]].map(([t, d], i) => (
-                  <li key={t} className="flex gap-3"><span className="font-mono text-xs text-ink-muted mt-0.5">0{i + 1}</span><div><p className="font-medium">{t}</p><p className="text-ink-muted">{d}</p></div></li>
-                ))}
-              </ol>
-            </div>
-            <div className="panel p-5">
-              <SubHead>What we already know</SubHead>
-              <dl className="space-y-2 text-sm">
-                <div className="flex justify-between gap-3"><dt className="text-ink-muted">Company</dt><dd className="text-right">{c.name}</dd></div>
-                <div className="flex justify-between gap-3"><dt className="text-ink-muted">Website</dt><dd className="text-right font-mono text-xs">{c.websiteUrl.replace(/^https?:\/\//, "") || "—"}</dd></div>
-              </dl>
-              <p className="mt-3 text-xs text-ink-muted">Trade and area are read from your website. No questionnaire.</p>
-            </div>
-          </div>
+        <div className="mb-10">
+          {catalog
+            ? <PlanBuilder catalog={catalog} rec={rec} company={{ name: c.name }} slug={c.slug} demo={session.isDemo} admin={session.isAdmin} current={null} mode="paywall" />
+            : <div className="panel p-6 max-w-2xl text-sm text-ink-muted">Plans are being set up. Ask us and we&apos;ll switch it on for you.</div>}
         </div>
       </>
     );
   }
+  // Clients who bought a package post at the cadence they bought; the studio and comped companies choose freely.
+  const maxPosts = session.isAdmin || s.comped ? null : s.package?.posts ?? null;
   const awaiting = a.posts.filter((p) => p.status === "awaiting_approval");
   const others = a.posts.filter((p) => p.status !== "awaiting_approval");
   const published = a.posts.filter((p) => p.status === "published");
@@ -101,7 +86,7 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
           intro="Every week we write and publish a blog post aimed at a search homeowners near you actually type, check it against an SEO checklist, and list the fixes that move your site up. Answer two questions once; we handle the rest." />
         {sp.checkout === "return" && <div className="panel p-4 mb-6 text-sm"><span className="font-medium">You&apos;re in.</span> Your plan is active. Two questions and your first post is on its way.</div>}
         <div className="grid lg:grid-cols-5 gap-4 mb-10">
-          <div className="lg:col-span-3"><AutopilotForm settings={s} demo={session.isDemo} /></div>
+          <div className="lg:col-span-3"><AutopilotForm settings={s} demo={session.isDemo} maxPosts={maxPosts} /></div>
           <div className="lg:col-span-2 space-y-4">
             <div className="panel p-5">
               <SubHead>What we already know</SubHead>
@@ -185,7 +170,7 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
 
       <details className="panel p-5">
         <summary className="text-sm font-medium cursor-pointer select-none">Settings: where it publishes, how often, what to push</summary>
-        <div className="mt-4"><AutopilotForm settings={s} demo={session.isDemo} /></div>
+        <div className="mt-4"><AutopilotForm settings={s} demo={session.isDemo} maxPosts={maxPosts} /></div>
       </details>
     </>
   );

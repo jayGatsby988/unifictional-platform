@@ -200,6 +200,8 @@ export type AutopilotSettings = {
   comped: boolean;
   /** Square subscription to the SEO Autopilot plan, as last checked. */
   subscription: { id: string; status: string; plan: string; checkedAt: string } | null;
+  /** What they picked in the plan builder at checkout (posts a month, add-ons, monthly amount in cents). */
+  package: { posts: number; addons: string[]; amount: number; name: string } | null;
   /** comped, or a live subscription: may the client use the feature? */
   access: boolean;
 };

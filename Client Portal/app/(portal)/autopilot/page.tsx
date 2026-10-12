@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Section, SubHead } from "@/components/Section";
 import { Stat } from "@/components/Stat";
 import { AutopilotForm } from "@/components/autopilot/AutopilotForm";
@@ -11,7 +12,8 @@ import { WriteNow } from "@/components/autopilot/WriteNow";
 import { getSession } from "@/lib/data/repo";
 import { getAutopilot } from "@/lib/data/autopilot";
 import { createClient } from "@/lib/supabase/server";
-import { DEFAULT_PRICE_CENTS, PLAN_NAME, planOffer, type PlanOffer } from "@/lib/autopilot/access";
+import { adminConfigured, createAdminClient } from "@/lib/supabase/admin";
+import { DEFAULT_PRICE_CENTS, PLAN_NAME, planOffer, refreshSubscription, subscriptionStale, type PlanOffer } from "@/lib/autopilot/access";
 import { AUTO_PUBLISH_BAR } from "@/lib/autopilot/quality";
 import { cadenceLabel, projectSchedule } from "@/lib/autopilot/schedule";
 import { fmt } from "@/lib/utils";
@@ -34,6 +36,16 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
 
   // Paid feature: the plan card until Square confirms a subscription (or the studio includes it).
   const locked = session.isDemo ? sp.preview === "paywall" : !s.access;
+  if (locked && !session.isDemo && c.billingCustomerId && adminConfigured) {
+    // They've been to Square's checkout: ask Square whether the subscription is live now (at most
+    // once a minute), so coming back by any route — the redirect, a bookmark, the login page — unlocks it.
+    const admin = createAdminClient();
+    const { data: row } = await admin.from("seo_autopilot").select("subscription_checked_at").eq("client_id", c.id).maybeSingle();
+    if (subscriptionStale(row?.subscription_checked_at, sp.checkout === "return")) {
+      const r = await refreshSubscription(admin, { id: c.id, square_customer_id: c.billingCustomerId }, session.email).catch(() => ({ access: false }));
+      if (r.access) redirect("/autopilot?checkout=return");
+    }
+  }
   if (locked) {
     const offer = session.isDemo ? DEMO_OFFER : await planOffer(await createClient());
     return (

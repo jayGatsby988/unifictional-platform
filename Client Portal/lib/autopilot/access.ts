@@ -14,7 +14,14 @@ export function accessFrom(row: { comped?: boolean | null; subscription_status?:
   return Boolean(row.comped) || LIVE.has(String(row.subscription_status ?? "").toUpperCase());
 }
 
-export type PlanOffer = { name: string; amount: number; tagline: string; features: string[] };
+/** Ask Square again? At most once a minute, unless we're just back from its checkout. */
+export function subscriptionStale(checkedAt: string | null | undefined, justReturned = false): boolean {
+  if (justReturned) return true;
+  const checked = checkedAt ? new Date(checkedAt).getTime() : 0;
+  return Date.now() - checked > 60_000;
+}
+
+export type PlanOffer ={ name: string; amount: number; tagline: string; features: string[] };
 
 /** The published plan row for the feature (price and bullets the studio edits), with a safe fallback. */
 export async function planOffer(db: SupabaseClient): Promise<PlanOffer> {

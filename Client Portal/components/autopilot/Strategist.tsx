@@ -48,7 +48,7 @@ export function Strategist({ initial, demo, suggestions }: { initial: Strategist
         )}
         {messages.map((m, i) => (
           <div key={i} className={cn("max-w-[92%]", m.role === "user" ? "ml-auto" : "")}>
-            <div className={cn("rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap leading-relaxed", m.role === "user" ? "bg-ink text-bone" : "bg-paper border border-line")}>{m.content}</div>
+            <div className={cn("rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap leading-relaxed", m.role === "user" ? "bg-ink text-bone" : "bg-paper border border-line")}>{m.content.replace(/\*\*(.+?)\*\*/g, "$1").replace(/^#{1,3}\s+/gm, "")}</div>
             {m.actions && m.actions.length > 0 && (
               <ul className="mt-1.5 flex flex-wrap gap-1.5">
                 {m.actions.map((a) => <li key={a} className="inline-flex items-start gap-1 rounded-full bg-good-bg text-good px-2.5 py-1 text-[11px] leading-snug"><Check className="h-3 w-3 mt-0.5 shrink-0" />{a}</li>)}

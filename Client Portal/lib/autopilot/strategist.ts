@@ -62,7 +62,8 @@ How to behave
 - To change course entirely, clear_plan after set_focus so the next run drafts twelve new topics.
 - Skip or prioritise a specific topic only when they point at one.
 - Posts are written on their schedule by the autopilot; you can't write one right now. "Write a post now" on their page does that.
-- No emojis, no hype. One idea per sentence.`;
+- No emojis, no hype. One idea per sentence.
+- Plain text only: the chat shows text as-is. No markdown, no bold, no headings. For a list, start each line with "- ".`;
 
 export type Action =
   | { type: "set_focus"; focus: string }

@@ -39,6 +39,13 @@ export function modeFrom(analysis) {
   return "";
 }
 
+/** A starting logo scale from the file's shape: wide marks with built-in whitespace read small at the default height. */
+export function logoScaleFor(logo) {
+  const w = Number(logo?.width), h = Number(logo?.height);
+  if (w > 0 && h > 0) { const r = w / h; if (r >= 5) return 1.6; if (r >= 3.5) return 1.35; if (r <= 1.2) return 1.15; }
+  return 1;
+}
+
 /** The brand block for a plan or a spec: logo, colours, fonts, mode. Never overwrites what is already set unless `force`. */
 export function brandFromAnalysis(a) {
   if (!a) return {};
@@ -63,6 +70,7 @@ export function applyBrand(target, analysis, { stampPrefix = "brand" } = {}) {
   const b = brandFromAnalysis(analysis);
   if (b.logo && !target.brand.logo?.url) { target.brand.logo = b.logo; notes.push(`${stampPrefix}: their logo goes in the nav and footer`); }
   if (b.logo) target.brand.useLogo = true;
+  if (b.logo && !(Number(target.brand.logoScale) > 0)) { const sc = logoScaleFor(b.logo); if (sc !== 1) { target.brand.logoScale = sc; notes.push(`${stampPrefix}: logo scale ${sc} for a ${sc > 1 ? "wide" : "square"} mark`); } }
   if (b.colors) target.brand.colors = b.colors;
   if (b.fonts) target.brand.fonts = b.fonts;
   const accent = accentFrom(b.colors);

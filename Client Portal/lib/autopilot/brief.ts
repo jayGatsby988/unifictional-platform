@@ -8,6 +8,8 @@ export type BriefInput = {
   profile?: SiteProfile | null;
   /** The owner's own words from the setup form: what to push, what to avoid. */
   notes: string;
+  /** Searches the owner asked the strategist to go after first. */
+  priorityQueries?: string[];
   site: SiteContext | null;
   /** Search Console keywords, best position first. Empty until GSC is connected. */
   keywords: { keyword: string; position: number; url: string }[];
@@ -43,6 +45,7 @@ export function buildBrief(i: BriefInput): string {
   if (i.profile?.services.length) lines.push(`What they offer (from the site): ${i.profile.services.join(", ")}`);
   if (i.client.services.length) lines.push(`Services Unifictional provides them: ${i.client.services.join(", ")}`);
   if (i.notes.trim()) lines.push("", "# Owner's notes (follow these)", i.notes.trim());
+  if (i.priorityQueries?.length) lines.push("", "# Priority searches the owner asked for (cover these before anything else, one per post, exact phrasing)", ...i.priorityQueries.map((q) => `- ${q}`));
 
   if (i.site) {
     lines.push("", "# What the website says today");

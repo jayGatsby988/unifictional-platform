@@ -205,6 +205,10 @@ export type AutopilotSettings = {
   package: { posts: number; addons: string[]; amount: number; name: string } | null;
   /** "Somewhere else" sites: which builder, and how posts get onto it (never the login itself). */
   site: { platform: string; access: "invite" | "login" | "self" | null; loginOnFile: boolean; inviteSentAt: string | null };
+  /** Searches the owner asked the strategist to go after first; the brief covers these before anything else. */
+  focusKeywords: string[];
+  /** The conversation with the SEO strategist, newest last. */
+  chat: StrategistMessage[];
   /** comped, or a live subscription: may the client use the feature? */
   access: boolean;
 };
@@ -241,6 +245,9 @@ export type AutopilotFix = { title: string; where: string; why: string; how: str
 
 /** A post in the content plan queue. */
 export type PlanItem = { id: string; title: string; targetQuery: string; angle: string; status: "planned" | "written" | "skipped" };
+
+/** One turn with the SEO strategist; `actions` are the changes it made while answering. */
+export type StrategistMessage = { role: "user" | "assistant"; content: string; at: string; actions?: string[] };
 
 export type AutopilotRun = { id: string; ranAt: string; ok: boolean; summary: string; postId: string | null; fixes: AutopilotFix[] };
 

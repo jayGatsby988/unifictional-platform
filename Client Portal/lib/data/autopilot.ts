@@ -6,7 +6,7 @@ import { EMPTY_SITE, isSiteAccess, siteStatus } from "@/lib/autopilot/site-acces
 import { demoAutopilot, demoStudioAutopilot } from "./demo";
 import type { Autopilot, AutopilotRun, AutopilotSettings, PostPerformance, SeoPost, StudioAutopilotRow } from "./types";
 
-export const EMPTY_SETTINGS: AutopilotSettings = { enabled: false, cadence: "weekly", mode: "auto", target: "blog", wpConnected: false, notes: "", nextRunAt: null, lastRunAt: null, plan: [], comped: false, subscription: null, package: null, site: EMPTY_SITE, access: false };
+export const EMPTY_SETTINGS: AutopilotSettings = { enabled: false, cadence: "weekly", mode: "auto", target: "blog", wpConnected: false, notes: "", nextRunAt: null, lastRunAt: null, plan: [], comped: false, subscription: null, package: null, site: EMPTY_SITE, focusKeywords: [], chat: [], access: false };
 
 export function mapSettings(r: any): AutopilotSettings {
   return {
@@ -15,6 +15,8 @@ export function mapSettings(r: any): AutopilotSettings {
     plan: Array.isArray(r.plan) ? r.plan : [],
     comped: Boolean(r.comped),
     site: { platform: r.site_platform ?? "", access: isSiteAccess(r.site_access) ? r.site_access : null, loginOnFile: Boolean(r.site_login_on_file), inviteSentAt: r.site_invite_sent_at ?? null },
+    focusKeywords: Array.isArray(r.focus_keywords) ? r.focus_keywords.filter((k: unknown) => typeof k === "string") : [],
+    chat: Array.isArray(r.chat) ? r.chat.filter((m: any) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string") : [],
     package: r.package && typeof r.package.posts === "number" ? { posts: r.package.posts, addons: Array.isArray(r.package.addons) ? r.package.addons : [], amount: Number(r.package.amount) || 0, name: String(r.package.name ?? "") } : null,
     subscription: r.square_subscription_id ? { id: r.square_subscription_id, status: r.subscription_status ?? "", plan: r.subscription_plan ?? "", checkedAt: r.subscription_checked_at ?? "" } : null,
     access: accessFrom(r),

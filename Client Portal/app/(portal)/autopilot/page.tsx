@@ -8,6 +8,7 @@ import { Fixes } from "@/components/autopilot/Fixes";
 import { ConfirmPayment } from "@/components/autopilot/ConfirmPayment";
 import { CancelPlan } from "@/components/autopilot/CancelPlan";
 import { PostCard } from "@/components/autopilot/PostCard";
+import { Strategist } from "@/components/autopilot/Strategist";
 import { Upcoming } from "@/components/autopilot/Upcoming";
 import { WriteNow } from "@/components/autopilot/WriteNow";
 import { PlanBuilder } from "@/components/plans/PlanBuilder";
@@ -142,6 +143,26 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
         <Stat label="Fixes done" value={allFixes.length ? `${fixesDone}/${allFixes.length}` : "—"} sub={allFixes.length ? "from the on-page checklist" : "arrive with the first post"} />
         <Stat label="Next post" value={s.nextRunAt ? fmt.date(s.nextRunAt) : "soon"} sub={upcoming ? `${upcoming} topics planned` : s.lastRunAt ? `last one ${fmt.date(s.lastRunAt)}` : "the first one is on its way"} />
       </div>
+
+      <section className="mb-10 grid lg:grid-cols-5 gap-4">
+        <div className="lg:col-span-3"><Strategist initial={s.chat} demo={session.isDemo} suggestions={["How are we doing?", `I want more ${c.industry ? c.industry.replace(/ (contractor|company|maker|studio)$/i, "") : "of our best"} work${c.city ? ` in ${c.city}` : ""}`, "What should we go after next?", "Which searches are we closest to ranking for?"]} /></div>
+        <div className="lg:col-span-2 space-y-4">
+          <div className="panel p-5">
+            <SubHead>What it can change</SubHead>
+            <ul className="space-y-2 text-sm text-ink-muted">
+              <li className="flex gap-2"><span className="text-ink">—</span>Your direction: what to push, what to avoid. The writer follows it on every post.</li>
+              <li className="flex gap-2"><span className="text-ink">—</span>Priority searches: exact phrases to go after first{s.focusKeywords.length ? ` (${s.focusKeywords.length} set)` : ""}.</li>
+              <li className="flex gap-2"><span className="text-ink">—</span>The plan: new topics at the front, skip or reorder, or start fresh.</li>
+            </ul>
+          </div>
+          {s.focusKeywords.length > 0 && (
+            <div className="panel p-5">
+              <SubHead>Priority searches</SubHead>
+              <ul className="flex flex-wrap gap-1.5">{s.focusKeywords.map((k) => <li key={k} className="rounded-full bg-paper border border-line px-2.5 py-1 text-xs">{k}</li>)}</ul>
+            </div>
+          )}
+        </div>
+      </section>
 
       {s.target === "blog" && (
         <div className="panel p-4 mb-10 flex flex-wrap items-center justify-between gap-3 text-sm">

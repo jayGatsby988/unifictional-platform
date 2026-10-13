@@ -216,3 +216,20 @@ test("hosted blog target: live the moment it's saved, at /b/<company>/<post>", a
   assert.match(r.url, /\/b\/gilded-thread\/gold-filled-bangles$/);
   assert.equal(run.resolveTarget({ target: "blog" }, null, "", {}).kind, "manual");
 });
+
+test("strategist actions: direction, priority searches and plan edits apply cleanly and describe themselves", async () => {
+  const st = await import("../lib/autopilot/strategist.ts");
+  let s = { notes: "", focusKeywords: [], plan: [{ id: "a", title: "Old topic", targetQuery: "old search", angle: "", status: "planned" }] };
+  let r = st.applyAction(s, { type: "set_focus", focus: "  Push kitchen remodels in Lynnwood.  " });
+  s = r.state; assert.equal(s.notes, "Push kitchen remodels in Lynnwood."); assert.match(r.label, /Updated your direction/);
+  r = st.applyAction(s, { type: "add_keywords", keywords: ["Kitchen Remodel Lynnwood", "kitchen remodel lynnwood", "cabinet refacing lynnwood"] });
+  s = r.state; assert.deepEqual(s.focusKeywords, ["kitchen remodel lynnwood", "cabinet refacing lynnwood"]); assert.match(r.label, /Added 2/);
+  r = st.applyAction(s, { type: "add_topics", topics: [{ title: "Kitchen Remodel Cost in Lynnwood, WA", targetQuery: "kitchen remodel cost lynnwood", angle: "real numbers" }] });
+  s = r.state; assert.equal(s.plan[0].title, "Kitchen Remodel Cost in Lynnwood, WA"); assert.equal(s.plan.length, 2);
+  r = st.applyAction(s, { type: "prioritize_topic", id: "a" }); s = r.state; assert.equal(s.plan[0].id, "a");
+  r = st.applyAction(s, { type: "skip_topic", id: "a" }); s = r.state; assert.equal(s.plan.find((p) => p.id === "a").status, "skipped");
+  r = st.applyAction(s, { type: "clear_plan" }); s = r.state; assert.ok(s.plan.every((p) => p.status !== "planned")); assert.match(r.label, /Cleared 1/);
+  const ctx = st.contextText({ company: { name: "X", industry: "", city: "", websiteUrl: "" }, profile: null, settings: { notes: "", focusKeywords: [], cadence: "weekly", mode: "auto", target: "blog", nextRunAt: null, plan: [] }, posts: [], keywords: [], fixes: [] });
+  assert.ok(ctx.includes("not connected yet"));
+  assert.equal(st.TOOLS.length, 7);
+});

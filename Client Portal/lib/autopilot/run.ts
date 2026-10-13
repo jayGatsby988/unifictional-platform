@@ -114,12 +114,14 @@ export async function runForClient(db: SupabaseClient, c: Ctx): Promise<RunOutco
   const profile = await loadSiteProfile(db, c, site, siteUrl);
   const area: string = c.client.city || profile.city || "";
   const trade: string = c.client.industry || profile.industry;
-  const suggestions = await fetchSuggestions([...seedQueries(trade, area, c.client.services ?? []), ...profile.searchSeeds]);
+  const priority: string[] = Array.isArray(c.settings.focus_keywords) ? c.settings.focus_keywords.filter((k: unknown) => typeof k === "string") : [];
+  const suggestions = await fetchSuggestions([...priority, ...seedQueries(trade, area, c.client.services ?? []), ...profile.searchSeeds]);
 
   const base: BriefInput = {
     client: { name: c.client.name, industry: trade, city: area, websiteUrl: siteUrl, services: c.client.services ?? [] },
     profile,
     notes: c.settings.notes ?? "",
+    priorityQueries: priority,
     site,
     keywords: ((kw.data ?? []) as any[]).map((k) => ({ keyword: k.keyword, position: Number(k.position), url: k.url ?? "" })),
     existingPosts,

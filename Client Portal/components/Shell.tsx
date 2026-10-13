@@ -1,14 +1,17 @@
 import Link from "next/link";
-import { LogOut } from "lucide-react";
 import type { Session } from "@/lib/data/repo";
 import { Logo } from "./Logo";
 import { Sidebar } from "./Sidebar";
 import { MobileNav } from "./MobileNav";
 import { ThemeToggle } from "./ThemeToggle";
 import { ClientSwitcher } from "./ClientSwitcher";
+import { SignOut, StudioContact } from "./AccountLinks";
 
-export function Shell({ session, children }: { session: Session; children: React.ReactNode }) {
+/** `pending`: the login has no company yet, so the page links are hidden (they'd all loop back to the welcome screen). */
+export function Shell({ session, pending = false, children }: { session: Session; pending?: boolean; children: React.ReactNode }) {
   const client = session.client;
+  const showNav = !pending || session.isAdmin;
+  const contact = client ? { name: client.accountManager.name, email: client.accountManager.email } : undefined;
   return (
     <div className="flex-1 flex min-h-screen">
       <aside className="hidden lg:flex w-64 shrink-0 flex-col border-r border-line p-5 gap-8 sticky top-0 h-screen">
@@ -16,23 +19,13 @@ export function Shell({ session, children }: { session: Session; children: React
           <Logo className="h-8 w-8" />
           <div className="leading-tight">
             <div className="font-display text-base tracking-wide">Unifictional</div>
-            <div className="label !text-[9px]">Client portal</div>
+            <div className="label !text-xs">Client portal</div>
           </div>
         </Link>
-        <Sidebar admin={session.isAdmin} services={client?.services} />
+        {showNav && <Sidebar admin={session.isAdmin} services={client?.services} />}
         <div className="mt-auto space-y-4">
-          {client && (
-            <div className="panel p-4">
-              <p className="label mb-1">Your studio contact</p>
-              <p className="text-sm font-medium">{client.accountManager.name}</p>
-              <a className="text-xs text-ink-muted underline" href={`mailto:${client.accountManager.email}`}>{client.accountManager.email}</a>
-            </div>
-          )}
-          <form action="/auth/signout" method="post">
-            <button className="flex items-center gap-2 text-xs text-ink-muted hover:text-ink transition">
-              <LogOut className="h-3.5 w-3.5" /> Sign out
-            </button>
-          </form>
+          {contact && <StudioContact {...contact} />}
+          <SignOut />
         </div>
       </aside>
 
@@ -40,7 +33,7 @@ export function Shell({ session, children }: { session: Session; children: React
         {session.isAdmin && !session.isDemo && client && (
           <div className="bg-ink text-bone text-xs">
             <div className="px-4 sm:px-6 lg:px-8 h-9 flex items-center gap-3">
-              <span className="label !text-bone/60 !text-[9px]">Studio view</span>
+              <span className="label !text-bone/60 !text-xs">Studio view</span>
               <span className="truncate">You&apos;re seeing exactly what {client.name} sees.</span>
               <Link href="/studio" className="ml-auto underline whitespace-nowrap">← Back to studio</Link>
             </div>
@@ -48,7 +41,7 @@ export function Shell({ session, children }: { session: Session; children: React
         )}
         <header className="sticky top-0 z-40 bg-bone/80 backdrop-blur border-b border-line">
           <div className="flex items-center gap-3 px-4 sm:px-6 lg:px-8 h-16">
-            <MobileNav admin={session.isAdmin} />
+            <MobileNav admin={session.isAdmin} services={client?.services} showNav={showNav} contact={contact} />
             <Link href="/overview" className="lg:hidden flex items-center gap-2">
               <Logo className="h-7 w-7" />
             </Link>

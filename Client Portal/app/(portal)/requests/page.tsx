@@ -25,12 +25,12 @@ export default async function RequestsPage({ searchParams }: { searchParams: Pro
             {d.requests.map((r) => (
               <div key={r.id} className="p-4">
                 <div className="flex items-center justify-between gap-2 mb-1">
-                  <span className="label !text-[9px]">{TYPE_LABEL[r.type]} · {fmt.date(r.createdAt)}</span>
+                  <span className="text-sm text-ink-muted">{TYPE_LABEL[r.type]} · {fmt.date(r.createdAt)}</span>
                   <StatusPill status={r.status} />
                 </div>
                 <p className="text-sm font-medium leading-snug">{r.title}</p>
                 {r.body && <p className="text-sm text-ink-muted mt-1 line-clamp-2">{r.body}</p>}
-                {r.reply && <p className="text-sm mt-2 border-l-2 border-ink pl-3"><span className="label !text-[9px] block mb-0.5">Unifictional replied</span>{r.reply}</p>}
+                {r.reply && <p className="text-sm mt-2 border-l-2 border-ink pl-3"><span className="label !text-xs block mb-0.5">Unifictional replied</span>{r.reply}</p>}
               </div>
             ))}
             {d.requests.length === 0 && <p className="p-4 text-sm text-ink-muted">No requests yet.</p>}

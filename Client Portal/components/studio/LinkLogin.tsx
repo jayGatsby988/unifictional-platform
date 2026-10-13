@@ -18,7 +18,7 @@ export function LinkLogin({ slug }: { slug: string }) {
     }}>
       <input className="input !w-56 !py-1.5 text-xs" type="email" placeholder="add login email" value={email} onChange={(e) => setEmail(e.target.value)} required />
       <button className="btn btn-ghost !py-1.5 !px-3 text-xs">Give access</button>
-      {msg && <span className="text-[11px] text-ink-muted max-w-xs">{msg}</span>}
+      {msg && <span className="text-xs text-ink-muted max-w-xs">{msg}</span>}
     </form>
   );
 }

@@ -29,7 +29,7 @@ const HOW = [
   ["Publish and improve", "It goes on your site (or waits for your OK), and we list the on-page fixes that matter most, with a checklist to work through."],
 ];
 
-export default async function AutopilotPage({ searchParams }: { searchParams: Promise<{ checkout?: string; preview?: string }> }) {
+export default async function AutopilotPage({ searchParams }: { searchParams: Promise<{ checkout?: string; preview?: string; settings?: string }> }) {
   const sp = await searchParams;
   const session = await getSession();
   if (!session.client) return null;
@@ -171,7 +171,10 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
             <a className="underline font-mono text-xs break-all" href={hostedBlogUrl(c.slug)} target="_blank" rel="noreferrer">{hostedBlogUrl(c.slug).replace(/^https?:\/\//, "")}</a>
             <p className="text-xs text-ink-muted mt-1">Every post goes live there on its own. Add one &quot;Blog&quot; link to it from your website&apos;s menu so visitors and Google find it.</p>
           </div>
-          <a className="btn btn-ghost !py-2 !px-4 text-xs" href={`${hostedBlogUrl(c.slug)}/sitemap.xml`} target="_blank" rel="noreferrer">Sitemap for Search Console</a>
+          <div className="sm:text-right">
+            <a className="btn btn-ghost min-h-11 !px-4 text-sm" href={`${hostedBlogUrl(c.slug)}/sitemap.xml`} target="_blank" rel="noreferrer">Sitemap for Search Console</a>
+            <p className="text-xs text-ink-muted mt-1 max-w-[16rem] sm:ml-auto">A list of your posts. Give it to Google so it finds them faster.</p>
+          </div>
         </div>
       )}
 
@@ -183,7 +186,7 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
       )}
 
       <section className="mb-10">
-        <SubHead right={<span className="label !text-[9px]">{published.length} live · {awaiting.length} waiting · {upcoming} scheduled</span>}>Calendar</SubHead>
+        <SubHead right={<span className="label !text-xs">{published.length} live · {awaiting.length} waiting · {upcoming} scheduled</span>}>Calendar</SubHead>
         <Calendar entries={entries} />
       </section>
 
@@ -199,19 +202,20 @@ export default async function AutopilotPage({ searchParams }: { searchParams: Pr
         </div>
         <div className="space-y-8">
           <div>
-            <SubHead right={latest ? <span className="label !text-[9px]">{fmt.date(latest.ranAt)}</span> : undefined}>Fixes for your site</SubHead>
+            <SubHead right={latest ? <span className="text-sm text-ink-muted">{fmt.date(latest.ranAt)}</span> : undefined}>Fixes for your site</SubHead>
             {latest ? <Fixes runId={latest.id} fixes={latest.fixes} when={fmt.date(latest.ranAt)} /> : <div className="panel p-4 text-sm text-ink-muted">The first list of fixes arrives with your first post.</div>}
             <p className="mt-2 text-xs text-ink-muted">Your studio works through these as part of your plan. Want one done sooner? <Link className="underline" href="/requests?type=seo">Ask here</Link>.</p>
           </div>
           <div>
-            <SubHead right={upcoming ? <span className="label !text-[9px]">{upcoming} planned</span> : undefined}>Coming up</SubHead>
+            <SubHead right={upcoming ? <span className="label !text-xs">{upcoming} planned</span> : undefined}>Coming up</SubHead>
             <Upcoming plan={s.plan} dates={dates} />
           </div>
         </div>
       </div>
 
-      <details className="panel p-5">
-        <summary className="text-sm font-medium cursor-pointer select-none">Settings: where it publishes, how often, what to push</summary>
+      {/* Billing links here (?settings=open#settings) so the cancel button is one tap away. */}
+      <details id="settings" open={sp.settings === "open"} className="panel p-5 scroll-mt-20">
+        <summary className="text-sm font-medium cursor-pointer select-none min-h-11 flex items-center">Settings: where it publishes, how often, what to push, cancel</summary>
         <div className="mt-4"><AutopilotForm settings={s} demo={session.isDemo} maxPosts={maxPosts} studioEmail={STUDIO_EMAIL} siteUrl={c.websiteUrl} /></div>
         {s.subscription && !s.comped && <CancelPlan plan={s.subscription.plan || s.package?.name || "SEO Autopilot"} demo={session.isDemo} />}
       </details>

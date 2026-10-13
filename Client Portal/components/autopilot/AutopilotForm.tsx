@@ -91,9 +91,9 @@ export function AutopilotForm({ settings, demo, maxPosts = null, studioEmail = "
           <div className="mt-3 rounded-xl border border-line p-4 space-y-3">
             {settings.wpConnected && <p className="text-xs text-good">WordPress is connected. Fill these in only to change the login.</p>}
             <div className="grid sm:grid-cols-3 gap-3">
-              <label className="block"><span className="label !text-[9px] block mb-1">Site address</span><input className="input !py-2 text-sm" placeholder="mysite.com" value={wpUrl} onChange={(e) => setWpUrl(e.target.value)} required={needsWp} /></label>
-              <label className="block"><span className="label !text-[9px] block mb-1">WordPress username</span><input className="input !py-2 text-sm" value={wpUser} onChange={(e) => setWpUser(e.target.value)} required={needsWp} autoComplete="off" /></label>
-              <label className="block"><span className="label !text-[9px] block mb-1">Application password</span><input className="input !py-2 text-sm font-mono" type="password" placeholder="xxxx xxxx xxxx xxxx" value={wpPass} onChange={(e) => setWpPass(e.target.value)} required={needsWp} autoComplete="new-password" /></label>
+              <label className="block"><span className="label !text-xs block mb-1">Site address</span><input className="input !py-2 text-sm" placeholder="mysite.com" value={wpUrl} onChange={(e) => setWpUrl(e.target.value)} required={needsWp} /></label>
+              <label className="block"><span className="label !text-xs block mb-1">WordPress username</span><input className="input !py-2 text-sm" value={wpUser} onChange={(e) => setWpUser(e.target.value)} required={needsWp} autoComplete="off" /></label>
+              <label className="block"><span className="label !text-xs block mb-1">Application password</span><input className="input !py-2 text-sm font-mono" type="password" placeholder="xxxx xxxx xxxx xxxx" value={wpPass} onChange={(e) => setWpPass(e.target.value)} required={needsWp} autoComplete="new-password" /></label>
             </div>
             <p className="text-xs text-ink-muted">Not your login password. <Link className="underline" href="/guide/wordpress-access" target="_blank">How to make one in a minute</Link>. We check it works before saving, and we never show it again.</p>
           </div>
@@ -102,16 +102,16 @@ export function AutopilotForm({ settings, demo, maxPosts = null, studioEmail = "
           <div className="mt-3 rounded-xl border border-line p-4 space-y-4">
             <div className="grid sm:grid-cols-2 gap-3">
               <label className="block">
-                <span className="label !text-[9px] block mb-1">Which builder is it on?</span>
+                <span className="label !text-xs block mb-1">Which builder is it on?</span>
                 <select className="input !py-2 text-sm" value={platform} onChange={(e) => setPlatform(e.target.value)} required>
                   <option value="">Choose…</option>
                   {PLATFORMS.map((p) => <option key={p} value={p}>{p}</option>)}
                 </select>
               </label>
-              <label className="block"><span className="label !text-[9px] block mb-1">Your website address</span><input className="input !py-2 text-sm" placeholder="mysite.com" value={siteUrl} onChange={(e) => setSiteUrl(e.target.value)} required={!knownSite} /></label>
+              <label className="block"><span className="label !text-xs block mb-1">Your website address</span><input className="input !py-2 text-sm" placeholder="mysite.com" value={siteUrl} onChange={(e) => setSiteUrl(e.target.value)} required={!knownSite} /></label>
             </div>
             <fieldset>
-              <legend className="label !text-[9px] mb-2">How do we get posts onto it?</legend>
+              <legend className="label !text-xs mb-2">How do we get posts onto it?</legend>
               <div className="grid gap-2">
                 {ACCESS.map((a) => <Choice key={a.key} name="access" on={access === a.key} title={a.title} detail={a.detail(platform)} onPick={() => setAccess(a.key)} />)}
               </div>
@@ -126,17 +126,17 @@ export function AutopilotForm({ settings, demo, maxPosts = null, studioEmail = "
                   <input type="checkbox" className="h-4 w-4 accent-ink" checked={inviteSent} onChange={(e) => setInviteSent(e.target.checked)} />
                   Done, I&apos;ve sent the invite{settings.site.inviteSentAt ? " (we have it on file)" : ""}
                 </label>
-                <p className="text-[11px] text-ink-muted">Not sent yet? You can still switch on; each post waits here until the invite arrives.</p>
+                <p className="text-xs text-ink-muted">Not sent yet? You can still switch on; each post waits here until the invite arrives.</p>
               </div>
             )}
             {access === "login" && (
               <div className="rounded-xl bg-paper border border-line p-4 space-y-3">
                 {settings.site.loginOnFile && <p className="text-xs text-good">A login is on file. Fill these in only to change it.</p>}
                 <div className="grid sm:grid-cols-2 gap-3">
-                  <label className="block"><span className="label !text-[9px] block mb-1">{platform || "Account"} username or email</span><input className="input !py-2 text-sm" value={siteUser} onChange={(e) => setSiteUser(e.target.value)} required={!settings.site.loginOnFile} autoComplete="off" /></label>
-                  <label className="block"><span className="label !text-[9px] block mb-1">Password</span><input className="input !py-2 text-sm font-mono" type="password" value={sitePass} onChange={(e) => setSitePass(e.target.value)} required={!settings.site.loginOnFile} autoComplete="new-password" /></label>
+                  <label className="block"><span className="label !text-xs block mb-1">{platform || "Account"} username or email</span><input className="input !py-2 text-sm" value={siteUser} onChange={(e) => setSiteUser(e.target.value)} required={!settings.site.loginOnFile} autoComplete="off" /></label>
+                  <label className="block"><span className="label !text-xs block mb-1">Password</span><input className="input !py-2 text-sm font-mono" type="password" value={sitePass} onChange={(e) => setSitePass(e.target.value)} required={!settings.site.loginOnFile} autoComplete="new-password" /></label>
                 </div>
-                <p className="text-[11px] text-ink-muted">Kept on our side, visible only to the studio, never shown here again. Two-step verification on? We&apos;ll text you for the code the first time.</p>
+                <p className="text-xs text-ink-muted">Kept on our side, visible only to the studio, never shown here again. Two-step verification on? We&apos;ll text you for the code the first time.</p>
               </div>
             )}
           </div>
@@ -152,14 +152,14 @@ export function AutopilotForm({ settings, demo, maxPosts = null, studioEmail = "
 
       <div className="grid sm:grid-cols-2 gap-4">
         <label className="block">
-          <span className="label !text-[9px] block mb-1">How often</span>
+          <span className="label !text-xs block mb-1">How often</span>
           <select className="input !py-2 text-sm" value={cadence} onChange={(e) => setCadence(e.target.value as AutopilotCadence)}>
             {cadences.map((c) => <option key={c.key} value={c.key}>{c.label} · {c.perMonth}</option>)}
           </select>
-          {maxPosts ? <span className="block text-[11px] text-ink-muted mt-1">Your plan includes {maxPosts} post{maxPosts === 1 ? "" : "s"} a month. <Link href="/plans" className="underline">Change plan</Link></span> : null}
+          {maxPosts ? <span className="block text-xs text-ink-muted mt-1">Your plan includes {maxPosts} post{maxPosts === 1 ? "" : "s"} a month. <Link href="/plans" className="underline">Change plan</Link></span> : null}
         </label>
         <label className="block">
-          <span className="label !text-[9px] block mb-1">Anything to push or avoid? (optional)</span>
+          <span className="label !text-xs block mb-1">Anything to push or avoid? (optional)</span>
           <textarea className="input !py-2 text-sm" rows={2} placeholder="e.g. More ADU jobs in Mill Creek. Don't mention roofing." value={notes} onChange={(e) => setNotes(e.target.value)} maxLength={2000} />
         </label>
       </div>

@@ -43,24 +43,25 @@ export default async function SeoPage() {
       <SourceGate source="gsc" has={d.status.has.seo} status={d.status} className="mb-10">
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-        <Stat label="Clicks from Google · 90d" value={s.totals90.clicks} delta={<Delta now={s.totals90.clicks} prev={s.prev90.clicks} />} sub="vs. previous 90 days" />
-        <Stat label="Times shown · 90d" value={fmt.compact(s.totals90.impressions)} delta={<Delta now={s.totals90.impressions} prev={s.prev90.impressions} />} sub="search impressions" />
-        <Stat label="Average position" value={s.totals90.position} delta={<Delta now={s.totals90.position} prev={s.prev90.position} invert />} sub="lower is better" />
-        <Stat label="Keywords in top 10" value={top10} sub={`${top3} in the top 3`} />
+        <Stat label="Clicks from Google" value={s.totals90.clicks} delta={<Delta now={s.totals90.clicks} prev={s.prev90.clicks} />} sub="last 90 days, vs. the 90 before" />
+        <Stat label="Times you showed up on Google" value={fmt.compact(s.totals90.impressions)} delta={<Delta now={s.totals90.impressions} prev={s.prev90.impressions} />} sub="last 90 days" />
+        <Stat label="Average spot on Google" value={s.totals90.position} delta={<Delta now={s.totals90.position} prev={s.prev90.position} invert />} sub="1 = top of the page. Lower is better." />
+        <Stat label="Searches on page one" value={top10} sub={`top 10 results. ${top3} in the top 3.`} />
       </div>
 
       <div className="panel p-5 mb-10">
-        <SubHead>Clicks and impressions, daily · 90d</SubHead>
-        <Trend data={s.daily} keys={[{ key: "clicks", name: "Clicks" }, { key: "impressions", name: "Impressions", dashed: true }]} height={260} />
+        <SubHead>Clicks and times shown, daily · last 90 days</SubHead>
+        <Trend data={s.daily} keys={[{ key: "clicks", name: "Clicks" }, { key: "impressions", name: "Times shown", dashed: true }]} height={260} />
       </div>
       </SourceGate>
 
       <div className="grid lg:grid-cols-3 gap-4 mb-10">
         {d.status.connected.gsc && s.keywords.length > 0 ? (
-        <div className="panel p-5 lg:col-span-2 overflow-x-auto">
-          <SubHead right={<span className="label !text-[9px]">Position on Google · change vs. last month</span>}>Keywords we track</SubHead>
+        <div className="panel p-5 lg:col-span-2">
+          <SubHead right={<span className="label !text-xs hidden sm:inline">Spot on Google · change vs. last month</span>}>Keywords we track</SubHead>
+          <div className="hidden sm:block overflow-x-auto">
           <table className="table w-full min-w-[560px]">
-            <thead><tr><th>Keyword</th><th className="text-right">Position</th><th className="text-right">Change</th><th className="text-right">Clicks</th><th>Page</th></tr></thead>
+            <thead><tr><th>Keyword</th><th className="text-right">Spot</th><th className="text-right">Change</th><th className="text-right">Clicks</th><th>Page</th></tr></thead>
             <tbody>
               {s.keywords.map((k) => (
                 <tr key={k.keyword}>
@@ -73,10 +74,27 @@ export default async function SeoPage() {
               ))}
             </tbody>
           </table>
+          </div>
+          {/* Phones: one card per keyword instead of a sideways-scrolling table. */}
+          <ul className="sm:hidden divide-y divide-line">
+            {s.keywords.map((k) => (
+              <li key={k.keyword} className="py-3">
+                <div className="flex items-start justify-between gap-3">
+                  <p className="text-sm font-medium min-w-0">{k.keyword}</p>
+                  <span className={cn("font-display text-lg leading-none shrink-0", k.position <= 3 && "text-good")}>#{k.position}</span>
+                </div>
+                <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-ink-muted">
+                  <span className="inline-flex items-center gap-1.5">vs. last month <Move now={k.position} prev={k.prevPosition} /></span>
+                  <span>{fmt.int(k.clicks)} clicks</span>
+                </div>
+                <p className="mt-1 font-mono text-xs text-ink-muted truncate">{k.url}</p>
+              </li>
+            ))}
+          </ul>
         </div>
         ) : (
           <div className="panel p-5 lg:col-span-2">
-            <SubHead right={local.length ? <span className="label !text-[9px]">Checked {d.website.healthAt ? fmt.date(d.website.healthAt) : "nightly"}</span> : undefined}>
+            <SubHead right={local.length ? <span className="text-sm text-ink-muted">Checked {d.website.healthAt ? fmt.date(d.website.healthAt) : "nightly"}</span> : undefined}>
               {local.length ? "Local searches we check" : "Keywords we track"}
             </SubHead>
             {local.length > 0 && (
@@ -99,7 +117,7 @@ export default async function SeoPage() {
           <div className="panel p-5"><SubHead>Google Business Profile</SubHead><p className="text-sm text-ink-muted">Connected. Your listing&apos;s numbers arrive after the next nightly update.</p></div>
         ) : (
         <div className="panel p-5">
-          <SubHead>Google Business Profile · 30d</SubHead>
+          <SubHead>Google Business Profile · last 30 days</SubHead>
           <div className="flex items-center gap-2 mb-5">
             <span className="font-display text-4xl leading-none">{s.gbp.rating.toFixed(1)}</span>
             <div className="flex text-ink">{[1, 2, 3, 4, 5].map((i) => <Star key={i} className={cn("h-4 w-4", i <= Math.round(s.gbp.rating) ? "fill-current" : "text-line")} />)}</div>
@@ -128,12 +146,12 @@ export default async function SeoPage() {
           {s.workLog.map((w, i) => (
             <li key={i} className="pl-5">
               <span className="absolute -left-[5px] mt-1.5 h-2.5 w-2.5 rounded-full bg-ink" />
-              <p className="label !text-[9px] mb-1">{fmt.dateLong(w.at)}</p>
+              <p className="text-sm text-ink-muted mb-1">{fmt.dateLong(w.at)}</p>
               <p className="font-medium text-sm">{w.title}</p>
               <p className="text-sm text-ink-muted">{w.detail}</p>
             </li>
           ))}
-          {s.workLog.length === 0 && <li className="pl-5 text-sm text-ink-muted">Work log starts once the first SEO sprint ships.</li>}
+          {s.workLog.length === 0 && <li className="pl-5 text-sm text-ink-muted">Work log starts once our first round of Google improvements is done.</li>}
         </ol>
       </div>
     </>

@@ -35,7 +35,10 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
           <p className="text-ink-muted mb-8 text-base">Use the email you signed up with and the password from your welcome email. Forgot it? We&apos;ll email you a one-tap link.</p>
 
           {sp.error === "link" && (
-            <p className="mb-5 rounded-xl bg-bad-bg text-bad px-4 py-3 text-sm">That sign-in link has expired or was already used. Tap &quot;Forgot your password?&quot; below for a fresh one.</p>
+            <p className="mb-5 rounded-xl bg-bad-bg text-bad px-4 py-3 text-base">That sign-in link has expired or was already used. Tap the button below and we&apos;ll email you a fresh one.</p>
+          )}
+          {sp.error === "welcome" && (
+            <p className="mb-5 rounded-xl bg-sand px-4 py-3 text-base">That welcome link has expired, or you&apos;ve already picked your own password. No problem: tap the button below and we&apos;ll email you a new one-tap link.</p>
           )}
 
           {demoMode ? (
@@ -45,7 +48,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
               <Link href="/overview" className="btn btn-ink w-full justify-center">Open the demo portal</Link>
             </div>
           ) : (
-            <LoginForm next={sp.next} initialEmail={sp.email ?? ""} />
+            <LoginForm next={sp.next} initialEmail={sp.email ?? ""} initialMode={sp.error === "link" || sp.error === "welcome" ? "link" : "password"} />
           )}
 
           {!demoMode && (
@@ -58,7 +61,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
             </div>
           )}
 
-          <p className="mt-10 text-xs text-ink-muted">
+          <p className="mt-10 text-sm text-ink-muted">
             Need access for someone else on your team? Email{" "}
             <a className="underline" href="mailto:unifictional@gmail.com">unifictional@gmail.com</a>.
           </p>

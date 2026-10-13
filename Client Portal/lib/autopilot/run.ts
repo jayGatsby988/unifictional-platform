@@ -14,7 +14,9 @@ import { fetchSiteContext } from "./site";
 import { accessFrom, refreshSubscription } from "./access";
 import { isSiteAccess, pasteNote, studioPastes, type SiteSetup } from "./site-access";
 import { emailConfigured, sendEmail, STUDIO_EMAIL } from "@/lib/email/send";
-import { studioPastePostEmail } from "@/lib/email/templates";
+import { postNeedsOkEmail, studioPastePostEmail } from "@/lib/email/templates";
+import { clientRecipients } from "@/lib/email/recipients";
+import { signOffFor } from "@/lib/email/send";
 import { hostedBlogUrl, portalOrigin } from "@/lib/data/hosted-blog";
 
 export type RunOutcome = { ok: boolean; message: string; postId?: string; published?: number };
@@ -183,6 +185,15 @@ export async function runForClient(db: SupabaseClient, c: Ctx): Promise<RunOutco
 
   if (approve) {
     await db.from("activity").insert({ client_id: cid, area: "seo", title: review.held ? `Held for your review (SEO check ${quality.score}/100): ${gen.title}` : `New blog post ready for your OK: ${gen.title}` });
+    // Most owners won't log in to notice, so tell them. Best-effort: a failed email never fails the run.
+    if (emailConfigured) {
+      const people = await clientRecipients(db, cid).catch(() => []);
+      for (const who of people) {
+        const reviewUrl = `${portalOrigin()}/login?email=${encodeURIComponent(who.email)}&next=${encodeURIComponent("/autopilot")}`;
+        const mail = postNeedsOkEmail({ name: who.name, title: gen.title, excerpt: gen.excerpt, held: review.held, reviewUrl, signOff: signOffFor("updates") });
+        await sendEmail({ to: who.email, sender: "updates", replyTo: STUDIO_EMAIL, ...mail }).catch(() => null);
+      }
+    }
     return { ok: true, message: `wrote "${gen.title}" (${review.held ? `held for review, SEO check ${quality.score}/100` : "awaiting approval"})`, postId: post.id };
   }
   const r = await publishPost(db, c, post);

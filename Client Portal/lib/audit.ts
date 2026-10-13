@@ -1,5 +1,6 @@
 import { mapPsi, type PsiResponse } from "@/lib/integrations/pagespeed";
 import { getJson } from "@/lib/integrations/types";
+import { safeFetch } from "@/lib/safe-fetch";
 import { buildSeoReport, checkRankings, fetchRobots, fetchSitemapCount, queriesFor, type SeoReport } from "@/lib/seo-check";
 
 /**
@@ -118,7 +119,7 @@ export async function runAudit(inputUrl: string): Promise<AuditReport> {
   if (!url) throw new Error("That doesn't look like a website address.");
 
   const [page, psi] = await Promise.all([
-    fetch(url, { redirect: "follow", headers: { "User-Agent": "Mozilla/5.0 (compatible; UnifictionalInspector/1.0)" }, signal: AbortSignal.timeout(20_000) })
+    safeFetch(url, { headers: { "User-Agent": "Mozilla/5.0 (compatible; UnifictionalInspector/1.0)" }, signal: AbortSignal.timeout(20_000) })
       .then(async (r) => ({ ok: r.ok, status: r.status, finalUrl: r.url || url, html: await r.text() }))
       .catch(() => ({ ok: false, status: 0, finalUrl: url, html: "" })),
     (async () => {

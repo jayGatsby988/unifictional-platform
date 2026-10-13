@@ -1,7 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { createWriterClient } from "@/lib/supabase/admin";
 import { parseSources, syncAll } from "@/lib/integrations/sync";
 import { getSession } from "@/lib/data/repo";
+import { adminConfigured, createAdminClient } from "@/lib/supabase/admin";
+import { sendMonthlyReports } from "@/lib/reports/monthly";
 
 export const maxDuration = 300;
 
@@ -23,6 +25,10 @@ async function handle(request: Request) {
   const url = new URL(request.url);
   const db = await createWriterClient();
   const results = await syncAll(db, { clientSlug: url.searchParams.get("client") ?? undefined, sources: parseSources(url.searchParams.get("sources")) });
+  // The full nightly run on the 1st also sends the monthly client update, with this month's fresh numbers.
+  if (!url.searchParams.get("client") && !url.searchParams.get("sources") && new Date().getUTCDate() === 1 && adminConfigured) {
+    after(() => sendMonthlyReports(createAdminClient()).then((r) => console.log("[monthly]", JSON.stringify(r))).catch((e) => console.error("[monthly]", e)));
+  }
   return NextResponse.json({ ok: true, ranAt: new Date().toISOString(), results });
 }
 

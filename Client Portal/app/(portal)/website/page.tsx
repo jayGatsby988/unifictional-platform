@@ -36,7 +36,7 @@ export default async function WebsitePage() {
           </div>
           {checked && (
             <div className="mt-4">
-              <div className="flex items-end gap-1 h-10" aria-label="Recent uptime checks">
+              <div className="flex items-end gap-1 h-10" role="img" aria-label={`Recent uptime checks: ${w.checks.filter((c) => c.ok).length} of ${w.checks.length} up`}>
                 {w.checks.map((c, i) => (
                   <span key={i} title={`${fmt.dateLong(c.at)} · ${c.ok ? `up, ${c.ms} ms` : "down"}`} className={cn("flex-1 max-w-3 rounded-sm", c.ok ? "bg-good/70" : "bg-bad")} style={{ height: `${Math.max(25, Math.min(100, (c.ms / Math.max(avgMs ?? 1, 1)) * 55))}%` }} />
                 ))}
@@ -59,10 +59,10 @@ export default async function WebsitePage() {
         <>
           <SubHead>Google speed test</SubHead>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-            <div className="panel p-5"><Score label="Speed" value={w.scores.performance} /></div>
-            <div className="panel p-5"><Score label="SEO" value={w.scores.seo} /></div>
-            <div className="panel p-5"><Score label="Accessibility" value={w.scores.accessibility} /></div>
-            <div className="panel p-5"><Score label="Best practices" value={w.scores.bestPractices} /></div>
+            <div className="panel p-5"><Score label="Speed" hint="How fast it loads" value={w.scores.performance} /></div>
+            <div className="panel p-5"><Score label="SEO" hint="Set up for Google" value={w.scores.seo} /></div>
+            <div className="panel p-5"><Score label="Accessibility" hint="Easy for everyone to use" value={w.scores.accessibility} /></div>
+            <div className="panel p-5"><Score label="Best practices" hint="Safe, up-to-date code" value={w.scores.bestPractices} /></div>
           </div>
         </>
       )}
@@ -87,7 +87,7 @@ export default async function WebsitePage() {
         </div>
         <div className="grid lg:grid-cols-2 gap-4">
           <div className="panel p-5">
-            <SubHead>Top pages · 30d</SubHead>
+            <SubHead>Top pages · last 30 days</SubHead>
             {w.topPages.length ? (
               <table className="table w-full">
                 <thead><tr><th>Page</th><th className="text-right">Views</th><th className="text-right">Leads</th></tr></thead>
@@ -102,7 +102,7 @@ export default async function WebsitePage() {
                 <li key={i} className="flex items-center gap-3 py-3 text-sm">
                   <span className="h-7 w-7 rounded-full bg-sand grid place-items-center shrink-0">{l.type === "call" ? <Phone className="h-3.5 w-3.5" /> : <FileText className="h-3.5 w-3.5" />}</span>
                   <span className="flex-1 min-w-0 truncate">{l.detail}</span>
-                  <span className="label !text-[9px] shrink-0">{fmt.date(l.at)}</span>
+                  <span className="text-sm text-ink-muted shrink-0">{fmt.date(l.at)}</span>
                 </li>
               ))}
               {w.recentLeads.length === 0 && <li className="py-3 text-sm text-ink-muted">No leads recorded yet. Form submissions and tracked calls show up here as they come in.</li>}

@@ -7,6 +7,7 @@
 import { crawlSite, fetchBinary } from "../build/analyze";
 import { createHash } from "node:crypto";
 import { cleanWebsite } from "../build/url";
+import { applyBrand } from "../build/brand";
 import { structured, parseJson, addUsage, costOf, describeError, MODEL } from "../build/claude";
 import { leadRecord, enforceBrandWord, withTimeout, type BuildJob } from "../build/pipeline";
 import { blobConfigured, buildPath, pagePath, saveBinary, saveHtml, saveJson } from "../build/storage";
@@ -74,7 +75,7 @@ export async function teamResearch(job: BuildJob): Promise<boolean> {
       try { analysis = await crawlSite(job.lead.website, { maxPages: 20 }); stamp(job, `read ${analysis.domain}${analysis.rendered ? " in a real browser" : analysis.relayed ? " through the relay" : ""}: ${1 + analysis.pages.length} pages, ${analysis.totalWords} words, ${analysis.images.length} photos, logo ${analysis.logo ? "found" : "none"}`); }
       catch (e) { stamp(job, `could not read ${job.lead.website}: ${describeError(e)}; the researcher works from search and the form`); job.researchNotes = [...(job.researchNotes || []), `Their website could not be read (${describeError(e).slice(0, 120)}).`]; }
     }
-    job.analysis = analysis ? { url: analysis.url, domain: analysis.domain, title: analysis.title, logo: analysis.logo, colors: analysis.colors, fonts: analysis.fonts, social: analysis.social, phone: analysis.phone, email: analysis.email, address: analysis.address, nav: analysis.nav, pagesRead: analysis.pages.map(p => p.url) } : null;
+    job.analysis = analysis ? { url: analysis.url, domain: analysis.domain, title: analysis.title, logo: analysis.logo, icon: analysis.icon, colors: analysis.colors, fonts: analysis.fonts, bodyBg: analysis.bodyBg, social: analysis.social, phone: analysis.phone, email: analysis.email, address: analysis.address, nav: analysis.nav, pagesRead: analysis.pages.map(p => p.url) } : null;
     // a seed dossier from the crawl: the researcher enriches it
     job.dossier = { name: analysis?.title?.split(/[|\-–]/)[0]?.trim() || job.lead.businessName || "", phone: analysis?.phone || job.lead.phone || "", email: analysis?.email || "", address: analysis?.address || "", social: analysis?.social || {}, siteText: analysis ? [analysis.description, ...(analysis.headings || []).slice(0, 30), ...analysis.pages.slice(0, 12).map(p => `--- ${p.title} (${p.url})\n${(p.text || "").slice(0, 2500)}`)].filter(Boolean).join("\n") : "", photos: (analysis?.images || []).map(i => ({ url: i.url, alt: i.alt || i.page || "", use: "project" })).slice(0, 120), services: [], projects: [], proof: [] };
     await rehostPhotos(job);
@@ -189,6 +190,7 @@ export async function teamFinish(job: BuildJob): Promise<boolean> {
       else stamp(job, `hero film ${vm ? vm.status + (vm.error ? ": " + vm.error : "") : "not ready in time"}; the home page opens on their best photo`);
     }
     if (!spec.video) for (const p of spec.pages) for (const s of p.sections) if (s.type === "hero-video-scrub") { s.type = "hero-split"; s.component = "scroll-41"; }
+    for (const n of applyBrand(spec, job.analysis, { stampPrefix: "finish, brand" })) stamp(job, n);
     enforceBrandWord(spec);
     const { map: imgMap, report } = await optimizeImages(spec, job.id, { budgetMs: 150_000 });
     stamp(job, `photos optimised: ${report.count} re-encoded, ${report.skipped} skipped`);

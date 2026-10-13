@@ -16,7 +16,7 @@ function TipBox({ active, payload, label, format }: TipProps) {
   if (!active || !payload?.length) return null;
   return (
     <div className="panel px-3 py-2 text-xs shadow-lg">
-      <p className="label !text-[9px] mb-1">{fmt.date(String(label))}</p>
+      <p className="label !text-xs mb-1">{fmt.date(String(label))}</p>
       {payload.map((p) => (
         <p key={String(p.dataKey)} className="flex justify-between gap-4">
           <span className="text-ink-muted">{p.name}</span>

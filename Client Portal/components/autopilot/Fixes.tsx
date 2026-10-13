@@ -30,7 +30,7 @@ export function Fixes({ runId, fixes, when }: { runId: string; fixes: AutopilotF
       <div className="p-4 border-b border-line">
         <div className="flex items-center justify-between gap-3 mb-2">
           <p className="text-sm font-medium">{done} of {items.length} done</p>
-          <span className="label !text-[9px]">suggested {when}</span>
+          <span className="text-sm text-ink-muted">suggested {when}</span>
         </div>
         <div className="h-1.5 rounded-full bg-sand overflow-hidden"><div className="h-full bg-ink rounded-full transition-all" style={{ width: `${items.length ? (done / items.length) * 100 : 0}%` }} /></div>
       </div>

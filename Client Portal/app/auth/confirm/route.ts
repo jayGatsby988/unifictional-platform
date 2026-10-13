@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { EmailOtpType } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/server";
 
-/** Landing for the one-time sign-in links we email (token_hash flow). */
+/** Landing for the one-time sign-in links we email (token_hash flow). `reset=1`: they forgot their password, so ask for a new one. */
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const tokenHash = searchParams.get("token_hash");
@@ -11,7 +11,10 @@ export async function GET(request: Request) {
   if (tokenHash) {
     const supabase = await createClient();
     const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
-    if (!error) return NextResponse.redirect(`${origin}${next.startsWith("/") ? next : "/overview"}`);
+    if (!error) {
+      if (searchParams.get("reset") === "1") await supabase.auth.updateUser({ data: { must_change_password: true } });
+      return NextResponse.redirect(`${origin}${next.startsWith("/") && !next.startsWith("//") ? next : "/overview"}`);
+    }
   }
   return NextResponse.redirect(`${origin}/login?error=link`);
 }

@@ -4,6 +4,7 @@ import { runAudit, normalizeUrl } from "@/lib/audit";
 import { pushLeadToGhl } from "@/lib/ghl";
 import { supabaseConfigured } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
+import { hashKey, rateLimited } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 
@@ -29,7 +30,7 @@ export async function POST(request: Request) {
 
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
   const ipHash = createHash("sha256").update(ip).digest("hex").slice(0, 32);
-  if (throttled(ipHash)) return NextResponse.json({ error: "That's a lot of inspections. Try again in an hour, or email us." }, { status: 429 });
+  if (throttled(ipHash) || await rateLimited(hashKey("audit-ip", ip), 8, 3_600_000)) return NextResponse.json({ error: "That's a lot of inspections. Try again in an hour, or email us." }, { status: 429 });
 
   let report;
   try { report = await runAudit(url); }

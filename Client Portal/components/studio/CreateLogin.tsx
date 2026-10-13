@@ -92,7 +92,7 @@ export function CreateLogin({ slug, email: initialEmail = "", name = "", phone =
             <button type="button" className="btn btn-ink !py-2 !px-4 text-xs" onClick={() => copy("text", text)}>{copied === "text" ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}{copied === "text" ? "Copied" : "Copy text message"}</button>
             {smsHref && <a className="btn btn-ghost !py-2 !px-4 text-xs" href={smsHref}><MessageSquare className="h-3.5 w-3.5" />Open in Messages</a>}
           </div>
-          <p className="text-[11px] text-ink-muted">Shown once and never stored. If it gets lost, press Create login again for a new one.</p>
+          <p className="text-xs text-ink-muted">Shown once and never stored. If it gets lost, press Create login again for a new one.</p>
           <button type="button" className="btn btn-ghost !py-2 !px-4 text-xs" onClick={() => { setResult(null); router.refresh(); }}>I&apos;ve sent it, done</button>
         </div>
       )}

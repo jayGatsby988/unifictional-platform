@@ -1,3 +1,5 @@
+import { safeFetch } from "@/lib/safe-fetch";
+
 /**
  * SEO deep-dive for the free inspection: infer the trade and city from the
  * page, test whether the domain shows up on page one for the local searches a
@@ -143,7 +145,7 @@ export async function checkRankings(domain: string, queries: string[]): Promise<
 
 export async function fetchSitemapCount(origin: string): Promise<number | null> {
   try {
-    const res = await fetch(`${origin}/sitemap.xml`, { signal: AbortSignal.timeout(8000) });
+    const res = await safeFetch(`${origin}/sitemap.xml`, { signal: AbortSignal.timeout(8000) });
     if (!res.ok) return null;
     const xml = await res.text();
     const locs = (xml.match(/<loc>/g) ?? []).length;
@@ -153,7 +155,7 @@ export async function fetchSitemapCount(origin: string): Promise<number | null> 
 
 export async function fetchRobots(origin: string): Promise<boolean> {
   try {
-    const res = await fetch(`${origin}/robots.txt`, { signal: AbortSignal.timeout(6000) });
+    const res = await safeFetch(`${origin}/robots.txt`, { signal: AbortSignal.timeout(6000) });
     return res.ok && /user-agent/i.test(await res.text());
   } catch { return false; }
 }

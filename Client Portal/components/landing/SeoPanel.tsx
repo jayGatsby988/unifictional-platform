@@ -14,7 +14,7 @@ export function SeoPanel({ seo }: { seo: SeoReport }) {
         <div className="flex flex-wrap items-end gap-x-8 gap-y-4">
           <div>
             <p className={cn("font-display text-6xl sm:text-7xl leading-none", bad ? "text-bad" : mid ? "text-warn" : "text-good")}>{seo.score}<span className="text-2xl align-top">/100</span></p>
-            <p className="label !text-[9px] mt-1">SEO score</p>
+            <p className="label !text-xs mt-1">SEO score</p>
           </div>
           <div className="flex-1 min-w-[16rem]">
             <p className="font-display text-2xl sm:text-3xl leading-tight">{seo.verdict}</p>
@@ -44,7 +44,7 @@ export function SeoPanel({ seo }: { seo: SeoReport }) {
               })}
             </ul>
           )}
-          <p className="mt-3 text-[11px] text-ink-muted">{seo.provider === "google" ? "Checked live against Google's organic results (US). The map pack and ads vary by location." : seo.provider ? "Checked live against web search results; Google's map pack and ads vary by location." : "Live ranking checks are being set up; the emailed report will include them."}</p>
+          <p className="mt-3 text-xs text-ink-muted">{seo.provider === "google" ? "Checked live against Google's organic results (US). The map pack and ads vary by location." : seo.provider ? "Checked live against web search results; Google's map pack and ads vary by location." : "Live ranking checks are being set up; the emailed report will include them."}</p>
         </div>
         <div className="bg-bone p-5 sm:p-6">
           <h3 className="label !text-ink-soft mb-3">Why {seo.pageOneCount === 0 && checked.length ? "you're not there" : "it's not better"}</h3>

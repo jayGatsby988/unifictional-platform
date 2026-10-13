@@ -168,7 +168,7 @@ export function BookCall({
 }
 
 /** Where the self-serve product lives: the Client Portal's sign-up, which lands on the SEO Autopilot plan builder. */
-const PORTAL_URL = (process.env.NEXT_PUBLIC_PORTAL_URL || "https://unifictional-client-portal.vercel.app").replace(/\/+$/, "");
+export const PORTAL_URL = (process.env.NEXT_PUBLIC_PORTAL_URL || "https://unifictional-client-portal.vercel.app").replace(/\/+$/, "");
 
 /** The 3D Remodel Studio: the one thing on the site a visitor can use this minute, so it gets the accent pill. */
 export function StudioCta({

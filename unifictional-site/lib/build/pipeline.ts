@@ -761,6 +761,27 @@ const leanQa = (qa) => qa ? { rounds: qa.rounds, passed: qa.passed, score: qa.sc
  * the home only), wait for the hero clip (planned ⇒ delivered, or fail), hold
  * the spec to the gate, resolve and optimise images.
  */
+/**
+ * No film, no film hero. When the clip was not delivered, any hero-video-scrub
+ * on the site (planned, written, or put back by a repair round) becomes the
+ * plain photo opening (split-intro) with its copy kept and a second real photo
+ * borrowed from anywhere on the site or the dossier. Runs wherever a spec is
+ * normalised, so a repair cannot resurrect a hero that has nothing to play.
+ */
+export function photoOpeningWhenNoFilm(spec, job) {
+  if (spec?.video) return spec;
+  const key = (i) => String(i?.url || i?.query || "");
+  for (const p of spec.pages || []) for (const sec of p.sections || []) if (sec.type === "hero-video-scrub") {
+    const others = spec.pages.flatMap((pg) => (pg.sections || []).filter((s) => s !== sec).flatMap((s) => [s.image, ...(s.images || []), ...(s.items || []).map((it) => it?.image), ...(s.slides || []).map((it) => it?.image)]));
+    const second = others.find((i) => key(i) && key(i) !== key(sec.image))
+      || (job?.dossier?.photos || []).map((ph) => ({ url: ph.url, alt: ph.alt || ph.label || "" })).find((i) => i.url && i.url !== key(sec.image))
+      || null;
+    Object.assign(sec, { type: "split-intro", component: "split-intro", headline: String(sec.headline || "").replace(/\s*\/\s*/g, " "), images: [sec.image, second].filter(Boolean) });
+    for (const k of ["beats", "ask", "cta2", "image", "word"]) delete sec[k];
+  }
+  return spec;
+}
+
 async function prepareSpec(job: BuildJob, only: string[] | null) {
   const d = job.dossier || {};
   const spec = assembleSpec(job, only);
@@ -775,16 +796,7 @@ async function prepareSpec(job: BuildJob, only: string[] | null) {
       else { stamp(job, `hero film ${vm ? vm.status + (vm.error ? ": " + vm.error : "") : "not delivered in time"}; the home page opens on their best photo instead`); note(job, "hero: photo instead of the film", vm?.error || "the film was not ready in time"); }
     }
   }
-  // film not delivered: the written video hero becomes the plain photo hero (split-intro), its copy kept, a second real photo borrowed from the page
-  if (!spec.video) for (const p of spec.pages) for (const sec of p.sections) if (sec.type === "hero-video-scrub") {
-    const key = (i) => String(i?.url || i?.query || "");
-    const others = spec.pages.flatMap((pg) => pg.sections.filter((s) => s !== sec).flatMap((s) => [s.image, ...(s.images || []), ...(s.items || []).map((it) => it.image), ...(s.slides || []).map((it) => it.image)]));
-    const second = others.find((i) => key(i) && key(i) !== key(sec.image))
-      || (job.dossier?.photos || []).map((ph) => ({ url: ph.url, alt: ph.alt || ph.label || "" })).find((i) => i.url && i.url !== key(sec.image))
-      || null;
-    Object.assign(sec, { type: "split-intro", component: "split-intro", headline: String(sec.headline || "").replace(/\s*\/\s*/g, " "), images: [sec.image, second].filter(Boolean) });
-    for (const k of ["beats", "ask", "cta2", "image", "word"]) delete sec[k];
-  }
+  photoOpeningWhenNoFilm(spec, job);
   enforceBrandWord(spec);
   const sg = gateSpec(spec, job);
   for (const w of sg.warnings) stamp(job, `site note: ${w}`);
@@ -807,7 +819,7 @@ async function prepareSpec(job: BuildJob, only: string[] | null) {
 async function qaLoop(job: BuildJob, spec, { rounds, homeOnly, lockIndex, cat, imgMap, previewBase, label }) {
   const state = { rendered: [], exported: [], htmlBefore: 0, htmlAfter: 0 };
   const renderStore = async () => {
-    ruleLayer(spec); enforceBrandWord(spec);
+    ruleLayer(spec); enforceBrandWord(spec); photoOpeningWhenNoFilm(spec, job);
     state.rendered = renderSite(spec, { base: previewBase });
     state.exported = renderSite(spec, { base: "" });
     state.htmlBefore = 0; state.htmlAfter = 0;
@@ -1202,7 +1214,7 @@ export async function runPublish(job: BuildJob): Promise<boolean> {
     await leadRecord(job, "debug");
     const imgMap = new Map();
     const renderStore = async () => {
-      ruleLayer(spec); enforceBrandWord(spec);
+      ruleLayer(spec); enforceBrandWord(spec); photoOpeningWhenNoFilm(spec, job);
       const rendered = renderSite(spec, { base: previewBase });
       exported = renderSite(spec, { base: "" });
       for (const set of [rendered, exported]) for (const r of set) r.html = await minifyAssets(enhanceImages(r.html, imgMap));

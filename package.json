@@ -1,0 +1,19 @@
+{
+  "name": "unifictional-platform",
+  "private": true,
+  "description": "One repo for everything Unifictional ships: the marketing site + AI site builder, the Client Portal (SEO Autopilot), and the 3D Remodel Studio. Each app keeps its own package.json; these scripts just reach into them.",
+  "scripts": {
+    "install:all": "npm --prefix unifictional-site install && npm --prefix \"Client Portal\" install && npm --prefix \"3D Studio\" install",
+    "dev:site": "npm --prefix unifictional-site run dev -- -p 3010",
+    "dev:portal": "npm --prefix \"Client Portal\" run dev -- -p 8120",
+    "dev:3d": "npm --prefix \"3D Studio\" run dev -- -p 3200",
+    "test": "npm --prefix \"Client Portal\" test",
+    "lint": "npm --prefix unifictional-site run lint && npm --prefix \"Client Portal\" run lint && npm --prefix \"3D Studio\" run lint",
+    "build:site": "npm --prefix unifictional-site run build",
+    "build:portal": "npm --prefix \"Client Portal\" run build",
+    "build:3d": "npm --prefix \"3D Studio\" run build",
+    "deploy:site": "cd unifictional-site && vercel deploy --prod --yes",
+    "deploy:portal": "cd \"Client Portal\" && vercel deploy --prod --yes",
+    "deploy:3d": "cd \"3D Studio\" && vercel deploy --prod --yes"
+  }
+}

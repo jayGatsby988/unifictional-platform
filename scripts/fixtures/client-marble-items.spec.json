@@ -1,0 +1,1757 @@
+{
+ "roomType": "kitchen",
+ "dims": {
+  "widthFt": 18,
+  "depthFt": 14,
+  "ceilingFt": 8.78
+ },
+ "style": "transitional",
+ "layout": "u-shaped",
+ "runs": [
+  {
+   "id": "run-back",
+   "wall": "back",
+   "start": 0.08333333333333337,
+   "lengthFt": 16.5,
+   "base": [
+    {
+     "widthIn": 24,
+     "type": "corner",
+     "drawerCount": 0
+    },
+    {
+     "widthIn": 12,
+     "type": "door",
+     "drawerCount": 1
+    },
+    {
+     "widthIn": 30,
+     "type": "drawers",
+     "drawerCount": 2
+    },
+    {
+     "widthIn": 36,
+     "type": "appliance-gap",
+     "drawerCount": 0
+    },
+    {
+     "widthIn": 48,
+     "type": "door",
+     "drawerCount": 1
+    },
+    {
+     "widthIn": 36,
+     "type": "drawers",
+     "drawerCount": 3
+    },
+    {
+     "widthIn": 12,
+     "type": "door",
+     "drawerCount": 1
+    }
+   ],
+   "uppers": [
+    {
+     "widthIn": 12,
+     "type": "glass",
+     "heightIn": 42
+    },
+    {
+     "widthIn": 24,
+     "type": "glass",
+     "heightIn": 42
+    },
+    {
+     "widthIn": 24,
+     "type": "glass",
+     "heightIn": 42
+    },
+    {
+     "widthIn": 42,
+     "type": "hood-gap",
+     "heightIn": null
+    },
+    {
+     "widthIn": 24,
+     "type": "glass",
+     "heightIn": 42
+    },
+    {
+     "widthIn": 24,
+     "type": "glass",
+     "heightIn": 42
+    },
+    {
+     "widthIn": 36,
+     "type": "door",
+     "heightIn": null
+    },
+    {
+     "widthIn": 12,
+     "type": "door",
+     "heightIn": null
+    }
+   ],
+   "tall": [],
+   "hasUppers": true,
+   "uppersToCeiling": false,
+   "backsplash": true,
+   "upperHeightIn": 33.98,
+   "uppers2": null,
+   "uppers2HeightIn": null
+  },
+  {
+   "id": "run-left",
+   "wall": "left",
+   "start": 0.332,
+   "lengthFt": 8.9,
+   "base": [
+    {
+     "widthIn": 36,
+     "type": "drawers",
+     "drawerCount": 3
+    },
+    {
+     "widthIn": 36,
+     "type": "sink-base",
+     "drawerCount": 0
+    },
+    {
+     "widthIn": 36,
+     "type": "corner",
+     "drawerCount": 0
+    }
+   ],
+   "uppers": [
+    {
+     "widthIn": 24,
+     "type": "glass",
+     "heightIn": 42
+    },
+    {
+     "widthIn": 48,
+     "type": "appliance-gap",
+     "heightIn": null
+    },
+    {
+     "widthIn": 12,
+     "type": "glass",
+     "heightIn": 42
+    },
+    {
+     "widthIn": 18,
+     "type": "door",
+     "heightIn": null
+    }
+   ],
+   "tall": [],
+   "hasUppers": true,
+   "uppersToCeiling": false,
+   "backsplash": true,
+   "upperHeightIn": 42,
+   "uppers2": null,
+   "uppers2HeightIn": null
+  },
+  {
+   "id": "run-right",
+   "wall": "right",
+   "start": 0,
+   "lengthFt": 6,
+   "base": [
+    {
+     "widthIn": 36,
+     "type": "door",
+     "drawerCount": 1
+    },
+    {
+     "widthIn": 36,
+     "type": "drawers",
+     "drawerCount": 3
+    }
+   ],
+   "uppers": null,
+   "tall": [
+    {
+     "t": 0.5,
+     "widthIn": 42,
+     "kind": "fridge-surround",
+     "toCeiling": true
+    }
+   ],
+   "hasUppers": false,
+   "uppersToCeiling": false,
+   "backsplash": false,
+   "upperHeightIn": null,
+   "uppers2": null,
+   "uppers2HeightIn": null
+  }
+ ],
+ "island": {
+  "present": true,
+  "kind": "island",
+  "lengthFt": 5.5,
+  "widthFt": 3.1,
+  "offset": {
+   "x": -3.03,
+   "z": -1.1
+  },
+  "rotationDeg": 0,
+  "seating": 3,
+  "overhangIn": 12,
+  "waterfall": false,
+  "hasSink": false,
+  "hasCooktop": false,
+  "stoolPitchIn": 19.73,
+  "endSeats": 1,
+  "endPlacement": "right",
+  "endOverhangIn": 7.5,
+  "stoolOffsetIn": 0
+ },
+ "appliances": [
+  {
+   "kind": "range",
+   "wall": "back",
+   "t": 0.47222222222222227,
+   "widthIn": 36,
+   "finish": "stainless",
+   "hoodStyle": null,
+   "hoodShape": null,
+   "fridgeStyle": null,
+   "bodyFinish": null,
+   "heightIn": null,
+   "aboveCounterIn": null,
+   "cabinetAbove": null
+  },
+  {
+   "kind": "hood",
+   "wall": "back",
+   "t": 0.47222222222222227,
+   "widthIn": 48,
+   "finish": "matte-black",
+   "hoodStyle": "custom-insert",
+   "hoodShape": "curved",
+   "fridgeStyle": null,
+   "bodyFinish": "matte-black",
+   "heightIn": 37.5,
+   "aboveCounterIn": 32,
+   "cabinetAbove": "panel"
+  },
+  {
+   "kind": "fridge",
+   "wall": "right",
+   "t": 0.3392857142857143,
+   "widthIn": 33,
+   "finish": "stainless",
+   "hoodStyle": null,
+   "hoodShape": null,
+   "fridgeStyle": "built-in",
+   "bodyFinish": null,
+   "heightIn": 84,
+   "aboveCounterIn": null,
+   "cabinetAbove": null
+  }
+ ],
+ "sink": {
+  "wall": "left",
+  "t": 0.6534285714285715,
+  "kind": "farmhouse",
+  "widthIn": 33
+ },
+ "cabinets": {
+  "doorStyle": "shaker",
+  "twoTone": true,
+  "baseHeightIn": 34.5,
+  "baseDepthIn": 24,
+  "upperHeightIn": 42,
+  "upperDepthIn": 12,
+  "toeKickIn": 4.5,
+  "crown": true,
+  "hardware": "knobs"
+ },
+ "countertop": {
+  "thicknessIn": 2,
+  "edge": "eased",
+  "overhangIn": 1.1
+ },
+ "backsplash": {
+  "present": true,
+  "height": "full-height",
+  "pattern": "slab",
+  "behindRange": "full-height",
+  "heightIn": 37
+ },
+ "openings": [
+  {
+   "id": "win-1",
+   "kind": "window",
+   "wall": "left",
+   "t": 0.563,
+   "widthFt": 2.9,
+   "heightFt": 2.9,
+   "sillFt": 3.4,
+   "style": "double-hung"
+  },
+  {
+   "id": "op-1",
+   "kind": "passage",
+   "wall": "right",
+   "t": 0.8928571428571429,
+   "widthFt": 3,
+   "heightFt": 8,
+   "sillFt": 0,
+   "style": null
+  }
+ ],
+ "lighting": {
+  "recessedCount": 8,
+  "pendants": {
+   "count": 2,
+   "style": "glass",
+   "finish": "brass",
+   "spreadFt": 4.15,
+   "offsetFt": 0.3,
+   "aboveCounterIn": 25.03,
+   "positions": null
+  },
+  "underCabinet": false,
+  "chandelier": false,
+  "sconces": 0,
+  "colorTempK": 3000,
+  "naturalLight": "high"
+ },
+ "decor": {
+  "shelves": [],
+  "plants": [
+   {
+    "kind": "floor",
+    "wall": "right",
+    "t": 0.98,
+    "sizeFt": 2.5,
+    "form": "leafy"
+   }
+  ],
+  "art": [],
+  "rug": null,
+  "windowTreatment": "roman-shade",
+  "counterStyling": "minimal",
+  "stools": {
+   "style": "full-back",
+   "frame": "light-wood",
+   "seat": "woven",
+   "seatShape": null,
+   "seatColorHex": null
+  },
+  "items": [
+   {
+    "kind": "vase",
+    "label": "clear glass vase",
+    "on": "island",
+    "wall": "island",
+    "t": 0.43,
+    "depthT": 0.35,
+    "shelfIndex": null,
+    "burner": null,
+    "sizeIn": 16,
+    "colorHex": "#D9E1DF",
+    "material": "glass",
+    "count": 1
+   },
+   {
+    "kind": "flowers",
+    "label": "green airy branches",
+    "on": "island",
+    "wall": "island",
+    "t": 0.3,
+    "depthT": 0.35,
+    "shelfIndex": null,
+    "burner": null,
+    "sizeIn": 24,
+    "colorHex": "#9AA77A",
+    "material": "fabric",
+    "count": 1
+   },
+   {
+    "kind": "fruit-bowl",
+    "label": "wood bowl with limes",
+    "on": "island",
+    "wall": "island",
+    "t": 0.48,
+    "depthT": 0.7,
+    "shelfIndex": null,
+    "burner": null,
+    "sizeIn": 16,
+    "colorHex": "#8A643E",
+    "material": "wood",
+    "count": 1
+   },
+   {
+    "kind": "cutting-board",
+    "label": "round wood board",
+    "on": "counter",
+    "wall": "back",
+    "t": 0.143,
+    "depthT": 0.1,
+    "shelfIndex": null,
+    "burner": null,
+    "sizeIn": 16,
+    "colorHex": "#A97A4B",
+    "material": "wood",
+    "count": 1
+   },
+   {
+    "kind": "cutting-board",
+    "label": "small wood board",
+    "on": "counter",
+    "wall": "back",
+    "t": 0.126,
+    "depthT": 0.12,
+    "shelfIndex": null,
+    "burner": null,
+    "sizeIn": 10,
+    "colorHex": "#B38757",
+    "material": "wood",
+    "count": 1
+   },
+   {
+    "kind": "bowl",
+    "label": "small wood bowl",
+    "on": "counter",
+    "wall": "back",
+    "t": 0.053,
+    "depthT": 0.12,
+    "shelfIndex": null,
+    "burner": null,
+    "sizeIn": 10,
+    "colorHex": "#9D744B",
+    "material": "wood",
+    "count": 1
+   },
+   {
+    "kind": "vase",
+    "label": "woven vase",
+    "on": "counter",
+    "wall": "left",
+    "t": 0.75,
+    "depthT": 0.1,
+    "shelfIndex": null,
+    "burner": null,
+    "sizeIn": 9,
+    "colorHex": "#B89569",
+    "material": "wicker",
+    "count": 1
+   },
+   {
+    "kind": "vase",
+    "label": "bronze vase",
+    "on": "counter",
+    "wall": "left",
+    "t": 0.84,
+    "depthT": 0.12,
+    "shelfIndex": null,
+    "burner": null,
+    "sizeIn": 10,
+    "colorHex": "#8C6A46",
+    "material": "brass",
+    "count": 1
+   }
+  ],
+  "cabinetContents": [
+   {
+    "wall": "back",
+    "t": 0.17,
+    "kind": "plates",
+    "density": "sparse"
+   },
+   {
+    "wall": "back",
+    "t": 0.29,
+    "kind": "plates",
+    "density": "sparse"
+   },
+   {
+    "wall": "back",
+    "t": 0.71,
+    "kind": "plates",
+    "density": "sparse"
+   },
+   {
+    "wall": "back",
+    "t": 0.83,
+    "kind": "glasses",
+    "density": "sparse"
+   },
+   {
+    "wall": "left",
+    "t": 0.12,
+    "kind": "plates",
+    "density": "sparse"
+   }
+  ]
+ },
+ "materials": {
+  "cabinets_base": "wood-washed-oak",
+  "cabinets_upper": "wood-washed-oak",
+  "island_cabinets": "cab-naval",
+  "cabinets_tall": "cab-pure-white",
+  "countertop": "ct-calacatta-quartz",
+  "island_countertop": "ct-calacatta-quartz",
+  "backsplash": "tile-marble-slab",
+  "flooring": "floor-white-oak-plank",
+  "walls": "wall-pure-white",
+  "ceiling": "ceiling-white",
+  "hardware": "fin-brushed-brass",
+  "faucet": "fin-brushed-brass",
+  "appliances": "app-stainless",
+  "lighting_fixture": "light-pendant-glass"
+ },
+ "detected": {
+  "confidence": 0.62,
+  "summary": "Large transitional kitchen with a back-wall range feature, left-wall farmhouse sink under a window, built-in refrigerator on the right wall, and a substantial seating island. Finishes appear to be white oak cabinetry, white stone slab counters and backsplash, light oak flooring, and mixed brass/black accents.",
+  "notes": [
+   "walls: back = full cooking run with range, slab backsplash, glass uppers and hood; left = sink run with window and farmhouse sink; right = built-in refrigerator wall with tall white surround and passage beyond",
+   "ratio: island length ÷ back run = 0.54",
+   "ratio: island width ÷ island length = 0.57",
+   "ratio: back run length ÷ room width = 0.72",
+   "ratio: window width ÷ left run = 0.40",
+   "ratio: upper-cabinet height ÷ (ceiling − counter height) = 0.78",
+   "ratio: fridge height ÷ ceiling = 0.78",
+   "ratio: hood height ÷ upper-cabinet height = 1.00",
+   "ratio: backsplash height ÷ (ceiling − counter) = 0.86",
+   "full-height veined slab backsplash continues behind range and across both visible runs",
+   "glass-front upper cabinets show sparse dish and glass storage",
+   "island seating wraps the right short end with two additional stools",
+   "likely panel-front dishwasher not visible from this angle",
+   "recessed ceiling lights plus two large glass pendants over island",
+   "countertops appear mitered or visually thickened to about 2 in",
+   "inventory: photo shows 2 plants, spec says 1",
+   "inventory: photo shows 19 items, spec says 8",
+   "inventory: photo shows 4 stools, spec says 3",
+   "inventory: plant labelled on the back wall; spec draws it on the right wall",
+   "inventory: photo shows 4 stools, spec says 2"
+  ],
+  "assumptions": [
+   "room width and depth inferred from cabinet module counts and island clearances",
+   "ceiling assumed 9 ft because tall refrigerator surround and 42 in uppers stop below ceiling with soffit/crown space",
+   "exact dishwasher location not visible and therefore omitted",
+   "right-wall run likely contains only tall refrigeration in frame; any additional pantry units out of frame were not added",
+   "window treated as 48 in wide double-hung based on proportions under Roman shade",
+   "range estimated at 36 in pro-style based on hood and burner spacing",
+   "hood modeled as custom insert within painted black canopy with panel chase to ceiling",
+   "left run upper gap uses a generic opening slot to represent the window span for cabinet ordering consistency",
+   "Some values were normalised server-side to fit the schema."
+  ],
+  "primaryPhotoIndex": 0,
+  "camera": {
+   "fovDeg": 90.61870776376139,
+   "heightFt": 5.1,
+   "position": "corner-left",
+   "lookingAt": "back",
+   "solved": {
+    "x": -1.9596256186067804,
+    "y": 1.5558236232775375,
+    "z": 1.868490418024912,
+    "yawDeg": 15.925841944307862,
+    "pitchDeg": 5.741131194894672,
+    "fovDeg": 59.07463145854103,
+    "aspect": 1.78397212543554,
+    "score": 0.6427546202552431
+   }
+  },
+  "finishes": [
+   {
+    "slot": "cabinets_base",
+    "family": "stained-wood",
+    "baseColorHex": "#C8B8A6",
+    "accentColorHex": "#A8927C",
+    "pattern": "wood-grain",
+    "sheen": "matte",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "rift white-oak style cabinetry, pale greige natural stain, matte",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "cabinets_upper",
+    "family": "stained-wood",
+    "baseColorHex": "#D1C3B3",
+    "accentColorHex": "#B29B84",
+    "pattern": "wood-grain",
+    "sheen": "matte",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "light white-oak upper cabinets with frosted or seeded glass fronts",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "cabinets_tall",
+    "family": "paint",
+    "baseColorHex": "#F3F1EA",
+    "accentColorHex": null,
+    "pattern": "solid",
+    "sheen": "satin",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "painted white tall refrigerator surround",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "island_cabinets",
+    "family": "paint",
+    "baseColorHex": "#303741",
+    "accentColorHex": null,
+    "pattern": "solid",
+    "sheen": "satin",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "dark charcoal-blue painted island base",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "countertop",
+    "family": "quartz",
+    "baseColorHex": "#F3F2EE",
+    "accentColorHex": "#9C9A96",
+    "pattern": "veined",
+    "sheen": "polished",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "white quartz or marble-look slab with bold grey veining",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "backsplash",
+    "family": "marble",
+    "baseColorHex": "#F3F2EE",
+    "accentColorHex": "#9A9894",
+    "pattern": "veined",
+    "sheen": "polished",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "full-height white veined slab backsplash",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "flooring",
+    "family": "engineered-wood",
+    "baseColorHex": "#D8C8B8",
+    "accentColorHex": "#B79F88",
+    "pattern": "plank",
+    "sheen": "matte",
+    "moduleIn": {
+     "w": 8,
+     "h": 72
+    },
+    "groutColorHex": null,
+    "description": "wide light-oak plank flooring, matte",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "walls",
+    "family": "paint",
+    "baseColorHex": "#F5F4F0",
+    "accentColorHex": null,
+    "pattern": "solid",
+    "sheen": "matte",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "soft warm white walls",
+    "visibility": "partial",
+    "plankRun": null
+   },
+   {
+    "slot": "ceiling",
+    "family": "paint",
+    "baseColorHex": "#F7F7F4",
+    "accentColorHex": null,
+    "pattern": "solid",
+    "sheen": "matte",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "flat white ceiling",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "hardware",
+    "family": "brass",
+    "baseColorHex": "#B78D54",
+    "accentColorHex": null,
+    "pattern": "solid",
+    "sheen": "brushed",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "small brushed brass knobs and pulls",
+    "visibility": "partial",
+    "plankRun": null
+   },
+   {
+    "slot": "faucet",
+    "family": "brass",
+    "baseColorHex": "#B99257",
+    "accentColorHex": null,
+    "pattern": "solid",
+    "sheen": "brushed",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "brushed brass bridge-style or high-arc faucet",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "appliances",
+    "family": "stainless",
+    "baseColorHex": "#B7BCC0",
+    "accentColorHex": "#6C7277",
+    "pattern": "solid",
+    "sheen": "brushed",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "stainless refrigerator and range with black painted hood canopy",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "lighting_fixture",
+    "family": "glass",
+    "baseColorHex": "#DDE3E7",
+    "accentColorHex": "#B58A55",
+    "pattern": "solid",
+    "sheen": "polished",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "large clear glass bell pendants with brass fittings",
+    "visibility": "clear",
+    "plankRun": null
+   }
+  ],
+  "elements": [
+   {
+    "id": "ceiling-1",
+    "kind": "ceiling",
+    "wall": null,
+    "box": {
+     "x0": 0,
+     "y0": 0,
+     "x1": 1,
+     "y1": 0.22
+    },
+    "facing": null,
+    "label": "white ceiling",
+    "confidence": 0.934,
+    "open": {
+     "left": true,
+     "right": true,
+     "top": true,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "pendant-1",
+    "kind": "pendant",
+    "wall": null,
+    "box": {
+     "x0": 0.421,
+     "y0": 0,
+     "x1": 0.538,
+     "y1": 0.42
+    },
+    "facing": null,
+    "label": "clear glass pendant with brass chain",
+    "confidence": 0.871,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": true,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "pendant-2",
+    "kind": "pendant",
+    "wall": null,
+    "box": {
+     "x0": 0.67,
+     "y0": 0,
+     "x1": 0.8,
+     "y1": 0.42
+    },
+    "facing": null,
+    "label": "clear glass pendant with brass chain",
+    "confidence": 0.788,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": true,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "upper-cabinet-run-left-1",
+    "kind": "upper-cabinet-run",
+    "wall": "left",
+    "box": {
+     "x0": 0,
+     "y0": 0.008,
+     "x1": 0.204,
+     "y1": 0.497
+    },
+    "facing": "right",
+    "label": "white oak glass-front upper cabinets",
+    "confidence": 0.565,
+    "open": {
+     "left": true,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "wall-left-1",
+    "kind": "wall",
+    "wall": "left",
+    "box": {
+     "x0": 0,
+     "y0": 0.02,
+     "x1": 0.24,
+     "y1": 0.78
+    },
+    "facing": "right",
+    "label": "left kitchen wall",
+    "confidence": 0.827,
+    "open": {
+     "left": true,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "wall-right-1",
+    "kind": "wall",
+    "wall": "right",
+    "box": {
+     "x0": 0.94,
+     "y0": 0.04,
+     "x1": 1,
+     "y1": 0.878
+    },
+    "facing": "left",
+    "label": "right wall",
+    "confidence": 0.706,
+    "open": {
+     "left": false,
+     "right": true,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "tall-cabinet-right-1",
+    "kind": "tall-cabinet",
+    "wall": "right",
+    "box": {
+     "x0": 0.855,
+     "y0": 0.073,
+     "x1": 0.984,
+     "y1": 0.921
+    },
+    "facing": "left",
+    "label": "white fridge surround cabinet",
+    "confidence": 0.717,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "other-1",
+    "kind": "other",
+    "wall": "left",
+    "box": {
+     "x0": 0.009,
+     "y0": 0.098,
+     "x1": 0.241,
+     "y1": 0.257
+    },
+    "facing": "right",
+    "label": "woven roman shade",
+    "confidence": 0.697,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "wall-back-1",
+    "kind": "wall",
+    "wall": "back",
+    "box": {
+     "x0": 0.24,
+     "y0": 0.1,
+     "x1": 0.94,
+     "y1": 0.78
+    },
+    "facing": "front",
+    "label": "back kitchen wall",
+    "confidence": 0.898,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "hood-1",
+    "kind": "hood",
+    "wall": "back",
+    "box": {
+     "x0": 0.491,
+     "y0": 0.117,
+     "x1": 0.646,
+     "y1": 0.39
+    },
+    "facing": "front",
+    "label": "black tapered range hood",
+    "confidence": 0.792,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "upper-cabinet-run-back-1",
+    "kind": "upper-cabinet-run",
+    "wall": "back",
+    "box": {
+     "x0": 0.29,
+     "y0": 0.14,
+     "x1": 0.82,
+     "y1": 0.48
+    },
+    "facing": "front",
+    "label": "white oak glass-front upper cabinet run",
+    "confidence": 0.837,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "upper-cabinet-run-back-2",
+    "kind": "upper-cabinet-run",
+    "wall": "back",
+    "box": {
+     "x0": 0.756,
+     "y0": 0.145,
+     "x1": 0.935,
+     "y1": 0.468
+    },
+    "facing": "front",
+    "label": "white oak glass-front upper cabinet run",
+    "confidence": 0.808,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "fridge-1",
+    "kind": "fridge",
+    "wall": "right",
+    "box": {
+     "x0": 0.875,
+     "y0": 0.23,
+     "x1": 0.98,
+     "y1": 0.88
+    },
+    "facing": "left",
+    "label": "stainless built-in french-door fridge",
+    "confidence": 0.887,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "window-left-1",
+    "kind": "window",
+    "wall": "left",
+    "box": {
+     "x0": 0.06,
+     "y0": 0.26,
+     "x1": 0.188,
+     "y1": 0.66
+    },
+    "facing": "right",
+    "label": "white-trimmed double-hung window with roman shade",
+    "confidence": 0.811,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "backsplash-back-1",
+    "kind": "backsplash",
+    "wall": "back",
+    "box": {
+     "x0": 0.281,
+     "y0": 0.333,
+     "x1": 0.869,
+     "y1": 0.6
+    },
+    "facing": "front",
+    "label": "white marble slab backsplash",
+    "confidence": 0.799,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "plant-1",
+    "kind": "plant",
+    "wall": "island",
+    "box": {
+     "x0": 0.443,
+     "y0": 0.376,
+     "x1": 0.599,
+     "y1": 0.69
+    },
+    "facing": null,
+    "label": "airy green branch arrangement in glass vase",
+    "confidence": 0.688,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-4",
+    "kind": "item",
+    "wall": "back",
+    "box": {
+     "x0": 0.334,
+     "y0": 0.445,
+     "x1": 0.362,
+     "y1": 0.532
+    },
+    "facing": "front",
+    "label": "copper pitcher",
+    "confidence": 0.564,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "backsplash-left-1",
+    "kind": "backsplash",
+    "wall": "left",
+    "box": {
+     "x0": 0,
+     "y0": 0.454,
+     "x1": 0.351,
+     "y1": 0.64
+    },
+    "facing": "right",
+    "label": "white marble slab backsplash",
+    "confidence": 0.81,
+    "open": {
+     "left": true,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "item-3",
+    "kind": "item",
+    "wall": "left",
+    "box": {
+     "x0": 0.308,
+     "y0": 0.455,
+     "x1": 0.334,
+     "y1": 0.531
+    },
+    "facing": "right",
+    "label": "woven tan pitcher",
+    "confidence": 0.481,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-5",
+    "kind": "item",
+    "wall": "back",
+    "box": {
+     "x0": 0.756,
+     "y0": 0.458,
+     "x1": 0.803,
+     "y1": 0.57
+    },
+    "facing": "front",
+    "label": "round wood cutting board",
+    "confidence": 0.569,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-2",
+    "kind": "item",
+    "wall": "left",
+    "box": {
+     "x0": 0.291,
+     "y0": 0.459,
+     "x1": 0.316,
+     "y1": 0.53
+    },
+    "facing": "right",
+    "label": "woven tan vase",
+    "confidence": 0.524,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-7-33",
+    "kind": "item",
+    "wall": "back",
+    "box": {
+     "x0": 0.682,
+     "y0": 0.464,
+     "x1": 0.737,
+     "y1": 0.591
+    },
+    "facing": "front",
+    "label": "round wood cutting board",
+    "confidence": 0.55,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "faucet-1",
+    "kind": "faucet",
+    "wall": "left",
+    "box": {
+     "x0": 0.15,
+     "y0": 0.468,
+     "x1": 0.206,
+     "y1": 0.63
+    },
+    "facing": "right",
+    "label": "brass gooseneck faucet",
+    "confidence": 0.83,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-6",
+    "kind": "item",
+    "wall": "back",
+    "box": {
+     "x0": 0.794,
+     "y0": 0.474,
+     "x1": 0.83,
+     "y1": 0.55
+    },
+    "facing": "front",
+    "label": "small round wood cutting board",
+    "confidence": 0.748,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "plant-2",
+    "kind": "plant",
+    "wall": "back",
+    "box": {
+     "x0": 0.8,
+     "y0": 0.48,
+     "x1": 0.87,
+     "y1": 0.55
+    },
+    "facing": "front",
+    "label": "small herb planter bowl",
+    "confidence": 0.68,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-13",
+    "kind": "item",
+    "wall": "left",
+    "box": {
+     "x0": 0.304,
+     "y0": 0.501,
+     "x1": 0.328,
+     "y1": 0.598
+    },
+    "facing": "right",
+    "label": "brass metal vase",
+    "confidence": 0.68,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-7",
+    "kind": "item",
+    "wall": "back",
+    "box": {
+     "x0": 0.808,
+     "y0": 0.508,
+     "x1": 0.847,
+     "y1": 0.567
+    },
+    "facing": "front",
+    "label": "wood bowl with greens",
+    "confidence": 0.362,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "range-1",
+    "kind": "range",
+    "wall": "back",
+    "box": {
+     "x0": 0.5,
+     "y0": 0.511,
+     "x1": 0.649,
+     "y1": 0.67
+    },
+    "facing": "front",
+    "label": "stainless professional gas range",
+    "confidence": 0.702,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-11",
+    "kind": "item",
+    "wall": "left",
+    "box": {
+     "x0": 0.259,
+     "y0": 0.523,
+     "x1": 0.291,
+     "y1": 0.602
+    },
+    "facing": "right",
+    "label": "tan woven vase",
+    "confidence": 0.697,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "sink-1",
+    "kind": "sink",
+    "wall": "left",
+    "box": {
+     "x0": 0.149,
+     "y0": 0.541,
+     "x1": 0.3,
+     "y1": 0.753
+    },
+    "facing": "right",
+    "label": "white farmhouse sink",
+    "confidence": 0.778,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "stool-4",
+    "kind": "stool",
+    "wall": "island",
+    "box": {
+     "x0": 0.736,
+     "y0": 0.55,
+     "x1": 0.845,
+     "y1": 0.865
+    },
+    "facing": null,
+    "label": "woven-seat wood counter stool",
+    "confidence": 0.741,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "island-1",
+    "kind": "island",
+    "wall": null,
+    "box": {
+     "x0": 0.304,
+     "y0": 0.555,
+     "x1": 0.745,
+     "y1": 0.974
+    },
+    "facing": null,
+    "label": "dark blue kitchen island with marble top",
+    "confidence": 0.876,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "stool-3",
+    "kind": "stool",
+    "wall": null,
+    "box": {
+     "x0": 0.802,
+     "y0": 0.559,
+     "x1": 0.893,
+     "y1": 0.964
+    },
+    "facing": null,
+    "label": "woven wood counter stool",
+    "confidence": 0.804,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-1",
+    "kind": "item",
+    "wall": "island",
+    "box": {
+     "x0": 0.45,
+     "y0": 0.56,
+     "x1": 0.6,
+     "y1": 0.659
+    },
+    "facing": null,
+    "label": "wood bowl with green limes",
+    "confidence": 0.723,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "base-cabinet-run-back-1",
+    "kind": "base-cabinet-run",
+    "wall": "back",
+    "box": {
+     "x0": 0.32,
+     "y0": 0.575,
+     "x1": 0.86,
+     "y1": 0.782
+    },
+    "facing": "front",
+    "label": "light oak base cabinet run",
+    "confidence": 0.838,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "floor-1",
+    "kind": "floor",
+    "wall": null,
+    "box": {
+     "x0": 0,
+     "y0": 0.59,
+     "x1": 1,
+     "y1": 1
+    },
+    "facing": null,
+    "label": "light oak floor",
+    "confidence": 0.941,
+    "open": {
+     "left": true,
+     "right": true,
+     "top": false,
+     "bottom": true
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "base-cabinet-run-left-1",
+    "kind": "base-cabinet-run",
+    "wall": "left",
+    "box": {
+     "x0": 0,
+     "y0": 0.62,
+     "x1": 0.36,
+     "y1": 0.91
+    },
+    "facing": "right",
+    "label": "light oak base cabinet run",
+    "confidence": 0.849,
+    "open": {
+     "left": true,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "stool-2",
+    "kind": "stool",
+    "wall": null,
+    "box": {
+     "x0": 0.574,
+     "y0": 0.686,
+     "x1": 0.706,
+     "y1": 1
+    },
+    "facing": null,
+    "label": "woven wood counter stool",
+    "confidence": 0.82,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": true
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "stool-1",
+    "kind": "stool",
+    "wall": null,
+    "box": {
+     "x0": 0.401,
+     "y0": 0.688,
+     "x1": 0.55,
+     "y1": 1
+    },
+    "facing": null,
+    "label": "woven wood counter stool",
+    "confidence": 0.828,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": true
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "item-1-vase-1",
+    "kind": "item",
+    "wall": "island",
+    "box": {
+     "x0": 0.423,
+     "y0": 0.432,
+     "x1": 0.593,
+     "y1": 0.718
+    },
+    "facing": null,
+    "label": "clear glass vase with green branches",
+    "confidence": 0.898,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-2-cutting-board-1",
+    "kind": "item",
+    "wall": "back",
+    "box": {
+     "x0": 0.723,
+     "y0": 0.488,
+     "x1": 0.789,
+     "y1": 0.597
+    },
+    "facing": null,
+    "label": "round wood cutting board",
+    "confidence": 0.779,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-3-cutting-board-2",
+    "kind": "item",
+    "wall": "back",
+    "box": {
+     "x0": 0.766,
+     "y0": 0.508,
+     "x1": 0.814,
+     "y1": 0.586
+    },
+    "facing": null,
+    "label": "small round wood cutting board",
+    "confidence": 0.793,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-4-basket-2",
+    "kind": "item",
+    "wall": "left",
+    "box": {
+     "x0": 0.312,
+     "y0": 0.517,
+     "x1": 0.336,
+     "y1": 0.601
+    },
+    "facing": null,
+    "label": "copper metal vase",
+    "confidence": 0.663,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-5-pitcher-1",
+    "kind": "item",
+    "wall": "left",
+    "box": {
+     "x0": 0.318,
+     "y0": 0.52,
+     "x1": 0.341,
+     "y1": 0.599
+    },
+    "facing": null,
+    "label": "copper pitcher",
+    "confidence": 0.532,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-6-basket-1",
+    "kind": "item",
+    "wall": "left",
+    "box": {
+     "x0": 0.283,
+     "y0": 0.524,
+     "x1": 0.311,
+     "y1": 0.603
+    },
+    "facing": null,
+    "label": "tan woven vase",
+    "confidence": 0.723,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-7-crock-1",
+    "kind": "item",
+    "wall": "back",
+    "box": {
+     "x0": 0.745,
+     "y0": 0.529,
+     "x1": 0.781,
+     "y1": 0.603
+    },
+    "facing": null,
+    "label": "light wood utensil crock",
+    "confidence": 0.6,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-8-planter-1",
+    "kind": "item",
+    "wall": "back",
+    "box": {
+     "x0": 0.81,
+     "y0": 0.546,
+     "x1": 0.885,
+     "y1": 0.597
+    },
+    "facing": null,
+    "label": "shallow wood planter with green herbs",
+    "confidence": 0.735,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "item-9-bowl-1",
+    "kind": "item",
+    "wall": "island",
+    "box": {
+     "x0": 0.455,
+     "y0": 0.662,
+     "x1": 0.617,
+     "y1": 0.744
+    },
+    "facing": null,
+    "label": "shallow wood fruit bowl with green limes",
+    "confidence": 0.844,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   }
+  ],
+  "frame": {
+   "backWallSpansX": [
+    0.244,
+    0.931
+   ],
+   "leftWallVisible": true,
+   "rightWallVisible": true
+  },
+  "inventory": {
+   "samples": 3,
+   "agreement": 0.695
+  }
+ }
+}

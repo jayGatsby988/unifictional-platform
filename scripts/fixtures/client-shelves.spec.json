@@ -1,0 +1,1096 @@
+{
+ "roomType": "kitchen",
+ "dims": {
+  "widthFt": 18,
+  "depthFt": 15,
+  "ceilingFt": 10
+ },
+ "style": "contemporary",
+ "layout": "single-wall",
+ "runs": [
+  {
+   "id": "run-back",
+   "wall": "back",
+   "start": 0.19444444444444442,
+   "lengthFt": 14.5,
+   "base": [
+    {
+     "widthIn": 30,
+     "type": "drawers",
+     "drawerCount": 3
+    },
+    {
+     "widthIn": 48,
+     "type": "appliance-gap",
+     "drawerCount": 0
+    },
+    {
+     "widthIn": 48,
+     "type": "appliance-gap",
+     "drawerCount": 0
+    },
+    {
+     "widthIn": 30,
+     "type": "drawers",
+     "drawerCount": 3
+    },
+    {
+     "widthIn": 18,
+     "type": "door",
+     "drawerCount": 1
+    }
+   ],
+   "uppers": null,
+   "tall": [],
+   "hasUppers": false,
+   "uppersToCeiling": false,
+   "backsplash": true,
+   "upperHeightIn": null,
+   "uppers2": null,
+   "uppers2HeightIn": null
+  }
+ ],
+ "island": {
+  "present": true,
+  "kind": "island",
+  "lengthFt": 10.5,
+  "widthFt": 4.5,
+  "offset": {
+   "x": 0,
+   "z": 1
+  },
+  "rotationDeg": 0,
+  "seating": 5,
+  "overhangIn": 15,
+  "waterfall": false,
+  "hasSink": true,
+  "hasCooktop": false,
+  "stoolPitchIn": 0,
+  "endSeats": 0,
+  "endPlacement": "auto",
+  "endOverhangIn": null,
+  "stoolOffsetIn": 0
+ },
+ "appliances": [
+  {
+   "kind": "range",
+   "wall": "back",
+   "t": 0.4444444444444444,
+   "widthIn": 48,
+   "finish": "stainless",
+   "hoodStyle": null,
+   "hoodShape": "curved",
+   "fridgeStyle": null,
+   "bodyFinish": null,
+   "heightIn": null,
+   "aboveCounterIn": null,
+   "cabinetAbove": null
+  },
+  {
+   "kind": "hood",
+   "wall": "back",
+   "t": 0.4444444444444444,
+   "widthIn": 48,
+   "finish": "panel-ready",
+   "hoodStyle": "custom-insert",
+   "hoodShape": "curved",
+   "fridgeStyle": null,
+   "bodyFinish": null,
+   "heightIn": null,
+   "aboveCounterIn": null,
+   "cabinetAbove": null
+  }
+ ],
+ "sink": {
+  "wall": "island",
+  "t": 0.53,
+  "kind": "undermount",
+  "widthIn": 24
+ },
+ "cabinets": {
+  "doorStyle": "flat",
+  "twoTone": false,
+  "baseHeightIn": 34.5,
+  "baseDepthIn": 24,
+  "upperHeightIn": 24,
+  "upperDepthIn": 12,
+  "toeKickIn": 4.5,
+  "crown": false,
+  "hardware": "pulls"
+ },
+ "countertop": {
+  "thicknessIn": 2,
+  "edge": "eased",
+  "overhangIn": null
+ },
+ "backsplash": {
+  "present": true,
+  "height": "full-height",
+  "pattern": "slab",
+  "behindRange": "same",
+  "heightIn": null
+ },
+ "openings": [
+  {
+   "id": "win-back-left",
+   "kind": "window",
+   "wall": "back",
+   "t": 0.24,
+   "widthFt": 4.2,
+   "heightFt": 1.2,
+   "sillFt": 7.1,
+   "style": "picture"
+  },
+  {
+   "id": "win-back-right",
+   "kind": "window",
+   "wall": "back",
+   "t": 0.76,
+   "widthFt": 4.2,
+   "heightFt": 1.2,
+   "sillFt": 7.1,
+   "style": "picture"
+  },
+  {
+   "id": "win-left-1",
+   "kind": "window",
+   "wall": "left",
+   "t": 0.73,
+   "widthFt": 2,
+   "heightFt": 4,
+   "sillFt": 3,
+   "style": "picture"
+  },
+  {
+   "id": "door-right-1",
+   "kind": "door",
+   "wall": "right",
+   "t": 0.86,
+   "widthFt": 3,
+   "heightFt": 8,
+   "sillFt": 0,
+   "style": "standard"
+  }
+ ],
+ "lighting": {
+  "recessedCount": 0,
+  "pendants": {
+   "count": 3,
+   "style": "cone",
+   "finish": "off-white",
+   "spreadFt": 0,
+   "offsetFt": 0,
+   "aboveCounterIn": 0,
+   "positions": null
+  },
+  "underCabinet": false,
+  "chandelier": false,
+  "sconces": 0,
+  "colorTempK": 3000,
+  "naturalLight": "high"
+ },
+ "decor": {
+  "shelves": [
+   {
+    "wall": "back",
+    "t": 0.26,
+    "widthIn": 36,
+    "count": 2,
+    "bottomFt": 4.4,
+    "depthIn": 10,
+    "spacingIn": 16,
+    "material": "wood",
+    "styled": "mixed"
+   },
+   {
+    "wall": "back",
+    "t": 0.74,
+    "widthIn": 36,
+    "count": 2,
+    "bottomFt": 4.4,
+    "depthIn": 10,
+    "spacingIn": 16,
+    "material": "wood",
+    "styled": "mixed"
+   }
+  ],
+  "plants": [
+   {
+    "kind": "counter",
+    "wall": "back",
+    "t": 0.72,
+    "sizeFt": 2.2,
+    "form": "leafy"
+   }
+  ],
+  "art": [],
+  "rug": null,
+  "windowTreatment": "none",
+  "counterStyling": "minimal",
+  "stools": {
+   "style": "saddle",
+   "frame": "dark-wood",
+   "seat": "leather",
+   "seatShape": null,
+   "seatColorHex": null
+  },
+  "items": [],
+  "cabinetContents": []
+ },
+ "materials": {
+  "cabinets_base": "wood-natural-oak",
+  "cabinets_upper": "wood-natural-oak",
+  "island_cabinets": "wood-natural-oak",
+  "countertop": "ct-carrara-marble",
+  "island_countertop": "custom-island_countertop-dc5a3bff",
+  "backsplash": "tile-marble-slab",
+  "flooring": "floor-white-oak-plank",
+  "walls": "wall-chantilly-lace",
+  "ceiling": "ceiling-white",
+  "hardware": "fin-matte-black",
+  "faucet": "fin-oil-bronze",
+  "appliances": "app-stainless",
+  "lighting_fixture": "custom-lighting_fixture-fc343a3b",
+  "cabinets_tall": "wood-natural-oak"
+ },
+ "detected": {
+  "confidence": 0.62,
+  "summary": "Contemporary kitchen with a long back cooking wall, sculpted plaster hood, marble slab backsplash, and a large oak island with seating and prep sink. The photo shows a warm minimalist palette with white walls, pale oak cabinetry, dark island stone, floating wood shelves, and substantial natural light from clerestory windows.",
+  "notes": [
+   "ratio: island length ÷ back run length = 0.72",
+   "ratio: island width ÷ island length = 0.43",
+   "ratio: back run length ÷ back wall width = 0.81",
+   "ratio: each clerestory window width ÷ back wall width = 0.23",
+   "ratio: hood body width ÷ back run length = 0.26",
+   "ratio: shelf width ÷ back wall width = 0.17",
+   "ratio: range width ÷ back run length = 0.28",
+   "No wall cabinets are visible; storage on the back wall is supplemented by two stacked floating shelves on each side of the hood.",
+   "Backsplash appears to be a continuous marble-look slab with gray veining wrapping the range wall.",
+   "Range appears wider than standard 36 in; burner and knob spacing support a 48 in pro-style unit.",
+   "Island includes a small prep sink with a tall arched faucet centered slightly right of island midpoint.",
+   "Three large suspended cone pendants are aligned over the island.",
+   "Clerestory windows provide strong daylight while preserving uninterrupted backsplash and hood composition.",
+   "Visible cabinet hardware is slim horizontal matte-black pulls.",
+   "Flooring reads as wide-plank light oak or white oak with a matte finish.",
+   "The right-side opening appears to be a full-height exterior door or slider frame in black.",
+   "inventory: photo shows a cooktop, spec has none",
+   "inventory: photo shows 1 tall cabinet, spec says 0"
+  ],
+  "assumptions": [
+   "Only one photo was provided, so room depth, full side-wall conditions, and unseen appliance locations are estimated.",
+   "Refrigerator and dishwasher are not visible; they were omitted rather than guessed into hidden locations.",
+   "Ceiling height is assumed at 10 ft based on the tall hood mass, high clerestory windows, and wall proportions.",
+   "Back wall width and island size were scaled from the visible 48 in range and stool spacing.",
+   "Back run base cabinet breakdown is inferred from typical 3 in modular sizing and visible drawer fronts.",
+   "Floating shelves are estimated at about 36 in wide and 10 in deep based on comparison to the range and wall space.",
+   "The hood is modeled as a curved plaster surround with concealed insert although exact vent insert size is not visible.",
+   "Countertop on perimeter is assumed to match the marble-look slab backsplash; island top is treated as a separate dark honed stone surface.",
+   "Left narrow window and right exterior opening sizes are estimated from visible frame proportions.",
+   "No recessed lighting is visible in the photo; ceiling cans may exist outside the camera frame but are not included.",
+   "Some values were normalised server-side to fit the schema."
+  ],
+  "primaryPhotoIndex": 0,
+  "camera": {
+   "fovDeg": 68,
+   "heightFt": 5,
+   "position": "front",
+   "lookingAt": "back",
+   "solved": null
+  },
+  "finishes": [
+   {
+    "slot": "cabinets_base",
+    "family": "stained-wood",
+    "baseColorHex": "#C8A77F",
+    "accentColorHex": "#A88662",
+    "pattern": "wood-grain",
+    "sheen": "matte",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "rift-cut natural oak veneer cabinetry, light honey tone, matte",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "island_cabinets",
+    "family": "stained-wood",
+    "baseColorHex": "#C8A77F",
+    "accentColorHex": "#A88662",
+    "pattern": "wood-grain",
+    "sheen": "matte",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "matching natural oak island panels, matte",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "countertop",
+    "family": "marble",
+    "baseColorHex": "#F1F0EC",
+    "accentColorHex": "#A9A8A6",
+    "pattern": "veined",
+    "sheen": "polished",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "white marble or marble-look slab with medium gray veining, polished",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "island_countertop",
+    "family": "soapstone",
+    "baseColorHex": "#4B5053",
+    "accentColorHex": "#3A3E41",
+    "pattern": "solid",
+    "sheen": "honed",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "dark charcoal honed stone island top",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "backsplash",
+    "family": "marble",
+    "baseColorHex": "#F1F0EC",
+    "accentColorHex": "#A9A8A6",
+    "pattern": "veined",
+    "sheen": "polished",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "full-height marble slab backsplash with gray veining",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "flooring",
+    "family": "hardwood",
+    "baseColorHex": "#DCC7AB",
+    "accentColorHex": "#C3A986",
+    "pattern": "plank",
+    "sheen": "matte",
+    "moduleIn": {
+     "w": 9,
+     "h": 72
+    },
+    "groutColorHex": null,
+    "description": "wide-plank light white-oak flooring, matte",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "walls",
+    "family": "paint",
+    "baseColorHex": "#F4F1EA",
+    "accentColorHex": null,
+    "pattern": "solid",
+    "sheen": "matte",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "soft warm white walls",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "ceiling",
+    "family": "paint",
+    "baseColorHex": "#F7F5F1",
+    "accentColorHex": null,
+    "pattern": "solid",
+    "sheen": "matte",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "flat white ceiling",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "hardware",
+    "family": "black-metal",
+    "baseColorHex": "#1E1E1E",
+    "accentColorHex": null,
+    "pattern": "solid",
+    "sheen": "matte",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "slim matte-black cabinet pulls",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "faucet",
+    "family": "bronze",
+    "baseColorHex": "#5C4A3B",
+    "accentColorHex": null,
+    "pattern": "solid",
+    "sheen": "brushed",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "dark bronze arched kitchen faucet",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "appliances",
+    "family": "stainless",
+    "baseColorHex": "#B6B8BA",
+    "accentColorHex": "#7B1E18",
+    "pattern": "solid",
+    "sheen": "brushed",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "stainless pro-style range with red control knobs",
+    "visibility": "clear",
+    "plankRun": null
+   },
+   {
+    "slot": "lighting_fixture",
+    "family": "fabric",
+    "baseColorHex": "#E9E2D8",
+    "accentColorHex": null,
+    "pattern": "solid",
+    "sheen": "matte",
+    "moduleIn": null,
+    "groutColorHex": null,
+    "description": "large off-white cone pendants with fabric or plaster-like texture",
+    "visibility": "clear",
+    "plankRun": null
+   }
+  ],
+  "elements": [
+   {
+    "id": "ceiling-1",
+    "kind": "ceiling",
+    "wall": null,
+    "box": {
+     "x0": 0,
+     "y0": 0,
+     "x1": 1,
+     "y1": 0.196
+    },
+    "label": "white flat ceiling",
+    "confidence": 0.97,
+    "facing": null,
+    "open": {
+     "left": true,
+     "right": true,
+     "top": true,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "pendant-1",
+    "kind": "pendant",
+    "wall": null,
+    "box": {
+     "x0": 0.32,
+     "y0": 0,
+     "x1": 0.407,
+     "y1": 0.325
+    },
+    "label": "large white cone pendant",
+    "confidence": 0.96,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": true,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "pendant-2",
+    "kind": "pendant",
+    "wall": null,
+    "box": {
+     "x0": 0.466,
+     "y0": 0,
+     "x1": 0.536,
+     "y1": 0.299
+    },
+    "label": "large white cone pendant",
+    "confidence": 0.97,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": true,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "pendant-3",
+    "kind": "pendant",
+    "wall": null,
+    "box": {
+     "x0": 0.622,
+     "y0": 0,
+     "x1": 0.709,
+     "y1": 0.3
+    },
+    "label": "large white cone pendant",
+    "confidence": 0.96,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": true,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "wall-left-1",
+    "kind": "wall",
+    "wall": "left",
+    "box": {
+     "x0": 0,
+     "y0": 0.057,
+     "x1": 0.22,
+     "y1": 0.855
+    },
+    "label": "white painted left wall",
+    "confidence": 0.79,
+    "facing": null,
+    "open": {
+     "left": true,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "tall-cabinet-1",
+    "kind": "tall-cabinet",
+    "wall": "left",
+    "box": {
+     "x0": 0,
+     "y0": 0.06,
+     "x1": 0.115,
+     "y1": 0.824
+    },
+    "label": "white oak pantry cabinet with black pulls",
+    "confidence": 0.96,
+    "facing": null,
+    "open": {
+     "left": true,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "hood-1",
+    "kind": "hood",
+    "wall": "back",
+    "box": {
+     "x0": 0.411,
+     "y0": 0.072,
+     "x1": 0.598,
+     "y1": 0.491
+    },
+    "label": "painted plaster vent hood",
+    "confidence": 0.97,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "wall-right-1",
+    "kind": "wall",
+    "wall": "right",
+    "box": {
+     "x0": 0.839,
+     "y0": 0.083,
+     "x1": 1,
+     "y1": 0.855
+    },
+    "label": "white painted right wall",
+    "confidence": 0.84,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": true,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "door-right-1",
+    "kind": "door",
+    "wall": "right",
+    "box": {
+     "x0": 0.94,
+     "y0": 0.159,
+     "x1": 1,
+     "y1": 0.85
+    },
+    "label": "black-framed glass exterior door",
+    "confidence": 0.87,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": true,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "wall-back-1",
+    "kind": "wall",
+    "wall": "back",
+    "box": {
+     "x0": 0.149,
+     "y0": 0.172,
+     "x1": 0.844,
+     "y1": 0.742
+    },
+    "label": "white painted back wall",
+    "confidence": 0.91,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "window-back-1",
+    "kind": "window",
+    "wall": "back",
+    "box": {
+     "x0": 0.217,
+     "y0": 0.185,
+     "x1": 0.41,
+     "y1": 0.267
+    },
+    "label": "black-framed clerestory window",
+    "confidence": 0.94,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "window-back-2",
+    "kind": "window",
+    "wall": "back",
+    "box": {
+     "x0": 0.598,
+     "y0": 0.185,
+     "x1": 0.828,
+     "y1": 0.267
+    },
+    "label": "black-framed clerestory window",
+    "confidence": 0.95,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "window-left-1",
+    "kind": "window",
+    "wall": "left",
+    "box": {
+     "x0": 0.12,
+     "y0": 0.258,
+     "x1": 0.162,
+     "y1": 0.532
+    },
+    "label": "narrow black-framed window",
+    "confidence": 0.93,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "shelf-back-3",
+    "kind": "shelf",
+    "wall": "back",
+    "box": {
+     "x0": 0.632,
+     "y0": 0.368,
+     "x1": 0.785,
+     "y1": 0.408
+    },
+    "label": "floating white oak shelf",
+    "confidence": 0.95,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "shelf-back-1",
+    "kind": "shelf",
+    "wall": "back",
+    "box": {
+     "x0": 0.227,
+     "y0": 0.369,
+     "x1": 0.38,
+     "y1": 0.408
+    },
+    "label": "floating white oak shelf",
+    "confidence": 0.95,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "backsplash-back-1",
+    "kind": "backsplash",
+    "wall": "back",
+    "box": {
+     "x0": 0.146,
+     "y0": 0.376,
+     "x1": 0.843,
+     "y1": 0.64
+    },
+    "label": "white marble slab backsplash",
+    "confidence": 0.92,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "plant-1",
+    "kind": "plant",
+    "wall": "island",
+    "box": {
+     "x0": 0.646,
+     "y0": 0.407,
+     "x1": 0.777,
+     "y1": 0.697
+    },
+    "label": "tall leafy arrangement in white vase",
+    "confidence": 0.9,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "faucet-1",
+    "kind": "faucet",
+    "wall": "island",
+    "box": {
+     "x0": 0.482,
+     "y0": 0.429,
+     "x1": 0.538,
+     "y1": 0.599
+    },
+    "label": "tall brushed metal gooseneck faucet",
+    "confidence": 0.94,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "shelf-back-2",
+    "kind": "shelf",
+    "wall": "back",
+    "box": {
+     "x0": 0.227,
+     "y0": 0.456,
+     "x1": 0.38,
+     "y1": 0.493
+    },
+    "label": "floating white oak shelf",
+    "confidence": 0.95,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "shelf-back-4",
+    "kind": "shelf",
+    "wall": "back",
+    "box": {
+     "x0": 0.637,
+     "y0": 0.457,
+     "x1": 0.783,
+     "y1": 0.492
+    },
+    "label": "floating white oak shelf",
+    "confidence": 0.95,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "cooktop-1",
+    "kind": "cooktop",
+    "wall": "back",
+    "box": {
+     "x0": 0.421,
+     "y0": 0.52,
+     "x1": 0.587,
+     "y1": 0.595
+    },
+    "label": "stainless gas cooktop with red knobs",
+    "confidence": 0.88,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "island-1",
+    "kind": "island",
+    "wall": "island",
+    "box": {
+     "x0": 0.103,
+     "y0": 0.532,
+     "x1": 0.88,
+     "y1": 0.84
+    },
+    "label": "white oak island with dark stone countertop",
+    "confidence": 0.98,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "base-cabinet-run-back-1",
+    "kind": "base-cabinet-run",
+    "wall": "back",
+    "box": {
+     "x0": 0.136,
+     "y0": 0.551,
+     "x1": 0.84,
+     "y1": 0.744
+    },
+    "label": "white oak base cabinet run with slab fronts",
+    "confidence": 0.95,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "sink-1",
+    "kind": "sink",
+    "wall": "island",
+    "box": {
+     "x0": 0.481,
+     "y0": 0.56,
+     "x1": 0.619,
+     "y1": 0.637
+    },
+    "label": "undermount stainless sink",
+    "confidence": 0.76,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "stool-5",
+    "kind": "stool",
+    "wall": null,
+    "box": {
+     "x0": 0.681,
+     "y0": 0.685,
+     "x1": 0.87,
+     "y1": 0.98
+    },
+    "label": "dark wood counter stool with black seat",
+    "confidence": 0.96,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "stool-1",
+    "kind": "stool",
+    "wall": null,
+    "box": {
+     "x0": 0.114,
+     "y0": 0.695,
+     "x1": 0.24,
+     "y1": 0.983
+    },
+    "label": "dark wood counter stool with black seat",
+    "confidence": 0.95,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": false
+    },
+    "openCause": null
+   },
+   {
+    "id": "floor-1",
+    "kind": "floor",
+    "wall": null,
+    "box": {
+     "x0": 0,
+     "y0": 0.699,
+     "x1": 1,
+     "y1": 1
+    },
+    "label": "light oak plank floor",
+    "confidence": 0.98,
+    "facing": null,
+    "open": {
+     "left": true,
+     "right": true,
+     "top": false,
+     "bottom": true
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "stool-2",
+    "kind": "stool",
+    "wall": null,
+    "box": {
+     "x0": 0.188,
+     "y0": 0.744,
+     "x1": 0.341,
+     "y1": 1
+    },
+    "label": "dark wood counter stool with black seat",
+    "confidence": 0.96,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": true
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "stool-4",
+    "kind": "stool",
+    "wall": null,
+    "box": {
+     "x0": 0.552,
+     "y0": 0.744,
+     "x1": 0.729,
+     "y1": 1
+    },
+    "label": "dark wood counter stool with black seat",
+    "confidence": 0.97,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": true
+    },
+    "openCause": "frame"
+   },
+   {
+    "id": "stool-3",
+    "kind": "stool",
+    "wall": null,
+    "box": {
+     "x0": 0.378,
+     "y0": 0.745,
+     "x1": 0.554,
+     "y1": 1
+    },
+    "label": "dark wood counter stool with black seat",
+    "confidence": 0.97,
+    "facing": null,
+    "open": {
+     "left": false,
+     "right": false,
+     "top": false,
+     "bottom": true
+    },
+    "openCause": "frame"
+   }
+  ],
+  "frame": null,
+  "inventory": null
+ }
+}

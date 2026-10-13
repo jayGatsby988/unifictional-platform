@@ -72,9 +72,12 @@ function finished(res, what) {
  * sent strict first; a schema the API rejects falls back to non-strict, then
  * to prompt-only JSON, parsed leniently by the caller as it already is.
  */
+/** A system prompt may arrive as Anthropic-style blocks (with cache_control); the Responses API wants one string. */
+const systemText = (system) => typeof system === "string" ? system : Array.isArray(system) ? system.map((b) => (typeof b === "string" ? b : b?.text || "")).filter(Boolean).join("\n\n") : String(system ?? "");
+
 export async function structuredOpenAI({ system, user, schema = null, onText, maxTokens = 32000, effort = "medium", model, apiKey = "" }) {
   const c = openai(apiKey);
-  const base = { model, instructions: system, input: toInput(user), reasoning: { effort: EFFORT[effort] || "medium" }, max_output_tokens: maxTokens, store: false };
+  const base = { model, instructions: systemText(system), input: toInput(user), reasoning: { effort: EFFORT[effort] || "medium" }, max_output_tokens: maxTokens, store: false };
   const attempts = schema
     ? [{ text: { format: { type: "json_schema", name: "result", strict: true, schema } } }, { text: { format: { type: "json_schema", name: "result", strict: false, schema } } }, {}]
     : [{}];
@@ -102,7 +105,7 @@ export async function structuredOpenAI({ system, user, schema = null, onText, ma
  */
 export async function researchOpenAI({ system, user, maxSearches = 8, effort = "high", maxTokens = 24000, onEvent, model, apiKey = "" }) {
   const c = openai(apiKey);
-  const base = { model, instructions: system, input: toInput(user), tools: [{ type: "web_search" }], reasoning: { effort: EFFORT[effort] || "medium" }, max_output_tokens: maxTokens, store: false, include: ["web_search_call.action.sources"] };
+  const base = { model, instructions: systemText(system), input: toInput(user), tools: [{ type: "web_search" }], reasoning: { effort: EFFORT[effort] || "medium" }, max_output_tokens: maxTokens, store: false, include: ["web_search_call.action.sources"] };
   let res;
   try { res = await c.responses.create({ ...base, max_tool_calls: maxSearches }); }
   catch (e) {

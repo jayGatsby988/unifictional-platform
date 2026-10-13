@@ -12,8 +12,8 @@
     "build:site": "npm --prefix unifictional-site run build",
     "build:portal": "npm --prefix \"Client Portal\" run build",
     "build:3d": "npm --prefix \"3D Studio\" run build",
-    "deploy:site": "cd unifictional-site && vercel deploy --prod --yes",
-    "deploy:portal": "cd \"Client Portal\" && vercel deploy --prod --yes",
-    "deploy:3d": "cd \"3D Studio\" && vercel deploy --prod --yes"
+    "deploy:site": "zsh scripts/deploy.sh unifictional-site",
+    "deploy:portal": "zsh scripts/deploy.sh \"Client Portal\"",
+    "deploy:3d": "zsh scripts/deploy.sh \"3D Studio\""
   }
 }

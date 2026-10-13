@@ -20,6 +20,7 @@ import { inspectSite, judgeShots, leanReport } from "./inspect";
 import { byType, byId } from "./components";
 import { resolveImages, navImages, countOwnPhotos } from "./images";
 import { renderSite, componentsUsed } from "./renderer";
+import { lightenSite } from "./lighten";
 import { audit, keywordPlan, schemaForPage } from "./seo";
 import { blobConfigured, buildPath, pagePath, readJson, saveBinary, saveHtml, saveJson, saveLead, recentChoices, type LeadRecord } from "./storage";
 import { sendBuildFailed, sendBuildReady } from "./emails";
@@ -692,7 +693,37 @@ function assembleSpec(job: BuildJob, only: string[] | null = null) {
   const missing = spec.pages.filter(p => p.slug !== "index" && !listed.has(p.slug));
   if (missing.length) spec.footer.columns = [...(spec.footer.columns || []), { title: "More", links: missing.map(p => ({ label: p.title || p.slug, href: p.slug })) }];
   enforceBrandWord(spec);
+  enforceTagline(spec, job.dossier);
   cleanTestimonials(spec);
+  return spec;
+}
+
+/** Research may paste a source after a fact ("… ([site](https://…))"); the words a visitor reads never carry one. */
+const stripCitations = (s = "") => String(s).replace(/\s*\(\[[^\]]*\]\([^)]*\)\)/g, "").replace(/\s*\[[^\]]*\]\(https?:\/\/[^)]*\)/g, "").trim();
+
+/**
+ * Their slogan, on their site. When the research found the company's own
+ * tagline it is kept as the brand tagline and must appear where a visitor
+ * reads it: on the home page (the accent marquee carries it when no section
+ * already does) and in the footer. The writers are free to use it anywhere
+ * else as well.
+ */
+export function enforceTagline(spec, dossier = {}) {
+  const tag = stripCitations(dossier?.tagline || spec.brand?.tagline || "");
+  if (!tag || tag.length < 6 || tag.length > 120) return spec;
+  spec.brand = spec.brand || {};
+  spec.brand.tagline = tag;
+  const low = tag.toLowerCase();
+  const home = (spec.pages || []).find(p => p.slug === "index");
+  if (home && !JSON.stringify(home.sections || []).toLowerCase().includes(low)) {
+    const marquee = (home.sections || []).find(s => s.type === "accent-marquee" && Array.isArray(s.items));
+    if (marquee) {
+      const asStrings = marquee.items.every(i => typeof i === "string");
+      marquee.items.unshift(asStrings ? tag : { ...(typeof marquee.items[0] === "object" && marquee.items[0] ? Object.fromEntries(Object.keys(marquee.items[0]).map(k => [k, ""])) : {}), text: tag });
+    }
+  }
+  spec.footer = spec.footer || { blurb: "", columns: [] };
+  if (!String(spec.footer.blurb || "").toLowerCase().includes(low)) spec.footer.blurb = spec.footer.blurb ? `${tag} ${spec.footer.blurb}` : tag;
   return spec;
 }
 /** Reviews without a real name are proof nobody believes: drop them; drop a testimonials section left empty (unless it is the home proof stack, which keeps at least one). */
@@ -932,10 +963,18 @@ export async function finishSite(job: BuildJob): Promise<boolean> {
       stamp(job, `site delivered at its best version (${r.lastGood?.score ?? r.verdict?.score ?? "—"}/100) with ${job.needsLook.length} note${job.needsLook.length === 1 ? "" : "s"} for the owner`);
     }
     rendered = r.rendered;
-    const exported = r.exported;
+    let exported = r.exported;
 
     job.weight = { images: imgReport, html: { before: r.htmlBefore, after: r.htmlAfter } };
     stamp(job, `markup minified: ${kb(r.htmlBefore)} → ${kb(r.htmlAfter)} gzipped across ${rendered.length} pages`);
+
+    /* the lightener: the same site to the eye with fewer bytes; every change is photographed before and after and kept only when nothing looks different */
+    if (process.env.BUILD_LIGHTEN !== "0") {
+      try {
+        const light = await withTimeout(lightenSite({ job, rendered, exported, stamp: (m) => stamp(job, m) }), Number(process.env.BUILD_LIGHTEN_MS || 240_000) + 60_000, "lightener");
+        if (light) { rendered = light.rendered; exported = light.exported; job.weight.light = light.report; }
+      } catch (e) { stamp(job, `lightener skipped: ${describeError(e)}`); }
+    }
     const finalAudits = rendered.map(x => audit(x.html, { ...spec, seo: spec.pages.find(p => p.slug === x.slug)?.seo || {} }));
     const score = Math.round(finalAudits.reduce((s, a) => s + a.score, 0) / finalAudits.length);
     const components = componentsUsed(spec);

@@ -19,8 +19,10 @@ npm run dev:site        # unifictional.com on http://localhost:3010
 npm run dev:portal      # Client Portal on http://localhost:8120 (demo mode without a .env.local)
 npm run dev:3d          # 3D Studio on http://localhost:3200
 npm test                # the portal's 44 node:test cases
-npm run deploy:site     # vercel deploy --prod from the right folder (same for :portal and :3d)
+npm run deploy:site     # production deploy (same for :portal and :3d) — see the note below
 ```
+
+**Deploys go through `scripts/deploy.sh`, not a bare `vercel deploy`.** The Vercel team is a Hobby team, which blocks any deployment whose commit author is not the team owner; the CLI attaches the repo's HEAD author, so a deploy from inside the repo by anyone else sits in BLOCKED (shown as UNKNOWN in `vercel ls`). The script deploys from a copy outside the repo, which carries no author and builds normally.
 
 Secrets never live in the repo. Vercel holds every production env var (sensitive ones are write-only); local dev reads `.env.local` in each app. The portal lists the keys it needs on `/admin/setup`.
 

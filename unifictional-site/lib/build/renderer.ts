@@ -87,7 +87,7 @@ function resolvePair(theme = {}) {
 function baseCss(pair, t) {
   const capsRule = pair.caps ? "text-transform: uppercase;" : "";
   return `
-:root{--logo-scale:${logoScale(spec)};--bg:${t.bg};--bg2:${t.bg2};--ink:${t.ink};--ink2:${t.ink2};--ink3:${t.ink3};--line:${t.line};--accent:${t.accent};--on-accent:${t.onAccent};--inv-bg:${t.invBg};--inv-ink:${t.invInk};
+:root{--logo-scale:${t.logoScale || 1};--bg:${t.bg};--bg2:${t.bg2};--ink:${t.ink};--ink2:${t.ink2};--ink3:${t.ink3};--line:${t.line};--accent:${t.accent};--on-accent:${t.onAccent};--inv-bg:${t.invBg};--inv-ink:${t.invInk};
 --display:${pair.display};--body:${pair.body};--mono:${pair.mono};--gutter:clamp(20px,5vw,88px);--ease:cubic-bezier(.76,0,.24,1);--ease-out:cubic-bezier(.22,1,.36,1)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:auto;-webkit-text-size-adjust:100%}
@@ -268,7 +268,7 @@ export function pageList(spec) {
 export function renderPage(spec, page, opts = {}) {
   const base = (opts.base || "").replace(/\/$/, "");
   const pair = resolvePair(spec.theme);
-  const t = themeTokens(spec.theme);
+  const t = themeTokens(spec.theme); t.logoScale = logoScale(spec);
   const capsRule = pair.caps ? "text-transform: uppercase;" : "";
   const ctx = { t, pair, capsRule, esc, imgUrl, link: makeLink(base, page.slug), arrow, page, spec, brandMark: () => brandMark(spec, t, ctx) };
 

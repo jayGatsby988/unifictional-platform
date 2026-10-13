@@ -777,7 +777,11 @@ async function prepareSpec(job: BuildJob, only: string[] | null) {
   }
   // film not delivered: the written video hero becomes the plain photo hero (split-intro), its copy kept, a second real photo borrowed from the page
   if (!spec.video) for (const p of spec.pages) for (const sec of p.sections) if (sec.type === "hero-video-scrub") {
-    const second = p.sections.slice(1).flatMap((s) => [s.image, ...(s.images || [])]).find((i) => i?.url && i.url !== sec.image?.url) || sec.image;
+    const key = (i) => String(i?.url || i?.query || "");
+    const others = spec.pages.flatMap((pg) => pg.sections.filter((s) => s !== sec).flatMap((s) => [s.image, ...(s.images || []), ...(s.items || []).map((it) => it.image), ...(s.slides || []).map((it) => it.image)]));
+    const second = others.find((i) => key(i) && key(i) !== key(sec.image))
+      || (job.dossier?.photos || []).map((ph) => ({ url: ph.url, alt: ph.alt || ph.label || "" })).find((i) => i.url && i.url !== key(sec.image))
+      || null;
     Object.assign(sec, { type: "split-intro", component: "split-intro", headline: String(sec.headline || "").replace(/\s*\/\s*/g, " "), images: [sec.image, second].filter(Boolean) });
     for (const k of ["beats", "ask", "cta2", "image", "word"]) delete sec[k];
   }
@@ -1034,6 +1038,7 @@ async function judgeSite(job: BuildJob, spec, report, ig, { homeOnly = false, ex
   const content = [
     { type: "text", text: homeOnly ? "YOU ARE JUDGING THE HOME PAGE ONLY (desktop and phone), plus frames of its hero clip. The inner pages come later, built to this page's pattern, so this is the page that has to be right." : `YOU ARE JUDGING THE WHOLE SITE. The home page already passed its own gate${job.homeApproved ? " and is locked" : ""}; judge the inner pages hardest.` },
     { type: "text", text: lessonsBlock(job.lessons || []) || "" },
+    { type: "text", text: spec.video ? "" : "NO HERO FILM ON THIS BUILD: the home page opens on split-intro, the plain two-photo opening, by design. Judge it as a photo opening on its own terms; do not ask for hero-video-scrub or a scroll-driven clip." },
     { type: "text", text: `COMPANY: ${spec.brand.name} (${spec.brand.industry || ""}, ${spec.brand.city || ""})\n\nHOOK STRATEGY:\n${JSON.stringify(job.hook || {}, null, 1)}\n\nPAGES: ${spec.pages.map(p => p.slug).join(", ")}\nHOME SECTIONS (in order): ${(spec.pages.find(p => p.slug === "index")?.sections || []).map((s, i) => `${i + 1}. ${s.type}`).join(", ")}\nTHEIR LOGO: ${spec.brand.logo?.url ? "found and used" : "none found (wordmark)"}\nREAL PHOTOS AVAILABLE: ${(job.dossier?.photos || []).length} (every photo taken from their own website and media library counts as theirs, whatever it looks like)\nSTOCK PHOTOS ACTUALLY USED: ${stockPlacements(spec).length ? stockPlacements(spec).join(", ") : "none"} (only these are stock; do not call any other photo stock)\n\nWHAT THE BROWSER FOUND (hard errors already counted): ${ig.errors.length ? ig.errors.join("; ") : "nothing"}\n\nThe screenshots follow, each labelled. Section numbers in the labels (s01, s02…) are the 1-based section numbers.` },
     ...shots.flatMap(s => [{ type: "text", text: `[${s.label}]` }, { type: "image", source: { type: "base64", media_type: "image/jpeg", data: s.data } }]),
     { type: "text", text: "Judge the site now. Return the JSON only." },

@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function GET(req: Request) {
-  if (process.env.NODE_ENV === "production") return NextResponse.json({ error: "not_found" }, { status: 404 });
+  if (process.env.VERCEL_ENV === "production") return NextResponse.json({ error: "not_found" }, { status: 404 });
   const u = new URL(req.url);
   const industry = u.searchParams.get("industry") || "epoxy garage floors";
   const company = u.searchParams.get("company") || "Integrity Garage Floors";

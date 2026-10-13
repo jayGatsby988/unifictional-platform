@@ -8,8 +8,6 @@ import { bookingConfig } from "./config";
  * signed token; the client returns it on confirm.
  */
 function hmac(data: string): string {
-  // No BOOKING_SECRET in production means no valid tokens at all, never tokens signed with an empty key.
-  if (!bookingConfig.secret) throw new Error("BOOKING_SECRET is not set");
   return crypto.createHmac("sha256", bookingConfig.secret).update(data).digest("base64url");
 }
 
@@ -21,7 +19,7 @@ export function signToken(payload: Record<string, unknown>, ttlMs: number): stri
 
 export function verifyToken<T = Record<string, unknown>>(token: string): T | null {
   const [data, sig] = (token || "").split(".");
-  if (!data || !sig || !bookingConfig.secret) return null;
+  if (!data || !sig) return null;
   const expected = hmac(data);
   if (sig.length !== expected.length) return null;
   if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected))) return null;

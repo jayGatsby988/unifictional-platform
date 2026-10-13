@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function GET(req: Request) {
-  if (process.env.NODE_ENV === "production") return NextResponse.json({ error: "not_found" }, { status: 404 });
+  if (process.env.VERCEL_ENV === "production") return NextResponse.json({ error: "not_found" }, { status: 404 });
   const url = new URL(req.url);
   const id = url.searchParams.get("id") || "";
   if (id === "types") return NextResponse.json({ photoCapable: Object.keys(byType).filter(canShowPhoto), textOnly: Object.keys(byType).filter(t => !canShowPhoto(t) && byType[t].kind === "section") });

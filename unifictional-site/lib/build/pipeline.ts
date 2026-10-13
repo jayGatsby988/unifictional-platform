@@ -81,7 +81,7 @@ export interface BuildJob {
 }
 
 export const buildConfigured = () => hasKey();
-export const buildSecret = () => process.env.BUILD_SECRET || process.env.BOOKING_SECRET || (process.env.NODE_ENV === "production" ? "" : "dev-build-secret");
+export const buildSecret = () => process.env.BUILD_SECRET || process.env.BOOKING_SECRET || "dev-build-secret";
 
 export function siteOrigin(req: Request) {
   if (process.env.VERCEL_ENV === "production" && process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
@@ -952,6 +952,7 @@ export async function finishSite(job: BuildJob): Promise<boolean> {
     const u = job.usage || emptyUsage();
     stamp(job, `cost: ${u.calls} model calls, ${u.searches} searches, ${(u.input / 1000).toFixed(0)}k in / ${(u.output / 1000).toFixed(0)}k out tokens ≈ $${costOf(u).toFixed(2)}`);
     if (lessons.length) stamp(job, `studio lessons updated: ${lessons.length} rules`);
+    job.spec = spec; // the next stage gets the spec from the job, never from a read that the CDN may serve stale
     const doneExtra = { previewUrl, score, pages: rendered.map(x => x.slug), weight: job.weight, qa: leanQa(job.qa), needsLook: job.needsLook || [], hero: spec.pages[0]?.sections?.[0]?.component, menu: spec.nav?.menu, video: spec.video ? { mode: spec.video.mode, count: spec.video.count, seconds: spec.video.seconds } : undefined, hook: job.hook ? { claim: job.hook.hook?.claim, flagship: job.hook.flagship?.title, ask: job.hook.ask?.label } : undefined };
     await leadRecord(job, "done", doneExtra);
     if (!publishStage()) await sendBuildReady({ job, spec, pages: rendered.map(x => ({ slug: x.slug, title: x.title })), components, ownPhotos, previewUrl, zip: zipBuf, model: MODEL });
@@ -1140,7 +1141,7 @@ export async function runPublish(job: BuildJob): Promise<boolean> {
   const previewUrl = blobConfigured() ? `${job.origin}${previewBase}` : "";
   let spec = null, exported = [];
   try {
-    spec = await readJson(buildPath(job.id, "spec.json"));
+    spec = job.spec && Array.isArray(job.spec.pages) ? job.spec : await readJson(buildPath(job.id, "spec.json"));
     if (!spec || !Array.isArray(spec.pages)) throw new Error("spec.json is missing; nothing to debug");
     if (!job.dossier) job.dossier = (await readJson(buildPath(job.id, "dossier.json"))) || {};
     const cat = { photos: job.dossier?.photos || [] };

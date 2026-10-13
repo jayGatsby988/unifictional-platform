@@ -16,7 +16,7 @@ export const runtime = "nodejs";
 export const maxDuration = 300;
 
 export async function GET(req: Request) {
-  if (process.env.NODE_ENV === "production") return NextResponse.json({ error: "not_found" }, { status: 404 });
+  if (process.env.VERCEL_ENV === "production") return NextResponse.json({ error: "not_found" }, { status: 404 });
   const url = new URL(req.url);
   const id = url.searchParams.get("id") || "";
   if (!isBuildId(id)) return NextResponse.json({ error: "bad_id" }, { status: 400 });

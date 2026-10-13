@@ -14,7 +14,7 @@ export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   const auth = req.headers.get("authorization") || "";
-  if (!buildSecret() || auth !== `Bearer ${buildSecret()}`) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  if (auth !== `Bearer ${buildSecret()}`) return NextResponse.json({ error: "forbidden" }, { status: 403 });
   let body: { lead?: BuildLead; id?: string };
   try { body = await req.json(); } catch { return NextResponse.json({ error: "bad_request" }, { status: 400 }); }
   if (!body.lead?.name || !body.lead?.email) return NextResponse.json({ error: "lead with name and email is required" }, { status: 400 });

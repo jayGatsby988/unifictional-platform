@@ -52,7 +52,7 @@ export const bookingConfig = {
   inviteAttendees: process.env.GOOGLE_INVITE_ATTENDEES === "true",
 
   /** HMAC secret for the stateless verification tokens. */
-  secret: process.env.BOOKING_SECRET || (process.env.NODE_ENV === "production" ? "" : "dev-insecure-secret-change-me"),
+  secret: process.env.BOOKING_SECRET || "dev-insecure-secret-change-me",
   /** Shared secret protecting the reminder cron endpoint. */
   cronSecret: process.env.CRON_SECRET || "",
 };

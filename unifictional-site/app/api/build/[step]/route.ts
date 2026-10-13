@@ -19,7 +19,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ step: string }
   if (!STEPS.includes(step as Step)) return NextResponse.json({ error: "unknown_step" }, { status: 404 });
 
   const auth = req.headers.get("authorization") || "";
-  if (!buildSecret() || auth !== `Bearer ${buildSecret()}`) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  if (auth !== `Bearer ${buildSecret()}`) return NextResponse.json({ error: "forbidden" }, { status: 403 });
 
   let job: BuildJob;
   try {

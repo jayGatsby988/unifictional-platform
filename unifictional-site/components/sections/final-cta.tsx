@@ -1,7 +1,7 @@
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Reveal } from "@/components/ui/reveal";
-import { BookCall, CtaButton, StartAutopilot } from "@/components/ui/button";
+import { BookCall, CtaButton } from "@/components/ui/button";
 
 /** The closing prompt above the footer on every page. */
 export function FinalCta({
@@ -12,7 +12,7 @@ export function FinalCta({
       <em className="italic text-terracotta">trust.</em>
     </>
   ),
-  body = "Start SEO Autopilot yourself in a few minutes, or book a short, no-pressure call and we'll give you a clear plan — whether or not we end up working together.",
+  body = "Book a short, no-pressure call. We'll learn your goals and give you a clear plan — whether or not we end up working together.",
 }: {
   eyebrow?: string;
   title?: React.ReactNode;
@@ -28,9 +28,8 @@ export function FinalCta({
           </h2>
           <p className="max-w-prose text-lg leading-relaxed text-ink-soft">{body}</p>
           <div className="mt-2 flex flex-col gap-4 sm:flex-row">
-            <StartAutopilot variant="solid" size="lg" />
-            <BookCall variant="outline" size="lg" />
-            <CtaButton href="/work" variant="link" size="lg" icon="up-right">
+            <BookCall variant="solid" size="lg" />
+            <CtaButton href="/work" variant="outline" size="lg" icon="up-right">
               See the work
             </CtaButton>
           </div>

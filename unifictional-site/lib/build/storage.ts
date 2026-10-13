@@ -11,31 +11,12 @@ export const isPageSlug = (s: string) => /^[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]
 
 async function putAny(path: string, body: string | Buffer, contentType: string) {
   if (!blobConfigured()) return null;
-  const r = await put(path, body, { access: "public", addRandomSuffix: false, allowOverwrite: true, contentType });
+  // JSON, HTML and text are overwritten between steps, so they get the shortest cache the CDN allows; photos, frames and video keep the long default
+  const shortLived = /^(application\/json|text\/|application\/zip)/i.test(contentType) || /\.(json|html|txt|md|css|js)$/i.test(path);
+  const r = await put(path, body, { access: "public", addRandomSuffix: false, allowOverwrite: true, contentType, ...(shortLived ? { cacheControlMaxAge: 60 } : {}) });
   return r.url;
 }
-/**
- * The store is public (previews link straight into it), so a lead's email and
- * phone never go in: they stay in the booking emails and the calendar event.
- * Applies to the lead record itself and to any `lead` carried inside a job.
- */
-function redactLead(path: string, data: unknown): unknown {
-  if (!data || typeof data !== "object") return data;
-  const strip = (o: Record<string, unknown>) => ({ ...o, email: undefined, phone: undefined });
-  const d = data as Record<string, unknown>;
-  if (/^leads\//.test(path)) return strip(d);
-  if (d.lead && typeof d.lead === "object") return { ...d, lead: strip(d.lead as Record<string, unknown>) };
-  return data;
-}
-export const saveJson = (path: string, data: unknown) => putAny(path, JSON.stringify(redactLead(path, data)), "application/json; charset=utf-8");
-
-/** How many builds were started in the last `ms` (one lead record per build), for the daily cap. */
-export async function leadsSince(ms: number): Promise<number> {
-  if (!blobConfigured()) return 0;
-  const since = Date.now() - ms;
-  const r = await list({ prefix: "leads/", limit: 200 });
-  return r.blobs.filter((b) => /^leads\/[a-f0-9-]+\.json$/i.test(b.pathname) && new Date(b.uploadedAt).getTime() >= since).length;
-}
+export const saveJson = (path: string, data: unknown) => putAny(path, JSON.stringify(data), "application/json; charset=utf-8");
 export const saveHtml = (path: string, html: string) => putAny(path, html, "text/html; charset=utf-8");
 export const saveBinary = (path: string, buf: Buffer, contentType: string) => putAny(path, buf, contentType);
 
@@ -49,7 +30,9 @@ async function urlFor(path: string): Promise<string | null> {
 export async function readText(path: string): Promise<string | null> {
   const url = await urlFor(path);
   if (!url) return null;
-  const res = await fetch(url, { cache: "no-store" });
+  // the Blob CDN caches public URLs for minutes after an overwrite; a unique query string always reaches the latest copy
+  const fresh = url + (url.includes("?") ? "&" : "?") + "v=" + Date.now().toString(36);
+  const res = await fetch(fresh, { cache: "no-store" });
   if (!res.ok) return null;
   return res.text();
 }

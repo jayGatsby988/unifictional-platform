@@ -5,6 +5,7 @@ import { supabaseConfigured } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 import { adminConfigured, createAdminClient } from "@/lib/supabase/admin";
 import { ensureLogin, signInLink } from "@/lib/accounts/create";
+import { welcomeLink } from "@/lib/accounts/welcome-link";
 import { ensureCompany } from "@/lib/accounts/company";
 import { loadRecommendation } from "@/lib/billing/recommend";
 import { emailConfigured, sendEmail, signOffFor, STUDIO_EMAIL } from "@/lib/email/send";
@@ -58,7 +59,7 @@ export async function POST(request: Request) {
     }
     if (login.kind === "created") {
       // First stop after signing in: the SEO Autopilot page, where they start their plan.
-      const mail = welcomeEmail({ name, email, tempPassword: login.password, loginUrl: `${origin}/login?email=${encodeURIComponent(email)}&next=${encodeURIComponent("/autopilot")}`, company, signOff: signOffFor("onboarding") });
+      const mail = welcomeEmail({ name, email, tempPassword: login.password, signInUrl: welcomeLink({ userId: login.userId, nonce: login.welcomeNonce, origin, next: "/autopilot" }), loginUrl: `${origin}/login?email=${encodeURIComponent(email)}&next=${encodeURIComponent("/autopilot")}`, company, signOff: signOffFor("onboarding") });
       emailed = (await sendEmail({ to: email, sender: "onboarding", ...mail })).sent;
     } else if (login.kind === "exists") {
       existing = true;

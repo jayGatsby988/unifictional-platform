@@ -36,31 +36,47 @@ const button = (href: string, label: string) =>
 const steps = (items: string[]) => `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 20px">${items.map((s, i) =>
   `<tr><td valign="top" style="padding:6px 12px 6px 0;font-family:${FONT};font-size:18px;font-weight:bold">${i + 1}.</td><td style="padding:6px 0;font-family:${FONT};font-size:18px;line-height:1.5">${s}</td></tr>`).join("")}</table>`;
 
-export function welcomeEmail(o: { name: string; email: string; tempPassword: string; loginUrl: string; company?: string ; signOff?: SignOff }): Email {
-  const subject = "Welcome to Unifictional: your login is inside";
+/**
+ * A password tucked into the email, one tap to select. Email apps strip scripts, so a real
+ * "copy" button can't work; `user-select:all` makes a single tap/click select the whole
+ * thing in Apple Mail, iOS Mail and Outlook, and the long-press tip covers Gmail.
+ */
+const copyBox = (label: string, value: string, big = false) =>
+  `<div style="font-size:14px;color:#6b6863;letter-spacing:1px;margin-bottom:6px">${label}</div>
+<div style="display:inline-block;background:#ffffff;border:2px dashed #b9b5ad;border-radius:10px;padding:10px 16px;font-size:${big ? 26 : 19}px;${big ? "font-weight:bold;font-family:Menlo,Consolas,monospace;letter-spacing:1px;" : ""}color:#111111;-webkit-user-select:all;user-select:all">${esc(value)}</div>`;
+
+export function welcomeEmail(o: { name: string; email: string; tempPassword: string; signInUrl: string; loginUrl: string; company?: string; signOff?: SignOff }): Email {
+  const subject = "Welcome to Unifictional: tap to sign in";
   const html = shell(`Thanks for choosing Unifictional, ${first(o.name)}.`, [
-    p(`Your client portal${o.company ? ` for <b>${esc(o.company)}</b>` : ""} is ready to sign in to. It shows how your website, Google and social media are doing, all in one place.`),
-    `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:4px 0 22px;background:#f4f3f0;border-radius:12px"><tr><td style="padding:18px 20px;font-family:${FONT}">
-<div style="font-size:14px;color:#6b6863;letter-spacing:1px">YOUR EMAIL</div><div style="font-size:19px;margin:4px 0 14px">${esc(o.email)}</div>
-<div style="font-size:14px;color:#6b6863;letter-spacing:1px">TEMPORARY PASSWORD</div><div style="font-size:26px;font-weight:bold;font-family:Menlo,Consolas,monospace;margin-top:4px">${esc(o.tempPassword)}</div>
+    p(`Your client portal${o.company ? ` for <b>${esc(o.company)}</b>` : ""} is ready. It shows how your website, Google and social media are doing, all in one place.`),
+    p("<b>Getting in takes one tap.</b> No password to type:"),
+    button(o.signInUrl, "Sign me in &rarr;"),
+    steps(["Tap <b>Sign me in</b> above. You&rsquo;re in, nothing to type.", "We&rsquo;ll ask you to pick your own password, so next time you can sign in from any device."]),
+    `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 22px;background:#f4f3f0;border-radius:12px"><tr><td style="padding:18px 20px;font-family:${FONT};color:#111111">
+<div style="font-size:16px;font-weight:bold;margin-bottom:4px">Button not working? Sign in by hand instead.</div>
+<div style="font-size:15px;color:#6b6863;line-height:1.5;margin-bottom:14px">Go to <a href="${o.loginUrl}" style="color:#111111">the sign-in page</a> (your email is already filled in), then copy the password below. <b>Tip:</b> tap the password once, or press and hold it, then choose <b>Copy</b>.</div>
+${copyBox("YOUR EMAIL", o.email)}
+<div style="height:14px;line-height:14px">&nbsp;</div>
+${copyBox("TEMPORARY PASSWORD", o.tempPassword, true)}
 </td></tr></table>`,
-    button(o.loginUrl, "Sign in to your portal"),
-    p("<b>Three easy steps:</b>"),
-    steps(["Tap the button above.", "Type your email and the temporary password shown here.", "Pick your own password. We'll ask you right away, and you'll use it from then on."]),
-    p("<b>What happens next:</b> we set up your dashboard and connect your website, usually within one business day. We'll email you the moment it's ready, so there's nothing else you need to do."),
+    p("<b>What happens next:</b> we set up your dashboard and connect your website, usually within one business day. We&rsquo;ll email you the moment it&rsquo;s ready, so there&rsquo;s nothing else you need to do."),
+    `<p style="margin:0 0 16px;font-size:15px;line-height:1.5;color:#6b6863">The <b>Sign me in</b> button works for 14 days, or until you pick your own password. Please don&rsquo;t forward this email: anyone with it can open your portal.</p>`,
   ].join(""), o.signOff);
   const text = `Thanks for choosing Unifictional, ${(o.name || "").split(" ")[0] || "there"}.
 
-Your client portal is ready to sign in to.
-Sign in: ${o.loginUrl}
+Your client portal is ready. Getting in takes one tap, no password to type:
+
+SIGN ME IN: ${o.signInUrl}
+
+We'll then ask you to pick your own password.
+
+Link not working? Sign in by hand:
+${o.loginUrl}
 Email: ${o.email}
 Temporary password: ${o.tempPassword}
 
-1. Open the link above.
-2. Type your email and the temporary password.
-3. Pick your own password when we ask.
-
 We'll set up your dashboard within one business day and email you when it's ready.
+The sign-in link works for 14 days or until you pick your own password. Please don't forward this email.
 Questions? Just reply to this email.`;
   return { subject, html, text };
 }

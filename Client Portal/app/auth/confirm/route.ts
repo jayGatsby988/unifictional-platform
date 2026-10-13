@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   if (tokenHash) {
     const supabase = await createClient();
     const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
-    if (!error) return NextResponse.redirect(`${origin}${next.startsWith("/") ? next : "/overview"}`);
+    if (!error) return NextResponse.redirect(`${origin}${next.startsWith("/") && !next.startsWith("//") ? next : "/overview"}`);
   }
   return NextResponse.redirect(`${origin}/login?error=link`);
 }

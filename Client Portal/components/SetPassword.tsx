@@ -17,7 +17,7 @@ export function SetPassword() {
     e.preventDefault();
     if (pw.length < 8) { setState("error"); setMsg("Use at least 8 characters."); return; }
     setState("busy");
-    const { error } = await createClient().auth.updateUser({ password: pw, data: { must_change_password: false } });
+    const { error } = await createClient().auth.updateUser({ password: pw, data: { must_change_password: false, welcome_nonce: null } }); // also retires the welcome email's one-tap link
     if (error) { setState("error"); setMsg(error.message); return; }
     setState("done");
     router.refresh();

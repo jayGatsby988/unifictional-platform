@@ -3,6 +3,7 @@ import { getSession } from "@/lib/data/repo";
 import { adminConfigured } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { ensureLogin } from "@/lib/accounts/create";
+import { welcomeLink } from "@/lib/accounts/welcome-link";
 import { onboardBilling } from "@/lib/billing/onboard";
 import { emailConfigured, sendEmail, signOffFor } from "@/lib/email/send";
 import { welcomeEmail } from "@/lib/email/templates";
@@ -37,10 +38,11 @@ export async function POST(request: Request) {
   const { data: row } = await db.from("clients").select("id, name, square_customer_id").eq("id", client.id).maybeSingle();
   if (row) await onboardBilling(db, { client: row, email });
 
-  const loginUrl = `${new URL(request.url).origin}/login`;
+  const origin = new URL(request.url).origin;
+  const loginUrl = `${origin}/login`;
   let emailed = false;
   if (b.emailThem !== false && emailConfigured) {
-    emailed = (await sendEmail({ to: email, sender: "onboarding", ...welcomeEmail({ name, email, tempPassword: login.password, loginUrl: `${loginUrl}?email=${encodeURIComponent(email)}`, company: client.name, signOff: signOffFor("onboarding") }) })).sent;
+    emailed = (await sendEmail({ to: email, sender: "onboarding", ...welcomeEmail({ name, email, tempPassword: login.password, signInUrl: welcomeLink({ userId: login.userId, nonce: login.welcomeNonce, origin }), loginUrl: `${loginUrl}?email=${encodeURIComponent(email)}`, company: client.name, signOff: signOffFor("onboarding") }) })).sent;
   }
   return NextResponse.json({ ok: true, email, password: login.password, reset: false, loginUrl, company: client.name, emailed });
 }

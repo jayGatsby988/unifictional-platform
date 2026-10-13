@@ -9,7 +9,7 @@ import { faqs } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Questions",
   description:
-    "Answers about how Unifictional works — why there's no pricing online, who we work with, what we build, and how to get started.",
+    "Answers about how Unifictional works — how pricing works, who we work with, what we build, and how to get started.",
   alternates: { canonical: "/faq" },
 };
 
@@ -38,7 +38,7 @@ export default function FaqPage() {
             Questions, <em className="italic text-terracotta">answered.</em>
           </>
         }
-        intro="The things builders ask us most — including the big one: why there's no pricing on this site."
+        intro="The things builders ask us most — including the big one: how pricing works."
       />
 
       <section className="bg-bone py-16 sm:py-20">

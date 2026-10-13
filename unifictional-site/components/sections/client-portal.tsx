@@ -24,7 +24,7 @@ const FEATURES = [
 ];
 
 const STEPS = [
-  { n: "01", title: "Create your free account", body: "Two minutes. A one-tap sign-in link arrives by email, no password to type." },
+  { n: "01", title: "Create your free account", body: "Two minutes. A sign-in link arrives by email: one tap and you're in." },
   { n: "02", title: "We connect everything", body: "Your website, Google and social accounts, usually within one business day. Nothing technical for you to do." },
   { n: "03", title: "Watch it work", body: "Numbers update every night, and a plain-English summary lands in your inbox every month." },
 ];

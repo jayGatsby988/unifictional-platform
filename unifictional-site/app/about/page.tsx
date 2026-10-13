@@ -125,19 +125,19 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Why no pricing */}
+      {/* How pricing works */}
       <section className="border-y border-line bg-sand/60 py-20 sm:py-28">
         <Container>
           <div className="max-w-3xl">
-            <Eyebrow>Why there&apos;s no pricing here</Eyebrow>
+            <Eyebrow>How pricing works</Eyebrow>
             <p className="mt-6 font-display text-3xl font-medium leading-[1.18] text-ink sm:text-4xl">
-              Every business is different. We&apos;d rather learn what you actually need and
-              recommend the right system — instead of boxing you into a package you&apos;ll
-              outgrow or overpay for.
+              Websites and full systems are scoped to you. We&apos;d rather learn what you
+              actually need than box you into a package you&apos;ll outgrow or overpay for.
             </p>
             <p className="mt-6 max-w-prose text-base leading-relaxed text-ink-soft">
               Your call is free, specific, and pressure-free. You leave with a clear plan either
-              way.
+              way. SEO Autopilot is the exception: it&apos;s priced per post in the open, and you
+              can start it yourself from the client portal.
             </p>
             <div className="mt-8">
               <BookCall variant="solid" size="lg" />

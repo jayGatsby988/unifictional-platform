@@ -42,7 +42,7 @@ export function StudioNav({ inboxCount, compact = false }: { inboxCount: number;
           <Link key={i.href} href={i.href} className={cn("flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition", on ? "bg-ink text-bone" : "text-ink-soft hover:bg-paper hover:text-ink")}>
             <i.icon className="h-4 w-4 shrink-0" />
             <span className="flex-1">{i.label}</span>
-            {i.href === "/studio" && inboxCount > 0 && <span className={cn("rounded-full px-2 py-0.5 text-[10px] font-mono", on ? "bg-bone text-ink" : "bg-ink text-bone")}>{inboxCount}</span>}
+            {i.href === "/studio" && inboxCount > 0 && <span className={cn("rounded-full px-2 py-0.5 text-xs font-mono", on ? "bg-bone text-ink" : "bg-ink text-bone")}>{inboxCount}</span>}
           </Link>
         );
       })}

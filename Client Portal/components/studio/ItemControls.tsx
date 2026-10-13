@@ -18,7 +18,7 @@ export function ItemControls({ kind, id, status, text }: { kind: "inspection" | 
     setMsg("Saving…");
     const res = await fetch("/api/studio/item", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ kind, id, ...patch }) });
     const j = await res.json().catch(() => ({}));
-    setMsg(res.ok ? "Saved." : j.error ?? "Could not save.");
+    setMsg(res.ok ? (j.emailed ? "Saved and emailed to the client." : "Saved.") : j.error ?? "Could not save.");
     router.refresh();
   }
 
@@ -37,7 +37,7 @@ export function ItemControls({ kind, id, status, text }: { kind: "inspection" | 
         <p className="label mb-2">{isSupport ? "Reply (the client sees this on their Requests page)" : "Notes (studio only)"}</p>
         <textarea className="input min-h-28 text-sm" value={t} onChange={(e) => setT(e.target.value)} placeholder={isSupport ? "Done — the new photos are live on the projects page." : "Called Tue, wants a quote for a full rebuild. Follow up Friday."} />
         <div className="mt-2 flex items-center gap-3">
-          <button type="button" className="btn btn-ink !py-2 !px-4 text-xs" onClick={() => save(isSupport ? { reply: t } : { notes: t })}>{isSupport ? "Save reply" : "Save notes"}</button>
+          <button type="button" className="btn btn-ink !py-2 !px-4 text-xs" onClick={() => save(isSupport ? { reply: t } : { notes: t })}>{isSupport ? "Send reply" : "Save notes"}</button>
           {msg && <span className="text-xs text-ink-muted">{msg}</span>}
         </div>
       </div>

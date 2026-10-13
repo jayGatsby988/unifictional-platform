@@ -1,0 +1,1096 @@
+{
+  "generatedAt": "2026-09-04T20:17:20.371Z",
+  "size": 1024,
+  "textures": [
+    {
+      "id": "marble_01",
+      "maps": {
+        "diff": "/textures/marble_01/diff.webp",
+        "nor": "/textures/marble_01/nor.webp",
+        "arm": "/textures/marble_01/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/marble_01"
+    },
+    {
+      "id": "marble_tiles",
+      "maps": {
+        "diff": "/textures/marble_tiles/diff.webp",
+        "nor": "/textures/marble_tiles/nor.webp",
+        "arm": "/textures/marble_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/marble_tiles"
+    },
+    {
+      "id": "granite_tile",
+      "maps": {
+        "diff": "/textures/granite_tile/diff.webp",
+        "nor": "/textures/granite_tile/nor.webp",
+        "arm": "/textures/granite_tile/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/granite_tile"
+    },
+    {
+      "id": "granite_tile_02",
+      "maps": {
+        "diff": "/textures/granite_tile_02/diff.webp",
+        "nor": "/textures/granite_tile_02/nor.webp",
+        "arm": "/textures/granite_tile_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/granite_tile_02"
+    },
+    {
+      "id": "granite_tile_03",
+      "maps": {
+        "diff": "/textures/granite_tile_03/diff.webp",
+        "nor": "/textures/granite_tile_03/nor.webp",
+        "arm": "/textures/granite_tile_03/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/granite_tile_03"
+    },
+    {
+      "id": "granite_tile_04",
+      "maps": {
+        "diff": "/textures/granite_tile_04/diff.webp",
+        "nor": "/textures/granite_tile_04/nor.webp",
+        "arm": "/textures/granite_tile_04/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/granite_tile_04"
+    },
+    {
+      "id": "terrazzo_tiles",
+      "maps": {
+        "diff": "/textures/terrazzo_tiles/diff.webp",
+        "nor": "/textures/terrazzo_tiles/nor.webp",
+        "arm": "/textures/terrazzo_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/terrazzo_tiles"
+    },
+    {
+      "id": "smooth_concrete_floor",
+      "maps": {
+        "diff": "/textures/smooth_concrete_floor/diff.webp",
+        "nor": "/textures/smooth_concrete_floor/nor.webp",
+        "arm": "/textures/smooth_concrete_floor/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/smooth_concrete_floor"
+    },
+    {
+      "id": "kitchen_wood",
+      "maps": {
+        "diff": "/textures/kitchen_wood/diff.webp",
+        "nor": "/textures/kitchen_wood/nor.webp",
+        "arm": "/textures/kitchen_wood/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/kitchen_wood"
+    },
+    {
+      "id": "oak_wood_planks",
+      "maps": {
+        "diff": "/textures/oak_wood_planks/diff.webp",
+        "nor": "/textures/oak_wood_planks/nor.webp",
+        "arm": "/textures/oak_wood_planks/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/oak_wood_planks"
+    },
+    {
+      "id": "concrete_floor_01",
+      "maps": {
+        "diff": "/textures/concrete_floor_01/diff.webp",
+        "nor": "/textures/concrete_floor_01/nor.webp",
+        "arm": "/textures/concrete_floor_01/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/concrete_floor_01"
+    },
+    {
+      "id": "long_white_tiles",
+      "maps": {
+        "diff": "/textures/long_white_tiles/diff.webp",
+        "nor": "/textures/long_white_tiles/nor.webp",
+        "arm": "/textures/long_white_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/long_white_tiles"
+    },
+    {
+      "id": "square_tiled_wall",
+      "maps": {
+        "diff": "/textures/square_tiled_wall/diff.webp",
+        "nor": "/textures/square_tiled_wall/nor.webp",
+        "arm": "/textures/square_tiled_wall/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/square_tiled_wall"
+    },
+    {
+      "id": "rounded_square_tiled_wall",
+      "maps": {
+        "diff": "/textures/rounded_square_tiled_wall/diff.webp",
+        "nor": "/textures/rounded_square_tiled_wall/nor.webp",
+        "arm": "/textures/rounded_square_tiled_wall/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/rounded_square_tiled_wall"
+    },
+    {
+      "id": "marble_mosaic_tiles",
+      "maps": {
+        "diff": "/textures/marble_mosaic_tiles/diff.webp",
+        "nor": "/textures/marble_mosaic_tiles/nor.webp",
+        "arm": "/textures/marble_mosaic_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/marble_mosaic_tiles"
+    },
+    {
+      "id": "patterned_slate_tiles",
+      "maps": {
+        "diff": "/textures/patterned_slate_tiles/diff.webp",
+        "nor": "/textures/patterned_slate_tiles/nor.webp",
+        "arm": "/textures/patterned_slate_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/patterned_slate_tiles"
+    },
+    {
+      "id": "stone_tile_wall",
+      "maps": {
+        "diff": "/textures/stone_tile_wall/diff.webp",
+        "nor": "/textures/stone_tile_wall/nor.webp",
+        "arm": "/textures/stone_tile_wall/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/stone_tile_wall"
+    },
+    {
+      "id": "painted_brick",
+      "maps": {
+        "diff": "/textures/painted_brick/diff.webp",
+        "nor": "/textures/painted_brick/nor.webp",
+        "arm": "/textures/painted_brick/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/painted_brick"
+    },
+    {
+      "id": "interior_tiles",
+      "maps": {
+        "diff": "/textures/interior_tiles/diff.webp",
+        "nor": "/textures/interior_tiles/nor.webp",
+        "arm": "/textures/interior_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/interior_tiles"
+    },
+    {
+      "id": "square_tiles_02",
+      "maps": {
+        "diff": "/textures/square_tiles_02/diff.webp",
+        "nor": "/textures/square_tiles_02/nor.webp",
+        "arm": "/textures/square_tiles_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/square_tiles_02"
+    },
+    {
+      "id": "square_tiles",
+      "maps": {
+        "diff": "/textures/square_tiles/diff.webp",
+        "nor": "/textures/square_tiles/nor.webp",
+        "arm": "/textures/square_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/square_tiles"
+    },
+    {
+      "id": "hexagonal_concrete_paving",
+      "maps": {
+        "diff": "/textures/hexagonal_concrete_paving/diff.webp",
+        "nor": "/textures/hexagonal_concrete_paving/nor.webp",
+        "arm": "/textures/hexagonal_concrete_paving/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/hexagonal_concrete_paving"
+    },
+    {
+      "id": "slab_tiles",
+      "maps": {
+        "diff": "/textures/slab_tiles/diff.webp",
+        "nor": "/textures/slab_tiles/nor.webp",
+        "arm": "/textures/slab_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/slab_tiles"
+    },
+    {
+      "id": "stone_tiles_02",
+      "maps": {
+        "diff": "/textures/stone_tiles_02/diff.webp",
+        "nor": "/textures/stone_tiles_02/nor.webp",
+        "arm": "/textures/stone_tiles_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/stone_tiles_02"
+    },
+    {
+      "id": "plank_flooring",
+      "maps": {
+        "diff": "/textures/plank_flooring/diff.webp",
+        "nor": "/textures/plank_flooring/nor.webp",
+        "arm": "/textures/plank_flooring/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/plank_flooring"
+    },
+    {
+      "id": "plank_flooring_02",
+      "maps": {
+        "diff": "/textures/plank_flooring_02/diff.webp",
+        "nor": "/textures/plank_flooring_02/nor.webp",
+        "arm": "/textures/plank_flooring_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/plank_flooring_02"
+    },
+    {
+      "id": "plank_flooring_03",
+      "maps": {
+        "diff": "/textures/plank_flooring_03/diff.webp",
+        "nor": "/textures/plank_flooring_03/nor.webp",
+        "arm": "/textures/plank_flooring_03/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/plank_flooring_03"
+    },
+    {
+      "id": "plank_flooring_04",
+      "maps": {
+        "diff": "/textures/plank_flooring_04/diff.webp",
+        "nor": "/textures/plank_flooring_04/nor.webp",
+        "arm": "/textures/plank_flooring_04/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/plank_flooring_04"
+    },
+    {
+      "id": "laminate_floor_02",
+      "maps": {
+        "diff": "/textures/laminate_floor_02/diff.webp",
+        "nor": "/textures/laminate_floor_02/nor.webp",
+        "arm": "/textures/laminate_floor_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/laminate_floor_02"
+    },
+    {
+      "id": "laminate_floor",
+      "maps": {
+        "diff": "/textures/laminate_floor/diff.webp",
+        "nor": "/textures/laminate_floor/nor.webp",
+        "arm": "/textures/laminate_floor/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/laminate_floor"
+    },
+    {
+      "id": "herringbone_parquet",
+      "maps": {
+        "diff": "/textures/herringbone_parquet/diff.webp",
+        "nor": "/textures/herringbone_parquet/nor.webp",
+        "arm": "/textures/herringbone_parquet/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/herringbone_parquet"
+    },
+    {
+      "id": "diagonal_parquet",
+      "maps": {
+        "diff": "/textures/diagonal_parquet/diff.webp",
+        "nor": "/textures/diagonal_parquet/nor.webp",
+        "arm": "/textures/diagonal_parquet/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/diagonal_parquet"
+    },
+    {
+      "id": "rectangular_parquet",
+      "maps": {
+        "diff": "/textures/rectangular_parquet/diff.webp",
+        "nor": "/textures/rectangular_parquet/nor.webp",
+        "arm": "/textures/rectangular_parquet/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/rectangular_parquet"
+    },
+    {
+      "id": "dark_wooden_planks",
+      "maps": {
+        "diff": "/textures/dark_wooden_planks/diff.webp",
+        "nor": "/textures/dark_wooden_planks/nor.webp",
+        "arm": "/textures/dark_wooden_planks/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/dark_wooden_planks"
+    },
+    {
+      "id": "wood_floor",
+      "maps": {
+        "diff": "/textures/wood_floor/diff.webp",
+        "nor": "/textures/wood_floor/nor.webp",
+        "arm": "/textures/wood_floor/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/wood_floor"
+    },
+    {
+      "id": "large_floor_tiles_02",
+      "maps": {
+        "diff": "/textures/large_floor_tiles_02/diff.webp",
+        "nor": "/textures/large_floor_tiles_02/nor.webp",
+        "arm": "/textures/large_floor_tiles_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/large_floor_tiles_02"
+    },
+    {
+      "id": "floor_tiles_06",
+      "maps": {
+        "diff": "/textures/floor_tiles_06/diff.webp",
+        "nor": "/textures/floor_tiles_06/nor.webp",
+        "arm": "/textures/floor_tiles_06/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/floor_tiles_06"
+    },
+    {
+      "id": "floor_tiles_02",
+      "maps": {
+        "diff": "/textures/floor_tiles_02/diff.webp",
+        "nor": "/textures/floor_tiles_02/nor.webp",
+        "arm": "/textures/floor_tiles_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/floor_tiles_02"
+    },
+    {
+      "id": "grey_tiles",
+      "maps": {
+        "diff": "/textures/grey_tiles/diff.webp",
+        "nor": "/textures/grey_tiles/nor.webp",
+        "arm": "/textures/grey_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/grey_tiles"
+    },
+    {
+      "id": "large_grey_tiles",
+      "maps": {
+        "diff": "/textures/large_grey_tiles/diff.webp",
+        "nor": "/textures/large_grey_tiles/nor.webp",
+        "arm": "/textures/large_grey_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/large_grey_tiles"
+    },
+    {
+      "id": "slate_floor_02",
+      "maps": {
+        "diff": "/textures/slate_floor_02/diff.webp",
+        "nor": "/textures/slate_floor_02/nor.webp",
+        "arm": "/textures/slate_floor_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/slate_floor_02"
+    },
+    {
+      "id": "terracotta_floor_tiles",
+      "maps": {
+        "diff": "/textures/terracotta_floor_tiles/diff.webp",
+        "nor": "/textures/terracotta_floor_tiles/nor.webp",
+        "arm": "/textures/terracotta_floor_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/terracotta_floor_tiles"
+    },
+    {
+      "id": "checkered_pavement_tiles",
+      "maps": {
+        "diff": "/textures/checkered_pavement_tiles/diff.webp",
+        "nor": "/textures/checkered_pavement_tiles/nor.webp",
+        "arm": "/textures/checkered_pavement_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/checkered_pavement_tiles"
+    },
+    {
+      "id": "tiled_floor_001",
+      "maps": {
+        "diff": "/textures/tiled_floor_001/diff.webp",
+        "nor": "/textures/tiled_floor_001/nor.webp",
+        "arm": "/textures/tiled_floor_001/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/tiled_floor_001"
+    },
+    {
+      "id": "oak_veneer_01",
+      "maps": {
+        "diff": "/textures/oak_veneer_01/diff.webp",
+        "nor": "/textures/oak_veneer_01/nor.webp",
+        "arm": "/textures/oak_veneer_01/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/oak_veneer_01"
+    },
+    {
+      "id": "white_oak_veneer",
+      "maps": {
+        "diff": "/textures/white_oak_veneer/diff.webp",
+        "nor": "/textures/white_oak_veneer/nor.webp",
+        "arm": "/textures/white_oak_veneer/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/white_oak_veneer"
+    },
+    {
+      "id": "american_walnut_veneer",
+      "maps": {
+        "diff": "/textures/american_walnut_veneer/diff.webp",
+        "nor": "/textures/american_walnut_veneer/nor.webp",
+        "arm": "/textures/american_walnut_veneer/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/american_walnut_veneer"
+    },
+    {
+      "id": "black_walnut_veneer_01",
+      "maps": {
+        "diff": "/textures/black_walnut_veneer_01/diff.webp",
+        "nor": "/textures/black_walnut_veneer_01/nor.webp",
+        "arm": "/textures/black_walnut_veneer_01/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/black_walnut_veneer_01"
+    },
+    {
+      "id": "grey_oak_veneer_01",
+      "maps": {
+        "diff": "/textures/grey_oak_veneer_01/diff.webp",
+        "nor": "/textures/grey_oak_veneer_01/nor.webp",
+        "arm": "/textures/grey_oak_veneer_01/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/grey_oak_veneer_01"
+    },
+    {
+      "id": "washed_grey_oak_veneer",
+      "maps": {
+        "diff": "/textures/washed_grey_oak_veneer/diff.webp",
+        "nor": "/textures/washed_grey_oak_veneer/nor.webp",
+        "arm": "/textures/washed_grey_oak_veneer/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/washed_grey_oak_veneer"
+    },
+    {
+      "id": "cherry_veneer",
+      "maps": {
+        "diff": "/textures/cherry_veneer/diff.webp",
+        "nor": "/textures/cherry_veneer/nor.webp",
+        "arm": "/textures/cherry_veneer/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/cherry_veneer"
+    },
+    {
+      "id": "ash_veneer",
+      "maps": {
+        "diff": "/textures/ash_veneer/diff.webp",
+        "nor": "/textures/ash_veneer/nor.webp",
+        "arm": "/textures/ash_veneer/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/ash_veneer"
+    },
+    {
+      "id": "mocha_oak_veneer",
+      "maps": {
+        "diff": "/textures/mocha_oak_veneer/diff.webp",
+        "nor": "/textures/mocha_oak_veneer/nor.webp",
+        "arm": "/textures/mocha_oak_veneer/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/mocha_oak_veneer"
+    },
+    {
+      "id": "black_oak_veneer",
+      "maps": {
+        "diff": "/textures/black_oak_veneer/diff.webp",
+        "nor": "/textures/black_oak_veneer/nor.webp",
+        "arm": "/textures/black_oak_veneer/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/black_oak_veneer"
+    },
+    {
+      "id": "natural_walnut_veneer",
+      "maps": {
+        "diff": "/textures/natural_walnut_veneer/diff.webp",
+        "nor": "/textures/natural_walnut_veneer/nor.webp",
+        "arm": "/textures/natural_walnut_veneer/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/natural_walnut_veneer"
+    },
+    {
+      "id": "plastered_wall",
+      "maps": {
+        "diff": "/textures/plastered_wall/diff.webp",
+        "nor": "/textures/plastered_wall/nor.webp",
+        "arm": "/textures/plastered_wall/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/plastered_wall"
+    },
+    {
+      "id": "white_plaster_02",
+      "maps": {
+        "diff": "/textures/white_plaster_02/diff.webp",
+        "nor": "/textures/white_plaster_02/nor.webp",
+        "arm": "/textures/white_plaster_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/white_plaster_02"
+    },
+    {
+      "id": "painted_plaster_wall",
+      "maps": {
+        "diff": "/textures/painted_plaster_wall/diff.webp",
+        "nor": "/textures/painted_plaster_wall/nor.webp",
+        "arm": "/textures/painted_plaster_wall/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/painted_plaster_wall"
+    },
+    {
+      "id": "white_rough_plaster",
+      "maps": {
+        "diff": "/textures/white_rough_plaster/diff.webp",
+        "nor": "/textures/white_rough_plaster/nor.webp",
+        "arm": "/textures/white_rough_plaster/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/white_rough_plaster"
+    },
+    {
+      "id": "beige_wall_001",
+      "maps": {
+        "diff": "/textures/beige_wall_001/diff.webp",
+        "nor": "/textures/beige_wall_001/nor.webp",
+        "arm": "/textures/beige_wall_001/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/beige_wall_001"
+    },
+    {
+      "id": "grey_plaster_02",
+      "maps": {
+        "diff": "/textures/grey_plaster_02/diff.webp",
+        "nor": "/textures/grey_plaster_02/nor.webp",
+        "arm": "/textures/grey_plaster_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/grey_plaster_02"
+    },
+    {
+      "id": "white_stucco",
+      "maps": {
+        "diff": "/textures/white_stucco/diff.webp",
+        "nor": "/textures/white_stucco/nor.webp",
+        "arm": "/textures/white_stucco/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/white_stucco"
+    },
+    {
+      "id": "ceiling_interior",
+      "maps": {
+        "diff": "/textures/ceiling_interior/diff.webp",
+        "nor": "/textures/ceiling_interior/nor.webp",
+        "arm": "/textures/ceiling_interior/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/ceiling_interior"
+    },
+    {
+      "id": "weathered_plank_siding",
+      "maps": {
+        "diff": "/textures/weathered_plank_siding/diff.webp",
+        "nor": "/textures/weathered_plank_siding/nor.webp",
+        "arm": "/textures/weathered_plank_siding/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/weathered_plank_siding"
+    },
+    {
+      "id": "white_planks_clean",
+      "maps": {
+        "diff": "/textures/white_planks_clean/diff.webp",
+        "nor": "/textures/white_planks_clean/nor.webp",
+        "arm": "/textures/white_planks_clean/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/white_planks_clean"
+    },
+    {
+      "id": "wood_plank_wall",
+      "maps": {
+        "diff": "/textures/wood_plank_wall/diff.webp",
+        "nor": "/textures/wood_plank_wall/nor.webp",
+        "arm": "/textures/wood_plank_wall/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/wood_plank_wall"
+    },
+    {
+      "id": "exterior_wall_cladding",
+      "maps": {
+        "diff": "/textures/exterior_wall_cladding/diff.webp",
+        "nor": "/textures/exterior_wall_cladding/nor.webp",
+        "arm": "/textures/exterior_wall_cladding/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/exterior_wall_cladding"
+    },
+    {
+      "id": "exterior_wall_cladding_02",
+      "maps": {
+        "diff": "/textures/exterior_wall_cladding_02/diff.webp",
+        "nor": "/textures/exterior_wall_cladding_02/nor.webp",
+        "arm": "/textures/exterior_wall_cladding_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/exterior_wall_cladding_02"
+    },
+    {
+      "id": "exterior_wall_cladding_03",
+      "maps": {
+        "diff": "/textures/exterior_wall_cladding_03/diff.webp",
+        "nor": "/textures/exterior_wall_cladding_03/nor.webp",
+        "arm": "/textures/exterior_wall_cladding_03/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/exterior_wall_cladding_03"
+    },
+    {
+      "id": "box_profile_metal_sheet",
+      "maps": {
+        "diff": "/textures/box_profile_metal_sheet/diff.webp",
+        "nor": "/textures/box_profile_metal_sheet/nor.webp",
+        "arm": "/textures/box_profile_metal_sheet/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/box_profile_metal_sheet"
+    },
+    {
+      "id": "corrugated_iron_02",
+      "maps": {
+        "diff": "/textures/corrugated_iron_02/diff.webp",
+        "nor": "/textures/corrugated_iron_02/nor.webp",
+        "arm": "/textures/corrugated_iron_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/corrugated_iron_02"
+    },
+    {
+      "id": "red_brick_03",
+      "maps": {
+        "diff": "/textures/red_brick_03/diff.webp",
+        "nor": "/textures/red_brick_03/nor.webp",
+        "arm": "/textures/red_brick_03/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/red_brick_03"
+    },
+    {
+      "id": "brick_wall_001",
+      "maps": {
+        "diff": "/textures/brick_wall_001/diff.webp",
+        "nor": "/textures/brick_wall_001/nor.webp",
+        "arm": "/textures/brick_wall_001/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/brick_wall_001"
+    },
+    {
+      "id": "brick_wall_04",
+      "maps": {
+        "diff": "/textures/brick_wall_04/diff.webp",
+        "nor": "/textures/brick_wall_04/nor.webp",
+        "arm": "/textures/brick_wall_04/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/brick_wall_04"
+    },
+    {
+      "id": "dark_brick_wall",
+      "maps": {
+        "diff": "/textures/dark_brick_wall/diff.webp",
+        "nor": "/textures/dark_brick_wall/nor.webp",
+        "arm": "/textures/dark_brick_wall/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/dark_brick_wall"
+    },
+    {
+      "id": "plaster_stone_wall_01",
+      "maps": {
+        "diff": "/textures/plaster_stone_wall_01/diff.webp",
+        "nor": "/textures/plaster_stone_wall_01/nor.webp",
+        "arm": "/textures/plaster_stone_wall_01/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/plaster_stone_wall_01"
+    },
+    {
+      "id": "mixed_stone_tiles",
+      "maps": {
+        "diff": "/textures/mixed_stone_tiles/diff.webp",
+        "nor": "/textures/mixed_stone_tiles/nor.webp",
+        "arm": "/textures/mixed_stone_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/mixed_stone_tiles"
+    },
+    {
+      "id": "sandstone_blocks_04",
+      "maps": {
+        "diff": "/textures/sandstone_blocks_04/diff.webp",
+        "nor": "/textures/sandstone_blocks_04/nor.webp",
+        "arm": "/textures/sandstone_blocks_04/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/sandstone_blocks_04"
+    },
+    {
+      "id": "castle_wall_slates",
+      "maps": {
+        "diff": "/textures/castle_wall_slates/diff.webp",
+        "nor": "/textures/castle_wall_slates/nor.webp",
+        "arm": "/textures/castle_wall_slates/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/castle_wall_slates"
+    },
+    {
+      "id": "roof_tiles",
+      "maps": {
+        "diff": "/textures/roof_tiles/diff.webp",
+        "nor": "/textures/roof_tiles/nor.webp",
+        "arm": "/textures/roof_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/roof_tiles"
+    },
+    {
+      "id": "grey_roof_tiles",
+      "maps": {
+        "diff": "/textures/grey_roof_tiles/diff.webp",
+        "nor": "/textures/grey_roof_tiles/nor.webp",
+        "arm": "/textures/grey_roof_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/grey_roof_tiles"
+    },
+    {
+      "id": "clay_roof_tiles",
+      "maps": {
+        "diff": "/textures/clay_roof_tiles/diff.webp",
+        "nor": "/textures/clay_roof_tiles/nor.webp",
+        "arm": "/textures/clay_roof_tiles/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/clay_roof_tiles"
+    },
+    {
+      "id": "roof_slates_02",
+      "maps": {
+        "diff": "/textures/roof_slates_02/diff.webp",
+        "nor": "/textures/roof_slates_02/nor.webp",
+        "arm": "/textures/roof_slates_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/roof_slates_02"
+    },
+    {
+      "id": "red_slate_roof_tiles_01",
+      "maps": {
+        "diff": "/textures/red_slate_roof_tiles_01/diff.webp",
+        "nor": "/textures/red_slate_roof_tiles_01/nor.webp",
+        "arm": "/textures/red_slate_roof_tiles_01/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/red_slate_roof_tiles_01"
+    },
+    {
+      "id": "roof_07",
+      "maps": {
+        "diff": "/textures/roof_07/diff.webp",
+        "nor": "/textures/roof_07/nor.webp",
+        "arm": "/textures/roof_07/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/roof_07"
+    },
+    {
+      "id": "roof_09",
+      "maps": {
+        "diff": "/textures/roof_09/diff.webp",
+        "nor": "/textures/roof_09/nor.webp",
+        "arm": "/textures/roof_09/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/roof_09"
+    },
+    {
+      "id": "grey_roof_01",
+      "maps": {
+        "diff": "/textures/grey_roof_01/diff.webp",
+        "nor": "/textures/grey_roof_01/nor.webp",
+        "arm": "/textures/grey_roof_01/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/grey_roof_01"
+    },
+    {
+      "id": "roof_3",
+      "maps": {
+        "diff": "/textures/roof_3/diff.webp",
+        "nor": "/textures/roof_3/nor.webp",
+        "arm": "/textures/roof_3/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/roof_3"
+    },
+    {
+      "id": "ceramic_roof_01",
+      "maps": {
+        "diff": "/textures/ceramic_roof_01/diff.webp",
+        "nor": "/textures/ceramic_roof_01/nor.webp",
+        "arm": "/textures/ceramic_roof_01/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/ceramic_roof_01"
+    },
+    {
+      "id": "leafy_grass",
+      "maps": {
+        "diff": "/textures/leafy_grass/diff.webp",
+        "nor": "/textures/leafy_grass/nor.webp",
+        "arm": "/textures/leafy_grass/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/leafy_grass"
+    },
+    {
+      "id": "sparse_grass",
+      "maps": {
+        "diff": "/textures/sparse_grass/diff.webp",
+        "nor": "/textures/sparse_grass/nor.webp",
+        "arm": "/textures/sparse_grass/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/sparse_grass"
+    },
+    {
+      "id": "concrete_pavers",
+      "maps": {
+        "diff": "/textures/concrete_pavers/diff.webp",
+        "nor": "/textures/concrete_pavers/nor.webp",
+        "arm": "/textures/concrete_pavers/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/concrete_pavers"
+    },
+    {
+      "id": "interlocking_concrete_pavers",
+      "maps": {
+        "diff": "/textures/interlocking_concrete_pavers/diff.webp",
+        "nor": "/textures/interlocking_concrete_pavers/nor.webp",
+        "arm": "/textures/interlocking_concrete_pavers/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/interlocking_concrete_pavers"
+    },
+    {
+      "id": "stone_pavers",
+      "maps": {
+        "diff": "/textures/stone_pavers/diff.webp",
+        "nor": "/textures/stone_pavers/nor.webp",
+        "arm": "/textures/stone_pavers/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/stone_pavers"
+    },
+    {
+      "id": "gravel_floor_02",
+      "maps": {
+        "diff": "/textures/gravel_floor_02/diff.webp",
+        "nor": "/textures/gravel_floor_02/nor.webp",
+        "arm": "/textures/gravel_floor_02/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/gravel_floor_02"
+    },
+    {
+      "id": "slate_driveway",
+      "maps": {
+        "diff": "/textures/slate_driveway/diff.webp",
+        "nor": "/textures/slate_driveway/nor.webp",
+        "arm": "/textures/slate_driveway/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/slate_driveway"
+    },
+    {
+      "id": "asphalt_01",
+      "maps": {
+        "diff": "/textures/asphalt_01/diff.webp",
+        "nor": "/textures/asphalt_01/nor.webp",
+        "arm": "/textures/asphalt_01/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/asphalt_01"
+    },
+    {
+      "id": "concrete_pavement",
+      "maps": {
+        "diff": "/textures/concrete_pavement/diff.webp",
+        "nor": "/textures/concrete_pavement/nor.webp",
+        "arm": "/textures/concrete_pavement/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/concrete_pavement"
+    },
+    {
+      "id": "patterned_concrete_pavers",
+      "maps": {
+        "diff": "/textures/patterned_concrete_pavers/diff.webp",
+        "nor": "/textures/patterned_concrete_pavers/nor.webp",
+        "arm": "/textures/patterned_concrete_pavers/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/patterned_concrete_pavers"
+    },
+    {
+      "id": "wood_floor_deck",
+      "maps": {
+        "diff": "/textures/wood_floor_deck/diff.webp",
+        "nor": "/textures/wood_floor_deck/nor.webp",
+        "arm": "/textures/wood_floor_deck/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/wood_floor_deck"
+    },
+    {
+      "id": "grass_path_2",
+      "maps": {
+        "diff": "/textures/grass_path_2/diff.webp",
+        "nor": "/textures/grass_path_2/nor.webp",
+        "arm": "/textures/grass_path_2/arm.webp"
+      },
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/grass_path_2"
+    }
+  ],
+  "hdris": [
+    {
+      "id": "studio_small_09",
+      "url": "/hdri/studio_small_09_1k.hdr",
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/studio_small_09"
+    },
+    {
+      "id": "lebombo",
+      "url": "/hdri/lebombo_1k.hdr",
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/lebombo"
+    },
+    {
+      "id": "blinds",
+      "url": "/hdri/blinds_1k.hdr",
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/blinds"
+    },
+    {
+      "id": "brown_photostudio_02",
+      "url": "/hdri/brown_photostudio_02_1k.hdr",
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/brown_photostudio_02"
+    },
+    {
+      "id": "photo_studio_loft_hall",
+      "url": "/hdri/photo_studio_loft_hall_1k.hdr",
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/photo_studio_loft_hall"
+    },
+    {
+      "id": "bathroom",
+      "url": "/hdri/bathroom_1k.hdr",
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/bathroom"
+    },
+    {
+      "id": "hotel_room",
+      "url": "/hdri/hotel_room_1k.hdr",
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/hotel_room"
+    },
+    {
+      "id": "kloofendal_48d_partly_cloudy_puresky",
+      "url": "/hdri/kloofendal_48d_partly_cloudy_puresky_1k.hdr",
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky"
+    },
+    {
+      "id": "qwantani_puresky",
+      "url": "/hdri/qwantani_puresky_1k.hdr",
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/qwantani_puresky"
+    },
+    {
+      "id": "residential_garden",
+      "url": "/hdri/residential_garden_1k.hdr",
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/residential_garden"
+    },
+    {
+      "id": "suburban_parking_area",
+      "url": "/hdri/suburban_parking_area_1k.hdr",
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/suburban_parking_area"
+    },
+    {
+      "id": "courtyard",
+      "url": "/hdri/courtyard_1k.hdr",
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/courtyard"
+    },
+    {
+      "id": "spruit_sunrise",
+      "url": "/hdri/spruit_sunrise_1k.hdr",
+      "license": "CC0",
+      "source": "https://polyhaven.com/a/spruit_sunrise"
+    }
+  ]
+}

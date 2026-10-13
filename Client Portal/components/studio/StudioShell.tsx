@@ -14,7 +14,7 @@ export function StudioShell({ session, inboxCount, children }: { session: Sessio
           <Logo className="h-8 w-8" />
           <div className="leading-tight">
             <div className="font-display text-base tracking-wide">Unifictional</div>
-            <div className="label !text-[9px]">Studio</div>
+            <div className="label !text-xs">Studio</div>
           </div>
         </Link>
         <StudioNav inboxCount={inboxCount} />

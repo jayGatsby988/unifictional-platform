@@ -41,7 +41,7 @@ export default async function EstimatorPage() {
 
       {live && (<>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-        <Stat label="Homeowners used it · 30d" value={e.stats30.sessions} delta={<Delta now={e.stats30.sessions} prev={e.prev30.sessions} />} />
+        <Stat label="Homeowners used it" sub="last 30 days" value={e.stats30.sessions} delta={<Delta now={e.stats30.sessions} prev={e.prev30.sessions} />} />
         <Stat label="3D models generated" value={e.stats30.generated} delta={<Delta now={e.stats30.generated} prev={e.prev30.generated} />} sub={`${Math.round((e.stats30.generated / Math.max(e.stats30.sessions, 1)) * 100)}% of visitors finish`} />
         <Stat label="Quotes shown" value={e.stats30.quotesSent} delta={<Delta now={e.stats30.quotesSent} prev={e.prev30.quotesSent} />} />
         <Stat label="Left contact details" value={e.stats30.leads} delta={<Delta now={e.stats30.leads} prev={e.prev30.leads} />} sub={newLeads ? `${newLeads} not contacted yet` : "all followed up"} />
@@ -54,8 +54,8 @@ export default async function EstimatorPage() {
       </div>
 
       <div className="mb-10">
-        <SubHead right={<span className="label !text-[9px]">Newest first</span>}>Quotes homeowners generated</SubHead>
-        <div className="panel overflow-x-auto">
+        <SubHead right={<span className="label !text-xs">Newest first</span>}>Quotes homeowners generated</SubHead>
+        <div className="panel overflow-x-auto hidden sm:block">
           <table className="table w-full min-w-[760px]">
             <thead><tr><th>When</th><th>Project</th><th className="text-right">Size</th><th>Options</th><th className="text-right">Estimate</th><th>Homeowner</th><th>Status</th><th></th></tr></thead>
             <tbody>
@@ -68,13 +68,38 @@ export default async function EstimatorPage() {
                   <td className="text-right font-mono text-xs whitespace-nowrap">${fmt.compact(g.quoteLow)} – ${fmt.compact(g.quoteHigh)}</td>
                   <td className="whitespace-nowrap">{g.contact ? <span>{g.contact.name}</span> : <span className="text-ink-muted text-xs">anonymous</span>}</td>
                   <td>{g.contact ? <GenerationStatusSelect id={g.id} status={g.status} compact /> : <span className="pill pill-neutral">no contact</span>}</td>
-                  <td><Link href={`/estimator/${g.id}`} className="text-ink-muted hover:text-ink"><ChevronRight className="h-4 w-4" /></Link></td>
+                  <td><Link href={`/estimator/${g.id}`} aria-label={`Open the ${g.projectType} quote from ${fmt.date(g.at)}`} className="text-ink-muted hover:text-ink"><ChevronRight className="h-4 w-4" aria-hidden="true" /></Link></td>
                 </tr>
               ))}
               {e.generations.length === 0 && <tr><td colSpan={8} className="text-sm text-ink-muted">Nothing generated yet. Once the tool is live on your site, every quote shows up here.</td></tr>}
             </tbody>
           </table>
         </div>
+        {/* Phones: one card per quote instead of a sideways-scrolling table. */}
+        <ul className="sm:hidden space-y-3">
+          {e.generations.map((g) => (
+            <li key={g.id} className="panel p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="font-medium">{g.projectType}</p>
+                  <p className="text-sm text-ink-muted">{fmt.date(g.at)} · {fmt.int(g.size)} {g.unit === "sqft" ? "sq ft" : g.unit}</p>
+                </div>
+                <p className="font-mono text-sm text-right shrink-0">${fmt.compact(g.quoteLow)} – ${fmt.compact(g.quoteHigh)}</p>
+              </div>
+              {g.options.length > 0 && <p className="mt-2 text-sm text-ink-muted">{g.options.join(", ")}</p>}
+              <div className="mt-3 space-y-3">
+                {g.contact ? (
+                  <div>
+                    <p className="text-sm"><span className="text-ink-muted">Homeowner:</span> {g.contact.name}</p>
+                    <div className="mt-2"><GenerationStatusSelect id={g.id} status={g.status} /></div>
+                  </div>
+                ) : <span className="pill pill-neutral">no contact</span>}
+                <Link href={`/estimator/${g.id}`} className="btn btn-ghost min-h-11 !px-4 text-sm w-full justify-center">See this quote <ChevronRight className="h-4 w-4" /></Link>
+              </div>
+            </li>
+          ))}
+          {e.generations.length === 0 && <li className="panel p-4 text-sm text-ink-muted">Nothing generated yet. Once the tool is live on your site, every quote shows up here.</li>}
+        </ul>
       </div>
 
       </>)}

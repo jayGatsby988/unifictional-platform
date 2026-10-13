@@ -32,7 +32,7 @@ export default async function PlansPage() {
         : <div className="panel p-6 max-w-2xl text-sm text-ink-muted mb-12">Plans are being set up. Ask us anytime about what&apos;s included.</div>}
 
       <section className="mb-10">
-        <SubHead right={<span className="label !text-[9px]">Pay once · no subscription</span>}>Tools</SubHead>
+        <SubHead right={<span className="label !text-xs">Pay once · no subscription</span>}>Tools</SubHead>
         <div className="panel p-6 grid md:grid-cols-5 gap-6 items-center">
           <div className="md:col-span-3">
             <div className="flex items-center gap-2 mb-2"><Box className="h-4 w-4" /><h2 className="font-display text-3xl uppercase leading-none">3D Remodel Studio</h2></div>

@@ -53,6 +53,9 @@ export const siteConfig = {
 /** Booking: external URL when set, otherwise route to the on-site form. */
 export const BOOKING_URL = (process.env.NEXT_PUBLIC_BOOKING_URL ?? "").trim();
 export const CONTACT_PATH = "/contact";
+/** The 3D Remodel Studio (the MANHATTAN app): its landing page, and the studio itself, which is where every button sends people. */
+export const STUDIO_HOME = "https://3d.unifictional.com";
+export const STUDIO_URL = `${STUDIO_HOME}/studio`;
 
 export type NavLink = { label: string; href: string };
 
@@ -64,7 +67,7 @@ export const navLinks: NavLink[] = [
   { label: "Work", href: "/work" },
   { label: "Guides", href: "/guides" },
   { label: "Process", href: "/process" },
-  { label: "3D studio", href: "https://3d.unifictional.com" },
+  { label: "3D studio", href: STUDIO_URL },
   { label: "Studio", href: "/about" },
 ];
 

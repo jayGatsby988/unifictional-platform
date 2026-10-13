@@ -108,7 +108,7 @@ export function PlanBuilder({ catalog, rec, company, slug, demo, admin, current,
               return (
                 <button key={n} type="button" onClick={() => setPosts(n)} aria-pressed={on}
                   className={cn("relative rounded-xl border p-4 text-left transition", on ? "border-ink bg-paper" : "border-line hover:border-ink/40")}>
-                  {n === rec.posts && <span className="absolute -top-2.5 right-3 pill bg-ink text-bone !text-[9px]">Recommended</span>}
+                  {n === rec.posts && <span className="absolute -top-2.5 right-3 pill bg-ink text-bone">Recommended</span>}
                   <span className="font-display text-3xl leading-none">{n}</span>
                   <span className="block text-sm font-medium mt-1.5">{POSTS_LABEL[n].title}</span>
                   <span className="block text-xs text-ink-muted mt-0.5">{POSTS_LABEL[n].detail}</span>
@@ -125,7 +125,7 @@ export function PlanBuilder({ catalog, rec, company, slug, demo, admin, current,
             <ul className="mt-2 space-y-1.5 text-sm text-ink-muted">
               {rec.reasons.map((r) => <li key={r} className="flex gap-2"><span className="text-ink">—</span>{r}</li>)}
             </ul>
-            <p className="mt-2 text-[11px] text-ink-muted">{rec.basis.readSite ? `Read from your website: ${rec.basis.pages} page${rec.basis.pages === 1 ? "" : "s"}, ${rec.basis.blogPosts} blog post${rec.basis.blogPosts === 1 ? "" : "s"}.` : "We'll refine this once we can read your website."}</p>
+            <p className="mt-2 text-xs text-ink-muted">{rec.basis.readSite ? `Read from your website: ${rec.basis.pages} page${rec.basis.pages === 1 ? "" : "s"}, ${rec.basis.blogPosts} blog post${rec.basis.blogPosts === 1 ? "" : "s"}.` : "We'll refine this once we can read your website."}</p>
           </div>
         </section>
 
@@ -141,7 +141,7 @@ export function PlanBuilder({ catalog, rec, company, slug, demo, admin, current,
                     <input type="checkbox" className="sr-only" checked={on} onChange={() => toggle(a.key)} />
                     <span className={cn("mt-0.5 h-5 w-5 rounded-md border grid place-items-center shrink-0", on ? "bg-ink border-ink text-bone" : "border-line")}>{on && <Check className="h-3 w-3" />}</span>
                     <span className="flex-1 min-w-0">
-                      <span className="flex flex-wrap items-center gap-2"><span className="text-sm font-medium">{a.name}</span>{recAddons.includes(a.key) && <span className="pill bg-ink text-bone !text-[9px]">Recommended</span>}</span>
+                      <span className="flex flex-wrap items-center gap-2"><span className="text-sm font-medium">{a.name}</span>{recAddons.includes(a.key) && <span className="pill bg-ink text-bone">Recommended</span>}</span>
                       <span className="block text-xs text-ink-muted mt-0.5">{a.tagline}</span>
                       {on && a.features.length > 0 && (
                         <ul className="mt-2 grid sm:grid-cols-2 gap-x-4 gap-y-1 text-xs">
@@ -172,7 +172,7 @@ export function PlanBuilder({ catalog, rec, company, slug, demo, admin, current,
                 return (
                   <button key={p.key} type="button" onClick={() => setAddons(p.addons)} aria-pressed={on}
                     className={cn("relative rounded-xl border p-4 text-left transition flex flex-col", on ? "border-ink bg-paper" : "border-line hover:border-ink/40")}>
-                    {isRec && <span className="absolute -top-2.5 right-3 pill bg-ink text-bone !text-[9px]">Recommended</span>}
+                    {isRec && <span className="absolute -top-2.5 right-3 pill bg-ink text-bone">Recommended</span>}
                     <span className="font-display text-2xl uppercase leading-none">{p.name}</span>
                     <span className="block text-xs text-ink-muted mt-1.5 flex-1">{p.pitch}</span>
                     <ul className="mt-3 space-y-1 text-xs">
@@ -201,7 +201,7 @@ export function PlanBuilder({ catalog, rec, company, slug, demo, admin, current,
             <span className="text-sm text-bone/70">Total</span>
             <span className="font-display text-4xl leading-none">{money(total)}<span className="text-base text-bone/70"> / month</span></span>
           </div>
-          {raw < MIN_CHARGE_CENTS && <p className="mt-2 text-[11px] text-bone/60">Rounded up to {money(MIN_CHARGE_CENTS)}, the smallest charge Square allows.</p>}
+          {raw < MIN_CHARGE_CENTS && <p className="mt-2 text-xs text-bone/60">Rounded up to {money(MIN_CHARGE_CENTS)}, the smallest charge Square allows.</p>}
 
           <div className="mt-6">
             {current ? (

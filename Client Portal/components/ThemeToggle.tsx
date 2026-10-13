@@ -21,7 +21,7 @@ export function ThemeToggle() {
   }
 
   return (
-    <button onClick={toggle} aria-label="Toggle theme" className="h-9 w-9 rounded-full border border-line grid place-items-center hover:bg-paper transition">
+    <button onClick={toggle} aria-label="Toggle theme" className="h-11 w-11 rounded-full border border-line grid place-items-center hover:bg-paper transition">
       {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </button>
   );

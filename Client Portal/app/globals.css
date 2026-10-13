@@ -74,8 +74,8 @@ body {
 /* Mono labels: small caps tracking, the "01 / The studio" idiom. */
 .label {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.22em;
+  font-size: 0.8125rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgb(var(--ink-muted));
 }
@@ -94,7 +94,7 @@ body {
   border-radius: 9999px;
   padding: 0.25rem 0.625rem;
   font-family: var(--font-mono);
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -136,7 +136,7 @@ body {
 
 .table th {
   font-family: var(--font-mono);
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: rgb(var(--ink-muted));
@@ -151,6 +151,14 @@ body {
   font-size: 0.875rem;
 }
 .table tr:last-child td { border-bottom: 0; }
+
+/* Keyboard focus: a 2px ink ring on anything you can tab to. Replaces the .input outline removed above. */
+:where(a, button, summary, select, textarea, input, [tabindex]):focus-visible,
+.btn:focus-visible,
+.input:focus-visible {
+  outline: 2px solid rgb(var(--ink));
+  outline-offset: 2px;
+}
 
 model-viewer {
   width: 100%;
@@ -224,3 +232,6 @@ model-viewer {
 .post-body a { text-decoration: underline; }
 .post-body strong { font-weight: 600; }
 .post-body code { font-family: var(--font-mono); font-size: .85em; }
+
+/* The hero input sits on ink, so its ring is bone. */
+.hero-input:focus-visible { outline: 2px solid rgb(var(--bone)); outline-offset: 4px; }

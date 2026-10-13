@@ -9,9 +9,9 @@ import { createClient } from "@/lib/supabase/client";
  * Sign-in built for people who don't live on screens: big fields, show-password,
  * plain-English errors, and a one-tap emailed link for "I forgot my password".
  */
-export function LoginForm({ next, initialEmail = "" }: { next?: string; initialEmail?: string }) {
+export function LoginForm({ next, initialEmail = "", initialMode = "password" }: { next?: string; initialEmail?: string; initialMode?: "password" | "link" }) {
   const router = useRouter();
-  const [mode, setMode] = useState<"password" | "link">("password");
+  const [mode, setMode] = useState<"password" | "link">(initialMode);
   const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -65,7 +65,7 @@ export function LoginForm({ next, initialEmail = "" }: { next?: string; initialE
             <input id="password" type={show ? "text" : "password"} className="input !py-3.5 !pr-12 !text-base" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="current-password" />
             <button type="button" onClick={() => setShow(!show)} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-ink-muted" aria-label={show ? "Hide password" : "Show password"}>{show ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}</button>
           </div>
-          <p className="text-xs text-ink-muted mt-2">First time? Use the temporary password from your welcome email.</p>
+          <p className="text-sm text-ink-muted mt-2">First time? Copy the temporary password from your welcome email, or just tap <b>Sign me in</b> in that email instead.</p>
         </div>
       )}
       {state === "error" && <p className="text-sm text-bad leading-snug">{err}</p>}

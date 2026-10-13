@@ -1,0 +1,346 @@
+{
+  "roomType": "bathroom",
+  "dims": {
+    "widthFt": 10,
+    "depthFt": 11,
+    "ceilingFt": 9
+  },
+  "style": "transitional",
+  "layout": "primary",
+  "vanity": {
+    "present": true,
+    "wall": "left",
+    "t": 0.25,
+    "widthIn": 66,
+    "sinks": 2,
+    "style": "furniture",
+    "mirror": "double",
+    "doorStyle": "shaker",
+    "drawers": 3,
+    "doors": 2,
+    "legStyle": "turned",
+    "counterThicknessIn": 2,
+    "backsplash": "standard",
+    "heightIn": 31,
+    "depthIn": 22,
+    "basin": "vessel",
+    "faucetMount": "wall",
+    "hardware": "knobs",
+    "openShelf": false
+  },
+  "shower": {
+    "present": true,
+    "wall": "back",
+    "t": 0.7716666666666666,
+    "widthIn": 48,
+    "depthIn": 39,
+    "enclosure": "frameless-glass",
+    "niche": true,
+    "bench": true,
+    "curbless": false,
+    "fixtures": "rain-plus-handheld",
+    "glassThicknessIn": 0.375,
+    "doorType": "barn",
+    "hardwareFinish": "oil-rubbed-bronze",
+    "nicheAt": {
+      "face": "back",
+      "t": 0.42,
+      "centerIn": 50,
+      "widthIn": 30,
+      "heightIn": 16,
+      "shelves": 1
+    },
+    "benchStyle": "full-width",
+    "curbHeightIn": 4
+  },
+  "tub": {
+    "present": true,
+    "wall": "back",
+    "t": 0.28,
+    "kind": "freestanding",
+    "lengthIn": 66,
+    "material": "cast-iron",
+    "fillerType": "floor-mount",
+    "fillerFinish": "oil-rubbed-bronze",
+    "apron": "integral",
+    "widthIn": 31,
+    "heightIn": 25
+  },
+  "toilet": {
+    "present": true,
+    "wall": "right",
+    "t": 0.67,
+    "style": "two-piece",
+    "trimFinish": "oil-rubbed-bronze"
+  },
+  "wallTile": {
+    "height": "wainscot",
+    "heightIn": 54,
+    "pattern": "vertical-stack",
+    "moduleIn": {
+      "w": 3,
+      "h": 12
+    },
+    "groutWidthIn": 0.0625,
+    "trim": "pencil",
+    "accent": {
+      "wall": "back",
+      "pattern": "herringbone",
+      "moduleIn": {
+        "w": 2,
+        "h": 8
+      },
+      "heightIn": null,
+      "colorHex": "#D9CFC0"
+    },
+    "showerPattern": "stacked",
+    "showerModuleIn": {
+      "w": 12,
+      "h": 24
+    }
+  },
+  "accessories": [
+    {
+      "kind": "towel-bar",
+      "wall": "front",
+      "t": 0.74,
+      "heightFt": 4,
+      "widthIn": 30,
+      "finish": "oil-rubbed-bronze"
+    },
+    {
+      "kind": "towel-ring",
+      "wall": "left",
+      "t": 0.62,
+      "heightFt": 4.2,
+      "widthIn": 7,
+      "finish": "oil-rubbed-bronze"
+    },
+    {
+      "kind": "robe-hook",
+      "wall": "front",
+      "t": 0.2,
+      "heightFt": 5.4,
+      "widthIn": null,
+      "finish": "oil-rubbed-bronze"
+    },
+    {
+      "kind": "toilet-paper-holder",
+      "wall": "right",
+      "t": 0.8,
+      "heightFt": 2.1,
+      "widthIn": 6,
+      "finish": "oil-rubbed-bronze"
+    }
+  ],
+  "openings": [
+    {
+      "id": "win-1",
+      "kind": "window",
+      "wall": "back",
+      "t": 0.25,
+      "widthFt": 3,
+      "heightFt": 2,
+      "sillFt": 5,
+      "style": "standard"
+    },
+    {
+      "id": "door-1",
+      "kind": "door",
+      "wall": "front",
+      "t": 0.5,
+      "widthFt": 2.7,
+      "heightFt": 6.7,
+      "sillFt": 0,
+      "style": "standard"
+    }
+  ],
+  "lighting": {
+    "recessedCount": 4,
+    "pendants": null,
+    "underCabinet": false,
+    "chandelier": false,
+    "sconces": 2,
+    "colorTempK": 3000,
+    "naturalLight": "medium"
+  },
+  "decor": {
+    "shelves": [
+      {
+        "wall": "right",
+        "t": 0.3,
+        "widthIn": 24,
+        "count": 2,
+        "bottomFt": 4.8,
+        "depthIn": 8,
+        "spacingIn": 12,
+        "material": "wood",
+        "styled": "mixed"
+      }
+    ],
+    "plants": [
+      {
+        "kind": "floor",
+        "wall": "corner",
+        "t": 0,
+        "sizeFt": 3.5,
+        "form": "leafy"
+      },
+      {
+        "kind": "counter",
+        "wall": "left",
+        "t": 0.5,
+        "sizeFt": 0.8,
+        "form": "succulent"
+      }
+    ],
+    "art": [
+      {
+        "wall": "right",
+        "t": 0.3,
+        "widthIn": 16,
+        "heightIn": 20,
+        "centerFt": 5.4,
+        "frame": "wood"
+      }
+    ],
+    "rug": {
+      "present": true,
+      "lengthFt": 3.5,
+      "widthFt": 2,
+      "style": "area"
+    },
+    "windowTreatment": "roller",
+    "counterStyling": "minimal",
+    "stools": null,
+    "items": [
+      {
+        "kind": "folded-towels",
+        "label": "stack of white bath towels",
+        "on": "shelf",
+        "wall": "right",
+        "t": 0.3,
+        "depthT": null,
+        "shelfIndex": 0,
+        "burner": null,
+        "sizeIn": 13,
+        "colorHex": "#F2F0EC",
+        "material": "fabric",
+        "count": 2
+      },
+      {
+        "kind": "soap-pump",
+        "label": "amber glass soap pump",
+        "on": "counter",
+        "wall": "left",
+        "t": 0.36,
+        "depthT": 0.35,
+        "shelfIndex": null,
+        "burner": null,
+        "sizeIn": 8,
+        "colorHex": "#C08A45",
+        "material": "glass",
+        "count": 1
+      },
+      {
+        "kind": "toothbrush-cup",
+        "label": "white ceramic toothbrush cup",
+        "on": "counter",
+        "wall": "left",
+        "t": 0.14,
+        "depthT": 0.35,
+        "shelfIndex": null,
+        "burner": null,
+        "sizeIn": 5,
+        "colorHex": "#EFECE6",
+        "material": "ceramic",
+        "count": 1
+      },
+      {
+        "kind": "tray",
+        "label": "black marble vanity tray",
+        "on": "counter",
+        "wall": "left",
+        "t": 0.5,
+        "depthT": 0.45,
+        "shelfIndex": null,
+        "burner": null,
+        "sizeIn": 12,
+        "colorHex": "#2B2C2E",
+        "material": "marble",
+        "count": 1
+      },
+      {
+        "kind": "candle",
+        "label": "white pillar candle",
+        "on": "counter",
+        "wall": "left",
+        "t": 0.56,
+        "depthT": 0.4,
+        "shelfIndex": null,
+        "burner": null,
+        "sizeIn": 5,
+        "colorHex": "#F1EADC",
+        "material": "ceramic",
+        "count": 2
+      },
+      {
+        "kind": "bath-mat",
+        "label": "grey cotton bath mat",
+        "on": "floor",
+        "wall": null,
+        "t": 0.45,
+        "depthT": null,
+        "shelfIndex": null,
+        "burner": null,
+        "sizeIn": 32,
+        "colorHex": "#B5B3AE",
+        "material": "fabric",
+        "count": 1
+      }
+    ],
+    "cabinetContents": []
+  },
+  "materials": {
+    "vanity_cabinet": "wood-white-oak",
+    "vanity_top": "ct-white-quartz",
+    "mirror": "mirror-frameless",
+    "floor_tile": "tile-floor-large-grey",
+    "wall_tile": "tile-subway-white",
+    "shower_wall_tile": "tile-large-format-white",
+    "shower_floor_tile": "tile-hex-white",
+    "walls": "wall-pure-white",
+    "ceiling": "ceiling-white",
+    "fixtures": "fin-matte-black",
+    "hardware": "fin-matte-black",
+    "tub": "tub-freestanding",
+    "lighting_fixture": "light-sconce-brass"
+  },
+  "detected": {
+    "confidence": 0.72,
+    "summary": "Primary bath with a furniture vanity, a cast-iron freestanding tub under the window and a frameless barn-door shower.",
+    "notes": [
+      "ratio: vanity width ÷ its wall = 0.50",
+      "ratio: wall-tile height ÷ ceiling = 0.50",
+      "ratio: one wall tile w ÷ h = 0.25 (3x12, laid vertically)",
+      "ratio: tub length ÷ tub rim height = 2.68",
+      "walls: back = tub and shower; left = vanity; right = toilet"
+    ],
+    "assumptions": [
+      "Grout colour read from the shower, applied to the field tile"
+    ],
+    "primaryPhotoIndex": 0,
+    "camera": {
+      "fovDeg": 62,
+      "heightFt": 5,
+      "position": "front",
+      "lookingAt": "back",
+      "solved": null
+    },
+    "finishes": [],
+    "elements": [],
+    "frame": null,
+    "inventory": null,
+    "inputKind": "room-photo"
+  }
+}

@@ -46,23 +46,23 @@ function PlanCard({ initial }: { initial: Draft }) {
         </span>
       </div>
       <div className="grid sm:grid-cols-[1fr_140px_90px] gap-3">
-        <label className="block"><span className="label !text-[9px] block mb-1">Plan name</span><input className={field} value={d.name} onChange={(e) => setD({ ...d, name: e.target.value })} /></label>
-        <label className="block"><span className="label !text-[9px] block mb-1">$ / month</span><input className={field} inputMode="decimal" placeholder="blank = Custom" value={d.price} onChange={(e) => setD({ ...d, price: e.target.value })} /></label>
-        <label className="block"><span className="label !text-[9px] block mb-1">Order</span><input className={field} inputMode="numeric" value={d.sort} onChange={(e) => setD({ ...d, sort: e.target.value })} /></label>
+        <label className="block"><span className="label !text-xs block mb-1">Plan name</span><input className={field} value={d.name} onChange={(e) => setD({ ...d, name: e.target.value })} /></label>
+        <label className="block"><span className="label !text-xs block mb-1">$ / month</span><input className={field} inputMode="decimal" placeholder="blank = Custom" value={d.price} onChange={(e) => setD({ ...d, price: e.target.value })} /></label>
+        <label className="block"><span className="label !text-xs block mb-1">Order</span><input className={field} inputMode="numeric" value={d.sort} onChange={(e) => setD({ ...d, sort: e.target.value })} /></label>
       </div>
       <div className="grid sm:grid-cols-[1fr_140px] gap-3">
         <label className="block">
-          <span className="label !text-[9px] block mb-1">In the plan builder</span>
+          <span className="label !text-xs block mb-1">In the plan builder</span>
           <select className={field} value={d.role} onChange={(e) => setD({ ...d, role: e.target.value })}>
             <option value="">Not in it: shown with &quot;I&apos;m interested&quot;, quoted by you</option>
             {PLAN_ROLES.map((r) => <option key={r.key} value={r.key}>{r.label}</option>)}
           </select>
         </label>
-        {d.role === "posts" && <label className="block"><span className="label !text-[9px] block mb-1">Posts the price buys</span><input className={field} inputMode="numeric" placeholder="4" value={d.posts} onChange={(e) => setD({ ...d, posts: e.target.value })} /></label>}
+        {d.role === "posts" && <label className="block"><span className="label !text-xs block mb-1">Posts the price buys</span><input className={field} inputMode="numeric" placeholder="4" value={d.posts} onChange={(e) => setD({ ...d, posts: e.target.value })} /></label>}
       </div>
-      {d.role === "posts" && <p className="text-[11px] text-ink-muted -mt-1">Clients pick 1, 2, 4 or 8 posts a month; each is priced at this rate divided by the posts it buys.</p>}
-      <label className="block"><span className="label !text-[9px] block mb-1">One-line pitch</span><input className={field} value={d.tagline} onChange={(e) => setD({ ...d, tagline: e.target.value })} /></label>
-      <label className="block"><span className="label !text-[9px] block mb-1">What&apos;s included (one per line)</span><textarea className={cn(field, "min-h-28")} value={d.features} onChange={(e) => setD({ ...d, features: e.target.value })} /></label>
+      {d.role === "posts" && <p className="text-xs text-ink-muted -mt-1">Clients pick 1, 2, 4 or 8 posts a month; each is priced at this rate divided by the posts it buys.</p>}
+      <label className="block"><span className="label !text-xs block mb-1">One-line pitch</span><input className={field} value={d.tagline} onChange={(e) => setD({ ...d, tagline: e.target.value })} /></label>
+      <label className="block"><span className="label !text-xs block mb-1">What&apos;s included (one per line)</span><textarea className={cn(field, "min-h-28")} value={d.features} onChange={(e) => setD({ ...d, features: e.target.value })} /></label>
       <div className="flex flex-wrap items-center gap-3">
         <button className="btn btn-ink !py-2 !px-4 text-xs" disabled={busy || (!dirty && Boolean(d.id))} onClick={() => save()}>{busy ? "Saving…" : d.id ? "Save" : "Add plan"}</button>
         {msg && <span className={cn("text-xs", msg.ok ? "text-ink-muted" : "text-bad")}>{msg.text}</span>}

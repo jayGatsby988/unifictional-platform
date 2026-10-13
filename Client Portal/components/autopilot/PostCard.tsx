@@ -105,7 +105,7 @@ export function PostCard({ post, open = false }: { post: SeoPost; open?: boolean
           <div className="flex flex-wrap items-center gap-2 mb-1">
             <span className={cn("pill", s.cls)}>{s.text}</span>
             {post.quality && <QualityBadge q={post.quality} />}
-            <span className="label !text-[9px]">{fmt.dateLong(post.publishedAt ?? post.createdAt)} · {fmt.int(post.wordCount)} words</span>
+            <span className="text-sm text-ink-muted">{fmt.dateLong(post.publishedAt ?? post.createdAt)} · {fmt.int(post.wordCount)} words</span>
           </div>
           <h3 className="font-display text-xl leading-tight">{post.title}</h3>
           <p className="text-xs text-ink-muted mt-1">Written to rank for <span className="text-ink">“{post.targetQuery}”</span></p>
@@ -122,9 +122,9 @@ export function PostCard({ post, open = false }: { post: SeoPost; open?: boolean
 
       {editing ? (
         <div className="mt-3 rounded-xl border border-line p-4 space-y-3">
-          <label className="block"><span className="label !text-[9px] block mb-1">Title · {title.trim().length} characters (45–65)</span><input className="input !py-2 text-sm" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={200} /></label>
-          <label className="block"><span className="label !text-[9px] block mb-1">Meta description · {meta.trim().length} characters (130–160)</span><textarea className="input !py-2 text-sm" rows={2} value={meta} onChange={(e) => setMeta(e.target.value)} maxLength={400} /></label>
-          <label className="block"><span className="label !text-[9px] block mb-1">Post (Markdown: ## headings, - lists, [links](/page))</span><textarea className="input !py-2 text-sm font-mono min-h-[18rem]" value={body} onChange={(e) => setBody(e.target.value)} /></label>
+          <label className="block"><span className="label !text-xs block mb-1">Title · {title.trim().length} characters (45–65)</span><input className="input !py-2 text-sm" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={200} /></label>
+          <label className="block"><span className="label !text-xs block mb-1">Google summary (meta description) · {meta.trim().length} characters (130–160)</span><span className="block text-xs text-ink-muted mb-1">The short blurb Google shows under your title in search results.</span><textarea className="input !py-2 text-sm" rows={2} value={meta} onChange={(e) => setMeta(e.target.value)} maxLength={400} /></label>
+          <label className="block"><span className="label !text-xs block mb-1">Post</span><span className="block text-xs text-ink-muted mb-1">Plain text with a few symbols: ## starts a heading, - starts a list item, [words](/page) makes a link.</span><textarea className="input !py-2 text-sm font-mono min-h-[18rem]" value={body} onChange={(e) => setBody(e.target.value)} /></label>
           <div className="flex items-center gap-2">
             <button type="button" className="btn btn-ink !py-2 !px-4 text-xs" disabled={busy !== ""} onClick={save}>{busy === "save" ? "Saving…" : "Save changes"}</button>
             <button type="button" className="btn btn-ghost !py-2 !px-4 text-xs" disabled={busy !== ""} onClick={() => { setEditing(false); setTitle(post.title); setMeta(post.metaDescription); setBody(post.bodyMd); }}>Cancel</button>
@@ -134,7 +134,7 @@ export function PostCard({ post, open = false }: { post: SeoPost; open?: boolean
         <details className="mt-3" open={open}>
           <summary className="text-xs font-medium cursor-pointer select-none">Read the post →</summary>
           <div className="mt-3 rounded-xl border border-line p-4 sm:p-5">
-            <p className="text-xs text-ink-muted mb-3"><span className="label !text-[9px] block">Meta description</span>{post.metaDescription}</p>
+            <p className="text-sm text-ink-muted mb-3"><span className="label !text-xs block">Google summary</span>{post.metaDescription}</p>
             <div className="post-body text-sm" dangerouslySetInnerHTML={{ __html: mdToHtml(post.bodyMd) }} />
           </div>
         </details>

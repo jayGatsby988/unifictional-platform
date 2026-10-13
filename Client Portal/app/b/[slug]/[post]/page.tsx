@@ -36,7 +36,7 @@ export default async function HostedBlogPost({ params }: { params: Promise<{ slu
   };
   return (
     <article className="mx-auto max-w-3xl px-5 py-14">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <Link href={`/b/${slug}`} className="text-xs uppercase tracking-[0.18em] text-ink-muted hover:underline">← Blog</Link>
       <p className="text-xs text-ink-muted mt-8 mb-3">{fmtPostDate(p.publishedAt)}{p.wordCount ? ` · ${Math.max(1, Math.round(p.wordCount / 200))} min read` : ""}</p>
       <h1 className="font-display text-4xl sm:text-5xl leading-[1.02] mb-8">{p.title}</h1>

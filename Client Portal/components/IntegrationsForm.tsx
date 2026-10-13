@@ -14,7 +14,7 @@ function Pick({ label, hint, value, onChange, options, loading }: {
   const known = options?.some((o) => o.id === value);
   return (
     <label className="block">
-      <span className="label !text-[9px] block mb-1">{label}</span>
+      <span className="label !text-xs block mb-1">{label}</span>
       {options && options.length > 0 ? (
         <select className="input !py-2 text-sm" value={known ? value : value ? "__custom" : ""} onChange={(e) => { if (e.target.value !== "__custom") onChange(e.target.value); }}>
           <option value="">— not assigned —</option>
@@ -24,7 +24,7 @@ function Pick({ label, hint, value, onChange, options, loading }: {
       ) : (
         <input className="input !py-2 font-mono text-xs" value={value} placeholder={loading ? "loading…" : ""} onChange={(e) => onChange(e.target.value)} />
       )}
-      <span className="block mt-1 text-[11px] text-ink-muted">{hint}</span>
+      <span className="block mt-1 text-xs text-ink-muted">{hint}</span>
     </label>
   );
 }
@@ -109,33 +109,33 @@ export function IntegrationsForm({ client, demo }: { client: AdminClient; demo: 
       )}
       <div className="grid sm:grid-cols-2 gap-3">
         <label className="block">
-          <span className="label !text-[9px] block mb-1">Website URL</span>
+          <span className="label !text-xs block mb-1">Website URL</span>
           <input className="input !py-2 font-mono text-xs" value={f.site_url} onChange={(e) => set("site_url")(e.target.value)} />
-          <span className="block mt-1 text-[11px] text-ink-muted">Checked for uptime and PageSpeed</span>
+          <span className="block mt-1 text-xs text-ink-muted">Checked for uptime and PageSpeed</span>
         </label>
         <Pick label="Analytics property" hint={client.google.connected ? "GA4 properties this company's Google account can see" : "GA4 properties the studio Google account can see"} value={f.ga4_property_id} onChange={set("ga4_property_id")} options={opts?.google?.ga4 ?? null} loading={loading} />
         <Pick label="Search Console property" hint={client.google.connected ? "Search Console properties this company's account can see" : "Properties the studio Google account can see"} value={f.gsc_site_url} onChange={set("gsc_site_url")} options={opts?.google?.gsc ?? null} loading={loading} />
         <Pick label="Business Profile listing" hint={client.google.connected ? "Listings this company's account manages" : "Listings the studio Google account manages"} value={f.gbp_location_id} onChange={pickGbp} options={opts?.google?.gbp ?? null} loading={loading} />
         <Pick label="Facebook Page" hint={igPick ? `Instagram: @${igPick.igUsername ?? igPick.igUserId}` : "Pages the studio Meta account administers; its Instagram account comes with it"} value={f.fb_page_id} onChange={pickPage} options={pages} loading={loading} />
         <label className="block">
-          <span className="label !text-[9px] block mb-1">GoHighLevel contact ID</span>
+          <span className="label !text-xs block mb-1">GoHighLevel contact ID</span>
           <input className="input !py-2 font-mono text-xs" value={f.ghl_contact_id} onChange={(e) => set("ghl_contact_id")(e.target.value)} />
-          <span className="block mt-1 text-[11px] text-ink-muted">Optional, for the future calls/leads sync</span>
+          <span className="block mt-1 text-xs text-ink-muted">Optional, for the future calls/leads sync</span>
         </label>
         <label className="block">
-          <span className="label !text-[9px] block mb-1">GitHub repo (SEO Autopilot, sites we host)</span>
+          <span className="label !text-xs block mb-1">GitHub repo (SEO Autopilot, sites we host)</span>
           <input className="input !py-2 font-mono text-xs" placeholder="unifictional/their-site" value={f.site_repo} onChange={(e) => set("site_repo")(e.target.value)} />
-          <span className="block mt-1 text-[11px] text-ink-muted">Autopilot commits each blog post here; Vercel deploys it. Needs GITHUB_TOKEN.</span>
+          <span className="block mt-1 text-xs text-ink-muted">Autopilot commits each blog post here; Vercel deploys it. Needs GITHUB_TOKEN.</span>
         </label>
         <label className="block">
-          <span className="label !text-[9px] block mb-1">Blog folder in that repo</span>
+          <span className="label !text-xs block mb-1">Blog folder in that repo</span>
           <input className="input !py-2 font-mono text-xs" placeholder="content/blog" value={f.site_blog_dir} onChange={(e) => set("site_blog_dir")(e.target.value)} />
-          <span className="block mt-1 text-[11px] text-ink-muted">Where the post .md files go. Leave blank for content/blog.</span>
+          <span className="block mt-1 text-xs text-ink-muted">Where the post .md files go. Leave blank for content/blog.</span>
         </label>
         <label className="block sm:col-span-2">
-          <span className="label !text-[9px] block mb-1">Revalidate URL (SEO Autopilot, sites that pull posts from the portal)</span>
+          <span className="label !text-xs block mb-1">Revalidate URL (SEO Autopilot, sites that pull posts from the portal)</span>
           <input className="input !py-2 font-mono text-xs" placeholder="https://theirsite.com/api/revalidate?secret=…" value={f.site_revalidate_url} onChange={(e) => set("site_revalidate_url")(e.target.value)} />
-          <span className="block mt-1 text-[11px] text-ink-muted">For sites whose blog reads /api/autopilot/feed. Pinged after each publish so the post appears at once. Used when no GitHub repo is set.</span>
+          <span className="block mt-1 text-xs text-ink-muted">For sites whose blog reads /api/autopilot/feed. Pinged after each publish so the post appears at once. Used when no GitHub repo is set.</span>
         </label>
       </div>
       <div className="mt-4 flex flex-wrap items-center gap-3">

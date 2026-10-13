@@ -21,7 +21,7 @@ export function CompToggle({ slug, comped, demo }: { slug: string; comped: boole
       <button type="button" className="btn btn-ghost !py-2 !px-4 text-xs justify-center" disabled={busy || demo} onClick={toggle} title={demo ? "Demo mode" : comped ? "Stop including it in their plan" : "Include it in their plan, no subscription needed"}>
         {busy ? "Saving…" : comped ? "Included · remove" : "Include in their plan"}
       </button>
-      {msg && <p className="text-[11px] text-ink-muted">{msg}</p>}
+      {msg && <p className="text-xs text-ink-muted">{msg}</p>}
     </div>
   );
 }

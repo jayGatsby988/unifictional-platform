@@ -11,7 +11,9 @@ export const isPageSlug = (s: string) => /^[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]
 
 async function putAny(path: string, body: string | Buffer, contentType: string) {
   if (!blobConfigured()) return null;
-  const r = await put(path, body, { access: "public", addRandomSuffix: false, allowOverwrite: true, contentType });
+  // JSON, HTML and text are overwritten between steps, so they get the shortest cache the CDN allows; photos, frames and video keep the long default
+  const shortLived = /^(application\/json|text\/|application\/zip)/i.test(contentType) || /\.(json|html|txt|md|css|js)$/i.test(path);
+  const r = await put(path, body, { access: "public", addRandomSuffix: false, allowOverwrite: true, contentType, ...(shortLived ? { cacheControlMaxAge: 60 } : {}) });
   return r.url;
 }
 /**
@@ -49,7 +51,9 @@ async function urlFor(path: string): Promise<string | null> {
 export async function readText(path: string): Promise<string | null> {
   const url = await urlFor(path);
   if (!url) return null;
-  const res = await fetch(url, { cache: "no-store" });
+  // the Blob CDN caches public URLs for minutes after an overwrite; a unique query string always reaches the latest copy
+  const fresh = url + (url.includes("?") ? "&" : "?") + "v=" + Date.now().toString(36);
+  const res = await fetch(fresh, { cache: "no-store" });
   if (!res.ok) return null;
   return res.text();
 }

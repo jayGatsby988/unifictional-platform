@@ -34,8 +34,8 @@ export default async function ConnectPage() {
                 <p className="text-sm text-ink-muted mt-0.5">{s.what}</p>
                 {!on && s.guide && (
                   <div className="mt-3 flex flex-wrap gap-2">
-                    <Link href={`/guide/${s.guide}?for=${encodeURIComponent(session.client?.name ?? "")}`} className="btn btn-ink !py-1.5 !px-3 text-xs">How to give us access <ArrowUpRight className="h-3.5 w-3.5" /></Link>
-                    <a href={`mailto:${STUDIO_EMAIL}?subject=${encodeURIComponent(`Help connecting ${s.name}`)}`} className="btn btn-ghost !py-1.5 !px-3 text-xs">Do it with me on a call</a>
+                    <Link href={`/guide/${s.guide}?for=${encodeURIComponent(session.client?.name ?? "")}`} className="btn btn-ink min-h-11 !px-4 text-sm">How to give us access <ArrowUpRight className="h-4 w-4" /></Link>
+                    <a href={`mailto:${STUDIO_EMAIL}?subject=${encodeURIComponent(`Help connecting ${s.name}`)}`} className="btn btn-ghost min-h-11 !px-4 text-sm">Do it with me on a call</a>
                   </div>
                 )}
                 {!on && !s.guide && <p className="mt-2 text-xs text-ink-muted">We just need your website address on file. Email {STUDIO_EMAIL}.</p>}

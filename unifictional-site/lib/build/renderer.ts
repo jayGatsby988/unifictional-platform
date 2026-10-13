@@ -87,7 +87,7 @@ function resolvePair(theme = {}) {
 function baseCss(pair, t) {
   const capsRule = pair.caps ? "text-transform: uppercase;" : "";
   return `
-:root{--bg:${t.bg};--bg2:${t.bg2};--ink:${t.ink};--ink2:${t.ink2};--ink3:${t.ink3};--line:${t.line};--accent:${t.accent};--on-accent:${t.onAccent};--inv-bg:${t.invBg};--inv-ink:${t.invInk};
+:root{--logo-scale:${t.logoScale || 1};--bg:${t.bg};--bg2:${t.bg2};--ink:${t.ink};--ink2:${t.ink2};--ink3:${t.ink3};--line:${t.line};--accent:${t.accent};--on-accent:${t.onAccent};--inv-bg:${t.invBg};--inv-ink:${t.invInk};
 --display:${pair.display};--body:${pair.body};--mono:${pair.mono};--gutter:clamp(20px,5vw,88px);--ease:cubic-bezier(.76,0,.24,1);--ease-out:cubic-bezier(.22,1,.36,1)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:auto;-webkit-text-size-adjust:100%}
@@ -116,8 +116,9 @@ section{position:relative}
 /* brand mark (logo or wordmark) shared by nav + footer */
 .nav__brand{display:flex;align-items:center;gap:.6rem;font-family:var(--display);font-weight:${pair.weight};font-size:1.15rem;letter-spacing:${pair.caps ? ".02em" : "-.01em"};${capsRule}}
 .nav__brand i{width:12px;height:12px;background:var(--accent);display:inline-block;clip-path:polygon(25% 0,75% 0,100% 25%,100% 75%,75% 100%,25% 100%,0 75%,0 25%)}
-.nav__brand img,.nav__brand svg{height:34px;width:auto;max-width:180px;object-fit:contain}
-.nav__brand.is-chip img,.nav__brand.is-chip svg{background:var(--ink);padding:6px 10px;border-radius:6px;height:40px;box-sizing:border-box}
+.nav__brand img,.nav__brand svg{height:calc(34px * var(--logo-scale,1));width:auto;max-width:calc(180px * var(--logo-scale,1));object-fit:contain}
+.nav__brand.is-chip img,.nav__brand.is-chip svg{background:var(--ink);padding:6px 10px;border-radius:6px;height:calc(40px * var(--logo-scale,1));box-sizing:border-box}
+@media(max-width:640px){.nav__brand img,.nav__brand svg{max-width:calc(140px * var(--logo-scale,1));height:calc(30px * var(--logo-scale,1))}}
 .nav.is-scrolled{background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:background .3s}
 .nav.is-on-hero{background:linear-gradient(to bottom,rgba(0,0,0,.45),rgba(0,0,0,0));transition:background .3s}
 .nav__brand.is-pill img{background:#fff;padding:5px 8px;border-radius:6px}
@@ -267,7 +268,7 @@ export function pageList(spec) {
 export function renderPage(spec, page, opts = {}) {
   const base = (opts.base || "").replace(/\/$/, "");
   const pair = resolvePair(spec.theme);
-  const t = themeTokens(spec.theme);
+  const t = themeTokens(spec.theme); t.logoScale = logoScale(spec);
   const capsRule = pair.caps ? "text-transform: uppercase;" : "";
   const ctx = { t, pair, capsRule, esc, imgUrl, link: makeLink(base, page.slug), arrow, page, spec, brandMark: () => brandMark(spec, t, ctx) };
 
@@ -347,6 +348,11 @@ ${modules.map(m => `<script type="module">${m}</script>`).join("\n")}
 }
 
 /** Render every page. Returns [{slug, html, components}]. */
+/** brand.logoScale: how much bigger than the default the logo sits in the nav (1 = default, 0.6 to 2.5). */
+function logoScale(spec) {
+  const n = Number(spec?.brand?.logoScale);
+  return Number.isFinite(n) && n > 0 ? Math.min(2.5, Math.max(0.6, n)) : 1;
+}
 /** The section's root element gets data-sec="N" (1-based), so the debugger's CSS can address one section. */
 function tagSection(html, n) {
   const h = String(html || "");

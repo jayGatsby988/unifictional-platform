@@ -7,6 +7,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { BookCall, CtaButton } from "@/components/ui/button";
 import { FinalCta } from "@/components/sections/final-cta";
 import { principles } from "@/lib/site";
+import { ClientPortalSection } from "@/components/sections/client-portal";
 
 export const metadata: Metadata = {
   title: "Studio",
@@ -98,6 +99,9 @@ export default function AboutPage() {
           </figcaption>
         </figure>
       </Reveal>
+
+      {/* Client portal (formerly its own /portal page) */}
+      <ClientPortalSection />
 
       {/* Principles */}
       <section className="bg-bone py-20 sm:py-24">

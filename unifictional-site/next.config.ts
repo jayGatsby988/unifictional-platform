@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   // The scrub hero uses a requestAnimationFrame loop with cleaned-up effects,
   // so it's safe under React StrictMode. Above-the-fold entrances use CSS
   // mount animations (not scroll-into-view), so nothing depends on JS timing.
+  // The client portal is now a section of the Studio page.
+  async redirects() {
+    return [{ source: "/portal", destination: "/about#client-portal", permanent: true }];
+  },
   async headers() {
     return [
       {

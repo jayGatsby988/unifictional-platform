@@ -35,6 +35,9 @@ const config: Config = {
           DEFAULT: "rgb(var(--terracotta) / <alpha-value>)", // the single accent
           soft: "rgb(var(--terracotta-soft) / <alpha-value>)",
         },
+        // The 3D Remodel Studio's gold: the one real colour on the site, used only
+        // for the studio's buttons and section so it reads as "the thing to try".
+        studio: "rgb(var(--studio) / <alpha-value>)",
         // Fixed tokens — never flip. Used by the always-dark hero/nav-over-hero/
         // footer so their light-on-dark content stays readable in both themes.
         bonefixed: "rgb(255 255 255 / <alpha-value>)",

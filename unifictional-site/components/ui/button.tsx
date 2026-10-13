@@ -165,7 +165,7 @@ export function BookCall({
 }
 
 /** Where the self-serve product lives: the Client Portal's sign-up, which lands on the SEO Autopilot plan builder. */
-const PORTAL_URL = (process.env.NEXT_PUBLIC_PORTAL_URL || "https://unifictional-client-portal.vercel.app").replace(/\/+$/, "");
+export const PORTAL_URL = (process.env.NEXT_PUBLIC_PORTAL_URL || "https://unifictional-client-portal.vercel.app").replace(/\/+$/, "");
 
 /** The self-serve CTA: no call, no form, straight into the plan builder. */
 export function StartAutopilot({

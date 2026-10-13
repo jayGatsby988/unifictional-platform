@@ -20,11 +20,11 @@ function Status({ inv }: { inv: BillingInvoice }) {
 function InvoiceActions({ inv, compact = false }: { inv: BillingInvoice; compact?: boolean }) {
   return (
     <div className="flex items-center gap-2 justify-end">
-      {inv.payUrl && <a href={inv.payUrl} target="_blank" rel="noreferrer" className="btn btn-ink !py-1.5 !px-3 text-xs whitespace-nowrap">Pay now</a>}
+      {inv.payUrl && <a href={inv.payUrl} target="_blank" rel="noreferrer" className="btn btn-ink min-h-11 !px-4 text-sm whitespace-nowrap">Pay now</a>}
       {inv.viewUrl && !inv.payUrl && (
         <a href={inv.viewUrl} target="_blank" rel="noreferrer" title="View or print" aria-label={`View invoice ${inv.number ?? ""}`}
-          className={cn("btn btn-ghost !py-1.5 text-xs whitespace-nowrap", compact ? "!px-2" : "!px-3")}>
-          <ExternalLink className="h-3.5 w-3.5" />{!compact && (inv.status === "paid" ? "Receipt" : "View")}
+          className={cn("btn btn-ghost min-h-11 text-sm whitespace-nowrap", compact ? "!px-3" : "!px-4")}>
+          <ExternalLink className="h-4 w-4" />{!compact && (inv.status === "paid" ? "Receipt" : "View")}
         </a>
       )}
     </div>
@@ -51,7 +51,7 @@ export default async function BillingPage({ searchParams }: { searchParams: Prom
           <div>
             <h2 className="font-display text-2xl uppercase leading-tight">{copy.h}</h2>
             <p className="text-sm text-ink-muted mt-1">{copy.p}</p>
-            <Link href={askHref("Question about billing")} className="btn btn-ghost !py-2 !px-4 text-xs mt-4"><MessageSquare className="h-3.5 w-3.5" />Ask about billing</Link>
+            <Link href={askHref("Question about billing")} className="btn btn-ghost min-h-11 !px-4 text-sm mt-4"><MessageSquare className="h-4 w-4" />Ask about billing</Link>
           </div>
         </div>
       </>
@@ -117,7 +117,7 @@ export default async function BillingPage({ searchParams }: { searchParams: Prom
               <span className="grid place-items-center h-10 w-14 rounded-lg border border-line"><CreditCard className="h-5 w-5" /></span>
               <div>
                 <p className="font-medium">{BRAND[b.card.brand] ?? b.card.brand} •••• {b.card.last4}</p>
-                <p className="text-xs text-ink-muted">Expires {String(b.card.expMonth).padStart(2, "0")}/{String(b.card.expYear).slice(-2)}</p>
+                <p className="text-sm text-ink-muted">Expires {String(b.card.expMonth).padStart(2, "0")}/{String(b.card.expYear).slice(-2)}</p>
               </div>
             </div>
           ) : (
@@ -127,7 +127,7 @@ export default async function BillingPage({ searchParams }: { searchParams: Prom
         </div>
       </div>
 
-      <SubHead right={<span className="label !text-[9px] flex items-center gap-1"><Lock className="h-3 w-3" />Secured by Square</span>}>Invoices &amp; receipts</SubHead>
+      <SubHead right={<span className="label !text-xs flex items-center gap-1"><Lock className="h-3 w-3" />Secured by Square</span>}>Invoices &amp; receipts</SubHead>
       {b.invoices.length === 0 ? (
         <div className="panel p-5 text-sm text-ink-muted mb-10">No invoices yet.</div>
       ) : (
@@ -155,7 +155,7 @@ export default async function BillingPage({ searchParams }: { searchParams: Prom
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="font-medium truncate">{inv.description}</p>
-                    <p className="text-xs text-ink-muted">{fmt.dateLong(inv.createdAt)}{inv.number ? ` · ${inv.number}` : ""}</p>
+                    <p className="text-sm text-ink-muted">{fmt.dateLong(inv.createdAt)}{inv.number ? ` · ${inv.number}` : ""}</p>
                   </div>
                   <div className="text-right shrink-0">
                     <p className="font-mono text-sm">{money(inv.amountDue, inv.currency)}</p>
@@ -171,8 +171,11 @@ export default async function BillingPage({ searchParams }: { searchParams: Prom
 
       <div className="panel p-5 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-ink-muted">Question about a charge or need a receipt sent somewhere else?</p>
-        <Link href={askHref("Question about an invoice")} className="btn btn-ghost !py-2 !px-4 text-xs"><MessageSquare className="h-3.5 w-3.5" />Ask us</Link>
+        <Link href={askHref("Question about an invoice")} className="btn btn-ghost min-h-11 !px-4 text-sm"><MessageSquare className="h-4 w-4" />Ask us</Link>
       </div>
+      <p className="mt-4 text-sm text-ink-muted">
+        Want to cancel or change your plan? SEO Autopilot can be cancelled in <Link href="/autopilot?settings=open#settings" className="underline text-ink">its settings</Link>. To switch, <Link href="/plans" className="underline text-ink">compare plans</Link>.
+      </p>
     </>
   );
 }

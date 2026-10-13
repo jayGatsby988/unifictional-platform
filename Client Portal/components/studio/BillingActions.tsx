@@ -35,7 +35,7 @@ export function BillingActions({ slug, name, customerId, defaultEmail, dashboard
       <form className="flex flex-wrap items-center gap-2" onSubmit={(e) => { e.preventDefault(); call({ action: "link", email }, (j) => (j.existed ? "Linked to their existing Square customer." : "Created a Square customer and linked it.")); }}>
         <input className="input !w-56 !py-1.5 text-xs" type="email" required placeholder="billing email" value={email} onChange={(e) => setEmail(e.target.value)} aria-label={`Billing email for ${name}`} />
         <button className="btn btn-ink !py-1.5 !px-3 text-xs" disabled={busy}><Link2 className="h-3.5 w-3.5" />{busy ? "Linking…" : "Link to Square"}</button>
-        {msg && <span className={cn("text-[11px]", msg.ok ? "text-good" : "text-bad")}>{msg.text}</span>}
+        {msg && <span className={cn("text-xs", msg.ok ? "text-good" : "text-bad")}>{msg.text}</span>}
       </form>
     );
   }
@@ -64,18 +64,18 @@ export function BillingActions({ slug, name, customerId, defaultEmail, dashboard
           if (mode === "invoice") call({ action: "invoice", description: desc, amount, days }, () => "Invoice emailed. It's also on their Billing page.");
           else call({ action: "plan", name: planName, amount }, () => "Monthly plan started. First invoice is on its way; autopay turns on once they save a card.");
         }}>
-          <label className="block"><span className="label !text-[9px] block mb-1">{mode === "invoice" ? "What it's for" : "Plan name"}</span>
+          <label className="block"><span className="label !text-xs block mb-1">{mode === "invoice" ? "What it's for" : "Plan name"}</span>
             <input className="input !py-1.5 text-xs" required value={mode === "invoice" ? desc : planName} onChange={(e) => (mode === "invoice" ? setDesc(e.target.value) : setPlanName(e.target.value))} /></label>
-          <label className="block"><span className="label !text-[9px] block mb-1">{mode === "invoice" ? "Amount ($)" : "Per month ($)"}</span>
+          <label className="block"><span className="label !text-xs block mb-1">{mode === "invoice" ? "Amount ($)" : "Per month ($)"}</span>
             <input className="input !py-1.5 text-xs" required inputMode="decimal" value={amount} onChange={(e) => setAmount(e.target.value)} /></label>
-          {mode === "invoice" && <label className="block"><span className="label !text-[9px] block mb-1">Due in</span>
+          {mode === "invoice" && <label className="block"><span className="label !text-xs block mb-1">Due in</span>
             <select className="input !py-1.5 text-xs" value={days} onChange={(e) => setDays(e.target.value)}>
               {["3", "7", "14", "30"].map((d) => <option key={d} value={d}>{d} days</option>)}
             </select></label>}
           <button className="btn btn-ink !py-1.5 !px-3 text-xs" disabled={busy}>{busy ? "Sending…" : mode === "invoice" ? "Send" : "Start"}</button>
         </form>
       )}
-      {msg && <p className={cn("text-[11px]", msg.ok ? "text-good" : "text-bad")}>{msg.text}</p>}
+      {msg && <p className={cn("text-xs", msg.ok ? "text-good" : "text-bad")}>{msg.text}</p>}
     </div>
   );
 }

@@ -13,7 +13,7 @@ export default async function PortalLayout({ children }: { children: React.React
   if (session.isAdmin && !session.isDemo && !(await cookies()).get("portal_client")?.value) redirect("/studio");
   if (!session.client) {
     return (
-      <Shell session={session}>
+      <Shell session={session} pending>
         {session.mustChangePassword && <SetPassword />}
         <WelcomePending email={session.email} name={session.name ?? ""} />
       </Shell>

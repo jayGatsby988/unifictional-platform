@@ -11,6 +11,7 @@ import { loadRecommendation } from "@/lib/billing/recommend";
 import { emailConfigured, sendEmail, signOffFor, STUDIO_EMAIL } from "@/lib/email/send";
 import { signInLinkEmail, studioNewSignupEmail, welcomeEmail } from "@/lib/email/templates";
 import { normalizeUrl, runAudit } from "@/lib/audit";
+import { clientIp, hashKey, rateLimited } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 const recent = new Map<string, number>();
@@ -39,6 +40,11 @@ export async function POST(request: Request) {
   const now = Date.now();
   if ((recent.get(email) ?? 0) > now - 60_000) return NextResponse.json({ ok: true, emailed: true, email }); // double-click / resubmit
   recent.set(email, now);
+  // Every sign-up creates a login, emails an address from our domain and runs a website check: cap it.
+  const ip = clientIp(request);
+  if ((ip && await rateLimited(hashKey("signup-ip", ip), 5, 3_600_000)) || await rateLimited(hashKey("signup-email", email), 3, 3_600_000)) {
+    return NextResponse.json({ error: "Too many sign-ups from here in the last hour. Please try again later, or reply to any of our emails and we'll set you up." }, { status: 429 });
+  }
 
   // 1. Request for the studio inbox.
   const requestId = randomUUID();

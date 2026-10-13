@@ -38,7 +38,7 @@ export function Strategist({ initial, demo, suggestions }: { initial: Strategist
     <div className="panel flex flex-col overflow-hidden" style={{ height: "28rem" }}>
       <div className="px-5 py-3 border-b border-line flex items-center gap-2">
         <span className="h-7 w-7 rounded-full bg-ink text-bone grid place-items-center"><Bot className="h-3.5 w-3.5" /></span>
-        <div><p className="text-sm font-medium leading-tight">Your SEO strategist</p><p className="text-[11px] text-ink-muted">Knows your plan, posts and Google numbers. Tell it what you want more of; it changes the plan.</p></div>
+        <div><p className="text-sm font-medium leading-tight">Your SEO strategist</p><p className="text-xs text-ink-muted">Knows your plan, posts and Google numbers. Tell it what you want more of; it changes the plan.</p></div>
       </div>
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
         {messages.length === 0 && (
@@ -51,7 +51,7 @@ export function Strategist({ initial, demo, suggestions }: { initial: Strategist
             <div className={cn("rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap leading-relaxed", m.role === "user" ? "bg-ink text-bone" : "bg-paper border border-line")}>{m.content.replace(/\*\*(.+?)\*\*/g, "$1").replace(/^#{1,3}\s+/gm, "")}</div>
             {m.actions && m.actions.length > 0 && (
               <ul className="mt-1.5 flex flex-wrap gap-1.5">
-                {m.actions.map((a) => <li key={a} className="inline-flex items-start gap-1 rounded-full bg-good-bg text-good px-2.5 py-1 text-[11px] leading-snug"><Check className="h-3 w-3 mt-0.5 shrink-0" />{a}</li>)}
+                {m.actions.map((a) => <li key={a} className="inline-flex items-start gap-1 rounded-full bg-good-bg text-good px-2.5 py-1 text-xs leading-snug"><Check className="h-3 w-3 mt-0.5 shrink-0" />{a}</li>)}
               </ul>
             )}
           </div>
@@ -66,7 +66,7 @@ export function Strategist({ initial, demo, suggestions }: { initial: Strategist
         </div>
       )}
       <form className="border-t border-line p-3 flex items-center gap-2" onSubmit={(e) => { e.preventDefault(); send(text); }}>
-        <input className="input !py-2 text-sm flex-1" placeholder={demo ? "Demo mode: replies are canned" : "e.g. I want more kitchen remodels in Lynnwood"} value={text} onChange={(e) => setText(e.target.value)} maxLength={2000} disabled={busy} />
+        <input className="input !py-2 text-sm flex-1" aria-label="Message your SEO strategist" placeholder={demo ? "Demo mode: replies are canned" : "e.g. I want more kitchen remodels in Lynnwood"} value={text} onChange={(e) => setText(e.target.value)} maxLength={2000} disabled={busy} />
         <button className="btn btn-ink !py-2 !px-3" disabled={busy || !text.trim()} aria-label="Send"><Send className="h-4 w-4" /></button>
       </form>
     </div>

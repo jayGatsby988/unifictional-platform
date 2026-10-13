@@ -32,7 +32,7 @@ export function RunAutopilot({ slug, enabled = true, demo, label }: { slug?: str
         title={demo ? "Demo mode" : !enabled ? "The client hasn't switched it on" : slug ? "Write and publish the next post now" : "Publish approved posts and write every post that's due"}>
         {busy ? (slug ? "Writing… (about a minute)" : "Running…") : label ?? "Run now"}
       </button>
-      {msg && <p className="text-[11px] text-ink-muted max-w-[22rem]">{msg}</p>}
+      {msg && <p className="text-xs text-ink-muted max-w-[22rem]">{msg}</p>}
     </div>
   );
 }

@@ -21,18 +21,18 @@ function Month({ year, month, entries, today }: { year: number; month: number; e
     <div>
       <p className="label mb-2">{first.toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" })}</p>
       <div className="grid grid-cols-7 gap-px rounded-xl overflow-hidden border border-line bg-line">
-        {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => <div key={i} className="bg-paper py-1 text-center font-mono text-[9px] text-ink-muted">{d}</div>)}
+        {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => <div key={i} className="bg-paper py-1 text-center font-mono text-xs text-ink-muted">{d}</div>)}
         {cells.map((d, i) => {
           const key = d ? `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}` : "";
           const list = d ? entries.get(key) ?? [] : [];
           return (
             <div key={i} className={cn("bg-bone min-h-[4.5rem] p-1", !d && "bg-paper/60", key === today && "bg-paper")}>
-              {d && <p className={cn("font-mono text-[10px] mb-1", key === today ? "text-ink font-medium" : "text-ink-muted")}>{d}</p>}
+              {d && <p className={cn("font-mono text-xs mb-1", key === today ? "text-ink font-medium" : "text-ink-muted")}>{d}</p>}
               {list.slice(0, 2).map((e, j) => {
-                const chip = <span className={cn("block truncate rounded px-1 py-0.5 text-[10px] leading-tight", KIND[e.kind].chip)} title={e.title}>{e.title}</span>;
+                const chip = <span className={cn("block truncate rounded px-1 py-0.5 text-xs leading-tight", KIND[e.kind].chip)} title={e.title}>{e.title}</span>;
                 return e.href ? <a key={j} href={e.href} target="_blank" rel="noreferrer" className="block mb-0.5">{chip}</a> : <div key={j} className="mb-0.5">{chip}</div>;
               })}
-              {list.length > 2 && <p className="text-[9px] text-ink-muted">+{list.length - 2} more</p>}
+              {list.length > 2 && <p className="text-xs text-ink-muted">+{list.length - 2} more</p>}
             </div>
           );
         })}
@@ -66,8 +66,8 @@ export function Calendar({ entries, now = new Date() }: { entries: CalendarEntry
         </ul>
       </div>
       <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1">
-        {(Object.keys(KIND) as CalendarEntry["kind"][]).map((k) => <span key={k} className="inline-flex items-center gap-1.5 text-[11px] text-ink-muted"><span className={cn("h-2 w-2 rounded-full", KIND[k].dot)} />{KIND[k].label}</span>)}
-        <span className="text-[11px] text-ink-muted">· scheduled dates are approximate</span>
+        {(Object.keys(KIND) as CalendarEntry["kind"][]).map((k) => <span key={k} className="inline-flex items-center gap-1.5 text-xs text-ink-muted"><span className={cn("h-2 w-2 rounded-full", KIND[k].dot)} />{KIND[k].label}</span>)}
+        <span className="text-xs text-ink-muted">· scheduled dates are approximate</span>
       </div>
     </div>
   );

@@ -27,18 +27,27 @@ export function RequestForm({ initialType, initialTitle }: { initialType?: strin
 
   return (
     <form onSubmit={submit} className="panel p-5 space-y-4">
-      <div className="grid sm:grid-cols-[160px_1fr] gap-3">
-        <select className="input" value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="website">Website</option>
-          <option value="seo">Search / SEO</option>
-          <option value="social">Social</option>
-          <option value="estimator">Quote tool / pricing</option>
-          <option value="billing">Billing</option>
-          <option value="other">Other</option>
-        </select>
-        <input className="input" placeholder="What do you need?" value={title} onChange={(e) => setTitle(e.target.value)} required maxLength={160} />
+      <div className="grid sm:grid-cols-[180px_1fr] gap-3">
+        <label className="block">
+          <span className="label block mb-1">About</span>
+          <select className="input" value={type} onChange={(e) => setType(e.target.value)}>
+            <option value="website">Website</option>
+            <option value="seo">Search / SEO</option>
+            <option value="social">Social</option>
+            <option value="estimator">Quote tool / pricing</option>
+            <option value="billing">Billing</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+        <label className="block">
+          <span className="label block mb-1">What do you need?</span>
+          <input className="input" placeholder="e.g. New photos on the home page" value={title} onChange={(e) => setTitle(e.target.value)} required maxLength={160} />
+        </label>
       </div>
-      <textarea className="input min-h-28" placeholder="Details, links, addresses — anything that helps." value={body} onChange={(e) => setBody(e.target.value)} maxLength={4000} />
+      <label className="block">
+        <span className="label block mb-1">Details (optional)</span>
+        <textarea className="input min-h-28" placeholder="Links, addresses, anything that helps." value={body} onChange={(e) => setBody(e.target.value)} maxLength={4000} />
+      </label>
       <div className="flex items-center gap-4 flex-wrap">
         <button className="btn btn-ink" disabled={state === "sending"}>{state === "sending" ? "Sending…" : "Send request"}</button>
         {msg && <p className={`text-sm ${state === "error" ? "text-bad" : "text-ink-muted"}`}>{msg}</p>}

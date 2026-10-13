@@ -7,7 +7,7 @@ export type LoginResult =
   | { kind: "exists"; userId: string }
   | { kind: "error"; error: string };
 
-async function findUserId(email: string): Promise<string | null> {
+export async function findUserId(email: string): Promise<string | null> {
   const admin = createAdminClient();
   for (let page = 1; page <= 20; page++) {
     const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 200 });
@@ -43,10 +43,10 @@ export async function ensureLogin(input: { email: string; name?: string; extra?:
 }
 
 /** One-time sign-in link that lands on our own /auth/confirm (works with our cookies, no Supabase email). */
-export async function signInLink(email: string, origin: string, next = "/overview"): Promise<string | null> {
+export async function signInLink(email: string, origin: string, next = "/overview", opts: { askNewPassword?: boolean } = {}): Promise<string | null> {
   if (!adminConfigured) return null;
   const admin = createAdminClient();
   const { data, error } = await admin.auth.admin.generateLink({ type: "magiclink", email: email.trim().toLowerCase() });
   if (error || !data.properties?.hashed_token) return null;
-  return `${origin}/auth/confirm?token_hash=${encodeURIComponent(data.properties.hashed_token)}&type=magiclink&next=${encodeURIComponent(next)}`;
+  return `${origin}/auth/confirm?token_hash=${encodeURIComponent(data.properties.hashed_token)}&type=magiclink&next=${encodeURIComponent(next)}${opts.askNewPassword ? "&reset=1" : ""}`;
 }

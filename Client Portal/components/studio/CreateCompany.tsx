@@ -39,7 +39,7 @@ export function CreateCompany({ initial, from, title = "Turn this lead into a cl
       <div className="grid sm:grid-cols-2 gap-3">
         {([["name", "Company name"], ["website", "Website"], ["email", "Their email (portal login + Square invoices)"], ["industry", "Trade"], ["city", "City"]] as const).map(([k, l]) => (
           <label key={k} className={k === "email" ? "sm:col-span-2 block" : "block"}>
-            <span className="label !text-[9px] block mb-1">{l}</span>
+            <span className="label !text-xs block mb-1">{l}</span>
             <input className="input !py-2 text-sm" value={f[k]} onChange={(e) => setF({ ...f, [k]: e.target.value })} required={k === "name"} />
           </label>
         ))}
@@ -49,11 +49,11 @@ export function CreateCompany({ initial, from, title = "Turn this lead into a cl
           <input type="checkbox" className="h-4 w-4 accent-black" checked={bill.start} onChange={(e) => setBill({ ...bill, start: e.target.checked })} />
           Start billing in Square now
         </label>
-        <p className="text-[11px] text-ink-muted">They&apos;re always linked to Square by email. Ticked, this also emails the build invoice and starts the monthly plan. Leave an amount empty to skip it.</p>
+        <p className="text-xs text-ink-muted">They&apos;re always linked to Square by email. Ticked, this also emails the build invoice and starts the monthly plan. Leave an amount empty to skip it.</p>
         {bill.start && (
           <div className="grid grid-cols-2 gap-3">
-            <label className="block"><span className="label !text-[9px] block mb-1">Build invoice ($)</span><input className="input !py-2 text-sm" inputMode="decimal" value={bill.build} onChange={(e) => setBill({ ...bill, build: e.target.value })} /></label>
-            <label className="block"><span className="label !text-[9px] block mb-1">Monthly plan ($/mo)</span><input className="input !py-2 text-sm" inputMode="decimal" value={bill.monthly} onChange={(e) => setBill({ ...bill, monthly: e.target.value })} /></label>
+            <label className="block"><span className="label !text-xs block mb-1">Build invoice ($)</span><input className="input !py-2 text-sm" inputMode="decimal" value={bill.build} onChange={(e) => setBill({ ...bill, build: e.target.value })} /></label>
+            <label className="block"><span className="label !text-xs block mb-1">Monthly plan ($/mo)</span><input className="input !py-2 text-sm" inputMode="decimal" value={bill.monthly} onChange={(e) => setBill({ ...bill, monthly: e.target.value })} /></label>
           </div>
         )}
       </div>

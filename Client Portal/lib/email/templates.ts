@@ -131,3 +131,78 @@ export function studioPastePostEmail(o: { company: string; platform: string; tit
     text: `A post is ready to paste for ${o.company}\n\n"${o.title}" passed the SEO check and is waiting on their SEO Autopilot page.\nSite: ${o.platform} · ${o.access}.\n\nOpen their page: ${o.portalUrl}\n\nCopy it as HTML, paste it on ${o.platform}, then tap "It's live" on the post with the URL.`,
   };
 }
+
+/** Studio: a client sent a request from the portal. */
+export function studioNewRequestEmail(o: { company: string; email: string; type: string; title: string; body: string; studioUrl: string }): Email {
+  return {
+    subject: `New request from ${o.company}: ${o.title}`,
+    html: shell(`New request from ${esc(o.company)}`, [
+      p(`<b>${esc(o.title)}</b> <span style="color:#6b6863">(${esc(o.type)})</span>`),
+      o.body ? `<div style="margin:0 0 18px;padding:14px 16px;background:#f4f3f0;border-radius:10px;font-family:${FONT};font-size:17px;line-height:1.5;white-space:pre-wrap">${esc(o.body)}</div>` : "",
+      p(`From ${esc(o.email || "their portal login")}. Reply in Studio and they get it by email.`),
+      button(o.studioUrl, "Open in Studio"),
+    ].join("")),
+    text: `New request from ${o.company}: ${o.title} (${o.type})\n\n${o.body}\n\nFrom: ${o.email}\nOpen in Studio: ${o.studioUrl}`,
+  };
+}
+
+/** Client: we answered their request. The answer is in the email itself, so they never have to sign in to read it. */
+export function requestReplyEmail(o: { name?: string; title: string; reply: string; done: boolean; portalUrl: string; signOff?: SignOff }): Email {
+  const subject = `Re: ${o.title}`;
+  const html = shell(`We answered your request${o.name ? `, ${first(o.name)}` : ""}.`, [
+    p(`You asked: <b>${esc(o.title)}</b>`),
+    `<div style="margin:0 0 20px;padding:16px 18px;background:#f4f3f0;border-left:4px solid #111111;border-radius:8px;font-family:${FONT};font-size:18px;line-height:1.55;white-space:pre-wrap">${esc(o.reply)}</div>`,
+    o.done ? p("We've marked this one <b>done</b>. If anything still looks off, just reply to this email.") : p("Want to add something? Just reply to this email."),
+    button(o.portalUrl, "See it in my portal"),
+  ].join(""), o.signOff);
+  const text = `You asked: ${o.title}\n\n${o.reply}\n\n${o.done ? "We've marked this done. " : ""}Reply to this email to add anything.\nYour portal: ${o.portalUrl}`;
+  return { subject, html, text };
+}
+
+/** Client: a new SEO Autopilot article is waiting for their OK (nothing goes live until they tap approve). */
+export function postNeedsOkEmail(o: { name?: string; title: string; excerpt?: string; held: boolean; reviewUrl: string; signOff?: SignOff }): Email {
+  const subject = `Ready for your OK: ${o.title}`;
+  const html = shell(`A new article is ready for you${o.name ? `, ${first(o.name)}` : ""}.`, [
+    p(`We wrote <b>${esc(o.title)}</b> for your website.`),
+    o.excerpt ? `<p style="margin:0 0 18px;font-size:17px;line-height:1.55;color:#4a4744;font-style:italic">${esc(o.excerpt)}</p>` : "",
+    p(o.held ? "It needs a quick look from you before it goes live. Tap below, read it, and tap <b>Approve</b> or tell us what to change." : "Tap below, give it a read, and tap <b>Approve</b>. We'll publish it for you."),
+    button(o.reviewUrl, "Review the article"),
+    p("Don't have time? Reply <b>“looks good”</b> to this email and we'll publish it."),
+  ].join(""), o.signOff);
+  const text = `A new article is ready for your OK: ${o.title}\n\n${o.excerpt ?? ""}\n\nReview it: ${o.reviewUrl}\nOr reply "looks good" and we'll publish it.`;
+  return { subject, html, text };
+}
+
+export type MonthlyLine = { label: string; now: number; prev: number | null };
+
+/** Client: the monthly summary. Big numbers, a plain arrow against last month, what we did, what's waiting on them. */
+export function monthlyReportEmail(o: { name?: string; company: string; month: string; lines: MonthlyLine[]; published: { title: string; url: string | null }[]; did: string[]; waiting: number; portalUrl: string; signOff?: SignOff }): Email {
+  const subject = `${o.company}: your ${o.month} update`;
+  const trend = (l: MonthlyLine) => {
+    if (l.prev === null || l.prev === undefined) return "";
+    const d = l.now - l.prev;
+    if (d === 0) return `<span style="color:#6b6863">same as last month</span>`;
+    return d > 0 ? `<span style="color:#1d7a3e">&#9650; ${d.toLocaleString("en-US")} more than last month</span>` : `<span style="color:#a23b2a">&#9660; ${(-d).toLocaleString("en-US")} fewer than last month</span>`;
+  };
+  const rows = o.lines.map((l) => `<tr><td style="padding:12px 0;border-bottom:1px solid #e3e1dc;font-family:${FONT}">
+<div style="font-size:15px;color:#6b6863">${esc(l.label)}</div>
+<div style="font-size:30px;font-weight:bold;line-height:1.2">${l.now.toLocaleString("en-US")}</div>
+<div style="font-size:15px">${trend(l)}</div></td></tr>`).join("");
+  const list = (items: string[]) => `<ul style="margin:0 0 20px;padding-left:22px;font-family:${FONT};font-size:17px;line-height:1.6">${items.join("")}</ul>`;
+  const html = shell(`Here's your ${esc(o.month)} update${o.name ? `, ${first(o.name)}` : ""}.`, [
+    p(`How <b>${esc(o.company)}</b> did over the last 30 days.`),
+    rows ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 22px">${rows}</table>` : "",
+    o.published.length ? p("<b>New articles we published for you:</b>") + list(o.published.map((x) => `<li>${x.url ? `<a href="${esc(x.url)}" style="color:#111111">${esc(x.title)}</a>` : esc(x.title)}</li>`)) : "",
+    o.did.length ? p("<b>What else we did:</b>") + list(o.did.map((t) => `<li>${esc(t)}</li>`)) : "",
+    o.waiting ? `<div style="margin:0 0 20px;padding:14px 16px;background:#fff6e0;border-radius:10px;font-family:${FONT};font-size:17px;line-height:1.5"><b>${o.waiting} article${o.waiting === 1 ? " is" : "s are"} waiting for your OK.</b> Nothing goes live until you approve.</div>` : "",
+    button(o.portalUrl, "See my full dashboard"),
+    p("Questions about any of this? Just reply. A real person reads every email."),
+  ].join(""), o.signOff);
+  const text = [`Your ${o.month} update for ${o.company} (last 30 days)`, "",
+    ...o.lines.map((l) => `${l.label}: ${l.now}${l.prev === null ? "" : ` (last month ${l.prev})`}`),
+    ...(o.published.length ? ["", "New articles:", ...o.published.map((x) => `- ${x.title}${x.url ? ` ${x.url}` : ""}`)] : []),
+    ...(o.did.length ? ["", "What else we did:", ...o.did.map((t) => `- ${t}`)] : []),
+    ...(o.waiting ? ["", `${o.waiting} article(s) waiting for your OK.`] : []),
+    "", `Your dashboard: ${o.portalUrl}`, "Questions? Just reply."].join("\n");
+  return { subject, html, text };
+}

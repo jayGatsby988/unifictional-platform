@@ -33,20 +33,22 @@ export function Stat({ label, value, sub, delta, className }: {
   );
 }
 
-export function Score({ label, value }: { label: string; value: number }) {
+/** `hint`: a few plain words under the label for non-technical readers. */
+export function Score({ label, hint, value }: { label: string; hint?: string; value: number }) {
   const r = 26;
   const c = 2 * Math.PI * r;
   const tone = value >= 90 ? "text-good" : value >= 50 ? "text-warn" : "text-bad";
   return (
-    <div className="flex items-center gap-3">
-      <svg viewBox="0 0 64 64" className="h-16 w-16 -rotate-90">
+    <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-3">
+      <svg viewBox="0 0 64 64" className="h-16 w-16 shrink-0 -rotate-90" aria-hidden="true">
         <circle cx="32" cy="32" r={r} className="stroke-line" strokeWidth="5" fill="none" />
         <circle cx="32" cy="32" r={r} className={cn("stroke-current", tone)} strokeWidth="5" fill="none" strokeLinecap="round"
           strokeDasharray={c} strokeDashoffset={c - (c * value) / 100} />
       </svg>
       <div>
         <p className="font-display text-2xl leading-none">{value}</p>
-        <p className="label !text-[9px] mt-1">{label}</p>
+        <p className="label !text-xs mt-1">{label}</p>
+        {hint && <p className="text-xs text-ink-muted mt-0.5">{hint}</p>}
       </div>
     </div>
   );

@@ -2,6 +2,7 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { slugify } from "@/lib/data/studio";
 import { normalizeUrl } from "@/lib/audit";
+import { claimInvites } from "@/lib/data/invites";
 
 /**
  * Self-serve: the company a person named at sign-up becomes a real client
@@ -11,15 +12,27 @@ import { normalizeUrl } from "@/lib/audit";
  */
 export async function ensureCompany(input: { userId: string; name: string; company: string; website?: string; email: string }): Promise<{ clientId: string; slug: string; created: boolean } | null> {
   const admin = createAdminClient();
-  const { data: member } = await admin.from("client_members").select("client_id, clients(slug)").eq("user_id", input.userId).limit(1).maybeSingle();
-  if (member?.client_id) return { clientId: member.client_id, slug: (member as any).clients?.slug ?? "", created: false };
+  const existing = async () => {
+    const { data: member } = await admin.from("client_members").select("client_id, clients(slug)").eq("user_id", input.userId).limit(1).maybeSingle();
+    return member?.client_id ? { clientId: member.client_id as string, slug: (member as any).clients?.slug ?? "", created: false } : null;
+  };
+  const had = await existing();
+  if (had) return had;
+  // The studio already set this email up? Link them to that company instead of making an empty one.
+  if (await claimInvites({ id: input.userId, email: input.email })) return existing();
 
-  let slug = slugify(input.company);
-  const { data: taken } = await admin.from("clients").select("slug").like("slug", `${slug}%`);
-  if (taken?.some((t: { slug: string }) => t.slug === slug)) slug = `${slug}-${(taken?.length ?? 1) + 1}`;
+  const base = slugify(input.company) || "company";
+  const { data: taken } = await admin.from("clients").select("slug").like("slug", `${base}%`);
+  const used = new Set((taken ?? []).map((t: { slug: string }) => t.slug));
+  let slug = base;
+  for (let n = 2; used.has(slug); n++) slug = `${base}-${n}`;
   const site = input.website ? normalizeUrl(input.website) : null;
 
-  const { data: client, error } = await admin.from("clients").insert({ slug, name: input.company, website_url: site, services: ["SEO Autopilot"] }).select("id, slug").single();
+  let { data: client, error } = await admin.from("clients").insert({ slug, name: input.company, website_url: site, services: ["SEO Autopilot"] }).select("id, slug").single();
+  if (error?.code === "23505") { // lost a race for the slug: take a random one
+    slug = `${base}-${Math.random().toString(36).slice(2, 6)}`;
+    ({ data: client, error } = await admin.from("clients").insert({ slug, name: input.company, website_url: site, services: ["SEO Autopilot"] }).select("id, slug").single());
+  }
   if (error || !client) { console.error("[signup] company", error?.message); return null; }
   await admin.from("client_members").insert({ client_id: client.id, user_id: input.userId, role: "owner" });
   if (site) await admin.from("client_integrations").upsert({ client_id: client.id, site_url: site }, { onConflict: "client_id" });

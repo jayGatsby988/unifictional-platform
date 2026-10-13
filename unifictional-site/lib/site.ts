@@ -66,7 +66,6 @@ export const navLinks: NavLink[] = [
   { label: "Process", href: "/process" },
   { label: "3D studio", href: "https://3d.unifictional.com" },
   { label: "Studio", href: "/about" },
-  { label: "Client portal", href: "/portal" },
 ];
 
 // The footer is the site's main internal-linking surface: it's what pushes

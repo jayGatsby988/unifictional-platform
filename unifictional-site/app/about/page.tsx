@@ -7,7 +7,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { BookCall, CtaButton } from "@/components/ui/button";
 import { FinalCta } from "@/components/sections/final-cta";
 import { principles } from "@/lib/site";
-import { PortalMock } from "@/components/sections/portal-mock";
+import { ClientPortalSection } from "@/components/sections/client-portal";
 
 export const metadata: Metadata = {
   title: "Studio",
@@ -100,35 +100,8 @@ export default function AboutPage() {
         </figure>
       </Reveal>
 
-      {/* Client portal */}
-      <section className="border-y border-line bg-sand/60 py-20 sm:py-24">
-        <Container>
-          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
-            <div className="min-w-0 lg:col-span-5">
-              <Reveal>
-                <Eyebrow tone="accent">Every client gets the portal</Eyebrow>
-                <h2 className="mt-6 font-display text-3xl font-medium leading-tight text-ink sm:text-4xl">
-                  You always see what we&apos;re doing.
-                </h2>
-                <p className="mt-6 text-lg leading-relaxed text-ink-soft">
-                  Website health, Google rankings, social, quote requests and billing in one private
-                  dashboard that updates every night. No chasing us for a report.
-                </p>
-                <div className="mt-8 flex flex-wrap items-center gap-4">
-                  <CtaButton href="/portal" variant="solid" size="lg" icon="arrow">
-                    Tour the portal
-                  </CtaButton>
-                </div>
-              </Reveal>
-            </div>
-            <div className="min-w-0 lg:col-span-7">
-              <Reveal delay={80}>
-                <PortalMock />
-              </Reveal>
-            </div>
-          </div>
-        </Container>
-      </section>
+      {/* Client portal (formerly its own /portal page) */}
+      <ClientPortalSection />
 
       {/* Principles */}
       <section className="bg-bone py-20 sm:py-24">

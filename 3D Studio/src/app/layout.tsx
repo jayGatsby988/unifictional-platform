@@ -1,10 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Hanken_Grotesk, Oswald, Space_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
-const instrument = Instrument_Serif({ variable: "--font-instrument", subsets: ["latin"], weight: "400", style: ["normal", "italic"] });
+// The Unifictional type system (same as unifictional.com): Oswald set in
+// uppercase for every headline, Hanken Grotesk for body and UI, Space Mono
+// for captions and eyebrows.
+const oswald = Oswald({ variable: "--font-oswald", subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+const hanken = Hanken_Grotesk({ variable: "--font-hanken", subsets: ["latin"] });
+const spaceMono = Space_Mono({ variable: "--font-space-mono", subsets: ["latin"], weight: ["400", "700"] });
 
 const siteUrl =
   process.env.NEXT_PUBLIC_APP_URL ||
@@ -20,11 +23,11 @@ export const metadata: Metadata = {
   openGraph: { title: "MANHATTAN — Photo to 3D remodel studio", description: "Photo → 3D twin → live-priced redesign in 60 seconds.", type: "website" },
 };
 
-export const viewport: Viewport = { themeColor: "#0b0c0e", width: "device-width", initialScale: 1, maximumScale: 1 };
+export const viewport: Viewport = { themeColor: "#090909", width: "device-width", initialScale: 1, maximumScale: 1 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${instrument.variable} h-full antialiased`}>
+    <html lang="en" className={`${oswald.variable} ${hanken.variable} ${spaceMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-bg text-ink">{children}</body>
     </html>
   );

@@ -81,7 +81,7 @@ export function ProgressOverlay({ phase, message, progress, startedAt, photoUrl,
         aria-hidden
         className="absolute inset-0 opacity-70"
         style={{
-          backgroundImage: 'linear-gradient(rgba(217,179,107,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(217,179,107,0.10) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(201,150,46,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(201,150,46,0.10) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
           maskImage: 'radial-gradient(70% 60% at 50% 50%, black 30%, transparent 100%)',
           WebkitMaskImage: 'radial-gradient(70% 60% at 50% 50%, black 30%, transparent 100%)',
@@ -93,7 +93,7 @@ export function ProgressOverlay({ phase, message, progress, startedAt, photoUrl,
         <motion.div
           aria-hidden
           className="absolute inset-y-0 w-1/3"
-          style={{ background: 'linear-gradient(90deg, transparent, rgba(217,179,107,0.08), transparent)' }}
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(201,150,46,0.08), transparent)' }}
           animate={{ x: ['-40vw', '140vw'] }}
           transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
         />
@@ -144,7 +144,7 @@ export function ProgressOverlay({ phase, message, progress, startedAt, photoUrl,
                   const current = stepIndex === i;
                   return (
                     <li key={s.id} className="flex items-center gap-2">
-                      <span className={cx('grid h-5 w-5 place-items-center rounded-full border text-[10px]', done ? 'border-brass bg-brass text-[#141210]' : current ? 'border-brass text-brass' : 'border-border text-dim')}>
+                      <span className={cx('grid h-5 w-5 place-items-center rounded-full border text-[10px]', done ? 'border-brass bg-brass text-[#0a0a0a]' : current ? 'border-brass text-brass' : 'border-border text-dim')}>
                         {done ? <Check size={11} /> : i + 1}
                       </span>
                       <span className={cx('text-[12px]', done || current ? 'text-ink' : 'text-dim')}>{s.label}</span>

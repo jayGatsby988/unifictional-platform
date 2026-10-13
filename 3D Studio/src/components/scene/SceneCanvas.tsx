@@ -513,7 +513,7 @@ export function SceneCanvas({ env, rig, children, exposure, envIntensity, backgr
         dpr={dpr}
         gl={{ antialias: true, powerPreference: 'high-performance', alpha: false, stencil: false, preserveDrawingBuffer: true }}
         camera={{ fov: rig.fov ?? 55, near: 0.05, far: 400, position: rig.position }}
-        style={{ background: env === 'exterior' ? '#cfe0ee' : '#0b0c0e' }}
+        style={{ background: env === 'exterior' ? '#cfe0ee' : '#090909' }}
       >
         <RendererSetup exposure={exposureValue} directToneMapping={capturedModel} onReady={onReady} onGraphicsLost={graphicsLost} />
         {measured && env !== 'exterior' && <color attach="background" args={['#e7e5df']} />}

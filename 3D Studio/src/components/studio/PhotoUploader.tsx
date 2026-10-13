@@ -75,7 +75,7 @@ function Thumb({ item, index, count, onPrimary, onRemove, onMove, onDragStart, o
           <button type="button" title="Move later" disabled={index === count - 1 || disabled} onClick={() => onMove(1)} className="grid h-7 w-7 place-items-center rounded-md bg-black/55 text-white/80 backdrop-blur hover:bg-black/75 disabled:opacity-30"><ChevronRight size={14} /></button>
         </div>
         <div className="flex items-center gap-1">
-          <button type="button" title={item.primary ? 'Primary photo' : 'Mark as primary'} disabled={disabled} onClick={onPrimary} className={cx('grid h-7 w-7 place-items-center rounded-md backdrop-blur hover:bg-black/75', item.primary ? 'bg-brass text-[#141210]' : 'bg-black/55 text-white/80')}>
+          <button type="button" title={item.primary ? 'Primary photo' : 'Mark as primary'} disabled={disabled} onClick={onPrimary} className={cx('grid h-7 w-7 place-items-center rounded-md backdrop-blur hover:bg-black/75', item.primary ? 'bg-brass text-[#0a0a0a]' : 'bg-black/55 text-white/80')}>
             <Star size={14} fill={item.primary ? 'currentColor' : 'none'} />
           </button>
           <button type="button" title="Remove" disabled={disabled} onClick={onRemove} className="grid h-7 w-7 place-items-center rounded-md bg-black/55 text-white/80 backdrop-blur hover:bg-danger/80 hover:text-white"><X size={14} /></button>

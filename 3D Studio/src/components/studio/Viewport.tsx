@@ -194,7 +194,7 @@ function WalkHint() {
   return (
     <div id="walk-hint" className={cx('absolute inset-0 z-10 flex cursor-pointer items-center justify-center transition-opacity', locked ? 'pointer-events-none opacity-0' : 'opacity-100')}>
       <div className="panel mx-4 flex max-w-sm items-center gap-3 px-4 py-3">
-        <span className="grid h-9 w-9 place-items-center rounded-full bg-brass text-[#141210]"><Footprints size={16} /></span>
+        <span className="grid h-9 w-9 place-items-center rounded-full bg-brass text-[#0a0a0a]"><Footprints size={16} /></span>
         <div>
           <div className="text-[13.5px] text-ink" role={unavailable ? 'status' : undefined}>{unavailable ? 'This browser could not start walk controls' : 'Click to look around'}</div>
           <div className="text-[12px] text-muted">{unavailable ? 'Use Orbit here, or open the studio in a desktop browser that supports pointer lock.' : 'W A S D to move · Shift to hurry · Esc to release'}</div>

@@ -208,7 +208,7 @@ function MaterialCard({ option, selected, onSelect }: { option: IntakeOption; se
       <div className="relative">
         <Swatch material={def} size="fill" className="h-16 w-full" rounded="rounded-none" />
         {selected && (
-          <span className="absolute right-1.5 top-1.5 grid h-5 w-5 place-items-center rounded-full bg-brass text-[#141210]"><Check size={12} /></span>
+          <span className="absolute right-1.5 top-1.5 grid h-5 w-5 place-items-center rounded-full bg-brass text-[#0a0a0a]"><Check size={12} /></span>
         )}
       </div>
       <div className="px-2 py-1.5">
@@ -252,7 +252,7 @@ function ColourControl({ q, value, onChange }: { q: IntakeQuestion; value: strin
               )}
             >
               <span className="relative block h-10 w-full rounded-[6px] border border-white/10" style={{ backgroundColor: c.hex }}>
-                {selected && <span className="absolute right-1 top-1 grid h-4 w-4 place-items-center rounded-full bg-brass text-[#141210]"><Check size={10} /></span>}
+                {selected && <span className="absolute right-1 top-1 grid h-4 w-4 place-items-center rounded-full bg-brass text-[#0a0a0a]"><Check size={10} /></span>}
               </span>
               <span className="mt-1 block truncate text-[10.5px] text-muted">{c.label}</span>
             </button>
@@ -534,7 +534,7 @@ export function Interview() {
         aria-label="Guided intake"
         className="grain fixed inset-0 z-50 flex flex-col bg-bg/95 backdrop-blur-xl"
       >
-        <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(60% 40% at 50% -10%, rgba(217,179,107,.10), transparent 70%)' }} />
+        <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(60% 40% at 50% -10%, rgba(201,150,46,.10), transparent 70%)' }} />
 
         {/* ---- header ---------------------------------------------------- */}
         <header className="relative z-10 shrink-0 border-b border-border px-5 pb-3 pt-4 sm:px-8">

@@ -46,7 +46,7 @@ Next.js 16 (app router, `src/`), React 19, TypeScript, Tailwind v4 (`@theme` tok
 - Room frame: centred at origin, floor y=0; back wall z=-d/2 (faces +z), front z=+d/2, left x=-w/2, right x=+w/2. `t∈[0,1]` along a wall runs left→right as seen from inside facing that wall (`wallFrame` encodes this — always use it).
 - Cabinet/fixture dimensions come from the spec in inches/feet → convert with `inch()`/`ft()`.
 - Every user-facing surface must be a `<Surface slot=…/>` so it is clickable + swappable. Trim/fillers/hardware may share the parent slot.
-- Design system: dark studio UI. Tokens/classes in `globals.css` (`.panel`, `.btn .btn-primary .btn-ghost .btn-sm`, `.chip`, `.input`, `.eyebrow`, `.font-display`, colours `bg-bg bg-surface text-ink text-muted text-brass border-border`). Fonts: Geist (sans), Geist Mono, Instrument Serif (display). Icons: lucide-react.
+- Design system: the Unifictional theme in its dark mode (same tokens as unifictional.com: near-black `#090909`, near-white `#f5f5f5`, hairline borders, the studio's gold `#c9962e` as the only colour). Tokens/classes in `globals.css` (`.panel`, `.btn .btn-primary .btn-ghost .btn-sm`, `.chip`, `.input`, `.eyebrow`, `.font-display`, colours `bg-bg bg-surface text-ink text-muted text-brass border-border`). Fonts: Oswald (display, always uppercase, no italics), Hanken Grotesk (sans), Space Mono (mono/eyebrows). Every header links back to unifictional.com. Icons: lucide-react.
 - Client components need `'use client'`. Never import three/R3F in server components. `next/dynamic` with `ssr:false` for canvases.
 - Env: see `.env.example`. Server-only secrets never reach the client. `OPENAI_API_KEY` is the only required key.
 - Typecheck with `npx tsc --noEmit`; lint with `npm run lint`.

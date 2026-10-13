@@ -63,7 +63,7 @@ export function SlotList({ variant = 'rail', onPick, readOnly = false }: {
                   onMouseLeave={() => setUI({ hoveredSlot: null })}
                   className={cx(
                     'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left transition-colors',
-                    active ? 'bg-brass-soft text-ink shadow-[inset_0_0_0_1px_rgba(217,179,107,.45)]' : hovered ? 'bg-white/5 text-ink' : 'text-muted hover:bg-white/5 hover:text-ink',
+                    active ? 'bg-brass-soft text-ink shadow-[inset_0_0_0_1px_rgba(201,150,46,.45)]' : hovered ? 'bg-white/5 text-ink' : 'text-muted hover:bg-white/5 hover:text-ink',
                   )}
                 >
                   {finish.kind !== 'catalog' ? <span aria-hidden className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-white/15 text-muted"><ScanLine size={16} /></span> : <Swatch material={mat} size={16} rounded="rounded-[4px]" />}

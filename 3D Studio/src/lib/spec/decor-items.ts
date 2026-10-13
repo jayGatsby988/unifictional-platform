@@ -60,7 +60,7 @@ export const DEFAULT_MATERIAL: Record<DecorItemKind, DecorItemMaterial> = {
 export const DEFAULT_COLOR: Record<DecorItemMaterial, string> = {
   stainless: '#b9bcc0', 'black-metal': '#1c1d1f', copper: '#b87333', brass: '#c2a15e',
   enamel: '#2b4c7e', ceramic: '#efece6', glass: '#dfe9ee', wood: '#a8865a', plastic: '#f0efe9',
-  fabric: '#d9d2c3', paper: '#f6f4ef', marble: '#f2f0ea', wicker: '#b0844f',
+  fabric: '#d9d2c3', paper: '#f6f4ef', marble: '#f5f5f5', wicker: '#b0844f',
 };
 
 const KIND_SET = new Set<string>(ITEM_KINDS);

@@ -27,7 +27,7 @@ const ICONS: LucideIcon[] = [Upload, Box, Paintbrush];
 const TONES = [
   'border-border-strong bg-surface-2 text-ink',
   'border-[#2c3648] bg-[#1b2230] text-ink',
-  'border-brass bg-brass text-[#141210]',
+  'border-brass bg-brass text-[#0a0a0a]',
 ];
 
 const CARD =

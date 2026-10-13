@@ -52,9 +52,15 @@ export function Nav() {
       )}
     >
       <div className="lp-container flex h-16 items-center justify-between gap-4">
-        <Link href="/" className="font-display text-[22px] tracking-[0.14em] text-ink" aria-label="MANHATTAN home">
-          MANHATTAN
-        </Link>
+        <div className="flex min-w-0 items-center gap-3">
+          <Link href="/" className="font-display text-[22px] font-medium tracking-tight text-ink" aria-label="MANHATTAN home">
+            MANHATTAN<span className="text-muted">.</span>
+          </Link>
+          <span className="hidden h-4 w-px bg-border sm:inline" />
+          <a href="https://unifictional.com" className="hidden font-mono text-[10.5px] tracking-[0.22em] text-muted transition-colors hover:text-ink sm:inline" title="Back to unifictional.com">
+            BY UNIFICTIONAL ↗
+          </a>
+        </div>
 
         <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
           {NAV_LINKS.map((l) => (
@@ -100,7 +106,10 @@ export function Nav() {
           <Link href={STUDIO_HREF} className="btn btn-primary btn-lg mt-8">
             Open studio <ArrowUpRight size={16} />
           </Link>
-          <p className="mt-6 text-[12px] text-dim">Photo → 3D twin from your photos. Live pricing. Photoreal renders.</p>
+          <a href="https://unifictional.com" className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.22em] text-muted hover:text-ink">
+            ← BACK TO UNIFICTIONAL.COM
+          </a>
+          <p className="mt-4 text-[12px] text-dim">Photo → 3D twin from your photos. Live pricing. Photoreal renders.</p>
         </nav>
       </div>
     </header>

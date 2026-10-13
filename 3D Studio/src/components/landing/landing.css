@@ -74,7 +74,7 @@
   pointer-events: none;
 }
 .lp-clip-text {
-  font-family: var(--font-display), "Instrument Serif", Georgia, serif;
+  font-family: var(--font-display), Oswald, Impact, sans-serif;
   font-size: clamp(5.5rem, 22vw, 19rem);
   letter-spacing: -0.03em;
 }

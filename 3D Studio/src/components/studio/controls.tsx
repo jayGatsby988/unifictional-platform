@@ -44,7 +44,7 @@ export function Toggle({ checked, onChange, label, disabled }: { checked: boolea
         checked ? 'border-brass bg-brass' : 'border-border-strong bg-surface-2',
       )}
     >
-      <span className={cx('inline-block h-4 w-4 rounded-full transition-transform', checked ? 'translate-x-6 bg-[#141210]' : 'translate-x-1 bg-muted')} />
+      <span className={cx('inline-block h-4 w-4 rounded-full transition-transform', checked ? 'translate-x-6 bg-[#0a0a0a]' : 'translate-x-1 bg-muted')} />
     </button>
   );
 }
@@ -132,7 +132,7 @@ const TIER_CLASS: Record<Tier, string> = {
   budget: 'text-muted border-border',
   standard: 'text-ink/80 border-border',
   premium: 'text-brass border-brass/40 bg-brass-soft',
-  luxury: 'text-[#f1d9a0] border-[#f1d9a0]/40 bg-[#f1d9a0]/10',
+  luxury: 'text-[#c9962e] border-[#c9962e]/40 bg-[#c9962e]/10',
 };
 export function TierBadge({ tier, className }: { tier: Tier; className?: string }) {
   return <span className={cx('inline-flex h-5 items-center rounded-full border px-1.5 text-[10px] font-medium uppercase tracking-wider', TIER_CLASS[tier], className)}>{TIER_LABEL[tier]}</span>;
@@ -150,7 +150,7 @@ export function Swatch({ material, size = 20, className, rounded = 'rounded-md' 
   const src = useSwatchSrc(material ?? undefined);
   const style = useMemo(() => {
     const s: React.CSSProperties = typeof size === 'number' ? { width: size, height: size } : {};
-    if (!material) { s.backgroundImage = 'repeating-linear-gradient(45deg, #2a2c30 0 4px, #1e2024 4px 8px)'; return s; }
+    if (!material) { s.backgroundImage = 'repeating-linear-gradient(45deg, #2a2c30 0 4px, #202020 4px 8px)'; return s; }
     // longhand only: mixing `background` with `backgroundImage` makes React warn
     // and can drop the image on a re-render.
     s.backgroundColor = swatchColor(material);

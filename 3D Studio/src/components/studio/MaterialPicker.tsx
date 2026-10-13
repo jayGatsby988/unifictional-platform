@@ -160,7 +160,7 @@ function Picker({ slot, onDone }: { slot: MaterialSlotId; onDone?: () => void })
                 >
                   <div className="relative aspect-[2/1] w-full lg:aspect-[5/4]">
                     <Swatch material={m} size="100%" rounded="rounded-none" className="absolute inset-0 h-full w-full border-0" />
-                    {active && <span className="absolute right-1.5 top-1.5 grid h-5 w-5 place-items-center rounded-full bg-brass text-[#141210]"><Check size={12} /></span>}
+                    {active && <span className="absolute right-1.5 top-1.5 grid h-5 w-5 place-items-center rounded-full bg-brass text-[#0a0a0a]"><Check size={12} /></span>}
                   </div>
                   <div className="flex flex-1 flex-col gap-1 px-2 py-1.5">
                     <div className="truncate text-[12px] leading-tight text-ink">{m.name}</div>

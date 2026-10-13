@@ -43,7 +43,7 @@ export function Pricing() {
               <article
                 className={cx(
                   'relative flex h-full flex-col rounded-[var(--radius)] border p-6 sm:p-7',
-                  tier.highlight ? 'border-brass bg-[linear-gradient(180deg,rgba(217,179,107,0.10),rgba(217,179,107,0.02))]' : 'border-border bg-surface',
+                  tier.highlight ? 'border-brass bg-[linear-gradient(180deg,rgba(201,150,46,0.10),rgba(201,150,46,0.02))]' : 'border-border bg-surface',
                 )}
                 aria-label={`${tier.name} plan`}
               >

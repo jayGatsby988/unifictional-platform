@@ -16,7 +16,7 @@ import { useToast } from './Toast';
 import { cx } from './hooks';
 
 const ROOM_CARDS: Array<{ id: RoomType; title: string; blurb: string; icon: ComponentType<{ size?: number; className?: string }>; art: string }> = [
-  { id: 'kitchen', title: 'Kitchen', blurb: 'Cabinets, counters, island, backsplash, lighting', icon: CookingPot, art: 'radial-gradient(120% 90% at 20% 10%, rgba(217,179,107,.32), transparent 60%), radial-gradient(80% 60% at 90% 90%, rgba(120,90,50,.35), transparent 60%), linear-gradient(160deg, #26211a, #0f1012)' },
+  { id: 'kitchen', title: 'Kitchen', blurb: 'Cabinets, counters, island, backsplash, lighting', icon: CookingPot, art: 'radial-gradient(120% 90% at 20% 10%, rgba(201,150,46,.32), transparent 60%), radial-gradient(80% 60% at 90% 90%, rgba(120,90,50,.35), transparent 60%), linear-gradient(160deg, #26211a, #0f1012)' },
   { id: 'bathroom', title: 'Bathroom', blurb: 'Vanity, shower, tub, tile, plumbing finishes', icon: Bath, art: 'radial-gradient(120% 90% at 20% 10%, rgba(127,178,224,.28), transparent 60%), radial-gradient(80% 60% at 90% 90%, rgba(80,110,140,.35), transparent 60%), linear-gradient(160deg, #1b2229, #0f1012)' },
   { id: 'exterior', title: 'Lot & Exterior', blurb: 'Siding, roof, windows, porch, driveway, landscape', icon: TreePine, art: 'radial-gradient(120% 90% at 20% 10%, rgba(127,191,138,.26), transparent 60%), radial-gradient(80% 60% at 90% 90%, rgba(70,100,70,.35), transparent 60%), linear-gradient(160deg, #1c231d, #0f1012)' },
   { id: 'floorplan', title: 'Floor Plan', blurb: 'Whole house: rooms, walls, doors, windows, stairs', icon: LayoutGrid, art: 'radial-gradient(120% 90% at 20% 10%, rgba(160,170,200,.26), transparent 60%), radial-gradient(80% 60% at 90% 90%, rgba(70,80,110,.35), transparent 60%), linear-gradient(160deg, #1b1e26, #0f1012)' },
@@ -79,7 +79,7 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
 
   return (
     <div className="grain relative min-h-dvh overflow-x-hidden bg-bg">
-      <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(60% 40% at 50% -10%, rgba(217,179,107,.10), transparent 70%)' }} />
+      <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(60% 40% at 50% -10%, rgba(201,150,46,.10), transparent 70%)' }} />
       <header className="relative z-10 flex items-center justify-between px-5 py-4 sm:px-8">
         <div className="flex items-baseline gap-2">
           <span className="font-display text-[22px] tracking-tight text-ink">MANHATTAN</span>
@@ -124,10 +124,10 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
                 style={{ background: r.art }}
               >
                 <div className="flex items-start justify-between">
-                  <span className={cx('grid h-10 w-10 place-items-center rounded-full border', active ? 'border-brass bg-brass text-[#141210]' : 'border-white/10 bg-black/30 text-ink')}>
+                  <span className={cx('grid h-10 w-10 place-items-center rounded-full border', active ? 'border-brass bg-brass text-[#0a0a0a]' : 'border-white/10 bg-black/30 text-ink')}>
                     <Icon size={18} />
                   </span>
-                  {active && <span className="grid h-6 w-6 place-items-center rounded-full bg-brass text-[#141210]"><Check size={13} /></span>}
+                  {active && <span className="grid h-6 w-6 place-items-center rounded-full bg-brass text-[#0a0a0a]"><Check size={13} /></span>}
                 </div>
                 <div className="mt-8 font-display text-[24px] text-ink">{r.title}</div>
                 <div className="mt-1 text-[12.5px] text-muted">{r.blurb}</div>

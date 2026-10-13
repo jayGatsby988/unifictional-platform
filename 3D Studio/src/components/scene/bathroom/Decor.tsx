@@ -30,7 +30,7 @@ import type { BathLayout, LArt, LPlant, LRug, LShelf, LTreatment } from './layou
 
 /** Muted prints — nothing that would fight the finishes the contractor is selling. */
 const ART_PALETTE = ['#8a9a8b', '#c9b79c', '#5b6770', '#b7a58f', '#7c8c99', '#a58a72'];
-const FRAME_HEX: Record<LArt['frame'], string> = { black: '#1f1f1f', wood: '#7a5a3a', white: '#f2f0ea', none: '#f2f0ea' };
+const FRAME_HEX: Record<LArt['frame'], string> = { black: '#1f1f1f', wood: '#7a5a3a', white: '#f5f5f5', none: '#f5f5f5' };
 
 function useOak(colorHex: string | null = null, enabled = true) {
   return useMemo(() => enabled ? makeProceduralMaterial(

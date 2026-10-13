@@ -63,7 +63,7 @@ export function CompareSlider({ before, after, beforeLabel = 'Before', afterLabe
           <img src={after} alt={afterLabel} className="absolute inset-0 h-full w-full object-cover" draggable={false} />
         </div>
         <span className="chip absolute left-3 top-3 bg-black/60 text-white/90">{beforeLabel}</span>
-        <span className="chip absolute right-3 top-3 bg-brass/90 text-[#141210]">{afterLabel}</span>
+        <span className="chip absolute right-3 top-3 bg-brass/90 text-[#0a0a0a]">{afterLabel}</span>
         <div className="pointer-events-none absolute inset-y-0 w-px bg-white/90 shadow-[0_0_0_1px_rgba(0,0,0,.35)]" style={{ left: `${pos * 100}%` }} />
         <button
           type="button"

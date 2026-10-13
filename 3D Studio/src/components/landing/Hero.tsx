@@ -18,7 +18,7 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden pt-28 pb-16 sm:pt-32 lg:pb-24 lg:pt-36">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-[-30%] h-[80vh] w-[100vw] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(217,179,107,0.16),transparent_72%)] blur-3xl" />
+        <div className="absolute left-1/2 top-[-30%] h-[80vh] w-[100vw] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(201,150,46,0.16),transparent_72%)] blur-3xl" />
         <div className="grain absolute inset-0" />
       </div>
 

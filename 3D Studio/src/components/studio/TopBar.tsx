@@ -105,7 +105,12 @@ export function TopBar({ builtInMs, onRender, onShare, onNewProject, renderBusy,
   return (
     <header inert={previewing} className="relative z-30 flex h-14 shrink-0 items-center gap-2 border-b border-border bg-bg/85 px-3 backdrop-blur-xl sm:px-4">
       <div className="flex min-w-0 items-center gap-2">
-        <span className="hidden font-mono text-[10.5px] tracking-[0.2em] text-brass sm:inline">MANHATTAN</span>
+        {/* the way back to the agency site, and the product's name in the agency's type */}
+        <a href="https://unifictional.com" className="hidden shrink-0 items-center gap-1 font-mono text-[10.5px] tracking-[0.22em] text-muted transition-colors hover:text-ink sm:inline-flex" title="Back to unifictional.com">
+          ← UNIFICTIONAL
+        </a>
+        <span className="hidden h-4 w-px bg-border sm:inline" />
+        <span className="hidden shrink-0 font-display text-[15px] tracking-tight text-ink sm:inline">MANHATTAN<span className="text-muted">.</span></span>
         <span className="hidden h-4 w-px bg-border sm:inline" />
         <ProjectName />
         <AnimatePresence>

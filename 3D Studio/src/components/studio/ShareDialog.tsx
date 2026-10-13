@@ -160,7 +160,7 @@ export function ShareDialog({ open, onClose }: { open: boolean; onClose: () => v
                 <input value={branding.phone ?? ''} onChange={(e) => setBranding({ ...branding, phone: e.target.value })} placeholder="Phone" className="input h-10" aria-label="Phone" inputMode="tel" />
                 <input value={branding.email ?? ''} onChange={(e) => setBranding({ ...branding, email: e.target.value })} placeholder="Email" className="input h-10" aria-label="Email" inputMode="email" />
                 <div className="flex items-center gap-2">
-                  <input type="color" value={branding.accent ?? '#d9b36b'} onChange={(e) => setBranding({ ...branding, accent: e.target.value })} className="h-10 w-12 cursor-pointer rounded-md border border-border-strong bg-bg-elev p-1" aria-label="Accent colour" />
+                  <input type="color" value={branding.accent ?? '#c9962e'} onChange={(e) => setBranding({ ...branding, accent: e.target.value })} className="h-10 w-12 cursor-pointer rounded-md border border-border-strong bg-bg-elev p-1" aria-label="Accent colour" />
                   <span className="text-[12px] text-muted">Accent colour</span>
                 </div>
               </div>

@@ -293,6 +293,16 @@ function fontsFrom(html, css) {
   const BAD_FONT = /icon|awesome|glyph|material|symbols|unset|inherit|!important|^-|^\d/i;
   return Object.entries(fam).sort((a, b) => b[1] - a[1]).map(([n]) => n.replace(/\s*!important/i, "").trim()).filter(n => n && !GENERIC_FONTS.test(n) && !BAD_FONT.test(n)).filter((v, i, a) => a.indexOf(v) === i).slice(0, 4);
 }
+/** The page's own background colour (body/html/:root rules, or theme-color), as a hex; white when nothing says otherwise. */
+function bodyBgFrom(html, css) {
+  const src = css + " " + html;
+  const toHex = (v) => { v = String(v || "").trim().toLowerCase(); let m = v.match(/^#([0-9a-f]{6})\b/); if (m) return "#" + m[1]; m = v.match(/^#([0-9a-f]{3})\b/); if (m) return "#" + m[1].split("").map(x => x + x).join(""); m = v.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/); if (m) return "#" + [m[1], m[2], m[3]].map(x => (+x).toString(16).padStart(2, "0")).join(""); if (v === "white") return "#ffffff"; if (v === "black") return "#000000"; return ""; };
+  for (const sel of ["body", "html", ":root"]) {
+    const re = new RegExp(`(?:^|[}\\s,])${sel.replace(":", "\\:")}\\s*\\{[^}]*?background(?:-color)?\\s*:\\s*([^;}]+)`, "gi");
+    let m; while ((m = re.exec(src))) { const h = toHex(m[1].split(/\s|!/)[0]); if (h) return h; }
+  }
+  return "#ffffff";
+}
 function colorsFrom(html, css) {
   const counts = {};
   const src = css + " " + html;
@@ -365,7 +375,7 @@ export function analyzeHtml(html, url, css = "") {
     logo, icon: extractIcon(html, url),
     headings: [...h1, ...h2, ...h3].slice(0, 40), h1, nav, links, text: bodyText, phone, email,
     address: addressFrom(bodyText, schemaBlocks), hours: hoursFrom(bodyText, schemaBlocks), licence: licenceFrom(bodyText),
-    social: socialFrom(html), colors: colorsFrom(html, css), fonts: fontsFrom(html, css),
+    social: socialFrom(html), colors: colorsFrom(html, css), fonts: fontsFrom(html, css), bodyBg: bodyBgFrom(html, css),
     images: extractImages(html, url, "home"),
     city: stateCity ? `${stateCity[1]}, ${stateCity[2]}` : "", schema: schemaBlocks.slice(0, 3),
     wordCount: bodyText.split(/\s+/).length, hasViewport: /<meta[^>]+viewport/i.test(html), hasSchema: schemaBlocks.length > 0,

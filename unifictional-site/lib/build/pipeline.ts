@@ -12,6 +12,7 @@
 // analysis, dossier, plan and pages, so the steps share no memory.
 import { crawlSite } from "./analyze";
 import { cleanWebsite } from "./url";
+import { applyBrand, brandFromAnalysis, accentFrom, modeFrom, pairForFonts } from "./brand";
 import { MODEL, modelFor, hasKey, structured, research, parseJson, describeError, addUsage, costOf, emptyUsage } from "./claude";
 import { SYSTEM_RESEARCH_A, SYSTEM_RESEARCH_B, SYSTEM_HOOK, SYSTEM_PLAN, SYSTEM_COVERAGE, SYSTEM_WRITE, SYSTEM_REVIEW, SYSTEM_SEO, SYSTEM_JUDGE, SYSTEM_REPAIR, SEO_SCHEMA, offerFor } from "./prompts";
 import { gateResearch, gatePlan, gatePages, gateSpec, gateInspection, summarize, FLAGSHIP_TYPES, canShowPhoto, RUN_BREAKERS } from "./gates";
@@ -287,7 +288,7 @@ export async function researchB(job: BuildJob) {
     stamp(job, `reputation pass: ${searches.length} searches, ${(b.proof || []).length} reviews, ${(b.competitors || []).length} competitors, ${(b.keywords || []).length} keywords`);
     await saveJson(buildPath(job.id, "dossier.json"), merged);
     // trim the analysis before it travels further: keep brand facts, drop page text
-    if (job.analysis) { const a = job.analysis; job.analysis = { url: a.url, domain: a.domain, title: a.title, logo: a.logo, icon: a.icon, colors: a.colors, fonts: a.fonts, social: a.social, phone: a.phone, email: a.email, address: a.address, hours: a.hours, licence: a.licence, city: a.city, pagesRead: (a.pages || []).map(p => p.url) }; }
+    if (job.analysis) { const a = job.analysis; job.analysis = { url: a.url, domain: a.domain, title: a.title, logo: a.logo, icon: a.icon, colors: a.colors, fonts: a.fonts, bodyBg: a.bodyBg, social: a.social, phone: a.phone, email: a.email, address: a.address, hours: a.hours, licence: a.licence, city: a.city, pagesRead: (a.pages || []).map(p => p.url) }; }
   } catch (e) {
     stamp(job, `reputation pass skipped: ${describeError(e)}`);
   }
@@ -392,8 +393,9 @@ async function planOnce(job: BuildJob, feedback: string[] = [], attempt = 1): Pr
     for (const key of ["transition", "cursor"]) if (plan.theme[key] && (!byId[plan.theme[key]] || byId[plan.theme[key]].kind !== key)) delete plan.theme[key];
     if (plan.theme.preloader && plan.theme.preloader !== "preloader") plan.theme.preloader = /pill|yes|true|on/i.test(String(plan.theme.preloader)) ? "preloader" : "";
     plan.brand = plan.brand || {};
-    // their logo is never optional: when the crawl found one, the site carries it
+    // their logo is never optional: when the crawl found one, the site carries it; their colour is the accent, their surface the mode, their type the pair
     if (a.logo && (a.logo.url || a.logo.kind === "svg")) { plan.brand.logo = { ...a.logo, icon: a.icon }; plan.brand.useLogo = true; }
+    for (const n of applyBrand(plan, a)) stamp(job, n);
     if (!plan.brand.domain && a.domain) plan.brand.domain = a.domain;
     for (const k of ["phone", "email", "address", "hours", "licence"]) if (!plan.brand[k] && (a[k] || d[k])) plan.brand[k] = a[k] || d[k];
     plan.brand.social = { ...(a.social || {}), ...Object.fromEntries(Object.entries(plan.brand.social || {}).filter(([, v]) => v)) };

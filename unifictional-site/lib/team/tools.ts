@@ -14,6 +14,7 @@ import { enforceBrandWord } from "../build/pipeline";
 import { minifyAssets, enhanceImages } from "../build/optimize";
 import { pagePath, saveHtml } from "../build/storage";
 import type { Role } from "./keys";
+import { brandFromAnalysis, accentFrom, modeFrom, pairForFonts } from "../build/brand";
 
 export interface Workspace {
   job: any; spec: any; board: any; origin: string; previewBase: string; stamp: (s: string) => void; round: number;
@@ -94,8 +95,8 @@ export async function renderToPreview(ws: Workspace) {
 function ensureSpec(ws: Workspace) {
   const d = ws.job.dossier || {};
   ws.spec = ws.spec || {};
-  ws.spec.brand = ws.spec.brand || { name: d.name || ws.job.lead?.businessName || "", tagline: d.tagline || "", phone: d.phone || "", email: d.email || "", city: d.city || "", accent: "", logo: ws.job.analysis?.logo || null };
-  ws.spec.theme = ws.spec.theme || {};
+  if (!ws.spec.brand) { const b = brandFromAnalysis(ws.job.analysis); ws.spec.brand = { name: d.name || ws.job.lead?.businessName || "", tagline: d.tagline || "", phone: d.phone || "", email: d.email || "", city: d.city || "", ...b }; }
+  if (!ws.spec.theme) { const a = ws.job.analysis; ws.spec.theme = { mode: modeFrom(a) || "dark", accent: accentFrom(a?.colors) || "", pair: pairForFonts(a?.fonts) || "" }; }
   ws.spec.nav = ws.spec.nav || { menu: "", links: [] };
   ws.spec.pages = ws.spec.pages || [];
   return ws.spec;
@@ -105,7 +106,7 @@ export function makeTools(ws: Workspace, role: Role) {
   const spec = () => ensureSpec(ws);
   const page = (slug) => spec().pages.find(p => p.slug === slug);
   const impl = {
-    read_brief: async () => `THE FORM:\n${compact(ws.job.lead)}\n\nVIDEO: ${ws.job.videoRequested ? "a film of their trade's work is being generated for the home hero (hero-video-scrub); keep the home page opening with it" : "no film this time"}`,
+    read_brief: async () => `THE FORM:\n${compact(ws.job.lead)}\n\nTHEIR BRAND (the theme is theirs; keep it): logo ${ws.job.analysis?.logo?.url ? "found: " + ws.job.analysis.logo.url + " (brand.useLogo stays true)" : "none found"}; brand colours ${(ws.job.analysis?.colors || []).join(", ") || "none found"} (accent = ${accentFrom(ws.job.analysis?.colors) || "pick one that suits the trade"}); their site is ${modeFrom(ws.job.analysis) || "unknown"} on ${ws.job.analysis?.bodyBg || "?"}; their fonts ${(ws.job.analysis?.fonts || []).slice(0, 3).join(", ") || "unknown"} (closest pair: ${pairForFonts(ws.job.analysis?.fonts) || "your call"})\n\nVIDEO: ${ws.job.videoRequested ? "a film of their trade's work is being generated for the home hero (hero-video-scrub); keep the home page opening with it" : "no film this time"}`,
     read_dossier: async ({ full = false } = {}) => { const d = { ...(ws.job.dossier || {}), searchesA: undefined, searchesB: undefined, sources: undefined }; if (!full) { d.siteText = d.siteText ? `(${String(d.siteText).length} chars of their site's text; pass full=true to read it)` : undefined; d.photos = (d.photos || []).map(p => ({ url: p.url, alt: p.alt, use: p.use })); } return compact(d); },
     component_fields: async ({ types }) => (Array.isArray(types) ? types : [types]).map(t => { const c = byType[t]; return c ? `${t} (${c.id}, ${c.kind}, ${c.weight}):\n${c.fields || "(no fields)"}${c.images ? `\nphotos: ${c.images.min}-${c.images.max}` : ""}` : `${t}: unknown type`; }).join("\n\n"),
     set_dossier: async ({ dossier, merge = true }) => {
@@ -135,7 +136,7 @@ export function makeTools(ws: Workspace, role: Role) {
       return `written: ${slug} (${p.sections.length} sections)${notes.length ? "\nchecks: " + notes.join("; ") : "\nchecks: fine"}`;
     },
     remove_page: async ({ slug }) => { const s = spec(); const n = s.pages.length; s.pages = s.pages.filter(p => p.slug !== slug); return s.pages.length < n ? `removed ${slug}` : `no page ${slug}`; },
-    set_theme: async ({ theme, brand }) => { const s = spec(); if (theme) s.theme = { ...s.theme, ...noUndef(theme) }; if (brand) s.brand = { ...s.brand, ...noUndef(brand) }; if (theme?.menu) s.nav.menu = theme.menu; return `theme: ${compact(s.theme)}\nbrand: ${compact({ ...s.brand, logo: s.brand.logo ? "set" : null })}`; },
+    set_theme: async ({ theme, brand }) => { const s = spec(); if (theme) s.theme = { ...s.theme, ...noUndef(theme) }; if (brand) { const keep = { logo: s.brand.logo, useLogo: s.brand.useLogo, colors: s.brand.colors, fonts: s.brand.fonts }; s.brand = { ...s.brand, ...noUndef(brand) }; if (keep.logo && !brand.logo) s.brand.logo = keep.logo; if (keep.useLogo && brand.useLogo !== false) s.brand.useLogo = true; s.brand.colors = s.brand.colors || keep.colors; s.brand.fonts = s.brand.fonts || keep.fonts; } if (theme?.menu) s.nav.menu = theme.menu; return `theme: ${compact(s.theme)}\nbrand: ${compact({ ...s.brand, logo: s.brand.logo ? "set" : null })}`; },
     set_nav: async ({ links, footer }) => { const s = spec(); s.nav.links = noUndef(links); if (footer) s.footer = noUndef(footer); return `nav: ${links.length} links`; },
     set_seo: async ({ slug, seo }) => { const p = page(slug); if (!p) return `no page ${slug}`; p.seo = { ...(p.seo || {}), ...noUndef(seo) }; return `seo set on ${slug}`; },
     set_page_css: async ({ slug, css }) => { const p = page(slug); if (!p) return `no page ${slug}`; const c = String(css || "").trim(); if (c.length > 6000 || /<\/?script|expression\(|@import|url\(/i.test(c)) return "error: css rejected (too long or unsafe)"; p.debugCss = c; return `css set on ${slug} (${c.split("\n").length} lines)`; },

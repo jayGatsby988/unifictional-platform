@@ -48,6 +48,16 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
             <LoginForm next={sp.next} initialEmail={sp.email ?? ""} />
           )}
 
+          {!demoMode && (
+            <div className="mt-8 rounded-2xl border border-line p-5 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-base font-medium">New to Unifictional?</p>
+                <p className="text-sm text-ink-muted">Create your free account. It takes a minute.</p>
+              </div>
+              <Link href="/signup" className="btn btn-ghost !py-3 !px-5 !text-base">Create account</Link>
+            </div>
+          )}
+
           <p className="mt-10 text-xs text-ink-muted">
             Need access for someone else on your team? Email{" "}
             <a className="underline" href="mailto:unifictional@gmail.com">unifictional@gmail.com</a>.

@@ -81,9 +81,11 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
     <div className="grain relative min-h-dvh overflow-x-hidden bg-bg">
       <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(60% 40% at 50% -10%, rgba(201,150,46,.10), transparent 70%)' }} />
       <header className="relative z-10 flex items-center justify-between px-5 py-4 sm:px-8">
-        <div className="flex items-baseline gap-2">
-          <span className="font-display text-[22px] tracking-tight text-ink">MANHATTAN</span>
-          <span className="eyebrow hidden sm:inline">Photo → 3D remodel studio</span>
+        <div className="flex items-baseline gap-3">
+          <a href="https://unifictional.com" className="eyebrow hidden transition-colors hover:text-ink sm:inline" title="Back to unifictional.com">← Unifictional</a>
+          <span className="hidden h-3 w-px self-center bg-border sm:inline" />
+          <span className="font-display text-[22px] tracking-tight text-ink">MANHATTAN<span className="text-muted">.</span></span>
+          <span className="eyebrow hidden md:inline">Photo → 3D remodel studio</span>
         </div>
         <nav className="flex items-center gap-1 text-[12.5px] text-muted">
           <span className="mr-1 hidden sm:inline">Try a demo:</span>

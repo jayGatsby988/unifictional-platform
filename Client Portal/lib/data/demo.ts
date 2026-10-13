@@ -9,7 +9,8 @@ function rng(seed: number) {
   };
 }
 
-const TODAY = new Date("2026-10-06T08:00:00-07:00");
+// "Today" is the real today (8am), so the demo always reads as freshly updated.
+const TODAY = (() => { const d = new Date(); d.setHours(8, 0, 0, 0); return d; })();
 
 function iso(daysAgo: number) {
   const d = new Date(TODAY);
@@ -53,7 +54,7 @@ export const demoData: PortalData = {
   isDemo: true,
   status: {
     connected: { site: true, ga4: true, gsc: true, gbp: true, meta: true },
-    has: { traffic: true, seo: true, gbp: true, social: true, scores: true, health: false },
+    has: { traffic: true, seo: true, gbp: true, social: true, scores: true, health: true },
     lastSyncAt: TODAY.toISOString(),
   },
   generatedAt: TODAY.toISOString(),
@@ -101,10 +102,27 @@ export const demoData: PortalData = {
       { at: iso(3), type: "form", detail: "Basement finish — Everett" },
       { at: iso(4), type: "call", detail: "6m 03s · from Google Business Profile" },
     ],
-    health: null,
-    healthAt: null,
+    health: {
+      url: "https://northlinebuilders.com", finalUrl: "https://northlinebuilders.com/", fetchedAt: TODAY.toISOString(),
+      scores: { performance: 94, seo: 98, accessibility: 96, bestPractices: 100 },
+      vitals: { lcpMs: 1380, cls: 0.01, inpMs: 92 },
+      checks: [
+        { id: "is-on-https", label: "Secure (HTTPS)", status: "pass", detail: "Served over HTTPS.", group: "trust" },
+        { id: "phone", label: "Phone number on the page", status: "pass", detail: "Tap-to-call number in the header and footer.", group: "leads" },
+        { id: "cta", label: "Free estimate button", status: "pass", detail: "“Get a quote” above the fold on every page.", group: "leads" },
+        { id: "reviews", label: "Reviews on the site", status: "pass", detail: "4.9 stars from 87 Google reviews, shown on the homepage.", group: "trust" },
+        { id: "schema", label: "Business info for Google (schema)", status: "pass", detail: "Name, address, hours and service area are marked up.", group: "seo" },
+        { id: "largest-contentful-paint", label: "Loads fast (LCP)", status: "pass", detail: "Main content shows in 1.4s on a phone.", group: "speed" },
+        { id: "viewport", label: "Mobile-ready", status: "pass", detail: "Built for phones first.", group: "seo" },
+        { id: "image-alt", label: "Image alt text", status: "warn", detail: "6 project photos on /projects need descriptions. On this month's list.", group: "seo" },
+      ],
+      summary: { passed: 7, warned: 1, failed: 0, grade: "A", headline: "Fast, secure and set up to win jobs.", fixFirst: ["Describe the 6 new project photos on /projects"] },
+      meta: { title: "Northline Builders | ADUs & Remodels in Everett, WA", description: "Custom ADUs, kitchens and basements across Snohomish County.", h1: "Built right. Built local.", wordCount: 640 },
+      seo: null,
+    },
+    healthAt: TODAY.toISOString(),
     responseMs: 212,
-    checks: [],
+    checks: Array.from({ length: 30 }, (_, i) => ({ at: new Date(TODAY.getTime() - (29 - i) * 864e5).toISOString(), ok: true, ms: 180 + ((i * 37) % 90) })),
   },
   seo: {
     daily: seoDaily,

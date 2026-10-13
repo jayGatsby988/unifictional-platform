@@ -1,0 +1,93 @@
+/* MANHATTAN landing page — component styles (all classes prefixed .lp-). Imported once by Landing.tsx. */
+
+.lp-container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.lp-section {
+  padding-block: clamp(4.5rem, 10vw, 8rem);
+}
+
+/* ---- headline displacement (adapted from MenuXL text displacement) ---- */
+.lp-word { display: inline-block; white-space: nowrap; }
+.lp-letter { display: inline-block; will-change: transform; }
+
+/* ---- before / after comparison ---- */
+.lp-ba { touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.lp-ba img { -webkit-user-drag: none; user-select: none; }
+
+/* ---- material marquee ---- */
+@keyframes lp-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+.lp-marquee { overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.lp-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 1rem;
+  padding-inline: 0.5rem;
+  animation: lp-marquee var(--lp-duration, 70s) linear infinite;
+  will-change: transform;
+}
+.lp-marquee-track[data-reverse="true"] { animation-direction: reverse; }
+.lp-marquee:hover .lp-marquee-track,
+.lp-marquee:focus-within .lp-marquee-track { animation-play-state: paused; }
+
+/* ---- 3D flip cards (adapted from sticky flip cards) ---- */
+.lp-stage { perspective: 1400px; }
+.lp-card {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* ---- accordion (height animates via grid rows, content stays in DOM) ---- */
+.lp-acc-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.lp-acc-body[data-open="true"] { grid-template-rows: 1fr; }
+.lp-acc-body > div { overflow: hidden; }
+
+/* ---- in-view reveal ---- */
+.lp-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--lp-delay, 0ms);
+}
+.lp-reveal[data-in="true"] { opacity: 1; transform: none; }
+
+/* ---- SVG text clip banner (adapted from TextClipScroll) ---- */
+.lp-clip-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.lp-clip-text {
+  font-family: var(--font-display), "Instrument Serif", Georgia, serif;
+  font-size: clamp(5.5rem, 22vw, 19rem);
+  letter-spacing: -0.03em;
+}
+
+/* ---- image trail ---- */
+.lp-trail-img { will-change: transform, opacity; }
+
+/* ---- reduced motion: everything static, nothing hidden ---- */
+@media (prefers-reduced-motion: reduce) {
+  .lp-marquee { overflow-x: auto; mask-image: none; -webkit-mask-image: none; }
+  .lp-marquee-track { animation: none; }
+  .lp-marquee-dup { display: none; }
+  .lp-reveal { opacity: 1; transform: none; transition: none; }
+  .lp-letter { transform: none !important; }
+  .lp-acc-body { transition: none; }
+}

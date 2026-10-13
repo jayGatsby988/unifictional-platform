@@ -1,0 +1,5 @@
+docs/
+.claude/
+
+# Local scan replays and private verification artifacts
+.build/

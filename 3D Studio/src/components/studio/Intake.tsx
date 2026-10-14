@@ -15,6 +15,8 @@ import type { IntakeSubmission } from './useAnalysis';
 import { Toggle } from './controls';
 import { useToast } from './Toast';
 import { cx } from './hooks';
+import { HERO_VIDEO } from '@/components/landing/content';
+import { useReducedMotion } from '@/components/landing/motion';
 
 const ROOM_CARDS: Array<{ id: RoomType; title: string; blurb: string; icon: ComponentType<{ size?: number; className?: string }> }> = [
   { id: 'kitchen', title: 'Kitchen', blurb: 'Cabinets, counters, island, backsplash, lighting', icon: CookingPot },
@@ -55,6 +57,7 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
   const setRoomType = useProjectStore((s) => s.setRoomType);
   const setDescription = useProjectStore((s) => s.setDescription);
   const { toast } = useToast();
+  const reduced = useReducedMotion();
 
   const [items, setItems] = useState<UploadItem[]>([]);
   const [emptyLot, setEmptyLot] = useState(false);
@@ -79,9 +82,21 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
   };
 
   return (
-    <div className="grain relative min-h-dvh overflow-x-hidden bg-bg">
-      <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(60% 40% at 50% -10%, rgba(255,255,255,.05), transparent 70%)' }} />
-      <header className="relative z-10 flex h-16 items-center justify-between border-b border-border px-5 sm:px-8">
+    <div className="relative min-h-dvh overflow-x-hidden bg-bg">
+      {/* The product's own film behind the first screen (the same clip as the
+          landing page's hero: a phone scanning a kitchen, the twin rendering
+          over it), fixed under the page and darkened so the form stays the
+          subject. Reduced motion gets the still. */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#0a0a0a]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={HERO_VIDEO.poster} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        {!reduced && (
+          <video className="absolute inset-0 h-full w-full object-cover" src={HERO_VIDEO.mp4} poster={HERO_VIDEO.poster} autoPlay muted loop playsInline preload="metadata" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/70 to-black/90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-transparent to-black/35" />
+      </div>
+      <header className="relative z-10 flex h-16 items-center justify-between border-b border-white/10 bg-black/20 px-5 backdrop-blur-md sm:px-8">
         <div className="flex items-center gap-4">
           <Link href="/" className="font-display text-xl font-medium tracking-tight text-ink" aria-label="Unifictional 3D Studio home">Unifictional 3D Studio<span className="text-muted">.</span></Link>
           <span className="hidden h-4 w-px bg-border md:inline" />
@@ -98,10 +113,10 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
       <main className="relative z-10 mx-auto w-full max-w-5xl px-5 pb-32 pt-6 sm:px-8 sm:pt-10">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.2, 0.7, 0.2, 1] }}>
           <div className="eyebrow mb-3">Step 1 · What are we remodeling?</div>
-          <h1 className="font-display text-[40px] leading-[1.02] text-ink sm:text-[56px]">
+          <h1 className="font-display text-[40px] leading-[1.02] text-ink [text-shadow:0_2px_24px_rgba(0,0,0,0.6)] sm:text-[56px]">
             Photos in. An explorable, priced 3D twin out.
           </h1>
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted">
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-ink/80 [text-shadow:0_1px_12px_rgba(0,0,0,0.6)]">
             Upload a few photos of the space. In about a minute you get a 3D model you can walk through, re-finish surface by surface, and price line by line — then render it photoreal.
           </p>
         </motion.div>
@@ -120,8 +135,8 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
                 onClick={() => { if (!active) setRoomType(r.id); }}
                 aria-pressed={active}
                 className={cx(
-                  'group relative overflow-hidden rounded-[var(--radius)] border bg-surface p-5 text-left transition-[border-color,box-shadow,background-color]',
-                  active ? 'border-brass bg-surface-2 shadow-[0_0_0_3px_var(--brass-soft)]' : 'border-border hover:border-border-strong hover:bg-surface-2',
+                  'group relative overflow-hidden rounded-[var(--radius)] border bg-surface/75 p-5 text-left backdrop-blur-md transition-[border-color,box-shadow,background-color]',
+                  active ? 'border-brass bg-surface-2/85 shadow-[0_0_0_3px_var(--brass-soft)]' : 'border-border hover:border-border-strong hover:bg-surface-2/85',
                 )}
               >
                 <div className="flex items-start justify-between">
@@ -137,7 +152,7 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
           })}
         </section>
 
-        <section className="mt-10">
+        <section className="panel mt-10 p-5 sm:p-6">
           <div className="eyebrow mb-3">Step 2 · Photos</div>
           <PhotoUploader
             items={items}
@@ -176,7 +191,7 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
           )}
         </section>
 
-        <section className="mt-10">
+        <section className="panel mt-6 p-5 sm:p-6">
           <div className="eyebrow mb-3">Step 3 · Tell us what you want <span className="normal-case tracking-normal text-dim">(optional)</span></div>
           <textarea
             value={description}
@@ -190,7 +205,7 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
         </section>
       </main>
 
-      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-bg/80 backdrop-blur-xl">
+      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-white/10 bg-black/60 backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-5 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <div className="text-[12.5px] text-muted">
             {items.length > 0

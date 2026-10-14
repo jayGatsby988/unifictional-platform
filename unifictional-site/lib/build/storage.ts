@@ -65,7 +65,7 @@ export async function readJson<T = unknown>(path: string): Promise<T | null> {
 }
 
 /* -------------------------------- leads ---------------------------------- */
-export type LeadStatus = "queued" | "research" | "research-b" | "plan" | "home" | "write" | "review" | "finish" | "debug" | "publish" | "done" | "failed";
+export type LeadStatus = "queued" | "research" | "research-b" | "plan" | "home" | "write" | "review" | "finish" | "debug" | "publish" | "done" | "failed" | "cancelled";
 
 export interface LeadRecord {
   id: string;

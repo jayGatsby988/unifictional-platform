@@ -11,10 +11,11 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { useEffect, useRef, type CSSProperties } from 'react';
 import { CATALOG_BY_ID, type MaterialDef } from '@/lib/materials/catalog';
+import { LpHeading } from './LpHeading';
 import { Reveal } from './Reveal';
 import { SwatchVisual, isImageSwatch } from './Swatch';
 import { ensureGsap } from './motion';
-import { DEMO, ROOMS } from './content';
+import { DEMO, ROOMS, SECTIONS } from './content';
 
 function palette(ids: readonly string[]): MaterialDef[] {
   return ids.map((id) => CATALOG_BY_ID[id]).filter((m): m is MaterialDef => Boolean(m));
@@ -84,17 +85,8 @@ export function RoomTypes() {
   return (
     <section id="rooms" className="lp-section border-t border-border">
       <div className="lp-container">
-        <Reveal className="max-w-2xl">
-          <p className="eyebrow">Room types</p>
-          <h2 className="font-display mt-4 text-[clamp(2.2rem,4.6vw,3.9rem)] leading-[1.02] tracking-[-0.015em] text-ink">
-            Three room types.
-            <br />
-            Every surface is a slot.
-          </h2>
-          <p className="mt-5 text-[15px] leading-relaxed text-muted">
-            Kitchens, bathrooms and lots share one spec, one catalog and one estimator. Whatever the analyzer finds in the photo becomes a clickable,
-            swappable, priced surface.
-          </p>
+        <Reveal>
+          <LpHeading index={SECTIONS.rooms.index} eyebrow={SECTIONS.rooms.eyebrow} title={SECTIONS.rooms.title} intro={SECTIONS.rooms.intro} />
         </Reveal>
       </div>
 
@@ -117,7 +109,7 @@ export function RoomTypes() {
                     <ul className="mt-5 flex flex-wrap gap-1.5" aria-label={`${room.name} default palette`}>
                       {pal.map((m) => (
                         <li key={m.id} className="chip">
-                          <span className="relative inline-block h-3 w-3 overflow-hidden rounded-full border border-white/10">
+                          <span className="relative inline-block h-3 w-3 overflow-hidden rounded-full border border-border">
                             {isImageSwatch(m) ? <SwatchVisual material={m} sizes="12px" /> : <span className="absolute inset-0" style={{ background: m.swatch }} />}
                           </span>
                           {m.name}
@@ -151,7 +143,8 @@ export function RoomTypes() {
                           <SwatchMosaic items={pal} />
                         )}
                       </div>
-                      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg/95 via-bg/60 to-transparent p-5">
+                      {/* The caption keeps the dark scope so it reads as a photo caption on the light body. */}
+                      <div className="lp-dark pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg/95 via-bg/60 to-transparent p-5 text-ink">
                         <p className="eyebrow">{room.id === 'kitchen' ? 'Photoreal render · demo kitchen' : 'Default palette · real catalog swatches'}</p>
                         <p className="font-display mt-1 text-2xl text-ink">{room.name}</p>
                       </div>

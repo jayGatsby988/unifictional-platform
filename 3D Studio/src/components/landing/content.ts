@@ -7,6 +7,11 @@ import { DEFAULT_SELECTIONS } from '@/lib/materials/catalog';
 export const STUDIO_HREF = '/studio';
 /** Enterprise contact. Confirm this mailbox exists before launch (see integration notes). */
 export const CONTACT_EMAIL = 'hello@unifictional.com';
+/** The agency that owns the studio: every header and footer links back. */
+export const UNIFICTIONAL_HREF = 'https://unifictional.com';
+export const BOOK_CALL_HREF = 'https://unifictional.com/contact';
+/** The hero section's id; the nav measures it to know when it has scrolled off the black. */
+export const HERO_ID = 'lp-hero';
 
 export const NAV_LINKS = [
   { label: 'How it works', href: '#how' },
@@ -63,9 +68,11 @@ export const HERO = {
   headline: [
     { text: "Your client's kitchen." },
     { text: 'Rebuilt in 3D before' },
-    { text: 'the coffee cools.', italic: true },
+    { text: 'the coffee cools.', accent: true },
   ],
-  sub: 'Upload photos of a kitchen, bathroom or lot. MANHATTAN turns them into an explorable 3D twin from your photos. Swap 250+ real materials with live line-item pricing, render photoreal images from the client’s own photo angle, and send a link they can spin around on their phone.',
+  sub: 'Upload photos of a kitchen, bathroom or lot and, in about sixty seconds, you have an explorable 3D twin with 250+ real materials, live line-item pricing and photoreal renders from the client’s own photo.',
+  primary: 'Open the studio',
+  secondary: 'How it works',
   facts: ['~60 s photo → twin', '250+ real materials', 'Live line-item pricing', 'Photoreal renders', 'Regional price books', 'Share links'],
   audience: 'Built for contractors, remodelers, designers and DADU/ADU builders.',
 };
@@ -238,3 +245,100 @@ export const FAQ_ITEMS = [
     a: 'Every project lets you pick the region, the default tier (budget, standard, premium, luxury), contingency and markup, and the scope — cosmetic, pull-and-replace or full-gut — which drives the demolition, electrical, plumbing and permit allowances. Private material catalogs with your own products and prices are part of Enterprise.',
   },
 ] as const;
+
+/** Section openers (LpHeading), numbered in page order like the site's SectionHeading. */
+export const SECTIONS = {
+  how: {
+    index: '01',
+    eyebrow: 'How it works',
+    title: ['One photo in.', 'A priced, photoreal design out.'],
+    intro: 'No modelling, no measuring, no waiting on a designer. Three steps between the site visit and a proposal the client can spin around.',
+  },
+  materials: {
+    index: '02',
+    eyebrow: 'Materials',
+    /** `{n}` is the live catalog count. */
+    title: ['{n} real materials.', 'One catalog for 3D, renders and pricing.'],
+    intro:
+      'Quartz, zellige, white oak, board-and-batten, standing-seam metal, cedar, brick, terrazzo. Every swatch is the same object in the 3D twin, in the photoreal render prompt and in the estimate — swap it once and all three follow.',
+  },
+  livePricing: {
+    index: '03',
+    eyebrow: 'Live pricing',
+    title: ['Change a finish.', 'Watch the number move.'],
+  },
+  rooms: {
+    index: '04',
+    eyebrow: 'Room types',
+    title: ['Three room types.', 'Every surface is a slot.'],
+    intro:
+      'Kitchens, bathrooms and lots share one spec, one catalog and one estimator. Whatever the analyzer finds in the photo becomes a clickable, swappable, priced surface.',
+  },
+  contractors: {
+    index: '05',
+    eyebrow: 'For contractors, remodelers, designers, DADU/ADU builders',
+    title: ['Built for the people', 'who actually build.'],
+    intro:
+      'MANHATTAN is a scoping and selling tool. It is not trying to replace your drawings or your subs — it gets a client to “yes” with a picture of their own room and a number they can plan around.',
+  },
+  pricing: {
+    index: '06',
+    eyebrow: 'Founding pricing',
+    title: ['Simple plans.', 'Real output on every one.'],
+    intro: 'Prices in USD, billed monthly. Every plan includes the full material catalog, live line-item estimates and share links.',
+  },
+  faq: {
+    index: '07',
+    eyebrow: 'FAQ',
+    title: ['The questions', 'contractors ask first.'],
+    intro: 'Photo tips, how far to trust the numbers, where your photos go, and what runs on what.',
+  },
+} as const;
+
+/** The closing band above the footer (modelled on the site's final-cta). */
+export const FINAL_CTA = {
+  eyebrow: 'Start here',
+  /** Rendered uppercase by the display face; `em` is the one gold word. */
+  title: { lead: 'See the remodel', em: 'before', tail: 'you build it.' },
+  body: 'Two free scans, no account, no call. Or book a short call with Unifictional and we’ll show you how the studio, SEO Autopilot and a new website work together.',
+  primary: { label: 'Open the studio', href: STUDIO_HREF },
+  secondary: { label: 'Book a call', href: BOOK_CALL_HREF },
+  link: { label: 'Back to unifictional.com', href: UNIFICTIONAL_HREF },
+} as const;
+
+export const FOOTER = {
+  description: 'Photo → explorable 3D twin from your photos. 250+ real materials, live line-item pricing, photoreal renders, share links.',
+  nav: [
+    {
+      heading: 'Product',
+      links: [
+        { label: 'Open studio', href: STUDIO_HREF },
+        { label: 'How it works', href: '#how' },
+        { label: 'Materials', href: '#materials' },
+        { label: 'Rooms', href: '#rooms' },
+        { label: 'Pricing', href: '#pricing' },
+        { label: 'FAQ', href: '#faq' },
+      ],
+    },
+    {
+      heading: 'Rooms',
+      links: [
+        { label: 'Kitchen', href: '/studio?demo=kitchen' },
+        { label: 'Bathroom', href: '/studio?demo=bathroom' },
+        { label: 'Lot & exterior', href: '/studio?demo=exterior' },
+      ],
+    },
+    {
+      heading: 'Unifictional',
+      links: [
+        { label: 'unifictional.com', href: UNIFICTIONAL_HREF },
+        { label: 'SEO Autopilot', href: 'https://unifictional-client-portal.vercel.app/signup' },
+        { label: 'Website builder', href: 'https://unifictional.com/process' },
+        { label: 'Book a call', href: BOOK_CALL_HREF },
+      ],
+    },
+  ],
+  legal: '© 2026 Unifictional · MANHATTAN',
+  note: 'Estimates are planning-grade (±15–20%), not bids.',
+  signature: 'MANHATTAN',
+} as const;

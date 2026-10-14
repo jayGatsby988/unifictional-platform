@@ -8,9 +8,10 @@ import { Layers, MessageSquareText, Receipt, type LucideIcon } from 'lucide-reac
 import { useMemo, type CSSProperties } from 'react';
 import { CATALOG, CATALOG_BY_ID, type MaterialDef } from '@/lib/materials/catalog';
 import { ImageTrail } from './ImageTrail';
+import { LpHeading } from './LpHeading';
 import { Reveal } from './Reveal';
 import { SwatchVisual, categoryLabel, isImageSwatch, tierLabel } from './Swatch';
-import { MARQUEE_COUNT, MARQUEE_IDS } from './content';
+import { MARQUEE_COUNT, MARQUEE_IDS, SECTIONS } from './content';
 
 function pickMarquee(): [MaterialDef[], MaterialDef[]] {
   const chosen: MaterialDef[] = [];
@@ -94,18 +95,14 @@ export function MaterialsSection() {
   return (
     <section id="materials" className="lp-section relative overflow-hidden border-t border-border">
       <ImageTrail materials={trail} className="lp-container">
-        <Reveal className="pointer-events-none relative z-10 max-w-3xl">
-          <p className="eyebrow">Materials</p>
-          <h2 className="font-display mt-4 text-[clamp(2.2rem,4.6vw,3.9rem)] leading-[1.02] tracking-[-0.015em] text-ink">
-            {CATALOG.length} real materials.
-            <br />
-            One catalog for 3D, renders and pricing.
-          </h2>
-          <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-muted">
-            Quartz, zellige, white oak, board-and-batten, standing-seam metal, cedar, brick, terrazzo. Every swatch is the same object in the 3D twin, in
-            the photoreal render prompt and in the estimate — swap it once and all three follow.
-          </p>
-          <p className="mt-3 hidden text-[11px] uppercase tracking-[0.18em] text-dim md:block">Move your cursor across this heading</p>
+        <Reveal className="pointer-events-none relative z-10">
+          <LpHeading
+            index={SECTIONS.materials.index}
+            eyebrow={SECTIONS.materials.eyebrow}
+            title={[SECTIONS.materials.title[0].replace('{n}', String(CATALOG.length)), SECTIONS.materials.title[1]]}
+            intro={SECTIONS.materials.intro}
+          />
+          <p className="mt-5 hidden text-[11px] uppercase tracking-[0.18em] text-dim md:block">Move your cursor across this heading</p>
         </Reveal>
       </ImageTrail>
 

@@ -60,3 +60,27 @@ export function useScrolledPast(px: number): boolean {
   const getSnapshot = useCallback(() => window.scrollY > px, [px]);
   return useSyncExternalStore(subscribeScroll, getSnapshot, serverFalse);
 }
+
+const serverTrue = () => true;
+
+function subscribeViewport(cb: () => void) {
+  window.addEventListener('scroll', cb, { passive: true });
+  window.addEventListener('resize', cb);
+  return () => {
+    window.removeEventListener('scroll', cb);
+    window.removeEventListener('resize', cb);
+  };
+}
+
+/**
+ * `true` while the element's bottom edge is still below `px` from the top of
+ * the viewport — i.e. a fixed header that tall still sits over it. `true`
+ * during SSR and when the element is absent, so the first paint matches.
+ */
+export function useOverElement(id: string, px: number): boolean {
+  const getSnapshot = useCallback(() => {
+    const el = document.getElementById(id);
+    return !el || el.getBoundingClientRect().bottom > px;
+  }, [id, px]);
+  return useSyncExternalStore(subscribeViewport, getSnapshot, serverTrue);
+}

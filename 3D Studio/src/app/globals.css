@@ -72,7 +72,7 @@ body {
 .panel { background: color-mix(in oklab, var(--surface) 86%, transparent); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--border); border-radius: var(--radius); }
 .panel-strong { background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius); }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 999px; font-size: 13px; font-weight: 500; border: 1px solid var(--border-strong); color: var(--text); background: var(--surface-2); transition: background .15s, border-color .15s, transform .1s; cursor: pointer; white-space: nowrap; }
-.btn:hover { background: #262626; border-color: rgba(255,255,255,0.28); }
+.btn:hover { background: color-mix(in oklab, var(--text) 8%, var(--surface-2)); border-color: color-mix(in oklab, var(--text) 28%, transparent); }
 .btn:active { transform: translateY(1px); }
 .btn:disabled { opacity: .45; cursor: not-allowed; }
 .btn-primary { background: var(--brass); color: #0a0a0a; border-color: var(--brass); }

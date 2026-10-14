@@ -12,7 +12,8 @@ import { hasFinePointer, useReducedMotion } from './motion';
 
 export interface HeadlineLine {
   text: string;
-  italic?: boolean;
+  /** Set the line in the studio's gold — Oswald has no italic, so emphasis is colour. */
+  accent?: boolean;
 }
 
 interface Item {
@@ -130,7 +131,7 @@ export function DisplaceHeadline({ lines, className, id }: { lines: readonly Hea
       {lines.map((line, li) => {
         const words = line.text.split(' ');
         return (
-          <span key={li} aria-hidden className={cx('block', line.italic && 'italic text-brass')}>
+          <span key={li} aria-hidden className={cx('block', line.accent && 'text-brass')}>
             {words.map((word, wi) => (
               <span key={wi}>
                 <span className="lp-word">

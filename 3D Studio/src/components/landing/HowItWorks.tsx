@@ -10,8 +10,9 @@ import Image from 'next/image';
 import { Box, Paintbrush, Upload, type LucideIcon } from 'lucide-react';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { cx } from './cx';
+import { LpHeading } from './LpHeading';
 import { ensureGsap } from './motion';
-import { DEMO, STEPS } from './content';
+import { DEMO, SECTIONS, STEPS } from './content';
 
 const ENTER_END = 100; // svh of scroll during which the cards rise into place
 const FLIP_AT = 165; // svh at which the photo flips to reveal the steps
@@ -24,9 +25,11 @@ const TOTAL_SVH = DISMISS_START + DISMISS_COUNT * DISMISS_DURATION + TAIL;
 const FLIP_TILT = [-3, 5, -7]; // per back card, bottom → top
 const DISMISS_TILT = [0, 34, -42];
 const ICONS: LucideIcon[] = [Upload, Box, Paintbrush];
+// white / black / gold — the site's three surfaces. The black card carries its
+// own scope so its text and chips flip with it on the light body.
 const TONES = [
-  'border-border-strong bg-surface-2 text-ink',
-  'border-[#2c3648] bg-[#1b2230] text-ink',
+  'border-border-strong bg-surface text-ink',
+  'lp-dark border-border bg-bg text-ink',
   'border-brass bg-brass text-[#0a0a0a]',
 ];
 
@@ -124,14 +127,7 @@ export function HowItWorks() {
     <section id="how" ref={root} className="relative bg-bg md:h-[100svh] md:overflow-hidden">
       <div className="lp-container py-20 md:grid md:h-full md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-10 md:py-0">
         <div className="lp-hw-copy">
-          <p className="eyebrow">How it works</p>
-          <h2 className="font-display mt-4 text-[clamp(2.2rem,4.6vw,3.9rem)] leading-[1.02] tracking-[-0.015em] text-ink">
-            One photo in.
-            <br />A priced, photoreal design out.
-          </h2>
-          <p className="mt-5 max-w-md text-[15px] leading-relaxed text-muted">
-            No modelling, no measuring, no waiting on a designer. Three steps between the site visit and a proposal the client can spin around.
-          </p>
+          <LpHeading size="sm" index={SECTIONS.how.index} eyebrow={SECTIONS.how.eyebrow} title={SECTIONS.how.title} intro={SECTIONS.how.intro} />
 
           <ol className="mt-8 hidden md:block" aria-label="Steps">
             {STEPS.map((s, i) => {
@@ -153,7 +149,7 @@ export function HowItWorks() {
 
         <div className="lp-stage relative mt-10 grid gap-4 md:mt-0 md:block md:h-full">
           <article
-            className={cx(CARD, 'lp-hw-front overflow-hidden border-border-strong bg-surface p-0 sm:p-0')}
+            className={cx(CARD, 'lp-hw-front lp-dark overflow-hidden border-border-strong bg-surface p-0 text-ink sm:p-0')}
             style={{ '--o': 0 } as CSSProperties}
             aria-label="Your client's photo"
           >

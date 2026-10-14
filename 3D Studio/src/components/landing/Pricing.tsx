@@ -1,9 +1,10 @@
 'use client';
 import Link from 'next/link';
 import { ArrowUpRight, Check } from 'lucide-react';
+import { LpHeading } from './LpHeading';
 import { Reveal } from './Reveal';
 import { cx } from './cx';
-import { TIERS } from './content';
+import { SECTIONS, TIERS } from './content';
 
 function Cta({ href, label, primary }: { href: string; label: string; primary: boolean }) {
   const className = cx('btn mt-7 w-full', primary && 'btn-primary');
@@ -23,18 +24,10 @@ function Cta({ href, label, primary }: { href: string; label: string; primary: b
 
 export function Pricing() {
   return (
-    <section id="pricing" className="lp-section border-t border-border">
+    <section id="pricing" className="lp-dark lp-section border-t border-border bg-bg text-ink">
       <div className="lp-container">
-        <Reveal className="max-w-2xl">
-          <span className="chip chip-brass">Founding pricing</span>
-          <h2 className="font-display mt-5 text-[clamp(2.2rem,4.6vw,3.9rem)] leading-[1.02] tracking-[-0.015em] text-ink">
-            Simple plans.
-            <br />
-            Real output on every one.
-          </h2>
-          <p className="mt-5 text-[15px] leading-relaxed text-muted">
-            Prices in USD, billed monthly. Every plan includes the full material catalog, live line-item estimates and share links.
-          </p>
+        <Reveal>
+          <LpHeading index={SECTIONS.pricing.index} eyebrow={SECTIONS.pricing.eyebrow} title={SECTIONS.pricing.title} intro={SECTIONS.pricing.intro} />
         </Reveal>
 
         <div className="mt-12 grid gap-4 lg:grid-cols-3">

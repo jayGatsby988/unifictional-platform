@@ -15,10 +15,11 @@ import type { EstimateLine } from '@/lib/spec/types';
 import { DEFAULT_ESTIMATE_SETTINGS } from '@/lib/store/project-store';
 import { fmtRange, fmtUSD } from '@/lib/units';
 import { AnimatedNumber } from './AnimatedNumber';
+import { LpHeading } from './LpHeading';
 import { Reveal } from './Reveal';
 import { SwatchVisual, tierLabel } from './Swatch';
 import { cx } from './cx';
-import { DEMO_PICKS, EXAMPLE_REGION } from './content';
+import { DEMO_PICKS, EXAMPLE_REGION, SECTIONS } from './content';
 
 type GroupKey = keyof typeof DEMO_PICKS;
 interface Group {
@@ -86,16 +87,17 @@ export function LivePriceDemo() {
       <div className="lp-container grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-16">
         <div>
           <Reveal>
-            <p className="eyebrow">Live pricing</p>
-            <h2 className="font-display mt-4 text-[clamp(2.2rem,4.6vw,3.9rem)] leading-[1.02] tracking-[-0.015em] text-ink">
-              Change a finish.
-              <br />
-              Watch the number move.
-            </h2>
-            <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted">
-              This is the studio&apos;s estimator running on the demo kitchen — {spec.dims.widthFt} × {spec.dims.depthFt} ft, L-shaped, {spec.island.lengthFt} ft
-              island with seating for {spec.island.seating}. Pick finishes; every line re-prices from the same catalog and price book the studio uses.
-            </p>
+            <LpHeading
+              index={SECTIONS.livePricing.index}
+              eyebrow={SECTIONS.livePricing.eyebrow}
+              title={SECTIONS.livePricing.title}
+              intro={
+                <>
+                  This is the studio&apos;s estimator running on the demo kitchen — {spec.dims.widthFt} × {spec.dims.depthFt} ft, L-shaped, {spec.island.lengthFt} ft
+                  island with seating for {spec.island.seating}. Pick finishes; every line re-prices from the same catalog and price book the studio uses.
+                </>
+              }
+            />
           </Reveal>
 
           <div className="mt-9 space-y-8">

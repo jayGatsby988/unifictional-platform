@@ -108,7 +108,7 @@ export function ImageTrail({ materials, children, className }: { materials: Mate
         {materials.map((m) => (
           <div
             key={m.id}
-            className="lp-trail-img absolute left-0 top-0 h-[112px] w-[112px] overflow-hidden rounded-xl border border-white/10 opacity-0 shadow-lg sm:h-[140px] sm:w-[140px]"
+            className="lp-trail-img absolute left-0 top-0 h-[112px] w-[112px] overflow-hidden rounded-xl border border-border opacity-0 shadow-lg sm:h-[140px] sm:w-[140px]"
           >
             <Image src={m.swatch} alt="" fill sizes="140px" className="object-cover" />
           </div>

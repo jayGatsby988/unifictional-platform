@@ -1,12 +1,13 @@
 'use client';
 import Link from 'next/link';
-import { ArrowRight, Play, RotateCcw } from 'lucide-react';
+import { ArrowRight, RotateCcw } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { BeforeAfter } from './BeforeAfter';
 import { DisplaceHeadline } from './DisplaceHeadline';
 import { ExampleEstimate, type EstimateSide } from './ExampleEstimate';
+import { LpEyebrow } from './LpHeading';
 import { useScrollTo } from './SmoothScroll';
-import { DEMO, HERO, STUDIO_HREF } from './content';
+import { DEMO, HERO, HERO_ID, STUDIO_HREF } from './content';
 
 export function Hero() {
   const [side, setSide] = useState<EstimateSide>('before');
@@ -15,32 +16,32 @@ export function Hero() {
 
   const onCompare = useCallback((t: number) => setSide(t < 0.5 ? 'after' : 'before'), []);
 
+  // Black and full-bleed, like the site's hero. `isolate` keeps the -z-10
+  // backdrop above this section's own background; the nav measures #lp-hero
+  // to know when it has scrolled off the dark.
   return (
-    <section className="relative overflow-hidden pt-28 pb-16 sm:pt-32 lg:pb-24 lg:pt-36">
+    <section id={HERO_ID} className="lp-dark relative isolate overflow-hidden bg-bg pb-16 pt-28 text-ink sm:pt-32 lg:pb-24 lg:pt-36">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-[-30%] h-[80vh] w-[100vw] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(201,150,46,0.16),transparent_72%)] blur-3xl" />
+        <div className="absolute left-1/2 top-[-30%] h-[80vh] w-[100vw] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(201,150,46,0.11),transparent_72%)] blur-3xl" />
         <div className="grain absolute inset-0" />
       </div>
 
       <div className="lp-container grid gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center lg:gap-16">
         <div>
-          <p className="eyebrow">{HERO.eyebrow}</p>
-          <DisplaceHeadline
-            lines={HERO.headline}
-            className="font-display mt-5 text-[clamp(2.7rem,7.4vw,5.9rem)] leading-[0.98] tracking-[-0.02em] text-ink"
-          />
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">{HERO.sub}</p>
+          <LpEyebrow>{HERO.eyebrow}</LpEyebrow>
+          <DisplaceHeadline lines={HERO.headline} className="font-display lp-h1 mt-6 text-[clamp(2.7rem,7.4vw,6.4rem)] text-ink" />
+          <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted">{HERO.sub}</p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link href={STUDIO_HREF} className="btn btn-primary btn-lg">
-              Build a twin <ArrowRight size={16} />
+              {HERO.primary} <ArrowRight size={16} />
             </Link>
-            <button type="button" className="btn btn-lg" onClick={() => scrollTo('#how', 0)}>
-              <Play size={14} /> Watch it work
+            <button type="button" className="btn lp-btn-outline btn-lg" onClick={() => scrollTo('#how', 0)}>
+              {HERO.secondary}
             </button>
           </div>
 
-          <ul className="mt-8 flex flex-wrap gap-2" aria-label="Product facts">
+          <ul className="mt-9 flex flex-wrap gap-2" aria-label="Product facts">
             {HERO.facts.map((f) => (
               <li key={f} className="chip">
                 {f}

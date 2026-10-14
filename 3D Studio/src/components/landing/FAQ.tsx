@@ -1,9 +1,10 @@
 'use client';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
+import { LpHeading } from './LpHeading';
 import { Reveal } from './Reveal';
 import { cx } from './cx';
-import { FAQ_ITEMS } from './content';
+import { FAQ_ITEMS, SECTIONS } from './content';
 
 export function FAQ() {
   const [open, setOpen] = useState(0);
@@ -12,15 +13,7 @@ export function FAQ() {
     <section id="faq" className="lp-section border-t border-border">
       <div className="lp-container grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
         <Reveal>
-          <p className="eyebrow">FAQ</p>
-          <h2 className="font-display mt-4 text-[clamp(2.2rem,4.6vw,3.9rem)] leading-[1.02] tracking-[-0.015em] text-ink">
-            The questions
-            <br />
-            contractors ask first.
-          </h2>
-          <p className="mt-5 max-w-md text-[15px] leading-relaxed text-muted">
-            Photo tips, how far to trust the numbers, where your photos go, and what runs on what.
-          </p>
+          <LpHeading index={SECTIONS.faq.index} eyebrow={SECTIONS.faq.eyebrow} title={SECTIONS.faq.title} intro={SECTIONS.faq.intro} />
         </Reveal>
 
         <div>

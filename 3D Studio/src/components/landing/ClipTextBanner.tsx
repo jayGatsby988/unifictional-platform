@@ -41,7 +41,7 @@ export function ClipTextBanner() {
     <section
       ref={ref}
       aria-label="From upload to explorable 3D twin in about sixty seconds"
-      className="relative h-[64vh] max-h-[820px] min-h-[380px] overflow-hidden border-y border-border bg-bg"
+      className="lp-dark relative h-[64vh] max-h-[820px] min-h-[380px] overflow-hidden border-y border-border bg-bg text-ink"
     >
       <svg className="lp-clip-svg" aria-hidden focusable="false">
         <defs>
@@ -49,7 +49,7 @@ export function ClipTextBanner() {
             <text className="lp-clip-text lp-clip-l1" x="50%" y="36%" textAnchor="middle" dominantBaseline="central">
               SIXTY
             </text>
-            <text className="lp-clip-text lp-clip-l2 italic" x="50%" y="70%" textAnchor="middle" dominantBaseline="central">
+            <text className="lp-clip-text lp-clip-l2" x="50%" y="70%" textAnchor="middle" dominantBaseline="central">
               SECONDS.
             </text>
           </clipPath>

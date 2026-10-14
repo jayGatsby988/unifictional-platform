@@ -6,8 +6,8 @@ import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { BookCall, CtaButton, StartAutopilot, StudioCta } from "@/components/ui/button";
-import { STUDIO_HOME } from "@/lib/site";
+import { CtaButton, StartAutopilot, StudioCta } from "@/components/ui/button";
+import { STUDIO_HOME, WEBSITE_STUDIO_URL } from "@/lib/site";
 
 /**
  * The platform, in one place: the three things a client gets, each with the
@@ -16,13 +16,13 @@ import { STUDIO_HOME } from "@/lib/site";
 const PRODUCTS = [
   {
     index: "01",
-    eyebrow: "Website",
-    title: "A new site, built before we meet.",
-    body: "Book a call and the builder researches your business, writes every page, uses your photos and logo, and checks itself in a real browser. You see the finished site on the call.",
-    points: ["Researched from your site, reviews and market", "Every page written and photographed", "Checked on desktop and phone before you see it"],
-    image: { src: "/showcase/go-far-construction-v2.webp", alt: "A contractor website built by Unifictional, shown on a desktop screen" },
-    primary: <BookCall label="Book a call" variant="solid" />,
-    secondary: { label: "How the build works", href: "/process" },
+    eyebrow: "Website Studio",
+    title: "Your new site, built live in front of you.",
+    body: "Paste the site you have or describe the one you want. The studio researches your business, picks premium components, writes every page in your voice and renders it as it goes. Rather we did it? Book a call and it is built before we meet.",
+    points: ["Researched from your site, reviews and market", "Edit it in plain English, export the HTML", "An SEO agent makes it rank"],
+    image: { src: "/platform-website-studio.png", alt: "The Unifictional Website Studio: a brief on the left, the site rendering live in the middle, its components on the right" },
+    primary: <CtaButton href={WEBSITE_STUDIO_URL} external variant="solid" icon="up-right">Build my site</CtaButton>,
+    secondary: { label: "Or book a call", href: "/contact" },
   },
   {
     index: "02",
@@ -36,11 +36,11 @@ const PRODUCTS = [
   },
   {
     index: "03",
-    eyebrow: "Sales tool",
-    title: "The 3D Remodel Studio your customers can use.",
+    eyebrow: "3D Studio",
+    title: "Unifictional 3D Studio: see the remodel first.",
     body: "One photo of a kitchen, bathroom or exterior becomes a 3D twin that is redesigned live and priced line by line. Two free scans, no account, no call.",
     points: ["Photo to 3D twin in about a minute", "250+ real materials with a live estimate", "Photoreal renders and share links"],
-    image: { src: "/studio-preview.png", alt: "The 3D Remodel Studio: a kitchen photo turned into a 3D model with a live estimate" },
+    image: { src: "/studio-preview.png", alt: "The Unifictional 3D Studio: a kitchen photo turned into a 3D model with a live estimate" },
     primary: <StudioCta label="Open the 3D studio" />,
     secondary: { label: "Two free scans", href: STUDIO_HOME },
   },
@@ -58,7 +58,7 @@ export function Platform() {
                 One platform. <em className="italic text-terracotta">Three ways in.</em>
               </>
             }
-            intro="Every Unifictional client gets the same three tools in one portal: a website we build before we even meet, search content that writes and publishes itself, and a 3D studio their customers can use. Start with whichever you need first."
+            intro="Three tools, one account: the Website Studio builds your site, SEO Autopilot keeps it ranking, and the Unifictional 3D Studio lets customers see the remodel before you build it. Start with whichever you need first."
           />
         </Reveal>
 
@@ -109,7 +109,7 @@ export function Platform() {
 
         <Reveal className="mt-10">
           <p className="max-w-prose text-sm text-ink-muted">
-            All three live in the client portal, where you also see your site&apos;s health, your Google and social numbers, every post, every quote and your billing.{" "}
+            Every client also gets the portal: your site&apos;s health, your Google and social numbers, every post, every 3D quote and your billing in one place.{" "}
             <Link href="/about#client-portal" className="link-underline text-ink">
               See the portal
             </Link>

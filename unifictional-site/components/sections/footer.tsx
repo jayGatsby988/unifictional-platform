@@ -10,7 +10,7 @@ export function Footer() {
     <footer data-hide-floating-cta="" className="bg-inkfixed text-bonefixed">
       <Container className="py-20">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-4">
             <Link href="/" className="font-display text-3xl font-medium tracking-tight text-bonefixed">
               {siteConfig.name}
               <span className="text-bonefixed/60">.</span>
@@ -20,7 +20,7 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:col-span-7">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-8 xl:grid-cols-5">
             {footerNav.map((group) => (
               <nav key={group.heading} aria-label={group.heading}>
                 <h3 className="font-mono text-[11px] uppercase tracking-label text-bonefixed/40">

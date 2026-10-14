@@ -1,12 +1,15 @@
 # Unifictional platform
 
-Everything Unifictional ships, in one repo. Three apps, each with its own `package.json`, Vercel project and docs; the root `package.json` only holds shortcuts that reach into them.
+Everything Unifictional ships, in one repo. Four apps, each with its own `package.json`, Vercel project and docs; the root `package.json` only holds shortcuts that reach into them.
+
+The product a client sees is one platform with three tools, presented together on unifictional.com: the **Website Studio** builds the site, **SEO Autopilot** keeps it ranking, and the **Unifictional 3D Studio** lets their customers see a remodel before it is built. The client portal ties them together.
 
 | What | Folder | Live | Docs to read first |
 |---|---|---|---|
 | **Marketing site + AI website builder** — unifictional.com, the booking flow, and the pipeline that researches, designs, writes, checks and publishes a client site on Trigger.dev | [`unifictional-site/`](unifictional-site/) | https://unifictional.com | [`HANDOFF.md`](unifictional-site/HANDOFF.md) · [`AI-BUILD.md`](unifictional-site/AI-BUILD.md) · [`SEO.md`](unifictional-site/SEO.md) · [`BOOKING_SETUP.md`](unifictional-site/BOOKING_SETUP.md) |
 | **Client Portal / SEO Autopilot** — the product: sign up → build a plan → pay on Square → posts researched, written, checked and published automatically; an AI strategist the client talks to; the studio back office | [`Client Portal/`](Client%20Portal/) | https://unifictional-portal.com (the old unifictional-client-portal.vercel.app redirects) | [`README.md`](Client%20Portal/README.md) · [`AGENTS.md`](Client%20Portal/AGENTS.md) |
-| **3D Remodel Studio (MANHATTAN)** — photo → 3D twin → live-priced redesign → photoreal render; 2 free scans per IP, then a $1 unlock billed through the portal | [`3D Studio/`](3D%20Studio/) | https://3d.unifictional.com | [`README.md`](3D%20Studio/README.md) · [`AGENTS.md`](3D%20Studio/AGENTS.md) |
+| **Website Studio** — the hands-on site builder: paste a site or a brief, watch it researched, designed, written and rendered live, edit in plain English, run the SEO agent, export the HTML | [`Website Studio/`](Website%20Studio/) | https://unifictional-studio.vercel.app/studio | [`README.md`](Website%20Studio/README.md) |
+| **Unifictional 3D Studio** (formerly MANHATTAN) — photo → 3D twin → live-priced redesign → photoreal render; 2 free scans per IP, then a $1 unlock billed through the portal | [`3D Studio/`](3D%20Studio/) | https://3d.unifictional.com | [`README.md`](3D%20Studio/README.md) · [`AGENTS.md`](3D%20Studio/AGENTS.md) |
 | Superseded marketing site (kept for reference only, never deploy it) | [`archive/startup-web/`](archive/startup-web/) | — | — |
 
 ## Run it
@@ -14,12 +17,13 @@ Everything Unifictional ships, in one repo. Three apps, each with its own `packa
 From the repo root (each script just calls the app's own one):
 
 ```bash
-npm run install:all     # npm install in all three apps
+npm run install:all     # npm install in every app
 npm run dev:site        # unifictional.com on http://localhost:3010
 npm run dev:portal      # Client Portal on http://localhost:8120 (demo mode without a .env.local)
-npm run dev:3d          # 3D Studio on http://localhost:3200
+npm run dev:3d          # Unifictional 3D Studio on http://localhost:3200
+npm run dev:web         # Website Studio on http://localhost:3300/studio
 npm test                # the portal's 44 node:test cases
-npm run deploy:site     # production deploy (same for :portal and :3d) — see the note below
+npm run deploy:site     # production deploy (same for :portal, :3d and :web) — see the note below
 ```
 
 **Deploys go through `scripts/deploy.sh`, not a bare `vercel deploy`.** The Vercel team is a Hobby team, which blocks any deployment whose commit author is not the team owner; the CLI attaches the repo's HEAD author, so a deploy from inside the repo by anyone else sits in BLOCKED (shown as UNKNOWN in `vercel ls`). The script deploys from a copy outside the repo, which carries no author and builds normally.
@@ -28,7 +32,7 @@ Secrets never live in the repo. Vercel holds every production env var (sensitive
 
 ## How the pieces connect
 
-- **unifictional.com** presents the platform as one thing: the "Platform" section under the hero (`components/sections/platform.tsx`) shows the website builder (→ book a call), SEO Autopilot (→ the portal's `/signup`) and the 3D Studio (→ 3d.unifictional.com/studio) side by side; the gold "Try the 3D studio" pill in the header and the closing CTA repeat the ways in.
+- **unifictional.com** presents the platform as one thing: the "Platform" section under the hero (`components/sections/platform.tsx`) shows the Website Studio (→ unifictional-studio.vercel.app/studio, or book a call), SEO Autopilot (→ the portal's `/signup`) and the Unifictional 3D Studio (→ 3d.unifictional.com/studio) side by side; the footer has a Platform column with all three; the gold "Try the 3D studio" pill in the header and the closing CTA repeat the ways in.
 - **Sign-up** creates the login and the company; the first sign-in lands on `/autopilot`, where the plan builder takes them to Square checkout. Access unlocks the moment Square confirms the subscription; the client can cancel from the same page.
 - **Posts publish** to the blog the portal hosts for the client (`/b/<company>`, the zero-access default), to WordPress (application password), or to a site Unifictional hosts (feed + revalidate ping). Builders with no API (GoDaddy, Squarespace) get a paste-in Inbox request instead.
 - **The 3D Studio** calls the portal's `/api/public/3d/*` (shared `PLATFORM_KEY`) to count free scans and sell the $1 unlock; the portal's Plans page lists the studio next to everything else you can buy.
@@ -38,7 +42,7 @@ Secrets never live in the repo. Vercel holds every production env var (sensitive
 
 | Thing | Where |
 |---|---|
-| Vercel team | `jaygatsby988s-projects`: projects `unifictional`, `unifictional-client-portal`, `manhattan` (+ client sites) |
+| Vercel team | `jaygatsby988s-projects`: projects `unifictional`, `unifictional-client-portal`, `unifictional-studio` (Website Studio), `manhattan` (Unifictional 3D Studio) (+ client sites) |
 | Database | Supabase (Postgres). Migrations in `Client Portal/supabase/migrations/`, applied by hand to the live DB |
 | Payments | Square: subscription plans for Autopilot, Quick Pay links for the $1 studio unlock |
 | Models | Anthropic (writer, strategist, builder); OpenAI only on the `research/astra-provider` branch of the site builder |

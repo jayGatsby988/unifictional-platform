@@ -53,9 +53,13 @@ export const siteConfig = {
 /** Booking: external URL when set, otherwise route to the on-site form. */
 export const BOOKING_URL = (process.env.NEXT_PUBLIC_BOOKING_URL ?? "").trim();
 export const CONTACT_PATH = "/contact";
-/** The 3D Remodel Studio (the MANHATTAN app): its landing page, and the studio itself, which is where every button sends people. */
+/** The Unifictional 3D Studio (folder "3D Studio"): its landing page, and the studio itself, which is where every button sends people. */
 export const STUDIO_HOME = "https://3d.unifictional.com";
 export const STUDIO_URL = `${STUDIO_HOME}/studio`;
+/** The Website Studio (folder "Website Studio"): the hands-on site builder. */
+export const WEBSITE_STUDIO_URL = "https://unifictional-studio.vercel.app/studio";
+/** SEO Autopilot lives in the client portal; sign-up lands on its plan builder. */
+export const AUTOPILOT_SIGNUP_URL = `${(process.env.NEXT_PUBLIC_PORTAL_URL || "https://unifictional-portal.com").replace(/\/+$/, "")}/signup`;
 
 export type NavLink = { label: string; href: string };
 
@@ -104,6 +108,15 @@ export const footerNav: { heading: string; links: NavLink[] }[] = [
       { label: "What SEO costs", href: "/guides/seo-cost-for-contractors" },
       { label: "Getting more leads", href: "/guides/how-to-get-more-leads-as-a-contractor" },
       { label: "All guides", href: "/guides" },
+    ],
+  },
+  {
+    heading: "Platform",
+    links: [
+      { label: "Website Studio", href: WEBSITE_STUDIO_URL },
+      { label: "SEO Autopilot", href: AUTOPILOT_SIGNUP_URL },
+      { label: "Unifictional 3D Studio", href: STUDIO_URL },
+      { label: "Client portal", href: "/about#client-portal" },
     ],
   },
   {

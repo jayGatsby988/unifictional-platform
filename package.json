@@ -1,12 +1,13 @@
 {
   "name": "unifictional-platform",
   "private": true,
-  "description": "One repo for everything Unifictional ships: the marketing site + AI site builder, the Client Portal (SEO Autopilot), and the 3D Remodel Studio. Each app keeps its own package.json; these scripts just reach into them.",
+  "description": "One repo for everything Unifictional ships: the marketing site + automated site builder, the Website Studio, the Client Portal (SEO Autopilot) and the Unifictional 3D Studio. Each app keeps its own package.json; these scripts just reach into them.",
   "scripts": {
-    "install:all": "npm --prefix unifictional-site install && npm --prefix \"Client Portal\" install && npm --prefix \"3D Studio\" install",
+    "install:all": "npm --prefix unifictional-site install && npm --prefix \"Client Portal\" install && npm --prefix \"3D Studio\" install && npm --prefix \"Website Studio\" install",
     "dev:site": "npm --prefix unifictional-site run dev -- -p 3010",
     "dev:portal": "npm --prefix \"Client Portal\" run dev -- -p 8120",
     "dev:3d": "npm --prefix \"3D Studio\" run dev -- -p 3200",
+    "dev:web": "npm --prefix \"Website Studio\" run dev",
     "test": "npm --prefix \"Client Portal\" test",
     "lint": "npm --prefix unifictional-site run lint && npm --prefix \"Client Portal\" run lint && npm --prefix \"3D Studio\" run lint",
     "build:site": "npm --prefix unifictional-site run build",
@@ -14,6 +15,7 @@
     "build:3d": "npm --prefix \"3D Studio\" run build",
     "deploy:site": "zsh scripts/deploy.sh unifictional-site",
     "deploy:portal": "zsh scripts/deploy.sh \"Client Portal\"",
-    "deploy:3d": "zsh scripts/deploy.sh \"3D Studio\""
+    "deploy:3d": "zsh scripts/deploy.sh \"3D Studio\"",
+    "deploy:web": "zsh scripts/deploy.sh \"Website Studio\""
   }
 }

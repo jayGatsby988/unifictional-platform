@@ -84,7 +84,7 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
         <div className="flex items-baseline gap-3">
           <a href="https://unifictional.com" className="eyebrow hidden transition-colors hover:text-ink sm:inline" title="Back to unifictional.com">← Unifictional</a>
           <span className="hidden h-3 w-px self-center bg-border sm:inline" />
-          <span className="font-display text-[22px] tracking-tight text-ink">MANHATTAN<span className="text-muted">.</span></span>
+          <span className="font-display text-[22px] tracking-tight text-ink">Unifictional <span className="text-brass">3D Studio</span><span className="text-muted">.</span></span>
           <span className="eyebrow hidden md:inline">Photo → 3D remodel studio</span>
         </div>
         <nav className="flex items-center gap-1 text-[12.5px] text-muted">

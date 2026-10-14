@@ -1,6 +1,6 @@
 'use client';
 /**
- * MANHATTAN marketing landing page. Sections are client components (they
+ * Unifictional 3D Studio marketing landing page. Sections are client components (they
  * animate) but render full HTML on the server; heavy WebGL loads lazily.
  *
  * Colour follows unifictional.com: the body is light (`.lp-light`), while the

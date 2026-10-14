@@ -17,10 +17,10 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: "MANHATTAN — Photo to 3D remodel studio", template: "%s · MANHATTAN" },
+  title: { default: "Unifictional 3D Studio — photo to 3D remodel studio", template: "%s · Unifictional 3D Studio" },
   description: "Upload photos of a kitchen, bathroom or lot. In under a minute get a photoreal, explorable 3D twin you can re-design with live pricing.",
-  applicationName: "MANHATTAN",
-  openGraph: { title: "MANHATTAN — Photo to 3D remodel studio", description: "Photo → 3D twin → live-priced redesign in 60 seconds.", type: "website" },
+  applicationName: "Unifictional 3D Studio",
+  openGraph: { title: "Unifictional 3D Studio — photo to 3D remodel studio", description: "Photo → 3D twin → live-priced redesign in 60 seconds.", type: "website" },
 };
 
 export const viewport: Viewport = { themeColor: "#090909", width: "device-width", initialScale: 1, maximumScale: 1 };

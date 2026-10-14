@@ -1,5 +1,5 @@
 /**
- * MANHATTAN — the guided intake.
+ * Unifictional 3D Studio — the guided intake.
  *
  * A photograph of an existing room answers almost every question this app
  * asks: the analyzer reads the cabinet colour off the pixels. An EMPTY LOT and

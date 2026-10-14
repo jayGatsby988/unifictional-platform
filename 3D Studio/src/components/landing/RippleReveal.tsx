@@ -3,7 +3,7 @@
  * WebGL ripple crossfade between two images. Adapted from the Awwwards
  * "Ripple Displacement Slider" (ortho camera + full-quad ShaderMaterial; a
  * radial wave displaces UVs and crossfades to the next texture behind its
- * trailing edge). Changes for MANHATTAN: cover-fits the host element instead
+ * trailing edge). Changes for Unifictional 3D Studio: cover-fits the host element instead
  * of a fixed centre box, loads once and self-disposes, renders only while the
  * tween runs, and reports completion / failure so the DOM slider can take over.
  *

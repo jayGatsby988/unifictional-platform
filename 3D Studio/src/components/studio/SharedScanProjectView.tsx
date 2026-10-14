@@ -18,7 +18,7 @@ export function SharedScanProjectView({ project }: { project: Project }) {
   return <main className="min-h-dvh bg-bg px-5 py-8 text-ink sm:px-8">
     <div className="mx-auto max-w-5xl">
       <header className="border-b border-border pb-5">
-        <p className="eyebrow">{project.branding?.company || 'MANHATTAN'} · Shared scan view</p>
+        <p className="eyebrow">{project.branding?.company || 'Unifictional 3D Studio'} · Shared scan view</p>
         <h1 className="mt-3 font-display text-4xl sm:text-5xl">{project.name}</h1>
         {project.client?.name && <p className="mt-2 text-sm text-muted">Prepared for {project.client.name}</p>}
         <p className="mt-2 text-xs text-dim">Saved {new Date(project.updatedAt).toLocaleDateString('en-US', { timeZone: 'UTC', dateStyle: 'long' })}</p>

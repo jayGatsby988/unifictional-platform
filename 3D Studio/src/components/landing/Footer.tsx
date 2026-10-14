@@ -48,8 +48,8 @@ export function Footer() {
       <div className="lp-container py-20">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
-            <Link href="/" className="font-display text-3xl font-medium tracking-tight text-ink" aria-label="MANHATTAN home">
-              MANHATTAN<span className="text-dim">.</span>
+            <Link href="/" className="font-display text-3xl font-medium tracking-tight text-ink" aria-label="Unifictional 3D Studio home">
+              Unifictional <span className="text-brass">3D Studio</span><span className="text-dim">.</span>
             </Link>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted">{FOOTER.description}</p>
           </div>

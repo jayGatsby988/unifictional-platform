@@ -35,7 +35,7 @@ export default async function PlansPage() {
         <SubHead right={<span className="label !text-xs">Pay once · no subscription</span>}>Tools</SubHead>
         <div className="panel p-6 grid md:grid-cols-5 gap-6 items-center">
           <div className="md:col-span-3">
-            <div className="flex items-center gap-2 mb-2"><Box className="h-4 w-4" /><h2 className="font-display text-3xl uppercase leading-none">3D Remodel Studio</h2></div>
+            <div className="flex items-center gap-2 mb-2"><Box className="h-4 w-4" /><h2 className="font-display text-3xl uppercase leading-none">Unifictional 3D Studio</h2></div>
             <p className="text-sm text-ink-muted">Upload photos of a kitchen, bath or lot and get an explorable 3D twin in about a minute. Swap materials and the price updates live; render photoreal images from your own photo; share a link clients can spin on their phone.</p>
             <ul className="mt-4 grid sm:grid-cols-2 gap-x-6 gap-y-1.5 text-sm">
               {["2 scans free, no card", `${money(UNLOCK_CENTS)} unlocks unlimited scans for 30 days`, "250+ real materials, live line-item pricing", "Photoreal renders and share links"].map((f) => <li key={f} className="flex items-start gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0 text-good" />{f}</li>)}

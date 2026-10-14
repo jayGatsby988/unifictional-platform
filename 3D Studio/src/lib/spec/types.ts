@@ -1,5 +1,5 @@
 /**
- * MANHATTAN — core domain contracts.
+ * Unifictional 3D Studio — core domain contracts.
  *
  * Units: all user-facing dimensions are in FEET (decimal) unless the field name
  * ends in `In` (inches) or `M` (meters). The 3D engine converts to meters

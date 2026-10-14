@@ -1,5 +1,5 @@
 /**
- * Material catalog — every swappable finish in MANHATTAN.
+ * Material catalog — every swappable finish in Unifictional 3D Studio.
  *
  * Each entry knows: where it can be applied (slots), how it is priced
  * (price group + tier + optional multiplier), how it renders in 3D (PBR

@@ -170,7 +170,7 @@ export function BookCall({
 /** Where the self-serve product lives: the Client Portal's sign-up, which lands on the SEO Autopilot plan builder. */
 export const PORTAL_URL = (process.env.NEXT_PUBLIC_PORTAL_URL || "https://unifictional-portal.com").replace(/\/+$/, "");
 
-/** The 3D Remodel Studio: the one thing on the site a visitor can use this minute, so it gets the accent pill. */
+/** The Unifictional 3D Studio: the one thing on the site a visitor can use this minute, so it gets the accent pill. */
 export function StudioCta({
   label = "Try the 3D studio",
   variant = "accent",

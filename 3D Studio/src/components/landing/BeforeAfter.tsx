@@ -1,6 +1,6 @@
 'use client';
 /**
- * Drag-to-compare slider between the client's photo and MANHATTAN's render.
+ * Drag-to-compare slider between the client's photo and the 3D Studio's render.
  * On first view it plays a WebGL ripple reveal (photo → render), then the
  * divider sweeps in and the visitor can drag, or use the keyboard.
  *
@@ -213,7 +213,7 @@ export function BeforeAfter({
         <button
           type="button"
           role="slider"
-          aria-label="Compare the client's photo with the MANHATTAN render"
+          aria-label="Compare the client's photo with the 3D Studio render"
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={redesigned}
@@ -236,7 +236,7 @@ export function BeforeAfter({
           className="chip chip-brass pointer-events-none absolute bottom-3 right-3 backdrop-blur transition-opacity duration-300"
           style={{ opacity: t < 0.88 ? 1 : 0 }}
         >
-          After · MANHATTAN render
+          After · 3D Studio render
         </span>
 
         {showCanvas ? (

@@ -28,7 +28,7 @@ export const DEMO = {
   },
   after: {
     src: '/demo/kitchen-after.jpg',
-    alt: 'MANHATTAN photoreal render of the same kitchen from the same camera angle, now with navy shaker cabinets, Calacatta quartz and white subway tile',
+    alt: 'Unifictional 3D Studio photoreal render of the same kitchen from the same camera angle, now with navy shaker cabinets, Calacatta quartz and white subway tile',
   },
 } as const;
 
@@ -206,7 +206,7 @@ export const TIERS = [
     blurb: 'For franchises, suppliers and software teams.',
     features: ['API access', 'SSO', 'Private material catalogs', 'Everything in Pro'],
     cta: 'Talk to us',
-    href: `mailto:${CONTACT_EMAIL}?subject=MANHATTAN%20Enterprise`,
+    href: `mailto:${CONTACT_EMAIL}?subject=Unifictional%203D%20Studio%20Enterprise`,
     highlight: false,
   },
 ] as const;
@@ -238,7 +238,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: 'Which rooms can it handle?',
-    a: 'Kitchens (single-wall through G-shaped, with or without an island), bathrooms (powder rooms through primary suites) and lots or exteriors. If the photo is an empty lot, MANHATTAN proposes one of seven house templates — Modern Farmhouse, Craftsman, NW Contemporary, Modern, Ranch, Colonial, Mediterranean — that you can reshape and re-clad.',
+    a: 'Kitchens (single-wall through G-shaped, with or without an island), bathrooms (powder rooms through primary suites) and lots or exteriors. If the photo is an empty lot, the studio proposes one of seven house templates — Modern Farmhouse, Craftsman, NW Contemporary, Modern, Ranch, Colonial, Mediterranean — that you can reshape and re-clad.',
   },
   {
     q: 'Can I use my own pricing?',
@@ -279,7 +279,7 @@ export const SECTIONS = {
     eyebrow: 'For contractors, remodelers, designers, DADU/ADU builders',
     title: ['Built for the people', 'who actually build.'],
     intro:
-      'MANHATTAN is a scoping and selling tool. It is not trying to replace your drawings or your subs — it gets a client to “yes” with a picture of their own room and a number they can plan around.',
+      'The 3D Studio is a scoping and selling tool. It is not trying to replace your drawings or your subs — it gets a client to “yes” with a picture of their own room and a number they can plan around.',
   },
   pricing: {
     index: '06',
@@ -338,7 +338,7 @@ export const FOOTER = {
       ],
     },
   ],
-  legal: '© 2026 Unifictional · MANHATTAN',
+  legal: '© 2026 Unifictional · 3D Studio',
   note: 'Estimates are planning-grade (±15–20%), not bids.',
-  signature: 'MANHATTAN',
+  signature: '3D STUDIO',
 } as const;

@@ -175,7 +175,7 @@ function SharedInner({ project }: { project: Project }) {
 
       <footer className="border-t border-border">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-3 px-5 py-6 text-[12px] text-dim sm:flex-row sm:items-center">
-          <span>Built with <span className={cx('font-mono tracking-[0.18em] text-muted')}>MANHATTAN</span> · photo → 3D remodel studio</span>
+          <span>Built with <span className={cx('font-mono tracking-[0.18em] text-muted')}>UNIFICTIONAL 3D STUDIO</span> · photo → 3D remodel</span>
           <a className="btn btn-sm" href="/studio"><Sparkles size={12} /> Build your own twin</a>
         </div>
       </footer>

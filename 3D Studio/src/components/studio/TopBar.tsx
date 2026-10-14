@@ -110,7 +110,7 @@ export function TopBar({ builtInMs, onRender, onShare, onNewProject, renderBusy,
           ← UNIFICTIONAL
         </a>
         <span className="hidden h-4 w-px bg-border sm:inline" />
-        <span className="hidden shrink-0 font-display text-[15px] tracking-tight text-ink sm:inline">MANHATTAN<span className="text-muted">.</span></span>
+        <span className="hidden shrink-0 font-display text-[15px] tracking-tight text-ink sm:inline"><span className="text-brass">3D Studio</span><span className="text-muted">.</span></span>
         <span className="hidden h-4 w-px bg-border sm:inline" />
         <ProjectName />
         <AnimatePresence>

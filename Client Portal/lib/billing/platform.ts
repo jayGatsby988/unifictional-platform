@@ -1,7 +1,7 @@
 import { timingSafeEqual } from "node:crypto";
 
 /**
- * Other Unifictional apps (the 3D remodel studio) bill through the portal so
+ * Other Unifictional apps (the Unifictional 3D Studio) bill through the portal so
  * Square's key stays in one place. They prove who they are with PLATFORM_KEY,
  * the same value on both projects.
  */

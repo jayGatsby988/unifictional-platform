@@ -64,16 +64,16 @@ export function Nav() {
     >
       <div className="lp-container flex h-16 items-center justify-between gap-4">
         <div className="flex min-w-0 items-center gap-3">
-          <Link href="/" className="font-display text-[22px] font-medium tracking-tight text-ink" aria-label="MANHATTAN home">
-            MANHATTAN<span className="text-dim">.</span>
+          <Link href="/" className="whitespace-nowrap font-display text-[20px] font-medium tracking-tight text-ink sm:text-[22px]" aria-label="Unifictional 3D Studio home">
+            Unifictional <span className="text-brass">3D Studio</span><span className="text-dim">.</span>
           </Link>
-          <span className="hidden h-4 w-px bg-border-strong sm:inline" />
+          <span className="hidden h-4 w-px bg-border-strong lg:inline" />
           <a
             href={UNIFICTIONAL_HREF}
-            className="hidden whitespace-nowrap font-mono text-[10.5px] tracking-[0.22em] text-dim transition-colors hover:text-ink sm:inline"
+            className="hidden whitespace-nowrap font-mono text-[10.5px] tracking-[0.22em] text-dim transition-colors hover:text-ink lg:inline"
             title="Back to unifictional.com"
           >
-            BY UNIFICTIONAL ↗
+            UNIFICTIONAL.COM ↗
           </a>
         </div>
 

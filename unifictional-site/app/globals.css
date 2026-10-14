@@ -21,7 +21,7 @@
     /* "accent" is now monochrome (near-black) so coloured states read as ink. */
     --terracotta: 14 14 14;
     --terracotta-soft: 64 64 64;
-    /* the 3D Remodel Studio's gold: the only real colour, same in both themes */
+    /* the 3D Studio's gold: the only real colour, same in both themes */
     --studio: 201 150 46;
     color-scheme: light;
   }

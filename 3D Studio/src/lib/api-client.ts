@@ -1,5 +1,5 @@
 /**
- * Typed browser client for MANHATTAN's API routes. Safe to import from client
+ * Typed browser client for Unifictional 3D Studio's API routes. Safe to import from client
  * components (no server-only imports). Every function throws `ApiError`
  * carrying the server's `{ error, code }` shape.
  */

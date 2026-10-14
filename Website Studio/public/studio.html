@@ -3,18 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Studio · Unifictional · We make great builders the obvious choice</title>
-<meta name="description" content="Unifictional Studio: paste a URL or a brief, watch the agent assemble an Awwwards-grade site from the pack, edit it in chat, then let the SEO agent make it rank.">
+<title>Website Studio · Unifictional</title>
+<meta name="description" content="Unifictional Website Studio: paste a URL or a brief, watch the agent assemble an Awwwards-grade site from the pack, edit it in chat, then let the SEO agent make it rank.">
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem("theme");document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light")}catch(e){document.documentElement.setAttribute("data-theme","light")}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&family=Hanken+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Hanken+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/studio.css">
 </head>
 <body class="studio">
 
 <header class="top">
-  <a class="top__brand" href="https://unifictional.com" title="Back to unifictional.com"><img src="/assets/img/mark.png" alt="" width="22" height="22"><span>Unifictional<i>.</i></span><em>Website Studio</em></a>
+  <a class="top__brand" href="https://unifictional.com" title="Back to unifictional.com"><span>Unifictional<i>.</i></span><em>Website Studio</em></a>
   <div class="top__project"><span class="mono" id="projectKind">New project</span><strong id="projectName">Untitled</strong></div>
   <div class="top__center">
     <button class="seg is-on" data-vp="desktop" title="Desktop">Desktop</button>
@@ -22,6 +23,7 @@
     <button class="seg" data-vp="mobile" title="Phone">Phone</button>
   </div>
   <div class="top__right">
+    <button class="theme" id="btnTheme" type="button" aria-label="Switch light or dark theme" title="Light / dark"><svg class="moon" viewBox="0 0 16 16" fill="none"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg><svg class="sun" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></button>
     <span class="engine" id="engine"><i></i><span>Engine: checking</span></span>
     <button class="btn btn-ghost" id="btnExport" disabled>Export HTML</button>
     <a class="btn btn-ghost top__call" href="https://unifictional.com/contact" target="_blank" rel="noopener">Book a call</a>
@@ -120,5 +122,6 @@
 </div>
 
 <script type="module" src="/assets/js/studio.js"></script>
+<script>document.getElementById("btnTheme").addEventListener("click",function(){var d=document.documentElement,n=d.getAttribute("data-theme")==="dark"?"light":"dark";d.setAttribute("data-theme",n);try{localStorage.setItem("theme",n)}catch(e){}});</script>
 </body>
 </html>

@@ -41,6 +41,7 @@ type CalendarChoice = "google" | "apple" | "outlook" | "ics";
 type Step = "time" | "details" | "verify" | "done";
 
 interface ConfirmResult {
+  buildSkipped?: string;
   meeting: {
     title: string;
     startISO: string;
@@ -741,8 +742,10 @@ export function BookingFlow() {
           <h3 className="mt-5 font-display text-3xl font-medium text-ink">You&apos;re booked in.</h3>
           <p className="mt-2 text-sm text-ink-soft">
             A confirmation is on its way to{" "}
-            <span className="font-medium text-ink">{form.email}</span>. We&apos;re starting on your
-            website now.
+            <span className="font-medium text-ink">{form.email}</span>.{" "}
+            {result?.buildSkipped
+              ? "We\u2019ve already built a site for this email or from this network, so this booking won\u2019t start a second one; we\u2019ll bring the first one to the call."
+              : "We\u2019re starting on your website now."}
           </p>
 
           <div className="mt-6 rounded-xl border border-terracotta/30 bg-terracotta/5 p-5 text-left">

@@ -25,6 +25,17 @@ const hiSrc = (i: number) => `/frames/${SET}-hi/frame-${pad(i)}.webp`;
  *  the bytes and a third of the decoded memory — the main thing that used to
  *  make phones stutter or reload the tab. */
 const portraitSrc = (i: number) => `/frames/${SET}-portrait/frame-${pad(i)}.webp`;
+/** The resting frame: the 4K still the clip was generated from, which is far
+ *  sharper than any frame of the clip (Kling's 4K is an upscale). It is the
+ *  first paint and stays until the scroll starts; the canvas only draws once
+ *  the footage is moving, and clears again at the top. */
+const STILL = {
+  wide: `/frames/${SET}-still/start-1920.webp`,
+  wide2x: `/frames/${SET}-still/start-3840.webp`,
+  portrait: `/frames/${SET}-still/start-portrait.webp`,
+} as const;
+/** Scroll progress under which the still shows and the canvas stays clear. */
+const STILL_UNTIL = 0.012;
 /** Viewports narrower than the 5:8 crop get the portrait set. */
 const PORTRAIT_MQ = "(max-width: 767px) and (max-aspect-ratio: 5/8)";
 /** Source frame sizes per set (the canvas backing store never exceeds them). */
@@ -260,7 +271,15 @@ export function ScrubHero() {
     const render = () => {
       const p = progress();
       const fp = Math.min(1, p / FRAME_END);
-      drawFrame(Math.round(fp * (N - 1)));
+      if (fp < STILL_UNTIL) {
+        // at rest the sharp still underneath is the picture
+        if (lastDrawnRef.current !== -1) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          lastDrawnRef.current = -1;
+        }
+      } else {
+        drawFrame(Math.round(fp * (N - 1)));
+      }
       if (overlayRef.current) {
         const fade = p < 0.72 ? 1 : Math.max(0, 1 - (p - 0.72) / 0.16);
         overlayRef.current.style.opacity = String(fade);
@@ -342,11 +361,11 @@ export function ScrubHero() {
             {/* Portrait phones get the centre-cropped first frame (same
                 framing, ~1/3 the bytes) — this is the page's first paint. */}
             <picture>
-              <source media={PORTRAIT_MQ} srcSet={portraitSrc(0)} type="image/webp" />
-              <source media="(min-width: 768px)" srcSet={`${frameSrc(0)} 1600w, ${hiSrc(0)} 2560w`} sizes="100vw" type="image/webp" />
+              <source media={PORTRAIT_MQ} srcSet={STILL.portrait} type="image/webp" />
+              <source srcSet={`${STILL.wide} 1920w, ${STILL.wide2x} 3840w`} sizes="100vw" type="image/webp" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={frameSrc(0)}
+                src={STILL.wide}
                 alt=""
                 aria-hidden
                 fetchPriority="high"

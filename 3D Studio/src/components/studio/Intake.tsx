@@ -102,8 +102,9 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
           <span className="hidden h-4 w-px bg-border md:inline" />
           <a href="https://unifictional.com" className="eyebrow hidden transition-colors hover:text-ink md:inline" title="Back to unifictional.com">← Unifictional</a>
         </div>
-        <nav className="flex items-center gap-1 text-[12.5px] text-muted">
-          <span className="mr-1 hidden sm:inline">Try a demo:</span>
+        {/* The demo links need the width of a tablet; phones have the "Try a demo" button in the bar below. */}
+        <nav className="hidden items-center gap-1 text-[12.5px] text-muted md:flex">
+          <span className="mr-1">Try a demo:</span>
           {ROOM_CARDS.map((r) => (
             <button key={r.id} type="button" onClick={() => onDemo(r.id)} className="rounded-full px-2.5 py-1 hover:bg-white/5 hover:text-ink">{r.title}</button>
           ))}

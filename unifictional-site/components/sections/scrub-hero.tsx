@@ -30,9 +30,15 @@ const PORTRAIT_MQ = "(max-width: 767px) and (max-aspect-ratio: 5/8)";
 /** Source frame sizes per set (the canvas backing store never exceeds them). */
 const SIZES = { base: [1600, 892], hi: [2560, 1427], portrait: [1120, 1427] } as const;
 /** The hi set when the stage needs more than the base set has (a 1080p monitor
- *  at 1x, or any retina laptop): css width × dpr. Slow devices stay on base. */
+ *  at 1x, or any retina laptop): css width × dpr. Only data-saver and a 2g/3g
+ *  connection hold it back — NOT the generic isConstrained() check, whose
+ *  downlink estimate Chrome reports far too low on first load, which quietly
+ *  handed retina Macs the 1600 set and a soft opening frame. */
 function needsHi(): boolean {
-  if (isConstrained()) return false;
+  const nav = navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } };
+  const c = nav.connection;
+  if (c?.saveData) return false;
+  if (c?.effectiveType && /2g|3g/.test(c.effectiveType)) return false;
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   return window.innerWidth * dpr > 1700;
 }

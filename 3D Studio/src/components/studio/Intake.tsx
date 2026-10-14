@@ -4,6 +4,7 @@
  * template, and the "Build my 3D twin" CTA.
  */
 import { useEffect, useMemo, useRef, useState, type ComponentType } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, Bath, Check, CookingPot, LayoutGrid, Sparkles, TreePine } from 'lucide-react';
 import { useProjectStore } from '@/lib/store/project-store';
@@ -15,11 +16,11 @@ import { Toggle } from './controls';
 import { useToast } from './Toast';
 import { cx } from './hooks';
 
-const ROOM_CARDS: Array<{ id: RoomType; title: string; blurb: string; icon: ComponentType<{ size?: number; className?: string }>; art: string }> = [
-  { id: 'kitchen', title: 'Kitchen', blurb: 'Cabinets, counters, island, backsplash, lighting', icon: CookingPot, art: 'radial-gradient(120% 90% at 20% 10%, rgba(201,150,46,.32), transparent 60%), radial-gradient(80% 60% at 90% 90%, rgba(120,90,50,.35), transparent 60%), linear-gradient(160deg, #26211a, #0f1012)' },
-  { id: 'bathroom', title: 'Bathroom', blurb: 'Vanity, shower, tub, tile, plumbing finishes', icon: Bath, art: 'radial-gradient(120% 90% at 20% 10%, rgba(127,178,224,.28), transparent 60%), radial-gradient(80% 60% at 90% 90%, rgba(80,110,140,.35), transparent 60%), linear-gradient(160deg, #1b2229, #0f1012)' },
-  { id: 'exterior', title: 'Lot & Exterior', blurb: 'Siding, roof, windows, porch, driveway, landscape', icon: TreePine, art: 'radial-gradient(120% 90% at 20% 10%, rgba(127,191,138,.26), transparent 60%), radial-gradient(80% 60% at 90% 90%, rgba(70,100,70,.35), transparent 60%), linear-gradient(160deg, #1c231d, #0f1012)' },
-  { id: 'floorplan', title: 'Floor Plan', blurb: 'Whole house: rooms, walls, doors, windows, stairs', icon: LayoutGrid, art: 'radial-gradient(120% 90% at 20% 10%, rgba(160,170,200,.26), transparent 60%), radial-gradient(80% 60% at 90% 90%, rgba(70,80,110,.35), transparent 60%), linear-gradient(160deg, #1b1e26, #0f1012)' },
+const ROOM_CARDS: Array<{ id: RoomType; title: string; blurb: string; icon: ComponentType<{ size?: number; className?: string }> }> = [
+  { id: 'kitchen', title: 'Kitchen', blurb: 'Cabinets, counters, island, backsplash, lighting', icon: CookingPot },
+  { id: 'bathroom', title: 'Bathroom', blurb: 'Vanity, shower, tub, tile, plumbing finishes', icon: Bath },
+  { id: 'exterior', title: 'Lot & Exterior', blurb: 'Siding, roof, windows, porch, driveway, landscape', icon: TreePine },
+  { id: 'floorplan', title: 'Floor Plan', blurb: 'Whole house: rooms, walls, doors, windows, stairs', icon: LayoutGrid },
 ];
 
 const PLACEHOLDER: Record<RoomType, string> = {
@@ -79,13 +80,12 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
 
   return (
     <div className="grain relative min-h-dvh overflow-x-hidden bg-bg">
-      <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(60% 40% at 50% -10%, rgba(201,150,46,.10), transparent 70%)' }} />
-      <header className="relative z-10 flex items-center justify-between px-5 py-4 sm:px-8">
-        <div className="flex items-baseline gap-3">
-          <a href="https://unifictional.com" className="eyebrow hidden transition-colors hover:text-ink sm:inline" title="Back to unifictional.com">← Unifictional</a>
-          <span className="hidden h-3 w-px self-center bg-border sm:inline" />
-          <span className="font-display text-[22px] tracking-tight text-ink">Unifictional <span className="text-brass">3D Studio</span><span className="text-muted">.</span></span>
-          <span className="eyebrow hidden md:inline">Photo → 3D remodel studio</span>
+      <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(60% 40% at 50% -10%, rgba(255,255,255,.05), transparent 70%)' }} />
+      <header className="relative z-10 flex h-16 items-center justify-between border-b border-border px-5 sm:px-8">
+        <div className="flex items-center gap-4">
+          <Link href="/" className="font-display text-xl font-medium tracking-tight text-ink" aria-label="Unifictional 3D Studio home">Unifictional 3D Studio<span className="text-muted">.</span></Link>
+          <span className="hidden h-4 w-px bg-border md:inline" />
+          <a href="https://unifictional.com" className="eyebrow hidden transition-colors hover:text-ink md:inline" title="Back to unifictional.com">← Unifictional</a>
         </div>
         <nav className="flex items-center gap-1 text-[12.5px] text-muted">
           <span className="mr-1 hidden sm:inline">Try a demo:</span>
@@ -99,7 +99,7 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.2, 0.7, 0.2, 1] }}>
           <div className="eyebrow mb-3">Step 1 · What are we remodeling?</div>
           <h1 className="font-display text-[40px] leading-[1.02] text-ink sm:text-[56px]">
-            Photos in. An explorable, <em className="text-brass">priced</em> 3D twin out.
+            Photos in. An explorable, priced 3D twin out.
           </h1>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted">
             Upload a few photos of the space. In about a minute you get a 3D model you can walk through, re-finish surface by surface, and price line by line — then render it photoreal.
@@ -120,10 +120,9 @@ export function Intake({ onSubmit, onDemo, busy }: { onSubmit: (sub: IntakeSubmi
                 onClick={() => { if (!active) setRoomType(r.id); }}
                 aria-pressed={active}
                 className={cx(
-                  'group relative overflow-hidden rounded-[var(--radius)] border p-5 text-left transition-all',
-                  active ? 'border-brass shadow-[0_0_0_3px_var(--brass-soft)]' : 'border-border hover:border-border-strong',
+                  'group relative overflow-hidden rounded-[var(--radius)] border bg-surface p-5 text-left transition-[border-color,box-shadow,background-color]',
+                  active ? 'border-brass bg-surface-2 shadow-[0_0_0_3px_var(--brass-soft)]' : 'border-border hover:border-border-strong hover:bg-surface-2',
                 )}
-                style={{ background: r.art }}
               >
                 <div className="flex items-start justify-between">
                   <span className={cx('grid h-10 w-10 place-items-center rounded-full border', active ? 'border-brass bg-brass text-[#0a0a0a]' : 'border-white/10 bg-black/30 text-ink')}>

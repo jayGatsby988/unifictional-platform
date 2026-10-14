@@ -7,6 +7,16 @@ const nextConfig: NextConfig = {
   // The scrub hero uses a requestAnimationFrame loop with cleaned-up effects,
   // so it's safe under React StrictMode. Above-the-fold entrances use CSS
   // mount animations (not scroll-into-view), so nothing depends on JS timing.
+  // The client portal is now a section of the Studio page.
+  async redirects() {
+    const portal = (process.env.NEXT_PUBLIC_PORTAL_URL || "https://unifictional-client-portal.vercel.app").replace(/\/+$/, "");
+    return [
+      { source: "/portal", destination: "/about#client-portal", permanent: true },
+      // People guess these; send them to the client portal instead of a 404.
+      { source: "/login", destination: `${portal}/login`, permanent: false },
+      { source: "/signup", destination: `${portal}/signup`, permanent: false },
+    ];
+  },
   async headers() {
     return [
       {

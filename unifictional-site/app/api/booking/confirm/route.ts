@@ -5,7 +5,6 @@ import { bookingConfig, googleConfigured } from "@/lib/booking/config";
 import { buildConfigured, siteOrigin } from "@/lib/build/pipeline";
 import { startBuildAnywhere } from "@/lib/build/start";
 import { leadsSince } from "@/lib/build/storage";
-import { alreadyBuilt, recordBuild, clientIp } from "@/lib/build/limits";
 import { isSlotAvailable } from "@/lib/booking/check";
 import { sendClientConfirmation, sendOwnerNotification } from "@/lib/booking/email";
 import { createCalendarEvent, findEventByBookingId } from "@/lib/booking/google";
@@ -82,7 +81,6 @@ export async function POST(req: Request) {
   // Idempotency: if we already booked this (double-submit), return success
   // without re-creating the event or re-emailing.
   let alreadyBooked = false;
-  let buildSkipped = "";
   if (googleConfigured()) {
     try {
       const existing = await findEventByBookingId(booking.bookingId);
@@ -151,14 +149,8 @@ export async function POST(req: Request) {
       // The AI build: research the business, write the site from the pack,
       // run the SEO agent, email the owner a preview. Runs after this response
       // is sent (each step is its own function invocation; see lib/build).
-      // One site per person: a second build for the same email or the same network is refused; the call is still booked.
-      const ip = clientIp(req);
-      const limit: Awaited<ReturnType<typeof alreadyBuilt>> = buildConfigured() ? await alreadyBuilt(booking.email, ip).catch(() => ({ blocked: false })) : { blocked: false };
-      if (limit.blocked) console.warn(`[build] one per person: refused for ${booking.bookingId} (${limit.by}, first build ${limit.bookingId || "?"} at ${limit.since || "?"})`);
-      const buildStarted = buildConfigured() && !limit.blocked;
-      buildSkipped = limit.blocked ? limit.by || "already" : "";
+      const buildStarted = buildConfigured();
       if (buildStarted) {
-        await recordBuild(booking.email, ip, booking.bookingId).catch((e) => console.error("[build] limit record failed:", e));
         const origin = siteOrigin(req);
         const lead = {
           name: booking.name,
@@ -218,7 +210,6 @@ export async function POST(req: Request) {
   return NextResponse.json({
     ok: true,
     alreadyBooked,
-    buildSkipped,
     connected: googleConfigured(),
     calendarChoice: booking.calendarChoice,
     meeting: {

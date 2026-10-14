@@ -193,7 +193,16 @@ async function extractAndUpload(mp4, id, stamp, folder = "video") {
   // probe size through the 1920 pass output names; aspect from the first frame via sharp
   for (const t of TIERS) {
     const out = path.join(dir, t.name); await fs.mkdir(out, { recursive: true });
-    await run(ff, ["-y", "-loglevel", "error", "-threads", "2", "-i", src, "-vf", `fps=${FPS},scale=${t.width}:-2:flags=lanczos`, "-c:v", "libwebp", "-quality", String(t.quality), "-compression_level", "4", "-frames:v", "240", path.join(out, "%04d.webp")]);
+    try {
+      await run(ff, ["-y", "-loglevel", "error", "-threads", "2", "-i", src, "-vf", `fps=${FPS},scale=${t.width}:-2:flags=lanczos`, "-c:v", "libwebp", "-quality", String(t.quality), "-compression_level", "4", "-frames:v", "240", path.join(out, "%04d.webp")]);
+    } catch (e) {
+      // an ffmpeg without the WebP encoder (Homebrew's default build, Playwright's bundled one): PNG frames, encoded to WebP by sharp
+      if (!/libwebp|encoder not found|unknown encoder/i.test(String(e?.message || e))) throw e;
+      await run(ff, ["-y", "-loglevel", "error", "-threads", "2", "-i", src, "-vf", `fps=${FPS},scale=${t.width}:-2:flags=lanczos`, "-frames:v", "240", path.join(out, "%04d.png")]);
+      const sharp = (await import("sharp")).default;
+      const pngs = (await fs.readdir(out)).filter(f => f.endsWith(".png")).sort();
+      await mapLimit(pngs, 2, async (f) => { const buf = await sharp(path.join(out, f)).webp({ quality: t.quality, effort: 3 }).toBuffer(); await fs.writeFile(path.join(out, f.replace(/\.png$/, ".webp")), buf); await fs.rm(path.join(out, f), { force: true }); });
+    }
     const files = (await fs.readdir(out)).filter(f => f.endsWith(".webp")).sort();
     if (!count) count = files.length;
     stamp && stamp(`frames ${t.name}: ${files.length} files`);

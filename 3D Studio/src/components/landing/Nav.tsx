@@ -32,7 +32,7 @@ export function Nav() {
       if (e.key === 'Escape') setOpen(false);
     };
     const onResize = () => {
-      if (window.innerWidth >= 768) setOpen(false);
+      if (window.innerWidth >= 1024) setOpen(false);
     };
     window.addEventListener('keydown', onKey);
     window.addEventListener('resize', onResize);
@@ -67,17 +67,9 @@ export function Nav() {
           <Link href="/" className="whitespace-nowrap font-display text-[20px] font-medium tracking-tight text-ink sm:text-[22px]" aria-label="Unifictional 3D Studio home">
             Unifictional <span className="text-brass">3D Studio</span><span className="text-dim">.</span>
           </Link>
-          <span className="hidden h-4 w-px bg-border-strong lg:inline" />
-          <a
-            href={UNIFICTIONAL_HREF}
-            className="hidden whitespace-nowrap font-mono text-[10.5px] tracking-[0.22em] text-dim transition-colors hover:text-ink lg:inline"
-            title="Back to unifictional.com"
-          >
-            UNIFICTIONAL.COM ↗
-          </a>
         </div>
 
-        <nav aria-label="Primary" className="hidden items-center gap-7 md:flex lg:gap-9">
+        <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex xl:gap-9">
           {NAV_LINKS.map((l) => (
             <a key={l.href} href={l.href} onClick={(e) => onAnchor(e, l.href)} className="whitespace-nowrap py-3 text-[13px] text-muted transition-colors hover:text-ink">
               <span className="lp-link">{l.label}</span>
@@ -87,8 +79,8 @@ export function Nav() {
 
         <div className="flex items-center gap-2">
           {/* `.btn` is un-layered, so Tailwind's `hidden` cannot hide it: the wrapper does.
-              Below lg the bar is full; the call pill lives in the menu there. */}
-          <div className="hidden lg:block">
+              Below xl the bar is full; the call pill lives in the menu there. */}
+          <div className="hidden xl:block">
             <a href={BOOK_CALL_HREF} className="btn lp-btn-outline lp-nav-pill">
               Book a call
             </a>
@@ -96,7 +88,7 @@ export function Nav() {
           <Link href={STUDIO_HREF} className="btn btn-primary lp-nav-pill">
             Open studio <ArrowUpRight size={14} />
           </Link>
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
               type="button"
               className="btn btn-ghost btn-sm !px-2"
@@ -114,7 +106,7 @@ export function Nav() {
       <div
         id="lp-mobile-menu"
         hidden={!open}
-        className="lp-light fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-border bg-bg text-ink md:hidden"
+        className="lp-light fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-border bg-bg text-ink lg:hidden"
       >
         <nav aria-label="Mobile" className="lp-container flex flex-col py-6">
           {NAV_LINKS.map((l) => (

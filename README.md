@@ -5,7 +5,7 @@ Everything Unifictional ships, in one repo. Three apps, each with its own `packa
 | What | Folder | Live | Docs to read first |
 |---|---|---|---|
 | **Marketing site + AI website builder** — unifictional.com, the booking flow, and the pipeline that researches, designs, writes, checks and publishes a client site on Trigger.dev | [`unifictional-site/`](unifictional-site/) | https://unifictional.com | [`HANDOFF.md`](unifictional-site/HANDOFF.md) · [`AI-BUILD.md`](unifictional-site/AI-BUILD.md) · [`SEO.md`](unifictional-site/SEO.md) · [`BOOKING_SETUP.md`](unifictional-site/BOOKING_SETUP.md) |
-| **Client Portal / SEO Autopilot** — the product: sign up → build a plan → pay on Square → posts researched, written, checked and published automatically; an AI strategist the client talks to; the studio back office | [`Client Portal/`](Client%20Portal/) | https://unifictional-client-portal.vercel.app | [`README.md`](Client%20Portal/README.md) · [`AGENTS.md`](Client%20Portal/AGENTS.md) |
+| **Client Portal / SEO Autopilot** — the product: sign up → build a plan → pay on Square → posts researched, written, checked and published automatically; an AI strategist the client talks to; the studio back office | [`Client Portal/`](Client%20Portal/) | https://unifictional-portal.com (the old unifictional-client-portal.vercel.app redirects) | [`README.md`](Client%20Portal/README.md) · [`AGENTS.md`](Client%20Portal/AGENTS.md) |
 | **3D Remodel Studio (MANHATTAN)** — photo → 3D twin → live-priced redesign → photoreal render; 2 free scans per IP, then a $1 unlock billed through the portal | [`3D Studio/`](3D%20Studio/) | https://3d.unifictional.com | [`README.md`](3D%20Studio/README.md) · [`AGENTS.md`](3D%20Studio/AGENTS.md) |
 | Superseded marketing site (kept for reference only, never deploy it) | [`archive/startup-web/`](archive/startup-web/) | — | — |
 
@@ -28,7 +28,7 @@ Secrets never live in the repo. Vercel holds every production env var (sensitive
 
 ## How the pieces connect
 
-- **unifictional.com** sends people two places: the 3D Studio (the terracotta "Try the 3D studio" pill in the header, the big section under the hero, the closing CTA) and the portal's `/signup` ("Start SEO Autopilot").
+- **unifictional.com** presents the platform as one thing: the "Platform" section under the hero (`components/sections/platform.tsx`) shows the website builder (→ book a call), SEO Autopilot (→ the portal's `/signup`) and the 3D Studio (→ 3d.unifictional.com/studio) side by side; the gold "Try the 3D studio" pill in the header and the closing CTA repeat the ways in.
 - **Sign-up** creates the login and the company; the first sign-in lands on `/autopilot`, where the plan builder takes them to Square checkout. Access unlocks the moment Square confirms the subscription; the client can cancel from the same page.
 - **Posts publish** to the blog the portal hosts for the client (`/b/<company>`, the zero-access default), to WordPress (application password), or to a site Unifictional hosts (feed + revalidate ping). Builders with no API (GoDaddy, Squarespace) get a paste-in Inbox request instead.
 - **The 3D Studio** calls the portal's `/api/public/3d/*` (shared `PLATFORM_KEY`) to count free scans and sell the $1 unlock; the portal's Plans page lists the studio next to everything else you can buy.

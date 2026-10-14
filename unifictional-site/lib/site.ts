@@ -62,6 +62,7 @@ export type NavLink = { label: string; href: string };
 // Six items is the ceiling before the desktop bar gets cramped — /faq stays
 // reachable from the footer, the contact page, and every guide.
 export const navLinks: NavLink[] = [
+  { label: "Platform", href: "/#platform" },
   { label: "Services", href: "/services" },
   { label: "Industries", href: "/industries" },
   { label: "Work", href: "/work" },

@@ -15,7 +15,7 @@ import { LpHeading } from './LpHeading';
 import { Reveal } from './Reveal';
 import { SwatchVisual, isImageSwatch } from './Swatch';
 import { ensureGsap } from './motion';
-import { DEMO, ROOMS, SECTIONS } from './content';
+import { DEMO, ROOMS, SECTIONS, opensStudio } from './content';
 
 function palette(ids: readonly string[]): MaterialDef[] {
   return ids.map((id) => CATALOG_BY_ID[id]).filter((m): m is MaterialDef => Boolean(m));
@@ -116,7 +116,7 @@ export function RoomTypes() {
                         </li>
                       ))}
                     </ul>
-                    <Link href={room.href} className="btn mt-7">
+                    <Link href={room.href} {...opensStudio(room.href)} className="btn mt-7">
                       Open the {room.name.toLowerCase()} demo <ArrowUpRight size={14} />
                     </Link>
                   </div>

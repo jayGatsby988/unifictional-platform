@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { navLinks, siteConfig } from "@/lib/site";
+import { navLinks, newTab, siteConfig } from "@/lib/site";
 import { BookCall, StudioCta } from "@/components/ui/button";
 import { AnimatedThemeToggleButton } from "@/components/ui/animated-theme-toggle-button";
 
@@ -130,6 +130,7 @@ export function Nav() {
               <Link
                 key={l.href}
                 href={l.href}
+                {...newTab(l.href)}
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "py-3 font-sans text-sm transition-colors",
@@ -203,6 +204,7 @@ export function Nav() {
             <Link
               key={l.href}
               href={l.href}
+              {...newTab(l.href)}
               onClick={() => setOpen(false)}
               className="border-b border-line py-4 font-display text-3xl text-ink transition-colors hover:text-terracotta"
             >

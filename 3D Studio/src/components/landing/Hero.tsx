@@ -7,7 +7,7 @@ import { DisplaceHeadline } from './DisplaceHeadline';
 import { ExampleEstimate, type EstimateSide } from './ExampleEstimate';
 import { LpEyebrow } from './LpHeading';
 import { useScrollTo } from './SmoothScroll';
-import { DEMO, HERO, HERO_ID, STUDIO_HREF } from './content';
+import { DEMO, HERO, HERO_ID, STUDIO_HREF, opensStudio } from './content';
 
 export function Hero() {
   const [side, setSide] = useState<EstimateSide>('before');
@@ -33,7 +33,7 @@ export function Hero() {
           <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted">{HERO.sub}</p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Link href={STUDIO_HREF} className="btn btn-primary btn-lg">
+            <Link href={STUDIO_HREF} {...opensStudio(STUDIO_HREF)} className="btn btn-primary btn-lg">
               {HERO.primary} <ArrowRight size={16} />
             </Link>
             <button type="button" className="btn lp-btn-outline btn-lg" onClick={() => scrollTo('#how', 0)}>

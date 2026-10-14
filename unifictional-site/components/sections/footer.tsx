@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Container } from "@/components/ui/container";
-import { footerNav, siteConfig } from "@/lib/site";
+import { footerNav, newTab, siteConfig } from "@/lib/site";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -33,6 +33,7 @@ export function Footer() {
                     <li key={`${group.heading}-${l.label}`}>
                       <Link
                         href={l.href}
+                        {...newTab(l.href)}
                         className="inline-block py-2 text-sm text-bonefixed/75 transition-colors hover:text-bonefixed sm:py-1"
                       >
                         <span className="link-underline">{l.label}</span>

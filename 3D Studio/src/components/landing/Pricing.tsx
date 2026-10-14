@@ -4,13 +4,13 @@ import { ArrowUpRight, Check } from 'lucide-react';
 import { LpHeading } from './LpHeading';
 import { Reveal } from './Reveal';
 import { cx } from './cx';
-import { SECTIONS, TIERS } from './content';
+import { SECTIONS, TIERS, opensStudio } from './content';
 
 function Cta({ href, label, primary }: { href: string; label: string; primary: boolean }) {
   const className = cx('btn mt-7 w-full', primary && 'btn-primary');
   if (href.startsWith('/')) {
     return (
-      <Link href={href} className={className}>
+      <Link href={href} {...opensStudio(href)} className={className}>
         {label} <ArrowUpRight size={14} />
       </Link>
     );

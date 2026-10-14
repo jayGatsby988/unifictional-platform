@@ -11,7 +11,7 @@ import { useEffect, useState, type MouseEvent } from 'react';
 import { cx } from './cx';
 import { useOverElement, useScrolledPast } from './motion';
 import { getLenis, useScrollTo } from './SmoothScroll';
-import { BOOK_CALL_HREF, HERO_ID, NAV_LINKS, STUDIO_HREF, UNIFICTIONAL_HREF } from './content';
+import { BOOK_CALL_HREF, HERO_ID, NAV_LINKS, STUDIO_HREF, UNIFICTIONAL_HREF, opensStudio } from './content';
 
 const HEADER_PX = 64; // h-16
 
@@ -85,7 +85,7 @@ export function Nav() {
               Book a call
             </a>
           </div>
-          <Link href={STUDIO_HREF} className="btn btn-primary lp-nav-pill">
+          <Link href={STUDIO_HREF} {...opensStudio(STUDIO_HREF)} className="btn btn-primary lp-nav-pill">
             Open studio <ArrowUpRight size={14} />
           </Link>
           <div className="lg:hidden">
@@ -120,7 +120,7 @@ export function Nav() {
             </a>
           ))}
           <div className="mt-8 flex flex-col gap-3">
-            <Link href={STUDIO_HREF} className="btn btn-primary btn-lg">
+            <Link href={STUDIO_HREF} {...opensStudio(STUDIO_HREF)} className="btn btn-primary btn-lg">
               Open studio <ArrowUpRight size={16} />
             </Link>
             <a href={BOOK_CALL_HREF} className="btn lp-btn-outline btn-lg">

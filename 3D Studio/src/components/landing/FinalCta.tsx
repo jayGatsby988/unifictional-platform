@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { LpHeading } from './LpHeading';
 import { Reveal } from './Reveal';
-import { FINAL_CTA } from './content';
+import { FINAL_CTA, opensStudio } from './content';
 
 export function FinalCta() {
   return (
@@ -22,7 +22,7 @@ export function FinalCta() {
             intro={FINAL_CTA.body}
           />
           <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <Link href={FINAL_CTA.primary.href} className="btn btn-primary btn-lg">
+            <Link href={FINAL_CTA.primary.href} {...opensStudio(FINAL_CTA.primary.href)} className="btn btn-primary btn-lg">
               {FINAL_CTA.primary.label} <ArrowRight size={16} />
             </Link>
             <a href={FINAL_CTA.secondary.href} className="btn lp-btn-outline btn-lg">

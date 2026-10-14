@@ -63,6 +63,10 @@ export const AUTOPILOT_SIGNUP_URL = `${(process.env.NEXT_PUBLIC_PORTAL_URL || "h
 
 export type NavLink = { label: string; href: string };
 
+/** Anything off this site (the studios, the portal) opens in a new tab, so unifictional.com stays open behind it. */
+export const newTab = (href: string) =>
+  /^https?:\/\//.test(href) ? { target: "_blank", rel: "noopener noreferrer" } : {};
+
 // Six items is the ceiling before the desktop bar gets cramped — /faq stays
 // reachable from the footer, the contact page, and every guide.
 export const navLinks: NavLink[] = [

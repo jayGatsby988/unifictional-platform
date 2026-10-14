@@ -5,6 +5,8 @@
 import { DEFAULT_SELECTIONS } from '@/lib/materials/catalog';
 
 export const STUDIO_HREF = '/studio';
+/** The studio always opens in a new tab, so this page stays open behind it. */
+export const opensStudio = (href: string) => (href.startsWith('/studio') ? ({ target: '_blank', rel: 'noopener' } as const) : {});
 /** Enterprise contact. Confirm this mailbox exists before launch (see integration notes). */
 export const CONTACT_EMAIL = 'hello@unifictional.com';
 /** The agency that owns the studio: every header and footer links back. */

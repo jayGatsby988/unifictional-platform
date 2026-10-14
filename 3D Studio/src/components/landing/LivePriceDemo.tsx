@@ -19,7 +19,7 @@ import { LpHeading } from './LpHeading';
 import { Reveal } from './Reveal';
 import { SwatchVisual, tierLabel } from './Swatch';
 import { cx } from './cx';
-import { DEMO_PICKS, EXAMPLE_REGION, SECTIONS } from './content';
+import { DEMO_PICKS, EXAMPLE_REGION, SECTIONS, opensStudio } from './content';
 
 type GroupKey = keyof typeof DEMO_PICKS;
 interface Group {
@@ -187,7 +187,7 @@ export function LivePriceDemo() {
             <p className="mt-4 text-[11.5px] leading-relaxed text-dim">
               {est.lines.length} lines, each with separate material and labor ranges. Planning-grade ±15–20%; not a bid.
             </p>
-            <Link href="/studio?demo=kitchen" className="btn btn-primary mt-5 w-full">
+            <Link href="/studio?demo=kitchen" {...opensStudio("/studio?demo=kitchen")} className="btn btn-primary mt-5 w-full">
               Open this kitchen in the studio <ArrowUpRight size={14} />
             </Link>
           </div>

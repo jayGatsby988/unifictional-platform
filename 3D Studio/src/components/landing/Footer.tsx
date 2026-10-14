@@ -7,7 +7,7 @@
 import Link from 'next/link';
 import type { MouseEvent } from 'react';
 import { useScrollTo } from './SmoothScroll';
-import { FOOTER } from './content';
+import { FOOTER, opensStudio } from './content';
 
 type AnchorHandler = (e: MouseEvent<HTMLAnchorElement>, href: string) => void;
 
@@ -24,7 +24,7 @@ function FooterLink({ href, label, onAnchor }: { href: string; label: string; on
   }
   if (href.startsWith('/')) {
     return (
-      <Link href={href} className={LINK}>
+      <Link href={href} {...opensStudio(href)} className={LINK}>
         {inner}
       </Link>
     );

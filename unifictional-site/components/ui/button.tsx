@@ -3,9 +3,9 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight, type LucideIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { BOOKING_URL, CONTACT_PATH, STUDIO_URL } from "@/lib/site";
+import { BOOKING_URL, CONTACT_PATH } from "@/lib/site";
 
-type Variant = "solid" | "outline" | "link" | "bone" | "light" | "accent";
+type Variant = "solid" | "outline" | "link" | "bone" | "light";
 type Size = "default" | "lg";
 
 const sizeClasses: Record<Size, string> = {
@@ -31,7 +31,6 @@ const textClass: Record<Variant, string> = {
   light: "text-inkfixed",
   outline: "text-ink",
   link: "text-ink hover:text-terracotta",
-  accent: "text-inkfixed",
 };
 
 /** Surface layer (tint + rim + lift) per variant. */
@@ -44,8 +43,6 @@ const surfaceClass: Record<Variant, string> = {
   outline:
     "bg-bone/40 ring-1 ring-inset ring-ink/20 backdrop-blur-sm transition-colors group-hover:bg-ink/[0.05] group-hover:ring-ink/35",
   link: "",
-  // accent → the one coloured pill on the site: the 3D studio's gold, the thing a visitor can use right now
-  accent: "bg-studio shadow-btn ring-1 ring-inset ring-black/10 transition-colors group-hover:bg-studio/90",
 };
 
 const base =
@@ -168,28 +165,7 @@ export function BookCall({
 }
 
 /** Where the self-serve product lives: the Client Portal's sign-up, which lands on the SEO Autopilot plan builder. */
-export const PORTAL_URL = (process.env.NEXT_PUBLIC_PORTAL_URL || "https://unifictional-portal.com").replace(/\/+$/, "");
-
-/** The 3D Remodel Studio: the one thing on the site a visitor can use this minute, so it gets the accent pill. */
-export function StudioCta({
-  label = "Try the 3D studio",
-  variant = "accent",
-  size = "default",
-  className,
-  icon = "up-right",
-}: {
-  label?: string;
-  variant?: Variant;
-  size?: Size;
-  className?: string;
-  icon?: CtaButtonProps["icon"];
-}) {
-  return (
-    <CtaButton href={STUDIO_URL} external variant={variant} size={size} icon={icon} className={className} ariaLabel={label}>
-      {label}
-    </CtaButton>
-  );
-}
+export const PORTAL_URL = (process.env.NEXT_PUBLIC_PORTAL_URL || "https://unifictional-client-portal.vercel.app").replace(/\/+$/, "");
 
 /** The self-serve CTA: no call, no form, straight into the plan builder. */
 export function StartAutopilot({

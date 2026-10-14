@@ -1,7 +1,7 @@
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Reveal } from "@/components/ui/reveal";
-import { BookCall, CtaButton, StartAutopilot, StudioCta } from "@/components/ui/button";
+import { BookCall, CtaButton, StartAutopilot } from "@/components/ui/button";
 
 /** The closing prompt above the footer on every page. */
 export function FinalCta({
@@ -30,7 +30,6 @@ export function FinalCta({
           <div className="mt-2 flex flex-col gap-4 sm:flex-row">
             <StartAutopilot variant="solid" size="lg" />
             <BookCall variant="outline" size="lg" />
-            <StudioCta variant="link" size="lg" />
             <CtaButton href="/work" variant="link" size="lg" icon="up-right">
               See the work
             </CtaButton>

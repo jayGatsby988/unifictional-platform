@@ -20,7 +20,6 @@ import { inspectSite, judgeShots, leanReport } from "./inspect";
 import { byType, byId } from "./components";
 import { resolveImages, navImages, countOwnPhotos } from "./images";
 import { renderSite, componentsUsed } from "./renderer";
-import { lightenSite } from "./lighten";
 import { audit, keywordPlan, schemaForPage } from "./seo";
 import { blobConfigured, buildPath, pagePath, readJson, saveBinary, saveHtml, saveJson, saveLead, recentChoices, type LeadRecord } from "./storage";
 import { sendBuildFailed, sendBuildReady } from "./emails";
@@ -331,7 +330,7 @@ async function planOnce(job: BuildJob, feedback: string[] = [], attempt = 1): Pr
       lessonsBlock(job.lessons || []),
       `EFFECTS IN THE RIGHT PLACE (choose an effect because its content asks for it; the gate rejects an effect without what it needs):\n${fitTable()}`,
       job.hook ? `HOOK STRATEGY (build the home page around this):\n${JSON.stringify(job.hook, null, 1)}` : "",
-      job.videoRequested ? "A HERO VIDEO IS BEING GENERATED from their work: the home page's first section must be \"hero-video-scrub\" (fields: eyebrow with the city, headline = the hook claim as two lines split with \" / \", sub = one sentence, cta = the ask, cta2 = see the work, beats = one more two-line proof, ask = {eyebrow, title, cta}, image = the flagship photo)." : "NO HERO FILM THIS TIME: the home page's first section must be \"split-intro\", the plain photo opening (fields: eyebrow with the city, headline = the hook claim in one line, sub = one sentence, cta = the ask, images = the two best real photos of their work, the flagship first). No other hero on the home page.",
+      job.videoRequested ? "A HERO VIDEO IS BEING GENERATED from their work: the home page's first section must be \"hero-video-scrub\" (fields: eyebrow with the city, headline = the hook claim as two lines split with \" / \", sub = one sentence, cta = the ask, cta2 = see the work, beats = one more two-line proof, ask = {eyebrow, title, cta}, image = the flagship photo)." : "",
       `RESEARCH DOSSIER:\n${JSON.stringify(d, null, 1)}`,
       `BRAND ASSETS FOUND ON THEIR SITE:\nlogo: ${a.logo ? `${a.logo.kind}${a.logo.url ? " " + a.logo.url : ""} (on a dark page: ${a.logo.onDark || "unknown"})` : "none"}\nbrand colour candidates (hex, most used first): ${(a.colors || []).join(", ") || "none"}\nfonts on their site: ${(a.fonts || []).join(", ") || "none"}\ndomain: ${a.domain || "none"}`,
       `WHAT THE OWNER TOLD US:\n${leadBrief(job.lead)}`,
@@ -385,13 +384,8 @@ async function planOnce(job: BuildJob, feedback: string[] = [], attempt = 1): Pr
         const old = first && byType[first.type]?.kind === "hero" ? first : null;
         const hero = { type: "hero-video-scrub", component: "hero-video-scrub", brief: `The generated clip of ${job.hook?.flagship?.title || "their flagship work"} plays as the visitor scrolls. At rest: eyebrow = city + service area, the company's name, sub = one sentence, cta = the ask, cta2 = see the work. On the scroll: headline = the hook claim as two lines, one more two-line proof beat, then ask.title + ask.cta. image = ${chooseSourceImage(job)}.`, facts: old?.facts || [], photos: [chooseSourceImage(job)] };
         if (old) home.sections[0] = hero; else home.sections.unshift(hero);
-      } else if (!job.videoRequested && first?.type !== "split-intro") {
-        // no film: the home page opens on the plain photo hero, never on an effect
-        const old = first && byType[first.type]?.kind === "hero" ? first : null;
-        const photos = [...new Set([...(old?.photos || []), chooseSourceImage(job), ...(job.dossier?.photos || []).map((p) => p?.url)].filter(Boolean))].slice(0, 2);
-        const hero = { type: "split-intro", component: "split-intro", brief: `The plain photo opening: eyebrow = city + service area, headline = the hook claim in one line, sub = one sentence, cta = the ask, images = ${photos.join(" and ") || "their two best real photos"} (the flagship first).`, facts: old?.facts || [], photos };
-        if (old) home.sections[0] = hero; else home.sections.unshift(hero);
-        stamp(job, "plan: no film; the home page opens on the plain photo hero (split-intro)");
+      } else if (!job.videoRequested && first?.type === "hero-video-scrub") {
+        home.sections[0] = { ...first, type: "hero-split", component: "scroll-41" };
       }
     }
     if (!byId[plan.nav?.menu] || byId[plan.nav.menu].kind !== "menu") plan.nav = { ...(plan.nav || {}), menu: offer.menus[0] || "menu-8" };
@@ -458,10 +452,10 @@ function autoFixPlan(job: BuildJob) {
   for (const p of plan.pages || []) (p.sections || []).forEach((sec, i) => { const c = byType[sec.type]; if (!c || c.id === c.type) return; useCount[c.id] = (useCount[c.id] || 0) + 1; const limit = c.weight === "light" && (plan.pages || []).length > 12 ? 3 : 2; if (useCount[c.id] <= limit) return; const to = Array.isArray(sec.items) && sec.items.length ? "services" : /"images"|"slides"/.test(c.fields || "") ? "gallery" : "text"; if (!byType[to]) return; stamp(job, `plan: ${p.slug} §${i + 1} ${sec.type} used more than ${limit}×; now ${to}`); sec.type = to; sec.component = byType[to].id; });
   // the video hero is there when a film is coming and not when it is not
   const home = (plan.pages || []).find(p => p.slug === "index");
-  if (home && home.sections?.length) { const first = home.sections[0]; if (job.videoRequested && first.type !== "hero-video-scrub") { home.sections[0] = { ...first, type: "hero-video-scrub", component: "hero-video-scrub" }; stamp(job, "plan: home opens with the film"); } if (!job.videoRequested && first.type !== "split-intro") { home.sections[0] = { ...first, type: "split-intro", component: "split-intro" }; } }
+  if (home && home.sections?.length) { const first = home.sections[0]; if (job.videoRequested && first.type !== "hero-video-scrub") { home.sections[0] = { ...first, type: "hero-video-scrub", component: "hero-video-scrub" }; stamp(job, "plan: home opens with the film"); } if (!job.videoRequested && first.type === "hero-video-scrub") { home.sections[0] = { ...first, type: "hero-split", component: "scroll-41" }; } }
   // a type pair or menu the previous build used: pick the next offered one
   const rec = job.qa?.recent || [];
-  if (plan.theme?.pair && !plan.theme.pairFromTheirFonts && (plan.theme.pair === "oswald" || rec[0]?.pair === plan.theme.pair)) { const pairs = ["clash", "archivo", "anton", "jost", "syne", "serif", "fraunces", "bricolage", "grotesk"].filter(x => x !== plan.theme.pair && !rec.some(r => r.pair === x)); if (pairs.length) { stamp(job, `plan: type pair ${plan.theme.pair} was the agency's or the previous build's; now ${pairs[0]}`); plan.theme.pair = pairs[0]; } }
+  if (plan.theme?.pair && (plan.theme.pair === "oswald" || rec[0]?.pair === plan.theme.pair)) { const pairs = ["clash", "archivo", "anton", "jost", "syne", "serif", "fraunces", "bricolage", "grotesk"].filter(x => x !== plan.theme.pair && !rec.some(r => r.pair === x)); if (pairs.length) { stamp(job, `plan: type pair ${plan.theme.pair} was the agency's or the previous build's; now ${pairs[0]}`); plan.theme.pair = pairs[0]; } }
   if (plan.nav?.menu && rec.some(r => r.menu === plan.nav.menu)) { const menus = offerFor(job.id, 2, { menus: rec.map(r => r.menu).filter(Boolean) }).menus.filter(m => m !== plan.nav.menu); if (menus.length) { stamp(job, `plan: menu ${plan.nav.menu} was a recent build's; now ${menus[0]}`); plan.nav.menu = menus[0]; } }
   // four text-only sections in a row: the second becomes a photo-led block (a designer would do the same without re-planning)
   for (const p of plan.pages || []) {
@@ -693,37 +687,7 @@ function assembleSpec(job: BuildJob, only: string[] | null = null) {
   const missing = spec.pages.filter(p => p.slug !== "index" && !listed.has(p.slug));
   if (missing.length) spec.footer.columns = [...(spec.footer.columns || []), { title: "More", links: missing.map(p => ({ label: p.title || p.slug, href: p.slug })) }];
   enforceBrandWord(spec);
-  enforceTagline(spec, job.dossier);
   cleanTestimonials(spec);
-  return spec;
-}
-
-/** Research may paste a source after a fact ("… ([site](https://…))"); the words a visitor reads never carry one. */
-const stripCitations = (s = "") => String(s).replace(/\s*\(\[[^\]]*\]\([^)]*\)\)/g, "").replace(/\s*\[[^\]]*\]\(https?:\/\/[^)]*\)/g, "").trim();
-
-/**
- * Their slogan, on their site. When the research found the company's own
- * tagline it is kept as the brand tagline and must appear where a visitor
- * reads it: on the home page (the accent marquee carries it when no section
- * already does) and in the footer. The writers are free to use it anywhere
- * else as well.
- */
-export function enforceTagline(spec, dossier = {}) {
-  const tag = stripCitations(dossier?.tagline || spec.brand?.tagline || "");
-  if (!tag || tag.length < 6 || tag.length > 120) return spec;
-  spec.brand = spec.brand || {};
-  spec.brand.tagline = tag;
-  const low = tag.toLowerCase();
-  const home = (spec.pages || []).find(p => p.slug === "index");
-  if (home && !JSON.stringify(home.sections || []).toLowerCase().includes(low)) {
-    const marquee = (home.sections || []).find(s => s.type === "accent-marquee" && Array.isArray(s.items));
-    if (marquee) {
-      const asStrings = marquee.items.every(i => typeof i === "string");
-      marquee.items.unshift(asStrings ? tag : { ...(typeof marquee.items[0] === "object" && marquee.items[0] ? Object.fromEntries(Object.keys(marquee.items[0]).map(k => [k, ""])) : {}), text: tag });
-    }
-  }
-  spec.footer = spec.footer || { blurb: "", columns: [] };
-  if (!String(spec.footer.blurb || "").toLowerCase().includes(low)) spec.footer.blurb = spec.footer.blurb ? `${tag} ${spec.footer.blurb}` : tag;
   return spec;
 }
 /** Reviews without a real name are proof nobody believes: drop them; drop a testimonials section left empty (unless it is the home proof stack, which keeps at least one). */
@@ -761,27 +725,6 @@ const leanQa = (qa) => qa ? { rounds: qa.rounds, passed: qa.passed, score: qa.sc
  * the home only), wait for the hero clip (planned ⇒ delivered, or fail), hold
  * the spec to the gate, resolve and optimise images.
  */
-/**
- * No film, no film hero. When the clip was not delivered, any hero-video-scrub
- * on the site (planned, written, or put back by a repair round) becomes the
- * plain photo opening (split-intro) with its copy kept and a second real photo
- * borrowed from anywhere on the site or the dossier. Runs wherever a spec is
- * normalised, so a repair cannot resurrect a hero that has nothing to play.
- */
-export function photoOpeningWhenNoFilm(spec, job) {
-  if (spec?.video) return spec;
-  const key = (i) => String(i?.url || i?.query || "");
-  for (const p of spec.pages || []) for (const sec of p.sections || []) if (sec.type === "hero-video-scrub") {
-    const others = spec.pages.flatMap((pg) => (pg.sections || []).filter((s) => s !== sec).flatMap((s) => [s.image, ...(s.images || []), ...(s.items || []).map((it) => it?.image), ...(s.slides || []).map((it) => it?.image)]));
-    const second = others.find((i) => key(i) && key(i) !== key(sec.image))
-      || (job?.dossier?.photos || []).map((ph) => ({ url: ph.url, alt: ph.alt || ph.label || "" })).find((i) => i.url && i.url !== key(sec.image))
-      || null;
-    Object.assign(sec, { type: "split-intro", component: "split-intro", headline: String(sec.headline || "").replace(/\s*\/\s*/g, " "), images: [sec.image, second].filter(Boolean) });
-    for (const k of ["beats", "ask", "cta2", "image", "word"]) delete sec[k];
-  }
-  return spec;
-}
-
 async function prepareSpec(job: BuildJob, only: string[] | null) {
   const d = job.dossier || {};
   const spec = assembleSpec(job, only);
@@ -796,7 +739,7 @@ async function prepareSpec(job: BuildJob, only: string[] | null) {
       else { stamp(job, `hero film ${vm ? vm.status + (vm.error ? ": " + vm.error : "") : "not delivered in time"}; the home page opens on their best photo instead`); note(job, "hero: photo instead of the film", vm?.error || "the film was not ready in time"); }
     }
   }
-  photoOpeningWhenNoFilm(spec, job);
+  if (!spec.video) for (const p of spec.pages) for (const sec of p.sections) if (sec.type === "hero-video-scrub") { sec.type = "hero-split"; sec.component = "scroll-41"; sec.word = brandWord(spec.brand?.name); }
   enforceBrandWord(spec);
   const sg = gateSpec(spec, job);
   for (const w of sg.warnings) stamp(job, `site note: ${w}`);
@@ -819,7 +762,7 @@ async function prepareSpec(job: BuildJob, only: string[] | null) {
 async function qaLoop(job: BuildJob, spec, { rounds, homeOnly, lockIndex, cat, imgMap, previewBase, label }) {
   const state = { rendered: [], exported: [], htmlBefore: 0, htmlAfter: 0 };
   const renderStore = async () => {
-    ruleLayer(spec); enforceBrandWord(spec); photoOpeningWhenNoFilm(spec, job);
+    ruleLayer(spec); enforceBrandWord(spec);
     state.rendered = renderSite(spec, { base: previewBase });
     state.exported = renderSite(spec, { base: "" });
     state.htmlBefore = 0; state.htmlAfter = 0;
@@ -979,18 +922,10 @@ export async function finishSite(job: BuildJob): Promise<boolean> {
       stamp(job, `site delivered at its best version (${r.lastGood?.score ?? r.verdict?.score ?? "—"}/100) with ${job.needsLook.length} note${job.needsLook.length === 1 ? "" : "s"} for the owner`);
     }
     rendered = r.rendered;
-    let exported = r.exported;
+    const exported = r.exported;
 
     job.weight = { images: imgReport, html: { before: r.htmlBefore, after: r.htmlAfter } };
     stamp(job, `markup minified: ${kb(r.htmlBefore)} → ${kb(r.htmlAfter)} gzipped across ${rendered.length} pages`);
-
-    /* the lightener: the same site to the eye with fewer bytes; every change is photographed before and after and kept only when nothing looks different */
-    if (process.env.BUILD_LIGHTEN !== "0") {
-      try {
-        const light = await withTimeout(lightenSite({ job, rendered, exported, stamp: (m) => stamp(job, m) }), Number(process.env.BUILD_LIGHTEN_MS || 240_000) + 60_000, "lightener");
-        if (light) { rendered = light.rendered; exported = light.exported; job.weight.light = light.report; }
-      } catch (e) { stamp(job, `lightener skipped: ${describeError(e)}`); }
-    }
     const finalAudits = rendered.map(x => audit(x.html, { ...spec, seo: spec.pages.find(p => p.slug === x.slug)?.seo || {} }));
     const score = Math.round(finalAudits.reduce((s, a) => s + a.score, 0) / finalAudits.length);
     const components = componentsUsed(spec);
@@ -1050,7 +985,6 @@ async function judgeSite(job: BuildJob, spec, report, ig, { homeOnly = false, ex
   const content = [
     { type: "text", text: homeOnly ? "YOU ARE JUDGING THE HOME PAGE ONLY (desktop and phone), plus frames of its hero clip. The inner pages come later, built to this page's pattern, so this is the page that has to be right." : `YOU ARE JUDGING THE WHOLE SITE. The home page already passed its own gate${job.homeApproved ? " and is locked" : ""}; judge the inner pages hardest.` },
     { type: "text", text: lessonsBlock(job.lessons || []) || "" },
-    { type: "text", text: spec.video ? "" : "NO HERO FILM ON THIS BUILD: the home page opens on split-intro, the plain two-photo opening, by design. Judge it as a photo opening on its own terms; do not ask for hero-video-scrub or a scroll-driven clip." },
     { type: "text", text: `COMPANY: ${spec.brand.name} (${spec.brand.industry || ""}, ${spec.brand.city || ""})\n\nHOOK STRATEGY:\n${JSON.stringify(job.hook || {}, null, 1)}\n\nPAGES: ${spec.pages.map(p => p.slug).join(", ")}\nHOME SECTIONS (in order): ${(spec.pages.find(p => p.slug === "index")?.sections || []).map((s, i) => `${i + 1}. ${s.type}`).join(", ")}\nTHEIR LOGO: ${spec.brand.logo?.url ? "found and used" : "none found (wordmark)"}\nREAL PHOTOS AVAILABLE: ${(job.dossier?.photos || []).length} (every photo taken from their own website and media library counts as theirs, whatever it looks like)\nSTOCK PHOTOS ACTUALLY USED: ${stockPlacements(spec).length ? stockPlacements(spec).join(", ") : "none"} (only these are stock; do not call any other photo stock)\n\nWHAT THE BROWSER FOUND (hard errors already counted): ${ig.errors.length ? ig.errors.join("; ") : "nothing"}\n\nThe screenshots follow, each labelled. Section numbers in the labels (s01, s02…) are the 1-based section numbers.` },
     ...shots.flatMap(s => [{ type: "text", text: `[${s.label}]` }, { type: "image", source: { type: "base64", media_type: "image/jpeg", data: s.data } }]),
     { type: "text", text: "Judge the site now. Return the JSON only." },
@@ -1214,7 +1148,7 @@ export async function runPublish(job: BuildJob): Promise<boolean> {
     await leadRecord(job, "debug");
     const imgMap = new Map();
     const renderStore = async () => {
-      ruleLayer(spec); enforceBrandWord(spec); photoOpeningWhenNoFilm(spec, job);
+      ruleLayer(spec); enforceBrandWord(spec);
       const rendered = renderSite(spec, { base: previewBase });
       exported = renderSite(spec, { base: "" });
       for (const set of [rendered, exported]) for (const r of set) r.html = await minifyAssets(enhanceImages(r.html, imgMap));

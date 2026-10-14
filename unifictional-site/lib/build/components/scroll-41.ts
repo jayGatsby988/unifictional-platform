@@ -14,7 +14,7 @@ const c: Component = {
 .hero-split{height:100svh;position:relative;overflow:hidden}
 .hero-split__pin{position:relative;height:100svh}
 .hero-split__word{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:3;pointer-events:none;mix-blend-mode:${t.dark ? "difference" : "normal"}}
-.hero-split__word .letters{display:flex;font-family:var(--display);font-weight:${pair.weight};font-size:clamp(4rem,var(--word-vw,19vw),22rem);line-height:1;letter-spacing:${pair.track};text-transform:uppercase;color:${t.dark ? "#fff" : "var(--ink)"}}
+.hero-split__word .letters{display:flex;font-family:var(--display);font-weight:${pair.weight};font-size:clamp(4rem,19vw,22rem);line-height:1;letter-spacing:${pair.track};text-transform:uppercase;color:${t.dark ? "#fff" : "var(--ink)"}}
 .hero-split__img{position:absolute;inset:0;z-index:1;clip-path:polygon(37.5% 22%,62.5% 22%,62.5% 78%,37.5% 78%);transform:rotate(14deg) scale(.9)}
 .hero-split__img img{width:100%;height:100%;object-fit:cover;transform:scale(1.6)}
 .hero-split__img::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65),rgba(0,0,0,.05) 50%)}
@@ -45,7 +45,7 @@ const c: Component = {
 <section class="hero-split" id="top" data-fx="hero-split">
   <div class="hero-split__pin">
     <div class="hero-split__img"><img src="${esc(imgUrl(s.image, 2000))}" alt="${esc(s.image?.alt || "")}" fetchpriority="high"></div>
-    <div class="hero-split__word" style="--word-vw:${Math.min(19, Math.floor(148 / Math.max(4, word.replace(/ /g, "").length)))}vw"><div class="letters">${L}</div><div class="letters">${Rr}</div></div>
+    <div class="hero-split__word"><div class="letters">${L}</div><div class="letters">${Rr}</div></div>
     <div class="hero-split__copy">
       <h1>${esc(s.headline)}</h1>
       <p>${esc(s.sub)}</p>

@@ -3,17 +3,14 @@
 // One Anthropic client, a structured-output request and a research request
 // that may call the web_search server tool. Node runtime only.
 import Anthropic from "@anthropic-ai/sdk";
-import { describeOpenAIError, hasOpenAIKey, isOpenAIModel, researchOpenAI, structuredOpenAI } from "./openai";
 
 // Default model for every agent, overridable per phase:
 //   UNIF_MODEL (all), UNIF_MODEL_RESEARCH, UNIF_MODEL_PLAN, UNIF_MODEL_WRITE, UNIF_MODEL_REVIEW, UNIF_MODEL_SEO
-// Name an OpenAI model (gpt-6-astra, …) in any of them and that stage runs on OpenAI
-// through lib/build/openai.ts with the same calls; OPENAI_API_KEY must be set.
 export const MODEL = process.env.UNIF_MODEL || "claude-fable-5-1";
 export function modelFor(phase: "research" | "plan" | "write" | "review" | "seo" | "debug") {
   return process.env[`UNIF_MODEL_${phase.toUpperCase()}`] || MODEL;
 }
-export const hasKey = () => Boolean(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN) || (isOpenAIModel(MODEL) && hasOpenAIKey());
+export const hasKey = () => Boolean(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN);
 
 let client = null;
 const keyed = new Map();
@@ -34,7 +31,6 @@ export function parseJson(text) {
 
 // Turn an SDK error into a message a person can act on.
 export function describeError(e) {
-  if (e && e.constructor && /OpenAI/.test(e.constructor.name || "")) return describeOpenAIError(e);
   if (e instanceof Anthropic.AuthenticationError) return "The ANTHROPIC_API_KEY on the server was rejected. Check the key in the Vercel project settings.";
   if (e instanceof Anthropic.PermissionDeniedError) return "The API key does not have access to this model.";
   if (e instanceof Anthropic.RateLimitError) return "Rate limited by the Anthropic API.";
@@ -56,7 +52,6 @@ function userContent(user) {
 }
 
 export async function structured({ system, user, schema = null, onText, maxTokens = 32000, effort = "medium", model = MODEL, apiKey = "" }) {
-  if (isOpenAIModel(model)) return structuredOpenAI({ system, user, schema, onText, maxTokens, effort, model, apiKey });
   const c = anthropic(apiKey);
   const base = {
     model, max_tokens: maxTokens, system,
@@ -91,7 +86,6 @@ async function drain(stream, onText) {
 // `maxSearches` times. Resumes on pause_turn; reports each search and every
 // source it read. Returns the final text.
 export async function research({ system, user, maxSearches = 8, effort = "high", maxTokens = 24000, onEvent, model = MODEL }) {
-  if (isOpenAIModel(model)) return researchOpenAI({ system, user, maxSearches, effort, maxTokens, onEvent, model });
   const c = anthropic();
   const messages = [{ role: "user", content: user }];
   let toolType = "web_search_20260209";
@@ -135,18 +129,9 @@ export const PRICES = {
   "claude-opus-5": { input: 5, output: 25, cacheRead: 0.5, cacheWrite: 6.25 },
   "claude-sonnet-5-5": { input: 2, output: 10, cacheRead: 0.2, cacheWrite: 2.5 },
   "claude-haiku-5-5": { input: 0.1, output: 0.5, cacheRead: 0.01, cacheWrite: 0.125 },
-  // OpenAI models: list prices here are PLACEHOLDERS until confirmed; override with
-  // UNIF_PRICES_JSON='{"gpt-6-astra":{"input":..,"output":..,"cacheRead":..,"cacheWrite":0}}'.
-  "gpt-6-astra": { input: 2.5, output: 10, cacheRead: 1.25, cacheWrite: 0 },
 };
-try { Object.assign(PRICES, JSON.parse(process.env.UNIF_PRICES_JSON || "{}")); } catch { console.warn("[claude] UNIF_PRICES_JSON is not valid JSON; ignored"); }
 const SEARCH_PRICE = 0.01;
-const warned = new Set();
-const priceFor = (model) => {
-  if (PRICES[model]) return PRICES[model];
-  if (!warned.has(model)) { warned.add(model); console.warn(`[claude] no price for model ${model}; costing it as claude-fable-5-1`); }
-  return PRICES["claude-fable-5-1"];
-};
+const priceFor = (model) => PRICES[model] || PRICES["claude-fable-5-1"];
 export function emptyUsage() { return { calls: 0, input: 0, output: 0, cacheRead: 0, cacheWrite: 0, searches: 0, cost: 0, models: {} }; }
 // Cost is accumulated per call at that call's model price, so a mixed build adds up correctly.
 export function addUsage(total, usage, searches = 0, model = MODEL) {

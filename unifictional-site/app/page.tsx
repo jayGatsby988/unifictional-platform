@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { ScrubHero } from "@/components/sections/scrub-hero";
-import { Platform } from "@/components/sections/platform";
 import { Manifesto } from "@/components/sections/manifesto";
 import { Sectors } from "@/components/sections/sectors";
 import { StoryFrames } from "@/components/sections/story-frames";
@@ -30,9 +29,6 @@ export default function Home() {
     <>
       {/* The opening act — scroll-scrubbed drone footage. */}
       <ScrubHero />
-
-      {/* The platform, straight after the hero: the website builder, SEO Autopilot and the 3D studio, each with its way in. */}
-      <Platform />
 
       {/* Editorial promise. */}
       <Manifesto />

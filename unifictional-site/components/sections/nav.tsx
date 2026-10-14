@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { navLinks, siteConfig } from "@/lib/site";
-import { BookCall, StudioCta } from "@/components/ui/button";
+import { BookCall } from "@/components/ui/button";
 import { AnimatedThemeToggleButton } from "@/components/ui/animated-theme-toggle-button";
 
 /** Routes that open on a dark header. The nav starts in its light-on-dark
@@ -56,13 +56,7 @@ export function Nav() {
     };
   }, [pathname]);
 
-  // Close the menu when the route changes: state adjusted during render on a
-  // changed input, the React-sanctioned shape (no setState inside an effect).
-  const [seenPath, setSeenPath] = useState(pathname);
-  if (seenPath !== pathname) {
-    setSeenPath(pathname);
-    if (open) setOpen(false);
-  }
+  useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -153,9 +147,7 @@ export function Nav() {
             type="horizontal"
             onDark={dark ? (fixedDark ? "fixed" : "themed") : undefined}
           />
-          <div className="hidden items-center gap-2 md:flex">
-            {/* The studio is the one accent pill in the header: it stays terracotta over every surface. */}
-            <StudioCta label="Try the 3D studio" size="default" />
+          <div className="hidden md:block">
             {/* Over the always-black hero the pill is fixed white; over the
                 theme-flipping interior headers it inverts with the surface. */}
             <BookCall
@@ -209,8 +201,7 @@ export function Nav() {
               {l.label}
             </Link>
           ))}
-          <div className="mt-6 flex flex-col gap-3">
-            <StudioCta label="Try the 3D studio — free" size="lg" className="w-full" />
+          <div className="mt-6">
             <BookCall variant="solid" size="lg" className="w-full" />
           </div>
         </div>

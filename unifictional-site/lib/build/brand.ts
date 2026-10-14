@@ -81,7 +81,5 @@ export function applyBrand(target, analysis, { stampPrefix = "brand" } = {}) {
   if (mode && target.theme.mode !== mode) { notes.push(`${stampPrefix}: surface ${target.theme.mode || "(unset)"} → ${mode}, like their site`); target.theme.mode = mode; }
   const pair = pairForFonts(b.fonts);
   if (pair && target.theme.pair !== pair && target.theme.pair !== "custom") { notes.push(`${stampPrefix}: type pair ${target.theme.pair || "(unset)"} → ${pair}, closest to their ${(b.fonts || [])[0]}`); target.theme.pair = pair; }
-  // their type is their type: the variety rule (no pair twice in a row) must not undo it
-  if (pair && target.theme.pair === pair) target.theme.pairFromTheirFonts = true;
   return notes;
 }

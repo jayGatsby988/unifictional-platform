@@ -121,24 +121,3 @@ Free checks before spending, with `next dev` on port 3000 (dev routes return 404
 ## Reference sites the owner wants matched
 
 gofarconstruction.com, caldera-v4.vercel.app, squeeze-rentals.vercel.app, yetch-roofing.vercel.app and above all integrity-garage-floors.vercel.app. Every site must open with the film, mix studio sections with Awwwards pack effects, be different each time, read as the client's own, and never look like unifictional.com.
-
-## Running a stage on an OpenAI model (research branch `research/astra-provider`)
-
-`lib/build/openai.ts` mirrors the two model calls in `lib/build/claude.ts` (`structured`, `research`) on OpenAI's Responses API. Name an OpenAI model in any stage variable and that stage runs there, nothing else changes:
-
-```
-OPENAI_API_KEY=...            # Vercel + Trigger
-UNIF_MODEL_RESEARCH=gpt-6-astra   # or UNIF_MODEL_PLAN / _WRITE / _REVIEW / _SEO / _DEBUG, or UNIF_MODEL for all
-UNIF_PRICES_JSON='{"gpt-6-astra":{"input":2.5,"output":10,"cacheRead":1.25,"cacheWrite":0}}'   # real list prices; the built-in entry is a placeholder
-```
-
-What carries over: text and screenshot inputs, JSON-schema output (strict first, then non-strict, then prompt-only), web search in the research passes (`max_tool_calls` caps searches), token usage and cost accounting (cached input tokens count as cache reads).
-
-What does not: **team mode** (`lib/team/agent.ts`) drives Anthropic's tool loop directly and stays on Claude whatever the stage variables say. Prompt caching has no OpenAI equivalent in this layer; the `effort` word maps to `reasoning.effort`.
-
-How to compare: run the same booking twice with `BUILD_MODE` unset, once with `UNIF_MODEL_RESEARCH` (then `_WRITE`) on `gpt-6-astra`, and read `journal.json`, the QA pass rate and the cost line in the build email side by side.
-
-## The lightener and the slogan (added 2026-10-13)
-
-- **Lightener** (`lib/build/lighten.ts`), the last stage before delivery: drops inline CSS rules nothing on the page can use, lazy-loads media below the first section, collapses whitespace between tags; then opens the shipped and the lighter version of each page in Chromium (home on desktop + phone, up to six inner pages on desktop), compares the words, the section count, script errors, page height and greyscale thumbnails at several scroll positions, and keeps the lighter page only when they match. Unsampled pages follow the sample only when every sampled page passed. Stamp: `lightener: N of M pages lighter, … every lightened page photographed the same`. Env: `BUILD_LIGHTEN=0` turns it off, `BUILD_LIGHTEN_MS` (default 240000) is its budget.
-- **Their slogan** (`enforceTagline` in `pipeline.ts`): when the research found the company's own tagline it becomes `brand.tagline`, and it must appear on the home page (the accent marquee carries it when no section does) and in the footer. Inline citations research may have pasted after a fact are stripped first. Brand colour, logo, surface mode and type pair are enforced by `lib/build/brand.ts` (`applyBrand` at plan time).

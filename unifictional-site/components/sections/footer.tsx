@@ -49,7 +49,7 @@ export function Footer() {
           <p>
             © {year} {siteConfig.name}. All rights reserved.
           </p>
-          <p>Websites and full systems are scoped to your goals on a call. SEO Autopilot is priced in the open.</p>
+          <p>No pricing online — every system is scoped to your goals on a call.</p>
         </div>
       </Container>
 

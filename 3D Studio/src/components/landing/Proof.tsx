@@ -12,7 +12,7 @@ import { BeforeAfter } from './BeforeAfter';
 import { ExampleEstimate, type EstimateSide } from './ExampleEstimate';
 import { LpEyebrow } from './LpHeading';
 import { Reveal } from './Reveal';
-import { DEMO, HERO, PROOF, STUDIO_HREF } from './content';
+import { DEMO, HERO, PROOF, STUDIO_HREF, opensStudio } from './content';
 
 export function Proof() {
   const [side, setSide] = useState<EstimateSide>('before');
@@ -42,7 +42,7 @@ export function Proof() {
             </button>
           </div>
 
-          <Link href={STUDIO_HREF} className="mt-8 inline-flex items-center gap-2 text-[15px] font-medium text-ink transition-colors hover:text-brass">
+          <Link href={STUDIO_HREF} {...opensStudio(STUDIO_HREF)} className="mt-8 inline-flex items-center gap-2 text-[15px] font-medium text-ink transition-colors hover:text-brass">
             <span className="lp-link">{PROOF.link}</span> <ArrowUpRight size={16} />
           </Link>
         </Reveal>

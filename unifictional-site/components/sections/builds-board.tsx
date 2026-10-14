@@ -6,7 +6,7 @@ import { ArrowUpRight, Loader2, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Row = {
-  id: string; createdAt: string; updatedAt: string; status: string; stage: "building" | "done" | "failed" | "stalled"; minutes: number;
+  id: string; createdAt: string; updatedAt: string; status: string; stage: "building" | "done" | "failed" | "stalled" | "cancelled"; minutes: number;
   name: string; email: string; phone: string; businessName: string; website: string; companyDetails: string; services: string[]; message: string;
   previewUrl?: string; publishedUrl?: string; publishNote?: string; debugNotes?: string[]; pages?: string[]; score?: number; error?: string; cost?: number; log: string[];
   usage?: { calls: number; input: number; output: number; searches: number };
@@ -44,6 +44,7 @@ export function BuildsBoard() {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState<string | null>(null);
   const [retrying, setRetrying] = useState<string | null>(null);
+  const [cancelling, setCancelling] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -68,6 +69,12 @@ export function BuildsBoard() {
     const r = await fetch("/api/build/auth", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ key }) });
     if (r.ok) { setKey(""); void load(); } else setKeyError("That key is not right.");
   }
+  async function cancel(id: string) {
+    if (!window.confirm("Stop this build? Every running step is cancelled and it is marked cancelled on the board.")) return;
+    setCancelling(id);
+    try { await fetch("/api/build/cancel", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ id }) }); await load(); }
+    finally { setCancelling(null); }
+  }
   async function retry(id: string) {
     if (!confirm("Start a fresh build for this lead? It costs about $10 in API usage.")) return;
     setRetrying(id);
@@ -90,7 +97,7 @@ export function BuildsBoard() {
 
   const s = data.summary;
   const building = data.builds.filter((b) => b.stage === "building" || b.stage === "stalled");
-  const finished = data.builds.filter((b) => b.stage === "done" || b.stage === "failed");
+  const finished = data.builds.filter((b) => b.stage === "done" || b.stage === "failed" || b.stage === "cancelled");
 
   return (
     <div>
@@ -111,10 +118,10 @@ export function BuildsBoard() {
       </div>
 
       <Section title="Building right now" count={building.length} empty="Nothing is building. The next lead who confirms a call starts one.">
-        {building.map((b) => <BuildCard key={b.id} b={b} open={open === b.id} onToggle={() => setOpen(open === b.id ? null : b.id)} onRetry={retry} retrying={retrying === b.id} />)}
+        {building.map((b) => <BuildCard key={b.id} b={b} open={open === b.id} onToggle={() => setOpen(open === b.id ? null : b.id)} onRetry={retry} retrying={retrying === b.id} onCancel={cancel} cancelling={cancelling === b.id} />)}
       </Section>
       <Section title="Finished" count={finished.length} empty="No finished builds yet.">
-        {finished.map((b) => <BuildCard key={b.id} b={b} open={open === b.id} onToggle={() => setOpen(open === b.id ? null : b.id)} onRetry={retry} retrying={retrying === b.id} />)}
+        {finished.map((b) => <BuildCard key={b.id} b={b} open={open === b.id} onToggle={() => setOpen(open === b.id ? null : b.id)} onRetry={retry} retrying={retrying === b.id} onCancel={cancel} cancelling={cancelling === b.id} />)}
       </Section>
     </div>
   );
@@ -132,10 +139,10 @@ function Section({ title, count, empty, children }: { title: string; count: numb
   );
 }
 
-function BuildCard({ b, open, onToggle, onRetry, retrying }: { b: Row; open: boolean; onToggle: () => void; onRetry: (id: string) => void; retrying: boolean }) {
-  const pct = b.stage === "done" ? 100 : progress(b.status);
-  const tone = b.stage === "done" ? "text-ink" : b.stage === "failed" ? "text-terracotta" : b.stage === "stalled" ? "text-terracotta" : "text-ink";
-  const stageLabel = b.stage === "stalled" ? "Stalled (no update in 25 min)" : b.stage === "building" ? STEP_LABEL[b.status] || b.status : STEP_LABEL[b.stage];
+function BuildCard({ b, open, onToggle, onRetry, retrying, onCancel, cancelling }: { b: Row; open: boolean; onToggle: () => void; onRetry: (id: string) => void; retrying: boolean; onCancel: (id: string) => void; cancelling: boolean }) {
+  const pct = b.stage === "done" ? 100 : b.stage === "cancelled" ? 0 : progress(b.status);
+  const tone = b.stage === "done" ? "text-ink" : b.stage === "failed" || b.stage === "cancelled" ? "text-terracotta" : b.stage === "stalled" ? "text-terracotta" : "text-ink";
+  const stageLabel = b.stage === "stalled" ? "Stalled (no update in 25 min)" : b.stage === "cancelled" ? "Cancelled" : b.stage === "building" ? STEP_LABEL[b.status] || b.status : STEP_LABEL[b.stage];
   return (
     <li className="py-5">
       <div className="grid grid-cols-1 gap-3 md:grid-cols-12 md:items-center md:gap-6">
@@ -150,7 +157,7 @@ function BuildCard({ b, open, onToggle, onRetry, retrying }: { b: Row; open: boo
             {b.stage === "building" && <Loader2 className="h-3.5 w-3.5 animate-spin text-terracotta" />}
             <span>{stageLabel}</span>
           </div>
-          <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-line"><div className={cn("h-full rounded-full", b.stage === "failed" ? "bg-terracotta" : "bg-ink")} style={{ width: `${pct}%` }} /></div>
+          <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-line"><div className={cn("h-full rounded-full", b.stage === "failed" || b.stage === "cancelled" ? "bg-terracotta" : "bg-ink")} style={{ width: `${pct}%` }} /></div>
           {b.error && <p className="mt-2 whitespace-pre-line text-xs text-terracotta">{b.error}</p>}
         </div>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-ink-soft md:col-span-4 md:justify-end">
@@ -163,6 +170,7 @@ function BuildCard({ b, open, onToggle, onRetry, retrying }: { b: Row; open: boo
           {(b.stage === "failed" || b.stage === "stalled" || b.stage === "done") && (
             <button type="button" onClick={() => onRetry(b.id)} disabled={retrying} className="rounded-full border border-line px-3 py-1 text-xs text-ink-soft hover:border-ink hover:text-ink disabled:opacity-50">{retrying ? "Starting…" : "Rebuild"}</button>
           )}
+            {(b.stage === "building" || b.stage === "stalled") && <button type="button" onClick={() => onCancel(b.id)} disabled={cancelling} className="rounded-full border border-terracotta/60 px-3 py-1 text-xs text-terracotta hover:border-terracotta hover:bg-terracotta/10 disabled:opacity-50">{cancelling ? "Stopping…" : "Cancel build"}</button>}
         </div>
       </div>
       {open && (

@@ -38,6 +38,18 @@ the whole flow works locally. `/api/health` reports which providers are live.
 Try it without uploading anything: `/studio?demo=kitchen` (also `bathroom`,
 `exterior`).
 
+## The landing page's film
+
+The first screen of the landing page (`src/components/landing/Hero.tsx`) plays
+`public/hero/studio-demo.mp4` under the site's scrims, with
+`studio-demo-poster.jpg` as the first paint and the reduced-motion still. The
+film is a generated demo of the product (a phone scanning a kitchen, the twin
+rendering over it). To replace it, run `tools/hero-video.sh <clip.mp4> <name>`
+(1080p H.264 + poster, macOS tools only) and point `HERO_VIDEO` in
+`src/components/landing/content.ts` at the new name: the files are cached
+immutable, so a re-export always gets a new name. Without the mp4 the poster
+shows with a slow drift, so the page never breaks.
+
 ## Layout
 
 ```

@@ -167,3 +167,27 @@ a:focus-visible > .lp-link { background-size: 100% 1px; }
   .lp-acc-body { transition: none; }
   .lp-link { transition: none; }
 }
+
+/* ---- the film hero ---- */
+.lp-hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.lp-hero-overlay { will-change: transform, opacity; }
+/* no film yet (or it failed): the poster drifts slowly so the screen still breathes */
+@keyframes lp-kenburns {
+  from { transform: scale(1.04) translate3d(0.6%, 0.4%, 0); }
+  to { transform: scale(1.12) translate3d(-0.8%, -0.6%, 0); }
+}
+.lp-hero-still { transform-origin: 50% 50%; animation: lp-kenburns 38s ease-in-out infinite alternate; }
+
+/* ---- the site's pills: fixed white over the film, ink on the body, both with the glassy top rim ---- */
+.lp .lp-btn-light { background: rgba(255,255,255,0.95); color: #0a0a0a; border-color: rgba(0,0,0,0.05); box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.9), 0 1px 2px rgba(0,0,0,0.14), 0 10px 24px -12px rgba(0,0,0,0.45); }
+.lp .lp-btn-light:hover { background: #fff; border-color: rgba(0,0,0,0.08); }
+.lp .lp-btn-solid { background: var(--text); color: var(--bg); border-color: transparent; box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.16), 0 1px 2px rgba(0,0,0,0.16), 0 10px 24px -12px rgba(0,0,0,0.5); }
+.lp .lp-btn-solid:hover { background: color-mix(in oklab, var(--text) 88%, var(--bg)); border-color: transparent; }
+/* the arrow nudges on hover, like the site's CtaButton */
+.lp .btn > svg { transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+.lp .btn:hover > svg { transform: translateX(2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-hero-still { animation: none; }
+  .lp .btn > svg { transition: none; }
+}

@@ -65,18 +65,37 @@ export const AFTER_SELECTIONS: Record<string, string> = {
 export const EXAMPLE_REGION = 'seattle';
 export const EXAMPLE_REGION_LABEL = 'Seattle';
 
+/** The film behind the first screen. Drop a new export at a NEW path (the
+ *  file is cached immutable) and point these at it. The poster is the frame
+ *  the page paints before the film arrives, and the whole hero under
+ *  reduced motion. */
+export const HERO_VIDEO = {
+  mp4: '/hero/studio-demo.mp4',
+  poster: '/hero/studio-demo-poster.jpg',
+} as const;
+
 export const HERO = {
+  topLeft: 'Unifictional · 3D Studio',
+  topRight: 'Built for contractors',
   eyebrow: 'Photo → 3D twin → priced redesign',
-  headline: [
-    { text: "Your client's kitchen." },
-    { text: 'Rebuilt in 3D before' },
-    { text: 'the coffee cools.', accent: true },
-  ],
-  sub: 'Upload photos of a kitchen, bathroom or lot and, in about sixty seconds, you have an explorable 3D twin with 250+ real materials, live line-item pricing and photoreal renders from the client’s own photo.',
+  /** Rendered uppercase by the display face; every line is white, like the site. */
+  headline: [{ text: "Your client's kitchen." }, { text: 'Rebuilt in 3D before' }, { text: 'the coffee cools.' }],
+  sub: 'Point a phone at a kitchen, bathroom or lot. In about sixty seconds you have an explorable 3D twin with 250+ real materials, live line-item pricing and photoreal renders from the client’s own photo.',
   primary: 'Open the studio',
-  secondary: 'How it works',
+  secondary: 'See it on a real kitchen',
+  scrollHint: 'Scroll to see it work ↓',
+  bottomRight: 'Photo → twin → priced',
   facts: ['~60 s photo → twin', '250+ real materials', 'Live line-item pricing', 'Photoreal renders', 'Regional price books', 'Share links'],
   audience: 'Built for contractors, remodelers, designers and DADU/ADU builders.',
+};
+
+/** The before/after under the film. */
+export const PROOF = {
+  eyebrow: 'Before and after',
+  title: 'The same kitchen. Redesigned, rendered, priced.',
+  intro:
+    'The photo on the left is a client’s. Drag the handle and the same kitchen, from the same camera, comes back with navy shaker cabinets, Calacatta quartz and white subway tile, and the estimate moves with it. Every number here is the studio’s own estimator running on the demo kitchen.',
+  link: 'Open this kitchen in the studio',
 };
 
 export const STEPS = [

@@ -21,7 +21,7 @@ export const ACTIVE = ["queued", "research", "research-b", "plan", "home", "writ
 const STALE_MS = 25 * 60 * 1000;
 
 export interface BuildRow extends LeadRecord {
-  stage: "building" | "done" | "failed" | "stalled";
+  stage: "building" | "done" | "failed" | "stalled" | "cancelled";
   minutes: number;
 }
 
@@ -42,7 +42,7 @@ export async function listBuilds(limit = 100): Promise<BuildRow[]> {
     const updated = new Date(r!.updatedAt || r!.createdAt).getTime();
     const created = new Date(r!.createdAt).getTime();
     const active = ACTIVE.includes(r!.status);
-    const stage = r!.status === "done" ? "done" : r!.status === "failed" ? "failed" : active && now - updated > STALE_MS ? "stalled" : "building";
+    const stage = r!.status === "done" ? "done" : r!.status === "failed" ? "failed" : r!.status === "cancelled" ? "cancelled" : active && now - updated > STALE_MS ? "stalled" : "building";
     return { ...(r as LeadRecord), stage, minutes: Math.round(((stage === "building" ? now : updated) - created) / 60000) } as BuildRow;
   });
 }

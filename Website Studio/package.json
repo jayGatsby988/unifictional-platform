@@ -1,0 +1,18 @@
+{
+  "name": "unifictional-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Unifictional Studio: the AI-native website studio. Paste a URL or a brief, get an Awwwards-grade site built from the pack, then let the SEO agent make it rank.",
+  "scripts": {
+    "dev": "node tools/dev.mjs",
+    "deploy": "cd .. && zsh scripts/deploy.sh \"Website Studio\"",
+    "preview": "vercel deploy --yes"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

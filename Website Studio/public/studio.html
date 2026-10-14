@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio · Unifictional · We make great builders the obvious choice</title>
+<meta name="description" content="Unifictional Studio: paste a URL or a brief, watch the agent assemble an Awwwards-grade site from the pack, edit it in chat, then let the SEO agent make it rank.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&family=Hanken+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/studio.css">
+</head>
+<body class="studio">
+
+<header class="top">
+  <a class="top__brand" href="https://unifictional.com" title="Back to unifictional.com"><img src="/assets/img/mark.png" alt="" width="22" height="22"><span>Unifictional<i>.</i></span><em>Website Studio</em></a>
+  <div class="top__project"><span class="mono" id="projectKind">New project</span><strong id="projectName">Untitled</strong></div>
+  <div class="top__center">
+    <button class="seg is-on" data-vp="desktop" title="Desktop">Desktop</button>
+    <button class="seg" data-vp="tablet" title="Tablet">Tablet</button>
+    <button class="seg" data-vp="mobile" title="Phone">Phone</button>
+  </div>
+  <div class="top__right">
+    <span class="engine" id="engine"><i></i><span>Engine: checking</span></span>
+    <button class="btn btn-ghost" id="btnExport" disabled>Export HTML</button>
+    <a class="btn btn-ghost top__call" href="https://unifictional.com/contact" target="_blank" rel="noopener">Book a call</a>
+    <button class="btn btn-primary" id="btnPublish" disabled>Publish</button>
+  </div>
+</header>
+
+<main class="app">
+
+  <!-- LEFT: agent -->
+  <aside class="pane pane--agent">
+    <div class="pane__head"><span class="mono">Agent</span><span class="mono" id="elapsed">00:00</span></div>
+    <div class="banner is-hidden" id="banner"><b>The research engine is not connected.</b> Builds run on the preview engine: no research, same structure every time. Add <code>ANTHROPIC_API_KEY</code> to the server to get researched, personal sites.</div>
+    <div class="agent" id="agent">
+      <div class="start" id="start">
+        <p class="mono">Marketing studio for builders &amp; remodelers</p>
+        <h1>Let's make your business the one they trust.</h1>
+        <p>Paste the site you have, or describe the one you want. The studio researches your business, builds the site premium and never generic, writes the copy in your voice, and makes it rank. Groundwork → booked out.</p>
+        <div class="start__tabs"><button class="is-on" data-mode="url">Rebuild my site</button><button data-mode="prompt">Start from scratch</button></div>
+        <form class="start__form" id="formUrl">
+          <label class="field"><span class="mono">Your website</span><input type="url" name="url" placeholder="https://yourbusiness.com" autocomplete="off" required></label>
+          <div class="examples"><span class="mono">Try one of ours</span><button type="button" data-url="https://www.bluelakewa.com/">Blue Lake Construction</button><button type="button" data-url="https://cascadepoolworks.com/">Cascade Poolworks</button><button type="button" data-url="https://gofarconstruction.com/">Go Far Construction</button><button type="button" data-url="https://www.digswa.com/">DIGS Construction</button></div>
+          <label class="field"><span class="mono">Anything to keep or change? (optional)</span><input type="text" name="instruction" placeholder="Keep the brand colour. More premium. Add a booking section and the service areas." autocomplete="off"></label>
+          <button class="btn btn-primary btn-wide" type="submit">Rebuild it, premium never generic <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="currentColor" stroke-width="1.2"/></svg></button>
+        </form>
+        <form class="start__form is-hidden" id="formPrompt">
+          <label class="field"><span class="mono">Describe the business</span><textarea name="prompt" rows="4" placeholder="A kitchen and bath remodeler in Lynnwood, WA. Twelve years in business, licensed and insured, premium feel. We want a booking button, our service areas, and a reviews section." required></textarea></label>
+          <button class="btn btn-primary btn-wide" type="submit">Build it <svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="currentColor" stroke-width="1.2"/></svg></button>
+          <div class="examples"><span class="mono">Trades we build for</span><button type="button" data-ex="A general contractor in Everett, WA doing whole-home remodels and additions. Family owned, 15 years, licensed and bonded. We want our service areas, real project photos and a booking button.">General contractor</button><button type="button" data-ex="A roofing and exteriors company in Marysville, WA: roof replacement, storm repair, siding and gutters. Fast response, financing available.">Roofing &amp; exteriors</button><button type="button" data-ex="A custom home builder on the Eastside of Seattle. Design-build, lake and view lots, premium and calm.">Custom home builder</button><button type="button" data-ex="A kitchen and bath remodeler in Lynnwood, WA. Twelve years in business, premium feel, reviews section and booking.">Kitchen &amp; bath</button><button type="button" data-ex="A concrete and foundation contractor in Snohomish County: foundations, flatwork, retaining walls. Straight talk, clear pricing.">Concrete &amp; foundations</button><button type="button" data-ex="A landscaping and hardscape company in Bellevue, WA: patios, walls, planting, irrigation and lighting.">Landscaping &amp; hardscape</button></div>
+        </form>
+      </div>
+      <ol class="steps is-hidden" id="steps"></ol>
+      <div class="log" id="log"></div>
+    </div>
+    <form class="chat" id="chat">
+      <input type="text" id="chatInput" placeholder="Edit in plain English: make it lighter, accent teal, remove the stats…" autocomplete="off" disabled>
+      <button type="submit" class="chat__send" disabled aria-label="Send"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="currentColor" stroke-width="1.2"/></svg></button>
+    </form>
+  </aside>
+
+  <!-- CENTER: preview -->
+  <section class="pane pane--preview">
+    <div class="browser" id="browser">
+      <div class="browser__bar"><i></i><i></i><i></i><span class="browser__url" id="previewUrl">preview</span><span class="mono" id="previewMeta"></span></div>
+      <div class="browser__body" data-vp="desktop" id="frameWrap">
+        <div class="empty" id="empty">
+          <div class="empty__grid" aria-hidden="true"></div>
+          <p class="mono">Preview · premium, never generic</p>
+          <h2>Your new site renders here, live, as the studio builds it.</h2>
+        </div>
+        <iframe id="frame" title="Site preview" sandbox="allow-scripts allow-same-origin allow-popups" referrerpolicy="no-referrer"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT: inspector -->
+  <aside class="pane pane--inspect">
+    <div class="tabs" role="tablist">
+      <button class="tab" data-tab="brief" role="tab">Brief</button>
+      <button class="tab is-on" data-tab="components" role="tab">Components</button>
+      <button class="tab" data-tab="seo" role="tab">SEO <b class="pill" id="seoPill">–</b></button>
+      <button class="tab" data-tab="code" role="tab">Code</button>
+    </div>
+    <div class="tabpanes">
+      <div class="tabpane" data-pane="brief">
+        <div class="brief" id="brief"><p class="hint">The Conversation, written down: what the studio found about the business, the reviews it quoted, the competitors it read, and why it designed what it designed. Nothing invented; gaps are named.</p></div>
+      </div>
+      <div class="tabpane is-on" data-pane="components">
+        <p class="hint">The components the studio chose for this build, and why. Every one is real code from a library of award-winning sites, adapted to your trade and your market. No recycled templates.</p>
+        <ul class="picks" id="picks"></ul>
+        <div class="library"><span class="mono">Library</span><p><b id="libCount">109</b> components · 11 categories · hero, menu, scroll, text, slider, grid, mouse, transition, SVG, 3D, WebGL</p><ul class="libgrid" id="libgrid"></ul></div>
+      </div>
+      <div class="tabpane" data-pane="seo">
+        <div class="score"><div class="ring" id="ring" style="--p:0"><b id="scoreNum">–</b><span class="mono">/100</span></div><div class="score__text"><strong id="scoreLabel">Not audited yet</strong><p id="scoreSub">Show up when your next customer is already searching. The SEO agent runs after the build and again after every edit.</p><div class="score__actions"><button class="btn btn-primary btn-sm" id="btnFixAll" disabled>Fix everything it can</button><button class="btn btn-ghost btn-sm" id="btnReaudit" disabled>Re-audit</button></div></div></div>
+        <h4 class="mono">Checks</h4>
+        <ul class="checks" id="checks"></ul>
+        <h4 class="mono">Keyword plan</h4>
+        <ul class="kws" id="kws"></ul>
+        <h4 class="mono">Notes from the agent</h4>
+        <ul class="notes" id="seoNotes"></ul>
+      </div>
+      <div class="tabpane" data-pane="code">
+        <div class="code__tabs"><button class="is-on" data-code="html">index.html</button><button data-code="spec">site.spec.json</button><button class="copy" id="btnCopy">Copy</button></div>
+        <pre class="code" id="code"><code>Nothing yet.</code></pre>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal__card">
+    <h3 id="modalTitle">Publish</h3>
+    <div id="modalBody"></div>
+    <div class="modal__actions"><button class="btn btn-ghost" id="modalClose">Close</button></div>
+  </div>
+</div>
+
+<script type="module" src="/assets/js/studio.js"></script>
+</body>
+</html>

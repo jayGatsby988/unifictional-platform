@@ -97,9 +97,12 @@ export function Hero() {
           className={cx('absolute inset-0 h-full w-full object-cover', !showVideo && !reduced && 'lp-hero-still')}
         />
         {showVideo ? (
+          // `src` on the element itself (not a <source> child) so a missing
+          // film fires onError here and the poster takes over with its drift.
           <video
             ref={videoRef}
             className="lp-hero-video"
+            src={HERO_VIDEO.mp4}
             poster={HERO_VIDEO.poster}
             muted
             loop
@@ -108,9 +111,7 @@ export function Hero() {
             preload="metadata"
             aria-hidden
             onError={() => setVideoOk(false)}
-          >
-            <source src={HERO_VIDEO.mp4} type="video/mp4" />
-          </video>
+          />
         ) : null}
 
         {/* Scrims: darken left + bottom for the copy, top for the nav. */}

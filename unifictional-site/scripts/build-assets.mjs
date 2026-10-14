@@ -16,10 +16,11 @@ import sharp from "sharp";
 const PUB = "public";
 const jobs = [];
 
-// 1) Portrait hero frames: every 4th frame (the phone scrub set) + the last one.
-const FRAMES = join(PUB, "frames/unifictional-v3");
-const PORTRAIT = join(PUB, "frames/unifictional-v3-portrait");
-const CROP_W = 560; // covers any viewport narrower than 5:8 (all phones, portrait)
+// 1) Portrait hero frames: every 4th frame (the phone scrub set) + the last one,
+//    cropped from the 2560-wide hi set so a 3x phone (390 css px → 1170 px) is sharp.
+const FRAMES = join(PUB, "frames/unifictional-v4-hi");
+const PORTRAIT = join(PUB, "frames/unifictional-v4-portrait");
+const CROP_W = 1120; // covers any viewport narrower than 5:8 (all phones, portrait) at 3x
 mkdirSync(PORTRAIT, { recursive: true });
 for (let i = 0; i <= 240; i += 4) {
   const name = `frame-${String(i).padStart(3, "0")}.webp`;

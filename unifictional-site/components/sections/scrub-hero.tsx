@@ -11,15 +11,31 @@ const FRAME_COUNT = 241;
 const pad = (i: number) => String(i).padStart(3, "0");
 // Versioned directory: /frames/* is cached immutable, so re-exported footage
 // must live at a NEW path or browsers keep serving the old sequence forever.
-const frameSrc = (i: number) => `/frames/unifictional-v3/frame-${pad(i)}.webp`;
+// v4 (2026-10-14): re-generated from a 4K Kling clip; three sets, made by
+// scripts/hero-frames.mjs (base + hi) and scripts/build-assets.mjs (portrait).
+const SET = "unifictional-v4";
+/** Standard set: 1600 wide, every frame. */
+const frameSrc = (i: number) => `/frames/${SET}/frame-${pad(i)}.webp`;
+/** Retina / large-screen set: 2560 wide, EVEN frames only (the desktop scrub
+ *  strides by 2, so odd frames would never be drawn). */
+const hiSrc = (i: number) => `/frames/${SET}-hi/frame-${pad(i)}.webp`;
 /** Centre-cropped copies for portrait phones (generated at build time by
  *  scripts/build-assets.mjs, every 4th frame). A phone only ever shows the
  *  middle ~35% of the 16:9 footage, so the crop looks identical at a third of
  *  the bytes and a third of the decoded memory — the main thing that used to
  *  make phones stutter or reload the tab. */
-const portraitSrc = (i: number) => `/frames/unifictional-v3-portrait/frame-${pad(i)}.webp`;
+const portraitSrc = (i: number) => `/frames/${SET}-portrait/frame-${pad(i)}.webp`;
 /** Viewports narrower than the 5:8 crop get the portrait set. */
 const PORTRAIT_MQ = "(max-width: 767px) and (max-aspect-ratio: 5/8)";
+/** Source frame sizes per set (the canvas backing store never exceeds them). */
+const SIZES = { base: [1600, 892], hi: [2560, 1427], portrait: [1120, 1427] } as const;
+/** The hi set when the stage needs more than the base set has (a 1080p monitor
+ *  at 1x, or any retina laptop): css width × dpr. Slow devices stay on base. */
+function needsHi(): boolean {
+  if (isConstrained()) return false;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  return window.innerWidth * dpr > 1700;
+}
 /** Footage plays across the whole pinned scroll. */
 const FRAME_END = 1;
 /** Fired when a new frame finishes loading. */
@@ -77,6 +93,7 @@ export function ScrubHero() {
   const [reduced, setReduced] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [portrait, setPortrait] = useState(false);
+  const [hi, setHi] = useState(false);
   const [stride, setStride] = useState(2);
 
   useEffect(() => {
@@ -90,6 +107,7 @@ export function ScrubHero() {
       setReduced(mqReduce.matches);
       setMobile(isMobile);
       setPortrait(isMobile && mqPortrait.matches);
+      setHi(!isMobile && !mqReduce.matches && needsHi());
       setStride(pickStride(isMobile));
     };
     update();
@@ -108,8 +126,9 @@ export function ScrubHero() {
   // text, fonts and scripts a visitor is waiting on.
   useEffect(() => {
     if (reduced) return;
-    const frames = buildFrames(stride);
-    const src = portrait ? portraitSrc : frameSrc;
+    // the hi set only holds even frames; an odd stride on it would 404
+    const frames = buildFrames(hi ? Math.max(2, stride - (stride % 2)) : stride);
+    const src = portrait ? portraitSrc : hi ? hiSrc : frameSrc;
     const N = frames.length;
     const imgs: HTMLImageElement[] = new Array(N);
     const loaded: boolean[] = new Array(N).fill(false);
@@ -182,7 +201,7 @@ export function ScrubHero() {
       const w = window as Window & { cancelIdleCallback?: (id: number) => void };
       if (idleId != null) w.cancelIdleCallback?.(idleId);
     };
-  }, [reduced, mobile, portrait, stride]);
+  }, [reduced, mobile, portrait, hi, stride]);
 
   // Size the canvas + drive frame + overlay from scroll.
   useEffect(() => {
@@ -193,7 +212,7 @@ export function ScrubHero() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const N = buildFrames(stride).length;
+    const N = buildFrames(hi ? Math.max(2, stride - (stride % 2)) : stride).length;
     let vh = 0;
 
     const drawFrame = (idx: number) => {
@@ -254,13 +273,12 @@ export function ScrubHero() {
     };
 
     // Backing store sized to what the footage can actually show: never more
-    // device pixels than the source frame has (1600x892, or 560x892 on
-    // phones) — a retina-sized canvas would only upscale the same pixels at
-    // 4x the memory and fill cost. Sized from the sticky stage (100svh), not
-    // innerHeight, so mobile URL-bar show/hide doesn't re-allocate it.
+    // device pixels than the source frame has — a bigger canvas would only
+    // upscale the same pixels at 4x the memory and fill cost. Sized from the
+    // sticky stage (100svh), not innerHeight, so mobile URL-bar show/hide
+    // doesn't re-allocate it.
     const stage = canvas.parentElement as HTMLElement;
-    const srcW = portrait ? 560 : 1600;
-    const srcH = 892;
+    const [srcW, srcH] = portrait ? SIZES.portrait : hi ? SIZES.hi : SIZES.base;
     let lastKey = "";
     const resize = () => {
       vh = window.innerHeight;
@@ -291,7 +309,7 @@ export function ScrubHero() {
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(rafRef.current);
     };
-  }, [reduced, stride, portrait]);
+  }, [reduced, stride, portrait, hi]);
 
   return (
     <section
@@ -319,6 +337,7 @@ export function ScrubHero() {
                 framing, ~1/3 the bytes) — this is the page's first paint. */}
             <picture>
               <source media={PORTRAIT_MQ} srcSet={portraitSrc(0)} type="image/webp" />
+              <source media="(min-width: 768px)" srcSet={`${frameSrc(0)} 1600w, ${hiSrc(0)} 2560w`} sizes="100vw" type="image/webp" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={frameSrc(0)}
